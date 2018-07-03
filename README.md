@@ -1,10 +1,18 @@
 # mc_eor
 
+
+July 3rd 2018
+- continued from plotting contours over H2 density map..
+- 
+
+
+
 July 2nd 2018
 - need to think about how to flatten all the AMR hydro (levels) onto one, and then in a form that we can parse through clustering algorithms.
 - take out the idea of using disperse after talking to M. Mac Low
 - Maybe attempt with clumpfind (3D version) but be aware of the caveats
 - read paper by Juan C. Ibáñez-Mejía about multiple clodus in potential wells (also careful about the filaments).
+- note overlapping regions.
 
 - science:
   - after ID-ing MCs, compare against obs. in nearby Dor 30? W49? 
