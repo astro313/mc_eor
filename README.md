@@ -3,8 +3,6 @@
 
 July 3rd 2018
 - continued from plotting contours over H2 density map..
-- 
-
 
 
 July 2nd 2018
