@@ -1,0 +1,114 @@
+#!python
+#cython: boundscheck=False, wraparound=False, nonecheck=False, cdivision=True
+
+# boundscheck does not check for indexing error
+# wraparound  A[-1] not allowed
+# nonecheck   check for None for arguments
+# cdivision   does not check for division by 0
+
+import numpy as N
+cimport numpy as N
+cimport cython
+
+from libc.math cimport exp
+
+#-------------------
+# type definitions -
+#-------------------
+
+DTYPEf = N.float64
+DTYPEl = N.int_
+
+ctypedef N.float64_t DTYPEf_t
+ctypedef N.int_t     DTYPEl_t
+
+# example function
+cpdef sum_along_one_axis(
+                         N.ndarray[DTYPEf_t, ndim=3] cube_in
+                         ):
+    """
+      cube_in (n0,n1,n2) : input array
+    """
+    cdef:
+        long n0   = N.shape(cube_in)[0]
+        long n1   = N.shape(cube_in)[1]
+        long n2   = N.shape(cube_in)[2]
+        long k, i, j
+
+        N.ndarray[DTYPEf_t, ndim=2] out       = N.zeros((n1, n2), dtype=DTYPEf)
+
+    for i in range(n0):
+        for j in range(n1):
+            out[i,j] = 0.0
+
+
+    for k in range(n2):
+        for j in range(n1):
+            for i in range(n0):
+                out[i,j] = out[i,j] + cube_in[i,j,k]
+
+    # out = N.sum(cube_in,axis=2)
+
+    return N.array(out,dtype=DTYPEf)
+
+# additional example, does a density estimator with a gaussian kernel
+cpdef kde_cy_gauss(
+                         N.ndarray[DTYPEf_t, ndim=1] y_in,  # weight
+                         N.ndarray[DTYPEf_t, ndim=1] x_in,  # position
+                         N.ndarray[DTYPEf_t, ndim=1] w_in,  # dispersion [dimension of position]
+                         DTYPEf_t                    x_min, # lower limit of the output
+                         DTYPEf_t                    x_max, # upper limit of the output
+                         long                        n_out  # dimension of the output
+                         ):
+    """
+      gaussian kernel density estimator
+
+      e.g. to build a spectrum use
+        y_in = luminosity
+        x_in = velocity
+        w_in = sound speed
+    """
+    cdef:
+        long n_in = N.shape(y_in)[0]
+        long i_in, i_out,n_check
+        N.ndarray[DTYPEf_t, ndim=1] x_out       = N.zeros(n_out, dtype=DTYPEf)
+        N.ndarray[DTYPEf_t, ndim=1] y_out       = N.zeros(n_out, dtype=DTYPEf)
+        DTYPEf_t                    norm
+
+    #-------------
+    # SETUP part -
+    #-------------
+
+    sq_2_pi = N.sqrt(2.e0*2.e0*N.arcsin(1.e0))
+    x_out = N.linspace(x_min,x_max,n_out)
+    for i_out in range(n_out):
+        y_out[i_out] = 0.0
+
+    n_check = n_in
+    for i_in in xrange(n_in):
+      if(w_in[i_in]>0):
+        n_check = n_check -1
+
+    if(n_check != 0 ):
+      print 'ERROR'
+
+    #-------------------
+    # CALCULATION part -
+    #-------------------
+
+    for i_in in range(n_in):
+
+      #if(x_in[i_in] >= (x_min-w_in[i_in]) and x_in[i_in] <= (x_max+w_in[i_in])):
+
+        norm = w_in[i_in]*sq_2_pi
+        norm = y_in[i_in]/norm
+
+        for i_out in range(n_out):
+            tmp          = (x_out[i_out]-x_in[i_in])/w_in[i_in]
+            #tmp          = -0.5*(tmp**2)
+            tmp          = -0.5*tmp*tmp
+            tmp          = exp(tmp)
+            y_out[i_out] = y_out[i_out] +norm*tmp
+
+    return N.array(x_out,dtype=DTYPEf),N.array(y_out,dtype=DTYPEf)
+
