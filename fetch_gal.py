@@ -45,8 +45,8 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
     if(log_sfera):
         regione_sp = regions.Sphere(center, radius)
     else:
-        sinistra = np.copy(center) - radius / 2
-        destra = np.copy(center) + radius / 2
+        sinistra = np.copy(center) - radius
+        destra = np.copy(center) + radius
         regione_sp = regions.Box((sinistra, destra))
 
     if(verbose):
@@ -59,6 +59,8 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
             print '  getting a box'
             print '  center:', center
             print '  size  :', radius
+            print '  left  :', sinistra
+            print '  right :', destra
 
     # cut the region
     amr = RegionFilter(regione_sp, amr)
@@ -73,14 +75,17 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
 
 center = [0.53103, 0.51031000000000004, 0.50402000000000002]
 region_size = [0.0015, 0.0015]
-cells_inside_camera = amr2cell(ro, list_var=['rho'], log_sfera=True,
-                               camera_in={'center': center, 'region_size': region_size})
-
+cells_inside_camera = amr2cell(ro, list_var=['rho'], log_sfera=False,
+                               camera_in={'center': center, 'region_size': region_size}, verbose=True)
 
 dx_vector = cells_inside_camera.get_sizes()
 print len(dx_vector)
+
 loc_vector = cells_inside_camera.points
 print loc_vector.shape
+
+# check location
+print 'xmin, xmax', loc_vector[:, 0].min(), loc_vector[:, 0].max()
 
 plt.figure('1')
 density_vector = cells_inside_camera['rho']
