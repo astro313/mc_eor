@@ -4,6 +4,8 @@ See github commit and code doc for other progres.. lazy to update this README fi
 
 July 6th 2018
 - even after identifying clumps/blobs, how can we tell if they are self-gravitating structure?
+    + get the fields to calc KE, PE after to check they are self-gravitating.
+    + check also alpha parameter (PE vs. Pressure).
 
 July 5th 2018
 - see progress in code documentation and github commit.
@@ -32,3 +34,7 @@ July 2nd 2018
   - note, we may care about using H2 as criterion at early times since it's needed to cool down to dense enough regions for SF, but soon as the first gen. of stars form, there are other species that can do the cooling, so H2 should not be used as the only defining criterion for SF. 
     - to confirm, why don't we do the ID using 1) H2 and 2) Pressure,density from the AMR output and compare the two?! 
 
+~ 20 Mpc box
+- used halo finder (FoF) to find main galaxy, center on main galaxy and extracted ~3 kpc around as the subregion..
+    + half (baryonic) mass radius ~ 0.5 kpc.
+    + r_200 DM mass radius ~ 15 kpc.
