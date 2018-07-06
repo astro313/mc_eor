@@ -27,7 +27,7 @@ if convert_unit:
     print density.max()
 
 data = dict(density=density)
-ds = yt.load_uniform_grid(data, f["density"].shape)  # code_unit still
+ds = yt.load_uniform_grid(data, f["density"].shape)
 
 dd = ds.all_data()
 # dd['density']
