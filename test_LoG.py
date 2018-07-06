@@ -40,12 +40,15 @@ from skimage.feature import blob_log
 
 # For each blob found, the method returns its coordinates and the standard deviation of the Gaussian kernel that detected the blob.
 _max = density.max()
-density = rgb2gray(density)
-factor = density.max() / _max
-threshold = 100.0 * factor
+# print 'shape before: ', density.shape
+# density = rgb2gray(density)
+# print 'shape after: ', density.shape
+# factor = density.max() / _max
+threshold = 100.0   # * factor
 print threshold
 
-csigma = blob_log(density, threshold=threshold)
+print density.shape
+csigma = blob_log(density, min_sigma=1, threshold=threshold)
 print csigma.shape
 p = csigma[:, 0]
 r = csigma[:, 1]
