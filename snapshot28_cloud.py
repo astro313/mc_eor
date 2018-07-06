@@ -81,29 +81,23 @@ c_max = dd[field].max()
 # Here I only request 1 structure, which is the
 # entire cloud.
 
-cons, contours = dd.extract_connected_sets(field, 1, rho_cut, c_max)
+contour_values, connected_sets = dd.extract_connected_sets(field, 1, rho_cut, c_max)
 
 # Keep the clouds that are at least N_cell_min cells in volume and drop the rest.
 N_cell_min = 20
-num_contours = len(contours[0])
+num_contours = len(connected_sets[0])
 fake_clouds = 0
 all_clouds = np.ones(num_contours)
 cloud_list = []
 
-for i in range(num_contours):
-    obj = contours[0][i]['CellMass']
+for i in range(1, num_contours):
+    obj = connected_sets[0][i]['density']
 
-# ---------------------------------------------------------------------------
-# KeyError                                  Traceback (most recent call last)
-# <ipython-input-58-db901a3a4ee2> in <module>()
-# ----> 1 contours[0][0]['CellMass']
-
-# KeyError: 0
     if obj.size < N_cell_min:
         fake_clouds += 1
         all_clouds[i] = -1
     else:
-        obj = contours[0][i]
+        obj = connected_sets[0][i]
         cloud_list.append(obj)
 
 # number of real clouds
@@ -113,8 +107,12 @@ print " Total number of contours found       : ", num_contours
 print " The number of unresolved clouds is   : ", fake_clouds
 print " The total number of clouds is        : ", num_real_clouds
 
-
-
+from yt.analysis_modules.level_sets.api import get_lowest_clumps
+leaf_clumps = get_lowest_clumps(connected_sets)
+prj = yt.ProjectionPlot(ds, 2, ("density"),
+                        center='c')
+prj.annotate_clumps(leaf_clumps)
+# prj.save('clumps')
 
 # --- Save cloud properties ---
 cloud_keys = "...."
