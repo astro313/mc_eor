@@ -6,6 +6,8 @@ History:
 5 July 2018:
     - modified Juan's snippet to test snapshot 28, using "Density" field
 
+see also https://github.com/astro313/mc_eor/blob/master/test_yt_clump.ipynb
+
 """
 
 from yt.config import ytcfg
