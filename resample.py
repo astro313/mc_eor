@@ -106,6 +106,14 @@ plt.imshow(np.log10(density_cube[:, :, 2**4:].sum(axis=0)))   # 2**4: to chop of
 plt.show()
 
 
-np.savez_compressed('snapshot28_center_densityfield_resampled',
-                    density_cube=density_cube,
-                    highestRes=highestRes)
+# np.savez_compressed('snapshot28_center_densityfield_resampled',
+#                     density_cube=density_cube,
+#                     highestRes=highestRes)
+
+import h5py
+f = h5py.File("snapshot28_center_densityfield_resampled.h5", "w")
+
+# create a dataset at the root, calling it "density"
+f.create_dataset("/density", data=density_cube)
+
+f.close()
