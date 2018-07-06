@@ -102,5 +102,10 @@ for lll in np.sort(levels):
 size = density_cube.shape[0]
 
 import matplotlib.pyplot as plt
-plt.imshow(np.log10(density_cube[:, :, 2**4:].sum(axis=0)))
+plt.imshow(np.log10(density_cube[:, :, 2**4:].sum(axis=0)))   # 2**4: to chop off spurious edges
 plt.show()
+
+
+np.savez_compressed('snapshot28_center_densityfield_resampled',
+                    density_cube=density_cube,
+                    highestRes=highestRes)
