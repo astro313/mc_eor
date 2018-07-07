@@ -8,11 +8,11 @@ Difference of Gaussian (DoG)
 
 '''
 
-import numpy as np
-import matplotlib.pyplot as plt
-from skimage.color import rgb2gray
 
-from skimage import measure
+import numpy as np
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
 import h5py
 
 f = h5py.File("snapshot28_center_densityfield_resampled.h5", "r")
@@ -59,7 +59,42 @@ print density.ndim
 radius_blob = np.sqrt(3) * sigma
 # blob_log(density, min_sigma=min_sigma, max_sigma=max_sigma, )
 
+# visualize
+flatten_image = density.sum(axis=0)    # for imshow
+fig, ax = plt.subplots(1, 1)
+ax.imshow(np.log10(flatten_image), interpolation='nearest')
+for blob in csigma:
+    y, x, c, r = blob
+    cir = plt.Circle((c, x), r, color='blue', linewidth=2, fill=False)
+    ax.add_patch(cir)
+    ax.set_axis_off()
+plt.tight_layout()
+# plt.show()
+plt.savefig('test_DoG_yz.png')
 
 
+flatten_image = density.sum(axis=1)    # for imshow
+fig, ax = plt.subplots(1, 1)
+ax.imshow(np.log10(flatten_image), interpolation='nearest')
+for blob in csigma:
+    y, x, c, r = blob
+    cir = plt.Circle((c, y), r, color='blue', linewidth=2, fill=False)
+    ax.add_patch(cir)
+    ax.set_axis_off()
+plt.tight_layout()
+# plt.show()
+plt.savefig('test_DoG_xz.png')
 
+
+flatten_image = density.sum(axis=2)    # for imshow
+fig, ax = plt.subplots(1, 1)
+ax.imshow(np.log10(flatten_image), interpolation='nearest')
+for blob in csigma:
+    y, x, c, r = blob
+    cir = plt.Circle((x, y), r, color='blue', linewidth=2, fill=False)
+    ax.add_patch(cir)
+    ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+plt.savefig('test_DoG_xy.png')
 #
