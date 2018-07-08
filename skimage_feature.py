@@ -9,6 +9,7 @@ from math import sqrt
 from skimage import data
 from skimage.feature import blob_dog, blob_log
 from skimage.color import rgb2gray
+import numpy as np
 
 import matplotlib.pyplot as plt
 import h5py
@@ -31,20 +32,27 @@ if convert_unit:
 
 _max = density.max()
 image = density
-image_gray = rgb2gray(image)
+print image.shape
 
 threshold = 100
-factor = image_gray.max() / _max
-threshold = 100.0 * factor
+# factor = image_gray.max() / _max
+# threshold = 100.0 * factor
 print threshold
 
-blobs_log = blob_log(image_gray, max_sigma=30, num_sigma=10, threshold=threshold)
+print image.shape
+blobs_log = blob_log(image,
+#                     max_sigma=30,
+#                     num_sigma=10,
+                     min_sigma=1,
+                     threshold=threshold)
 
 # Compute radii in the last column.
 blobs_log[:, 3] = blobs_log[:, 3] * sqrt(3)
 
 
-blobs_dog = blob_dog(image_gray, max_sigma=30, threshold=threshold)
+blobs_dog = blob_dog(image,
+                     max_sigma=30,
+                     threshold=threshold)
 blobs_dog[:, 3] = blobs_dog[:, 3] * sqrt(3)
 
 
@@ -60,12 +68,13 @@ flatten_image = image.sum(axis=0)    # for imshow
 
 for idx, (blobs, color, title) in enumerate(sequence):
     ax[idx].set_title(title)
-    ax[idx].imshow(flatten_image, interpolation='nearest')
+    ax[idx].imshow(np.log10(flatten_image), interpolation='nearest')
     for blob in blobs:
-        y, x, r = blob
-        c = plt.Circle((x, y), r, color=color, linewidth=2, fill=False)
-        ax[idx].add_patch(c)
+        y, x, c, r = blob
+        cir = plt.Circle((c, x), r, color=color, linewidth=2, fill=False)
+        ax[idx].add_patch(cir)
     ax[idx].set_axis_off()
 
 plt.tight_layout()
 plt.show()
+fig.savefig('skimage_feature.png')
