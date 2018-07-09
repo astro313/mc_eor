@@ -171,18 +171,22 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
             pass
 
     import h5py
-    # if not exist, then create the .h5 file
+    # if not exist, then create the .h5 file, else append mode
     if os.path.exists(outname):
-        mode = "w"
-    else:  # append mode
         mode = "a"
+    else:
+        mode = "w"
 
     f = h5py.File(outname, mode)
-
     # create a dataset at the root
     f.create_dataset("/" + fieldname, data=field_cube)
-
     f.close()
+
+    if debug:
+        # read the h5 file back to make sure appended field
+        f = h5py.File(outname, "r")
+        print f.keys()
+        f.close()
 
     return None
 
