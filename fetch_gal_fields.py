@@ -107,7 +107,7 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
 
     return celle
 
-def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True, dict_unit=None):
+def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True):
     """
 
     Parameters
@@ -150,6 +150,8 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
     dx_vector = cells_inside_camera.get_sizes()
     loc_vector = cells_inside_camera.points
 
+    dict_unit = get_units(ro = ro)
+
     if debug:
 
         print "length of dx_vector: ", len(dx_vector)
@@ -163,11 +165,10 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
         for ii in fields:
 
             norm, unit_lab = 1. , ''
-            if(dict_unit is not None):
-                try:
-                    norm,unit_lab = dict_unit[ii][0] , dict_unit[ii][1]
-                except KeyError:
-                    pass
+            try:
+                norm,unit_lab = dict_unit[ii][0] , dict_unit[ii][1]
+            except KeyError:
+                pass
 
             _vector = cells_inside_camera[ii]
 
@@ -212,28 +213,32 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     return None
 
-ro         = pymses.RamsesOutput("output", 28)
+def get_units(ro = None):
+  assert ro is not None
+  # conversion dictionary
+  dict_unit          = {}
+  dict_unit['rho']   = [(ro.info['unit_density']/C.mH).express(1/C.cm**3),'cm-3']
+  dict_unit['P']     = [ro.info['unit_pressure'].express(C.erg/C.cm**3) /C.kB.express(C.erg/C.K), 'K cm-3']
+  dict_unit['P_nt']  = dict_unit['P']
+  dict_unit['H2']    = [1 , '']
+  dict_unit['vel']   = [ro.info['unit_velocity'].express(C.km/C.s),'km/s']
 
-boxlen_pc  = ro.info['unit_length'].express(C.pc) # 32.09690179793066 pc
-finest_res = boxlen_pc / 2**ro.info['levelmax']
-
-center      = [0.53103, 0.51031000000000004, 0.50402000000000002]
-region_size = [0.0015, 0.0015]
-
-# conversion dictionary
-dict_unit          = {}
-dict_unit['rho']   = [(ro.info['unit_density']/C.mH).express(1/C.cm**3),'cm-3']
-dict_unit['P']     = [ro.info['unit_pressure'].express(C.erg/C.cm**3) /C.kB.express(C.erg/C.K), 'K cm-3']
-dict_unit['P_nt']  = dict_unit['P']
-dict_unit['H2']    = [1 , '']
-dict_unit['vel']   = [ro.info['unit_velocity'].express(C.km/C.s),'km/s']
+  return dict_unit
 
 
-fields = ['rho', 'vel', 'P_nt', 'P', 'H2']
-# fields = ['rho', 'P_nt', 'P', 'H2']
+if __name__ == "__main__":
+  ro         = pymses.RamsesOutput("output", 28)
 
-getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True
-                 ,dict_unit= dict_unit)
+  boxlen_pc  = ro.info['unit_length'].express(C.pc) # 32.09690179793066 pc
+  finest_res = boxlen_pc / 2**ro.info['levelmax']
+
+  center      = [0.53103, 0.51031000000000004, 0.50402000000000002]
+  region_size = [0.0015, 0.0015]
+
+  fields = ['rho', 'vel', 'P_nt', 'P', 'H2']
+  # fields = ['rho', 'P_nt', 'P', 'H2']
+
+  getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True)
 
 
 
