@@ -18,7 +18,7 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'averaged_density'  << from yt only?
 'temperature' << from yt only?
 
-last mod: 8 July 2018
+last mod: 9 July 2018
 
 
 """
@@ -205,6 +205,9 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
     import os
     if os.path.isfile(outname):
       os.system('rm ' + outname)
+    if debug:
+        print 'Saving data to'
+        print '  ',outname
     np.savez_compressed(outname, **param_dict)
 
     return None
