@@ -69,23 +69,23 @@ sc = yt.create_scene(ds, lens_type='perspective')
 source = sc[0]
 
 # Set bounds of transfer function
-# plt.hist((density * H2).flatten(), bins=70)
+# # plt.hist((density * H2).flatten(), bins=70)
 # plt.hist((H2).flatten(), bins=70)
 # plt.xscale('log')
 # plt.yscale('log')
 # plt.show()
 
 # bounds = (1.E-01, 80.0)  # H2 density
-bounds = (1.E-3, 0.1)
+bounds = (1.E-3, 0.1)      # H2 fraction
 tf = yt.ColorTransferFunction(np.log10(bounds))    #  Since this rendering is done in log space, the transfer function needs
 # to be specified in log space.
 
-# H2 density
+# if H2 density:
 # tf.add_gaussian(np.log10(0.1), 0.001, [0.0, 0.0, 1.0, 1.0])
 # tf.add_gaussian(np.log10(10.0), 0.001, [0.0, 1.0, 0.0, 1.0])
 # tf.add_gaussian(np.log10(20.0), 0.001, [1.0, 0.0, 0.0, 1.0])
 
-# H2 fraction
+# if H2 fraction:
 tf.add_gaussian(np.log10(1.5e-3), 0.001, [0.0, 0.0, 1.0, 1.0])
 tf.add_gaussian(np.log10(1.e-2), 0.001, [0.0, 1.0, 0.0, 1.0])
 tf.add_gaussian(np.log10(0.07), 0.001, [1.0, 0.0, 0.0, 1.0])
