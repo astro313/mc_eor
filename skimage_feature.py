@@ -78,3 +78,40 @@ for idx, (blobs, color, title) in enumerate(sequence):
 plt.tight_layout()
 plt.show()
 fig.savefig('skimage_feature.png')
+
+
+fig, axes = plt.subplots(1, 2, figsize=(6, 3), sharex=True, sharey=True)
+ax = axes.ravel()
+flatten_image = image.sum(axis=1)    # for imshow
+
+for idx, (blobs, color, title) in enumerate(sequence):
+    ax[idx].set_title(title)
+    ax[idx].imshow(np.log10(flatten_image), interpolation='nearest')
+    for blob in blobs:
+        y, x, c, r = blob
+        cir = plt.Circle((c, x), r, color=color, linewidth=2, fill=False)
+        ax[idx].add_patch(cir)
+    ax[idx].set_axis_off()
+
+plt.tight_layout()
+plt.show()
+fig.savefig('skimage_feature_xz.png')
+
+
+
+fig, axes = plt.subplots(1, 2, figsize=(6, 3), sharex=True, sharey=True)
+ax = axes.ravel()
+flatten_image = image.sum(axis=2)    # for imshow
+
+for idx, (blobs, color, title) in enumerate(sequence):
+    ax[idx].set_title(title)
+    ax[idx].imshow(np.log10(flatten_image), interpolation='nearest')
+    for blob in blobs:
+        y, x, c, r = blob
+        cir = plt.Circle((c, x), r, color=color, linewidth=2, fill=False)
+        ax[idx].add_patch(cir)
+    ax[idx].set_axis_off()
+
+plt.tight_layout()
+plt.show()
+fig.savefig('skimage_feature_xy.png')
