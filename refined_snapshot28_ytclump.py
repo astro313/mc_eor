@@ -5,7 +5,7 @@ http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 After getting the finely gridded cube from resample.py, use yt clump finder.
 
 
-Last mod: 6 July 2018
+Last mod: 9 July 2018
 
 NOTE
 ----
@@ -207,7 +207,7 @@ write_clumps(master100, 0,  "master100_clumps.txt")
 
 master200, leaf200 = ytclumpfind(ds, dd, ("density"),
                                  n_cut=100,
-                                 step=100,
+                                 step=200,
                                  N_cell_min=20, plot=True, saveplot=True)
 write_clump_index(master200, 0, "master200_clump_hierarchy.txt")
 write_clumps(master200, 0,  "master200_clumps.txt")
