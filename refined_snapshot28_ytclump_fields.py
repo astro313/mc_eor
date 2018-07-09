@@ -172,7 +172,8 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                                     center='c')
             prj.annotate_clumps(leaf_clumps)
             if saveplot:
-                prj.save('clumps1_' + str(int(step)) + '-' + vv + 'axis.png')
+                print("outname: ", 'clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + vv + 'axis.png')
+                prj.save('clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + vv + 'axis.png')
             else:
                 prj.show()
 
@@ -193,7 +194,9 @@ from yt.visualization.volume_rendering.transfer_function_helper import TransferF
 from yt.visualization.volume_rendering.api import Scene, VolumeSource
 
 
-# Or see fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel
+
+
+# Or see fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel, based on Minkowsky function (Euler characteristic).
 
 # in units of nH2/cc
 n_cut_1 = 10**0.5
@@ -202,21 +205,16 @@ n_cut_2 = 10**-1.5
 
 # -------------- run clump finder -------------
 
-
 master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_1,
                                   step=10,
                                   N_cell_min=20,
                                   plot=True,
                                   saveplot=True)
-import sys
-sys.exit()
 
 print(master10.children)
-print(master10.children[0]['density'] *
-      master10.children[0]['H2'])    # children
 print(master10.children[0]['h2density'])    # children
-print(master10.children[0].children[0]['h2density'])   # sub-children
+# print(master10.children[0].children[0]['h2density'])   # grand-children; note not necessary that children of master has a grandchild
 
 # traverse the entire clump tree .
 for clump in master10:
@@ -232,14 +230,9 @@ os.system('cat *_clumps_H2.txt')
 
 
 for ind in range(len(leaf10)):
-    print(leaf10[ind]["density"] * leaf10[ind]["H2"])
     print(leaf10[ind]["h2density"])
     print(leaf10[ind].quantities.total_mass())
     print(leaf10[ind].quantities.center_of_mass())
-    print(leaf10[ind]["clump"])
-    print(leaf10[ind]["grid"])
-    import pdb
-    pdb.set_trace()
 
 
 master20, leaf20 = ytclumpfind_H2(ds, dd, ("h2density"),
@@ -280,48 +273,74 @@ write_clumps(master200, 0,  "master200_clumps_H2.txt")
 
 
 # --- repeat for n_cut_2 ---
-
 master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=10,
                                   N_cell_min=20,
                                   plot=True,
                                   saveplot=True)
-write_clump_index(master10, 0, "master10_clump_hierarchy_H2.txt")
-write_clumps(master10, 0,  "master10_clumps_H2.txt")
+write_clump_index(master10, 0, "master10_clump_hierarchy_H2_cut2.txt")
+write_clumps(master10, 0,  "master10_clumps_H2_cut2.txt")
 
 master20, leaf20 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=20,
                                   N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master20, 0, "master20_clump_hierarchy_H2.txt")
-write_clumps(master20, 0,  "master20_clumps_H2.txt")
+write_clump_index(master20, 0, "master20_clump_hierarchy_H2_cut2.txt")
+write_clumps(master20, 0,  "master20_clumps_H2_cut2.txt")
 
 master30, leaf30 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=30,
                                   N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master30, 0, "master30_clump_hierarchy_H2.txt")
-write_clumps(master30, 0,  "master30_clumps_H2.txt")
+write_clump_index(master30, 0, "master30_clump_hierarchy_H2_cut2.txt")
+write_clumps(master30, 0,  "master30_clumps_H2_cut2.txt")
 
 master70, leaf70 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=70,
                                   N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master70, 0, "master70_clump_hierarchy_H2.txt")
-write_clumps(master70, 0,  "master70_clumps_H2.txt")
+try:
+    write_clump_index(master70, 0, "master70_clump_hierarchy_H2_cut2.txt")
+    write_clumps(master70, 0,  "master70_clumps_H2_cut2.txt")
+except:
+    pass
 
 master100, leaf100 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_2,
                                     step=100,
                                     N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master100, 0, "master100_clump_hierarchy_H2.txt")
-write_clumps(master100, 0,  "master100_clumps_H2.txt")
+try:
+    write_clump_index(master100, 0, "master100_clump_hierarchy_H2_cut2.txt")
+    write_clumps(master100, 0,  "master100_clumps_H2_cut2.txt")
+except:
+    pass
 
 
 master200, leaf200 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_2,
                                     step=200,
                                     N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master200, 0, "master200_clump_hierarchy_H2.txt")
-write_clumps(master200, 0,  "master200_clumps_H2.txt")
+try:
+    write_clump_index(master200, 0, "master200_clump_hierarchy_H2_cut2.txt")
+    write_clumps(master200, 0,  "master200_clumps_H2_cut2.txt")
+except:
+    pass
+
+# to retreive physical properties, i.e., need to get cell indice of clumps (still need some more work here..)
+aa = leaf10[0]
+print aa.field
+print aa.data.fcoords    # grids position
+print aa.data.icoords    # grids element index
+print aa.data.icoords[0]
+print aa.data['h2density'][0]
+_density = f["rho"].value
+_h2 = f["H2"].value
+ii = aa.data.icoords[:, 0]
+jj = aa.data.icoords[:, 1]
+kk = aa.data.icoords[:, 2]
+print (_density[ii, jj, kk] * factor) * _h2[ii, jj, kk]
+assert round(aa.data['h2density'][0]) == round((_density[ii, jj, kk] * factor * _h2[ii, jj, kk])[0])
+
+
+# seems to need lower steps to identify more structures.. will do after cleaning up code maybe, or write in another python script for this.
