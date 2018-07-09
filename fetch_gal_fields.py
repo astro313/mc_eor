@@ -12,11 +12,12 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'H2'
 'Pressure'
 'Pressure_nt'
+'Z'
 
 'cell_volume'    << from yt only?
 'cell_mass'   << from yt only?
 'averaged_density'  << from yt only?
-'temperature' << from yt only?
+'temperature'
 
 last mod: 9 July 2018
 
@@ -48,7 +49,7 @@ pymses.RamsesOutput.amr_field_descrs_by_file = \
             "grav": [output.Vector("g", [0, 1, 2])]},
      "3D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
                       output.Scalar("P_nt", 4), output.Scalar("P", 5),
-                      # output.Scalar("Z", 6),
+                      output.Scalar("Z", 6),
                       # # note field 7 is skipped here because it's just flags for structure of the AMR, and pymses is not picking about skipping fields
                       # output.Scalar("H", 8),
                       # output.Scalar("E", 9),
@@ -61,6 +62,7 @@ pymses.RamsesOutput.amr_field_descrs_by_file = \
                       #                      ,output.Scalar("H2+", 16)
                       ],
             "grav": [output.Vector("g", [0, 1, 2])]}}
+
 
 def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
@@ -107,6 +109,7 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
 
     return celle
 
+
 def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True):
     """
 
@@ -150,7 +153,7 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
     dx_vector = cells_inside_camera.get_sizes()
     loc_vector = cells_inside_camera.points
 
-    dict_unit = get_units(ro = ro)
+    dict_unit = get_units(ro=ro)
 
     if debug:
 
@@ -164,24 +167,24 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
         for ii in fields:
 
-            norm, unit_lab = 1. , ''
+            norm, unit_lab = 1., ''
             try:
-                norm,unit_lab = dict_unit[ii][0] , dict_unit[ii][1]
+                norm, unit_lab = dict_unit[ii][0], dict_unit[ii][1]
             except KeyError:
                 pass
 
             _vector = cells_inside_camera[ii]
 
             to_plot = np.copy(_vector)
-            to_plot = to_plot*norm
+            to_plot = to_plot * norm
 
             plot_title = ii
             if(unit_lab != ''):
-                plot_title = plot_title+' / '+unit_lab
+                plot_title = plot_title + ' / ' + unit_lab
 
-            if ii in ['rho','P','P_nt']:
+            if ii in ['rho', 'P', 'P_nt']:
                 to_plot = np.log10(to_plot)
-                plot_title = 'log('+plot_title+')'
+                plot_title = 'log(' + plot_title + ')'
 
             plt.hist(to_plot)
             plt.title(plot_title)
@@ -205,40 +208,43 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     import os
     if os.path.isfile(outname):
-      os.system('rm ' + outname)
+        os.system('rm ' + outname)
     if debug:
         print 'Saving data to'
-        print '  ',outname
+        print '  ', outname
     np.savez_compressed(outname, **param_dict)
 
     return None
 
-def get_units(ro = None):
-  assert ro is not None
-  # conversion dictionary
-  dict_unit          = {}
-  dict_unit['rho']   = [(ro.info['unit_density']/C.mH).express(1/C.cm**3),'cm-3']
-  dict_unit['P']     = [ro.info['unit_pressure'].express(C.erg/C.cm**3) /C.kB.express(C.erg/C.K), 'K cm-3']
-  dict_unit['P_nt']  = dict_unit['P']
-  dict_unit['H2']    = [1 , '']
-  dict_unit['vel']   = [ro.info['unit_velocity'].express(C.km/C.s),'km/s']
 
-  return dict_unit
+def get_units(ro=None):
+    assert ro is not None
+    # conversion dictionary
+    dict_unit = {}
+    dict_unit['rho'] = [
+        (ro.info['unit_density'] / C.mH).express(1 / C.cm**3), 'cm-3']
+    dict_unit['P'] = [ro.info['unit_pressure'].express(
+        C.erg / C.cm**3) / C.kB.express(C.erg / C.K), 'K cm-3']
+    dict_unit['P_nt'] = dict_unit['P']
+    dict_unit['H2'] = [1, '']
+    dict_unit['vel'] = [ro.info['unit_velocity'].express(C.km / C.s), 'km/s']
+
+    return dict_unit
 
 
 if __name__ == "__main__":
-  ro         = pymses.RamsesOutput("output", 28)
+    ro = pymses.RamsesOutput("output", 28)
 
-  boxlen_pc  = ro.info['unit_length'].express(C.pc) # 32.09690179793066 pc
-  finest_res = boxlen_pc / 2**ro.info['levelmax']
+    boxlen_pc = ro.info['unit_length'].express(C.pc)  # 32.09690179793066 pc
+    finest_res = boxlen_pc / 2**ro.info['levelmax']
 
-  center      = [0.53103, 0.51031000000000004, 0.50402000000000002]
-  region_size = [0.0015, 0.0015]
+    center = [0.53103, 0.51031000000000004, 0.50402000000000002]
+    region_size = [0.0015, 0.0015]
 
-  fields = ['rho', 'vel', 'P_nt', 'P', 'H2']
-  # fields = ['rho', 'P_nt', 'P', 'H2']
+    fields = ['rho', 'vel', 'P_nt', 'P', 'H2', 'Z']
 
-  getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True)
+    camera_in = {'center': center,
+                 'region_size': region_size}
 
-
-
+    getpoints4fields(ro, 'snapshot28_center_fields0123456-15',
+                     fields, center, region_size, log_sfera=False, debug=True)
