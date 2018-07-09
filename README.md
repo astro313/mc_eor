@@ -2,6 +2,9 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
+July 8th 2018
+- note about LoG and DoG stuff: http://www.cse.psu.edu/~rtc12/CSE486/lecture11_6pp.pdf
+
 July 6th 2018
 - even after identifying clumps/blobs, how can we tell if they are self-gravitating structure?
     + get the fields to calc KE, PE after to check they are self-gravitating.
