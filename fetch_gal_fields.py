@@ -18,7 +18,7 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'averaged_density'  << from yt only?
 'temperature' << from yt only?
 
-last mod: 8 July 2018
+last mod: 9 July 2018
 
 
 """
@@ -61,17 +61,6 @@ pymses.RamsesOutput.amr_field_descrs_by_file = \
                       #                      ,output.Scalar("H2+", 16)
                       ],
             "grav": [output.Vector("g", [0, 1, 2])]}}
-
-ro = pymses.RamsesOutput("output", 28)
-
-boxlen_pc = ro.info['unit_length'].express(C.pc)
-finest_res = boxlen_pc / 2**ro.info['levelmax']
-# 32.09690179793066 pc
-dict_unit = {}
-dict_unit['rho'] = ro.info['unit_density'].express(C.g_cc)
-dict_unit['P']   = ro.info['unit_pressure'].express(C.erg/C.cm**3)
-dict_unit['H2']  = 1
-dict_unit['velx']  = 1
 
 def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
@@ -118,12 +107,7 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
 
     return celle
 
-
-center = [0.53103, 0.51031000000000004, 0.50402000000000002]
-region_size = [0.0015, 0.0015]
-
-
-def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True):
+def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True, dict_unit=None):
     """
 
     Parameters
@@ -178,13 +162,28 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
         for ii in fields:
 
-            _vector = cells_inside_camera[ii]
-            if ii == 'rho':
-                plt.hist(np.log10(_vector))
-            else:
-                plt.hist(_vector)
+            norm, unit_lab = 1. , ''
+            if(dict_unit is not None):
+                try:
+                    norm,unit_lab = dict_unit[ii][0] , dict_unit[ii][1]
+                except KeyError:
+                    pass
 
-            plt.title(ii)
+            _vector = cells_inside_camera[ii]
+
+            to_plot = np.copy(_vector)
+            to_plot = to_plot*norm
+
+            plot_title = ii
+            if(unit_lab != ''):
+                plot_title = plot_title+' / '+unit_lab
+
+            if ii in ['rho','P','P_nt']:
+                to_plot = np.log10(to_plot)
+                plot_title = 'log('+plot_title+')'
+
+            plt.hist(to_plot)
+            plt.title(plot_title)
             plt.show()
 
         # expect to be denser towards center of galaxy.
@@ -204,13 +203,37 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
         print param_dict
 
     import os
-    os.system('rm ' + outname)
+    if os.path.isfile(outname):
+      os.system('rm ' + outname)
+    if debug:
+        print 'Saving data to'
+        print '  ',outname
     np.savez_compressed(outname, **param_dict)
 
     return None
+
+ro         = pymses.RamsesOutput("output", 28)
+
+boxlen_pc  = ro.info['unit_length'].express(C.pc) # 32.09690179793066 pc
+finest_res = boxlen_pc / 2**ro.info['levelmax']
+
+center      = [0.53103, 0.51031000000000004, 0.50402000000000002]
+region_size = [0.0015, 0.0015]
+
+# conversion dictionary
+dict_unit          = {}
+dict_unit['rho']   = [(ro.info['unit_density']/C.mH).express(1/C.cm**3),'cm-3']
+dict_unit['P']     = [ro.info['unit_pressure'].express(C.erg/C.cm**3) /C.kB.express(C.erg/C.K), 'K cm-3']
+dict_unit['P_nt']  = dict_unit['P']
+dict_unit['H2']    = [1 , '']
+dict_unit['vel']   = [ro.info['unit_velocity'].express(C.km/C.s),'km/s']
 
 
 fields = ['rho', 'vel', 'P_nt', 'P', 'H2']
 # fields = ['rho', 'P_nt', 'P', 'H2']
 
-getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True)
+getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True
+                 ,dict_unit= dict_unit)
+
+
+
