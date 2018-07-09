@@ -29,6 +29,9 @@ import h5py
 Plot_stuff = False
 debug = False
 
+fold_out   = 'test_png'
+
+
 # convert from code unit density to g/cc (depending on how fetch_gal.py is
 # implemented.)
 convert_unit = True
@@ -84,7 +87,7 @@ print dd['h2density'].max()
 assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
 
 
-def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None):
+def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./'):
     '''
 
     The way it's implemented now only works for single "density" field.
@@ -116,6 +119,9 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
 
     saveplot: boolean
         if true, will save figure instead of showing it
+
+    fold_out: str
+        directory to save figures
 
 
     Return
@@ -159,7 +165,7 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     # individual clumps that have no children of their own
     leaf_clumps = get_lowest_clumps(master_clump)
 
-    def plotclumps(ds, field=field, saveplot=saveplot):
+    def plotclumps(ds, field=field, saveplot=saveplot, fold_out=fold_out):
         """ overplot the clumps found (specifically the leaf_clumps) along 3 images, each created by projecting onto x-, y-, and z-axis. """
 
         axes = {'0': 'x', '1': 'y', '2': 'z'}
@@ -173,12 +179,12 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
             prj.annotate_clumps(leaf_clumps)
             if saveplot:
                 print("outname: ", 'clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + vv + 'axis.png')
-                prj.save('clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + vv + 'axis.png')
+                prj.save(fold_out + 'clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + vv + 'axis.png')
             else:
                 prj.show()
 
     if plot:
-        plotclumps(ds, saveplot=saveplot)
+        plotclumps(ds, saveplot=saveplot, fold_out=fold_out)
 
     return master_clump, leaf_clumps
 
@@ -210,7 +216,8 @@ master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   step=10,
                                   N_cell_min=20,
                                   plot=True,
-                                  saveplot=True)
+                                  saveplot=True,
+                                  fold_out=fold_out)
 
 print(master10.children)
 print(master10.children[0]['h2density'])    # children
@@ -238,28 +245,32 @@ for ind in range(len(leaf10)):
 master20, leaf20 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_1,
                                   step=20,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master20, 0, "master20_clump_hierarchy_H2.txt")
 write_clumps(master20, 0,  "master20_clumps_H2.txt")
 
 master30, leaf30 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_1,
                                   step=30,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master30, 0, "master30_clump_hierarchy_H2.txt")
 write_clumps(master30, 0,  "master30_clumps_H2.txt")
 
 master70, leaf70 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_1,
                                   step=70,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master70, 0, "master70_clump_hierarchy_H2.txt")
 write_clumps(master70, 0,  "master70_clumps_H2.txt")
 
 master100, leaf100 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_1,
                                     step=100,
-                                    N_cell_min=20, plot=True, saveplot=True)
+                                    N_cell_min=20, plot=True, saveplot=True,
+                                    fold_out=fold_out)
 write_clump_index(master100, 0, "master100_clump_hierarchy_H2.txt")
 write_clumps(master100, 0,  "master100_clumps_H2.txt")
 
@@ -267,7 +278,8 @@ write_clumps(master100, 0,  "master100_clumps_H2.txt")
 master200, leaf200 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_1,
                                     step=200,
-                                    N_cell_min=20, plot=True, saveplot=True)
+                                    N_cell_min=20, plot=True, saveplot=True,
+                                    fold_out=fold_out)
 write_clump_index(master200, 0, "master200_clump_hierarchy_H2.txt")
 write_clumps(master200, 0,  "master200_clumps_H2.txt")
 
@@ -278,28 +290,32 @@ master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   step=10,
                                   N_cell_min=20,
                                   plot=True,
-                                  saveplot=True)
+                                  saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master10, 0, "master10_clump_hierarchy_H2_cut2.txt")
 write_clumps(master10, 0,  "master10_clumps_H2_cut2.txt")
 
 master20, leaf20 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=20,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master20, 0, "master20_clump_hierarchy_H2_cut2.txt")
 write_clumps(master20, 0,  "master20_clumps_H2_cut2.txt")
 
 master30, leaf30 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=30,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 write_clump_index(master30, 0, "master30_clump_hierarchy_H2_cut2.txt")
 write_clumps(master30, 0,  "master30_clumps_H2_cut2.txt")
 
 master70, leaf70 = ytclumpfind_H2(ds, dd, ("h2density"),
                                   n_cut=n_cut_2,
                                   step=70,
-                                  N_cell_min=20, plot=True, saveplot=True)
+                                  N_cell_min=20, plot=True, saveplot=True,
+                                  fold_out=fold_out)
 try:
     write_clump_index(master70, 0, "master70_clump_hierarchy_H2_cut2.txt")
     write_clumps(master70, 0,  "master70_clumps_H2_cut2.txt")
@@ -309,7 +325,8 @@ except:
 master100, leaf100 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_2,
                                     step=100,
-                                    N_cell_min=20, plot=True, saveplot=True)
+                                    N_cell_min=20, plot=True, saveplot=True,
+                                    fold_out=fold_out)
 try:
     write_clump_index(master100, 0, "master100_clump_hierarchy_H2_cut2.txt")
     write_clumps(master100, 0,  "master100_clumps_H2_cut2.txt")
@@ -320,7 +337,8 @@ except:
 master200, leaf200 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=n_cut_2,
                                     step=200,
-                                    N_cell_min=20, plot=True, saveplot=True)
+                                    N_cell_min=20, plot=True, saveplot=True,
+                                    fold_out=fold_out)
 try:
     write_clump_index(master200, 0, "master200_clump_hierarchy_H2_cut2.txt")
     write_clumps(master200, 0,  "master200_clumps_H2_cut2.txt")
