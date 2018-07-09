@@ -133,17 +133,15 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
             (loc_vector[:, 2].max() - loc_vector[:, 2].min())
 
         if debug:
-            print '  ', xx.min(), xx.max()
-            print '  ', yy.min(), yy.max()
-            print '  ', zz.min(), zz.max()
+            print '  x:', xx.min(), xx.max()
+            print '  y:', yy.min(), yy.max()
+            print '  z:', zz.min(), zz.max()
             #import pdb; pdb.set_trace()
 
         xx = xx * field_cube.shape[0]
         yy = yy * field_cube.shape[1]
         zz = zz * field_cube.shape[2]
 
-        if debug:
-            print '  ', xx.min(), xx.max(), yy.min(), yy.max(), zz.min(), zz.max()
 
         xpos = np.array(xx, dtype=int)
         ypos = np.array(yy, dtype=int)
@@ -154,14 +152,20 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
         zpos[zpos == field_cube.shape[2]] = field_cube.shape[2] - 1
         field_cube[xpos, ypos, zpos] = field_vector[d[str(lll)]]
 
+        if debug:
+            print '  field    :', field_cube.min(), field_cube.max()
+            print '  field log:', np.log10(field_cube.min()), np.log10(field_cube.max())
+
     if debug:
         size = field_cube.shape[0]
         print "1d length of final resampled cube: ", size
 
         import matplotlib.pyplot as plt
         # 2**4: to chop off spurious edges
-        if fieldname == 'rho':
-            field_cube = np.log10(field_cube)
+        if fieldname == 'rho' or fieldname == 'P_nt' or fieldname == 'P':
+            plt.imshow(np.log10(field_cube[:, :, 2**4:].sum(axis=0)))
+            plt.title(fieldname)
+            plt.show()
 
         if fieldname != 'vel':
             plt.imshow(field_cube[:, :, 2**4:].sum(axis=0))
@@ -198,4 +202,4 @@ for i in fields:
 # import pdb; pdb.set_trace()
 
 for kkk, vvv in fieldsDict.iteritems():
-    resam_each_field(dx_vector, loc_vector, vvv, kkk, outname)
+    resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=False)

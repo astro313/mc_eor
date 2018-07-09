@@ -18,7 +18,7 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'averaged_density'  << from yt only?
 'temperature' << from yt only?
 
-last mod: 7 July 2018
+last mod: 8 July 2018
 
 
 """
@@ -67,7 +67,11 @@ ro = pymses.RamsesOutput("output", 28)
 boxlen_pc = ro.info['unit_length'].express(C.pc)
 finest_res = boxlen_pc / 2**ro.info['levelmax']
 # 32.09690179793066 pc
-
+dict_unit = {}
+dict_unit['rho'] = ro.info['unit_density'].express(C.g_cc)
+dict_unit['P']   = ro.info['unit_pressure'].express(C.erg/C.cm**3)
+dict_unit['H2']  = 1
+dict_unit['velx']  = 1
 
 def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
@@ -176,9 +180,10 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
             _vector = cells_inside_camera[ii]
             if ii == 'rho':
-                _vector = np.log10(_vector)
+                plt.hist(np.log10(_vector))
+            else:
+                plt.hist(_vector)
 
-            plt.hist(_vector)
             plt.title(ii)
             plt.show()
 
@@ -206,5 +211,6 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
 
 fields = ['rho', 'vel', 'P_nt', 'P', 'H2']
+# fields = ['rho', 'P_nt', 'P', 'H2']
 
-getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=False)
+getpoints4fields(ro, 'snapshot28_center_fields012345-15', fields, center, region_size, log_sfera=False, debug=True)
