@@ -287,8 +287,8 @@ if __name__ == '__main__':
     parser.add_argument('snapshot_num', action="store", type=int,
                         help="snapshot number to load in (no default).")
 
-    parser.add_argument('convert_unit', action="store_true", default=True,
-                        help="convert from code units to more commonly used units, depending on how fetch_gal_fields.py is implemented.")
+    parser.add_argument('not_convert_unit', action="store_true", default=False,
+                        help="do NOT convert from code units to more commonly used units, depending on how fetch_gal_fields.py is implemented.")
 
     parser.add_argument('-nc', '--ncut', action="store", type=float,
                         default=n_cut_2,
@@ -305,13 +305,13 @@ if __name__ == '__main__':
     parser.add_argument('--save', action="store_true", default=False,
                         help="save the clump tree as a reloadable dataset (using yt func)")
 
-    parser.add_argument('--savepickle', action="store_true", default=True,
+    parser.add_argument('--savepickle', action="store_true", default=None,
                         help="save the fields of all leafs stored in dict into a pickled file")
 
-    parser.add_argument('--plot', action="store_true", default=True,
+    parser.add_argument('--plot', action="store_true", default=None,
                         help="plot leaf clump on projection plots")
 
-    parser.add_argument('--saveplot', action="store_true", default=True,
+    parser.add_argument('--saveplot', action="store_true", default=None,
                         help="save figure instead of showing it")
 
     parser.add_argument('fold_out', action='store',
@@ -346,7 +346,7 @@ if __name__ == '__main__':
     velz = f["vel_z"].value
 
 
-    if args.convert_unit:
+    if not args.not_convert_unit:
         import pymses
         from pymses.utils import constants as C
 
