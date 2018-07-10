@@ -7,8 +7,11 @@ last mod: 10 July 2018
 NOTE
 ----
 - .... Careful units .... make sure everything is consistent....
+    - erhh.. can Andrea pls look at each function...
+
 - information on dx_pc is now hard coded...
-- surface area is claculated simply using pi*R^2, perhaps we need to project along different axes given that the clumps/leafs identified are not spherical..
+
+- surface area is claculated simply using pi*R^2, perhaps we need to project along different axes given that the clumps/leafs identified are not spherical..?
 
 
 '''
@@ -17,8 +20,6 @@ print (__doc__)
 
 import numpy as np
 import cPickle as pickle
-import os
-import matplotlib.pyplot as plt
 import astropy.constants as C
 
 
@@ -289,11 +290,7 @@ if __name__ == '__main__':
     # after finely sample unigrid
     dx_pc = highestRes * get_units(ro=ro)['dx'][0]
 
-
-    Cloud_dict = {}
-   # for kkk in leaf_fields.iterkeys():
-    # C[kkk] = Cloud(dx_pc, leaf_fields[kkk], int(kkk))
-    # Cloud(dx, leaf_fields[kkk])
+    # call cloud 0 for testing code..
     C0 = Cloud(dx_pc, leaf_fields['0'], int('0'))
     print C0
 
