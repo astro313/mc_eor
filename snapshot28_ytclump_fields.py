@@ -178,7 +178,6 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
                     'velx': None,
                     'vely': None,
                     'velz': None}
-    print _leaf_fields
 
     # index corresponding to the clumps (w/ no children)
     ii = subleaf.data.icoords[:, 0]
@@ -227,67 +226,14 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
     return _leaf_fields
 
 
-# this should be a class itself, but whatever for now
-def get_cl_alpha_vir(sigma, R, M):
-    """
-
-    TODO: careful units
-
-    Cloud's alpha virial, Bertoldi & McKee 1992.
-
-               5 * sigma ^ 2 * R
-      alpha =  ------------------
-                    G * M
-
-    Parameters
-    ----------
-
-    Returns
-    -------
-    alpha
-
-
-    """
-
-    import astropy.constants as ccc
-
-    GG = ccc.G
-
-    alpha = 5. * sigma**2 * R / (GG * M)
-
-    return alpha
-
-
-def get_cl_Mjeans(cs, cloud_3D_vel_disp):
-    """
-
-    Cloud's Jeans Mass as computed in Joung & Mac Low 2006
-
-    Mj = rho_avg * lambdaJeans ^3
-
-    lambdaJeans = (pi / G rhoavg)^1/2 sigma_tot
-    sigma_tot   = (cs^2 + 1/3 sigma3D^2 ) ^1/2
-
-    Parameters
-    ----------
-    cs:
-        average sound speed of cloud
-
-    Returns
-    -------
-
-    """
-
-    return MJ
-
 
 if __name__ == '__main__':
 
     import argparse
     import textwrap
+    import os
 
     desc = """ find clumps/molecular complexes from unigrid cube. """
-
 
     epi = textwrap.dedent('''
         The clump-find is done using yt, which decomposes into non-overlapping tiles (stored in a kd-tree), identify contours within a tile, and then connect them across tiles. It does this with an upper and lower bound on a field value, and looking for topologically connected sets.
@@ -464,7 +410,6 @@ if __name__ == '__main__':
                                     fold_out=args.fold_out)
 
     # to retreive physical properties of leaf
-
     leaf_fields = {}
     for n_leaf in range(len(leaf5)):
         leaf_fields[str(n_leaf)] = get_phyprop_of_leaf(leaf5[n_leaf],
@@ -474,31 +419,18 @@ if __name__ == '__main__':
                                                        metallicity,
                                                        velx, vely, velz,
                                                        plothist=False)
-    # print leaf_fields['0'].keys()
+    print "saved leaf fields: ", leaf_fields['0'].keys()
 
     if args.savepickle:
         import cPickle as pickle
-        pickle.dump(leaf_fields, open("leaf_fields.p", "wb"))
 
-        # to load back in, use:
-        # leaf_fields = pickle.load(open("leaf_fields.p", "rb"))
+        outdir = "leaf_fields_" + str(args.snapshot_num) + "/"
 
-    cl_prop = ["id", "mass", "volume", "cloud_num",
-               "tnow", "avgden", "sphericalR", "tff",
-               "CM_x", "CM_y", "CM_z",
-               "x_min", "y_min", "z_min",
-               "x_max", "y_max", "z_max",
-               "bulk_velx", "bulk_vely", "bulk_velz",
-               "veldisp_x", "veldisp_y", "veldisp_z"]
-    cl_prop = dict.fromkeys(cl_prop)
+        if not os.path.isdir(outdir):
+            os.mkdir(outdir)
 
-    # -------- save cloud info -------
-    # Create path to the directory where info will be saved.
-    directory = "./MyCloudsProps"
+        pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + ".p", "wb"))
 
-    import os
-    if not os.path.exists(directory):
-        os.makedirs(directory)
 
 
 # -------------
