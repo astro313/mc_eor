@@ -4,7 +4,7 @@ http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 
 After getting the finely gridded cube from resample_fields.py, use yt clump finder.
 
-Last mod: 9 July 2018
+Last mod: 10 July 2018
 
 NOTE
 ----
@@ -24,88 +24,6 @@ import matplotlib.pyplot as plt
 import yt
 from yt.analysis_modules.level_sets.api import Clump, find_clumps, get_lowest_clumps, write_clump_index, write_clumps
 import h5py
-
-Plot_stuff = False
-debug = False
-
-fold_out = 'test_png/'
-
-
-# convert from code unit density to g/cc (depending on how fetch_gal.py is
-# implemented.)
-convert_unit = True
-
-if debug:
-    namefile = "output/output_00028/info_00028.txt"
-    myfile = namefile
-
-    print "Loading file,", myfile
-    pf = load(myfile)
-
-
-f = h5py.File("snapshot28_center_fields0123456-15_resampled.h5", "r")
-# careful sometimes i used "density" (e.g., resample.py), see
-# resample_fields.py to make sure
-density = f["rho"].value
-H2 = f["H2"].value
-Pressure = f["P"].value
-P_nt = f["P_nt"].value
-metallicity = f["Z"].value
-velx = f["vel_x"].value
-vely = f["vel_y"].value
-velz = f["vel_z"].value
-
-
-if convert_unit:
-    import pymses
-    from pymses.utils import constants as C
-
-    ro = pymses.RamsesOutput("output", 28)
-
-    from fetch_gal_fields import get_units
-    factor_density = get_units(ro=ro)['rho'][0]      # 1/cm^3 (not H/cm^3)
-    density *= factor_density
-    print density.max()
-
-    factor_vel = get_units(ro=ro)['vel'][0]
-    velx *= factor_vel
-    vely *= factor_vel
-    velz *= factor_vel
-    print velx.max(), vely.max(), velz.max()
-
-    factor_P = get_units(ro=ro)['P'][0]
-    Pressure *= factor_P
-    P_nt *= factor_P
-    print np.log10(Pressure.max()), np.log10(P_nt.max())
-
-
-data = dict(density=density, H2=H2,
-            P=Pressure,
-            P_nt=P_nt,
-            Z=metallicity,
-            velx=velx,
-            vely=vely,
-            velz=velz)
-
-ds = yt.load_uniform_grid(data, f["rho"].shape)
-dd = ds.all_data()
-
-# make a derived field, call h2density (for yt Clump() to work)
-
-
-def _h2density(field, data):
-    try:
-        return data["density"] * data["H2"]
-    except:
-        return data[("stream", "density")] * data[("stream", "H2")]
-
-
-from yt.units import dimensions
-ds.add_field(("stream", "h2density"), function=_h2density,
-             units="code_mass/code_length**3")
-print dd['h2density'].max()
-
-assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
 
 
 def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./'):
@@ -364,6 +282,47 @@ def get_cl_Mjeans(cs, cloud_3D_vel_disp):
 
 
 if __name__ == '__main__':
+
+    import argparse
+    import textwrap
+
+    desc = """ find clumps/molecular complexes from unigrid cube. """
+
+
+    epi = textwrap.dedent('''
+        The clump-find is done using yt, which decomposes into non-overlapping tiles (stored in a kd-tree), identify contours within a tile, and then connect them across tiles. It does this with an upper and lower bound on a field value, and looking for topologically connected sets.
+
+        The fit parameters are (in this order):
+
+            snapshot_num: snapshot file to load in, integer.
+
+            convert_unit: if true, convert from code unit to more commonly used units, depending on how fetch_gal_fields.py is implemented.
+
+            n_cut: threshold to look for clumps, in units of nH2/cc
+
+            step: multiplicative interval between subsequent contours
+
+            N_cell_min: min. number of cell s.t. clump identified is not spurious
+
+            save: if true, save the clump tree as a reloadable dataset (using yt func)
+
+            savepickle: if true, save the fields of all leafs stored in dict into a pickled file
+
+            plot: if true, will plot leaf clump
+
+            saveplot: if true, will save figure instead of showing it
+
+            fold_out: directory to save figures
+
+            debug: if true, enter debug mode
+
+        ''')
+
+    fmter = argparse.RawDescriptionHelpFormatter
+    parser = argparse.ArgumentParser(description=desc, epilog=epi,
+                                     formatter_class=fmter)
+
+
     # -------------- decide on n_cut --------------
     # fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel,
     # based on Minkowsky function (Euler characteristic).
@@ -371,6 +330,120 @@ if __name__ == '__main__':
     # in units of nH2/cc
     # n_cut_1 = 10**0.5
     n_cut_2 = 10**-1.5
+
+    # -------------- parse arguments ----------------
+
+    parser.add_argument('snapshot_num', action="store", type=int,
+                        help="snapshot number to load in (no default).")
+
+    parser.add_argument('convert_unit', action="store_true", default=True,
+                        help="convert from code units to more commonly used units, depending on how fetch_gal_fields.py is implemented.")
+
+    parser.add_argument('-nc', '--ncut', action="store", type=float,
+                        default=n_cut_2,
+                        help="threshold to look for clumps, in units of nH2/cc")
+
+    parser.add_argument('-s', '--step', action="store", type=int,
+                        default=5,
+                        help="multiplicative interval between subsequent contours")
+
+    parser.add_argument('-nm', '--Nmin', action="store", type=int,
+                        default=3,
+                        help="min. number of cell s.t. clump identified is not spurious")
+
+    parser.add_argument('--save', action="store_true", default=False,
+                        help="save the clump tree as a reloadable dataset (using yt func)")
+
+    parser.add_argument('--savepickle', action="store_true", default=True,
+                        help="save the fields of all leafs stored in dict into a pickled file")
+
+    parser.add_argument('--plot', action="store_true", default=True,
+                        help="plot leaf clump on projection plots")
+
+    parser.add_argument('--saveplot', action="store_true", default=True,
+                        help="save figure instead of showing it")
+
+    parser.add_argument('fold_out', action='store',
+                        default='test_png/',
+                        help="directory to save plot files ending with /")
+
+    parser.add_argument('--debug', action="store_true", default=False,
+                        help="debug mode")
+
+    args = parser.parse_args()
+
+    # ---------------------------------------------------------------
+
+    if args.debug:
+        namefile = "output/output_000" + str(args.snapshot_num) + "/info_000" + str(args.snapshot_num) + ".txt"
+        myfile = namefile
+
+        print "Loading file,", myfile
+        pf = load(myfile)
+
+
+    f = h5py.File("snapshot" + str(args.snapshot_num) + "_center_fields0123456-15_resampled.h5", "r")
+    # careful sometimes i used "density" (e.g., resample.py), see
+    # resample_fields.py to make sure
+    density = f["rho"].value
+    H2 = f["H2"].value
+    Pressure = f["P"].value
+    P_nt = f["P_nt"].value
+    metallicity = f["Z"].value
+    velx = f["vel_x"].value
+    vely = f["vel_y"].value
+    velz = f["vel_z"].value
+
+
+    if args.convert_unit:
+        import pymses
+        from pymses.utils import constants as C
+
+        ro = pymses.RamsesOutput("output", args.snapshot_num)
+
+        from fetch_gal_fields import get_units
+        factor_density = get_units(ro=ro)['rho'][0]      # 1/cm^3 (not H/cm^3)
+        density *= factor_density
+        print density.max()
+
+        factor_vel = get_units(ro=ro)['vel'][0]
+        velx *= factor_vel
+        vely *= factor_vel
+        velz *= factor_vel
+        print velx.max(), vely.max(), velz.max()
+
+        factor_P = get_units(ro=ro)['P'][0]
+        Pressure *= factor_P
+        P_nt *= factor_P
+        print np.log10(Pressure.max()), np.log10(P_nt.max())
+
+
+    data = dict(density=density, H2=H2,
+                P=Pressure,
+                P_nt=P_nt,
+                Z=metallicity,
+                velx=velx,
+                vely=vely,
+                velz=velz)
+
+    ds = yt.load_uniform_grid(data, f["rho"].shape)
+    dd = ds.all_data()
+
+    # make a derived field, call h2density (for yt Clump() to work)
+    def _h2density(field, data):
+        try:
+            return data["density"] * data["H2"]
+        except:
+            return data[("stream", "density")] * data[("stream", "H2")]
+
+
+    from yt.units import dimensions
+    ds.add_field(("stream", "h2density"), function=_h2density,
+                 units="code_mass/code_length**3")
+    print dd['h2density'].max()
+
+    assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
+
 
     # -------------- run clump finder -------------
     # master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
@@ -383,12 +456,12 @@ if __name__ == '__main__':
 
     # --- repeat for n_cut_2 ---
     master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
-                                    n_cut=n_cut_2,
-                                    step=5,
-                                    N_cell_min=3,
-                                    plot=True,
-                                    saveplot=True,
-                                    fold_out=fold_out)
+                                    n_cut=args.ncut,
+                                    step=args.step,
+                                    N_cell_min=args.Nmin,
+                                    plot=args.plot,
+                                    saveplot=args.saveplot,
+                                    fold_out=args.fold_out)
 
     # to retreive physical properties of leaf
 
@@ -403,6 +476,13 @@ if __name__ == '__main__':
                                                        plothist=False)
     # print leaf_fields['0'].keys()
 
+    if args.savepickle:
+        import cPickle as pickle
+        pickle.dump(leaf_fields, open("leaf_fields.p", "wb"))
+
+        # to load back in, use:
+        # leaf_fields = pickle.load(open("leaf_fields.p", "rb"))
+
     cl_prop = ["id", "mass", "volume", "cloud_num",
                "tnow", "avgden", "sphericalR", "tff",
                "CM_x", "CM_y", "CM_z",
@@ -416,6 +496,7 @@ if __name__ == '__main__':
     # Create path to the directory where info will be saved.
     directory = "./MyCloudsProps"
 
+    import os
     if not os.path.exists(directory):
         os.makedirs(directory)
 
