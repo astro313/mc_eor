@@ -28,7 +28,7 @@ import h5py
 Plot_stuff = False
 debug = False
 
-fold_out   = 'test_png'
+fold_out = 'test_png/'
 
 
 # convert from code unit density to g/cc (depending on how fetch_gal.py is
@@ -91,6 +91,8 @@ ds = yt.load_uniform_grid(data, f["rho"].shape)
 dd = ds.all_data()
 
 # make a derived field, call h2density (for yt Clump() to work)
+
+
 def _h2density(field, data):
     try:
         return data["density"] * data["H2"]
@@ -99,7 +101,8 @@ def _h2density(field, data):
 
 
 from yt.units import dimensions
-ds.add_field(("stream", "h2density"), function=_h2density, units="code_mass/code_length**3")
+ds.add_field(("stream", "h2density"), function=_h2density,
+             units="code_mass/code_length**3")
 print dd['h2density'].max()
 
 assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
@@ -196,7 +199,8 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                                     center='c')
             prj.annotate_clumps(leaf_clumps)
             if saveplot:
-                prj.save(fold_out + 'clumps1_' + str(int(n_cut)) + '_' + str(int(step)) + '-' + str(int(N_cell_min)) + '_' + vv + 'axis.png')
+                prj.save(fold_out + 'clumps1_' + str(int(n_cut)) + '_' +
+                         str(int(step)) + '-' + str(int(N_cell_min)) + '_' + vv + 'axis.png')
             else:
                 prj.show()
 
@@ -206,41 +210,176 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     return master_clump, leaf_clumps
 
 
+def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity, velx, vely, velz, plothist=False):
+    """
+
+    Parameters
+    ----------
+    subleaf: a leaf object (i.e., w/o children)
+
+    density: array
+        density of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    H2density: array
+        H2 density of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    Pressure: array
+        Thermal Pressure of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    P_nt: array
+        P_nt of uniformly sampled subregion
+
+    metallicity: array
+        Z of uniformly sampled subregion, divide by 0.02 to get to solar metallicity
+
+    velx: array
+        vel-x of uniformly sampled subregion
+
+    vely: array
+        vel-y of uniformly sampled subregion
+
+    velz: array
+        vel-z of uniformly sampled subregion
+
+    plothist: bool
+        whether or not to plot the histogram for each field corresponding to the clump
+
+    Returns
+    -------
+    _leaf_fields: dict
+        bunch of fields
+
+    """
+
+    subleaf = subleaf
+    _leaf_fields = {'density': None,
+                    'H2density': None,
+                    'Pressure': None,
+                    'P_nt': None,
+                    'metallicity': None,
+                    'velx': None,
+                    'vely': None,
+                    'velz': None}
+    print _leaf_fields
+
+    # index corresponding to the clumps (w/ no children)
+    ii = subleaf.data.icoords[:, 0]
+    jj = subleaf.data.icoords[:, 1]
+    kk = subleaf.data.icoords[:, 2]
+
+    # print(subleaf.quantities.total_mass())
+    # print(subleaf.quantities.center_of_mass())
+
+    for fff in _leaf_fields.iterkeys():
+        _leaf_fields[fff] = eval(fff)[ii, jj, kk]
+
+    _h2_subleaf = subleaf.data['h2density']
+    h2_subleaf = _leaf_fields['H2density']
+    assert round(_h2_subleaf[0]) == round(h2_subleaf[0])
+    del h2_subleaf
+    del _h2_subleaf
+
+    if plothist:
+        # hard code for now
+        plt.hist(density_aa)
+        plt.title('density [1/cm^3]')
+        plt.show()
+        plt.hist(H2_aa)
+        plt.title('H2 density [1/cm^3]')
+        plt.show()
+        plt.hist(np.log10(Pressure_aa))
+        plt.title('Thermal Pressure [K cm-3]')
+        plt.show()
+        plt.hist(np.log10(P_nt_aa))
+        plt.title('Non-thermal Pressure [K cm-3]')
+        plt.show()
+        plt.hist(metallicity_aa / 0.02)
+        plt.title('Metallicity in Solar Z units')
+        plt.show()
+        plt.hist(velx)
+        plt.title('vel-x [km/s]')
+        plt.show()
+        plt.hist(vely)
+        plt.title('vel-y [km/s]')
+        plt.show()
+        plt.hist(velz)
+        plt.title('vel-z [km/s]')
+        plt.show()
+
+    return _leaf_fields
+
+
+# this should be a class itself, but whatever for now
+def get_cl_alpha_vir(sigma, R, M):
+    """
+
+    TODO: careful units
+
+    Cloud's alpha virial, Bertoldi & McKee 1992.
+
+               5 * sigma ^ 2 * R
+      alpha =  ------------------
+                    G * M
+
+    Parameters
+    ----------
+
+    Returns
+    -------
+    alpha
+
+
+    """
+
+    import astropy.constants as ccc
+
+    GG = ccc.G
+
+    alpha = 5. * sigma**2 * R / (GG * M)
+
+    return alpha
+
+
+def get_cl_Mjeans(cs, cloud_3D_vel_disp):
+    """
+
+    Cloud's Jeans Mass as computed in Joung & Mac Low 2006
+
+    Mj = rho_avg * lambdaJeans ^3
+
+    lambdaJeans = (pi / G rhoavg)^1/2 sigma_tot
+    sigma_tot   = (cs^2 + 1/3 sigma3D^2 ) ^1/2
+
+    Parameters
+    ----------
+    cs:
+        average sound speed of cloud
+
+    Returns
+    -------
+
+    """
+
+    return MJ
+
+
 if __name__ == '__main__':
     # -------------- decide on n_cut --------------
-    # fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel, based on Minkowsky function (Euler characteristic).
+    # fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel,
+    # based on Minkowsky function (Euler characteristic).
 
     # in units of nH2/cc
-    n_cut_1 = 10**0.5
+    # n_cut_1 = 10**0.5
     n_cut_2 = 10**-1.5
 
     # -------------- run clump finder -------------
-    master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
-                                    n_cut=n_cut_1,
-                                    step=5,
-                                    N_cell_min=3,
-                                    plot=True,
-                                    saveplot=True,
-                                    fold_out=fold_out)
-
-    master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
-                                      n_cut=n_cut_1,
-                                      step=10,
-                                      N_cell_min=3,
-                                      plot=True,
-                                      saveplot=True,
-                                      fold_out=fold_out)
-
-    print(master10.children)
-    print(master10.children[0]['h2density'])    # children
-    # print(master10.children[0].children[0]['h2density'])   # grand-children; note not necessary that children of master has a grandchild
-
-
-    for ind in range(len(leaf10)):
-        print(leaf10[ind]["h2density"])
-        print(leaf10[ind].quantities.total_mass())
-        print(leaf10[ind].quantities.center_of_mass())
-
+    # master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
+    #                                 n_cut=n_cut_1,
+    #                                 step=5,
+    #                                 N_cell_min=3,
+    #                                 plot=True,
+    #                                 saveplot=True,
+    #                                 fold_out=fold_out)
 
     # --- repeat for n_cut_2 ---
     master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
@@ -251,43 +390,34 @@ if __name__ == '__main__':
                                     saveplot=True,
                                     fold_out=fold_out)
 
-    master10, leaf10 = ytclumpfind_H2(ds, dd, ("h2density"),
-                                      n_cut=n_cut_2,
-                                      step=10,
-                                      N_cell_min=3,
-                                      plot=True,
-                                      saveplot=True,
-                                      fold_out=fold_out)
+    # to retreive physical properties of leaf
 
-    # to retreive physical properties, i.e., need to get cell indice of clumps (still need some more work here..)
-    aa = leaf10[0]
-    print aa.field
-    ii = aa.data.icoords[:, 0]
-    jj = aa.data.icoords[:, 1]
-    kk = aa.data.icoords[:, 2]
+    leaf_fields = {}
+    for n_leaf in range(len(leaf5)):
+        leaf_fields[str(n_leaf)] = get_phyprop_of_leaf(leaf5[n_leaf],
+                                                       density,
+                                                       H2 * density,
+                                                       Pressure, P_nt,
+                                                       metallicity,
+                                                       velx, vely, velz,
+                                                       plothist=False)
+    # print leaf_fields['0'].keys()
 
-    print aa.data.icoords[0]
-    print aa.data['h2density'][0]
+    cl_prop = ["id", "mass", "volume", "cloud_num",
+               "tnow", "avgden", "sphericalR", "tff",
+               "CM_x", "CM_y", "CM_z",
+               "x_min", "y_min", "z_min",
+               "x_max", "y_max", "z_max",
+               "bulk_velx", "bulk_vely", "bulk_velz",
+               "veldisp_x", "veldisp_y", "veldisp_z"]
+    cl_prop = dict.fromkeys(cl_prop)
 
-    density_aa = density[ii, jj, kk]
-    H2_aa = H2[ii, jj, kk]
-    Pressure_aa = Pressure[ii, jj, kk]
-    P_nt_aa = P_nt[ii, jj, kk]
-    metallicity = metallicity[ii, jj, kk]
-    velx = velx[ii, jj, kk]
-    vely = vely[ii, jj, kk]
-    velz = velz[ii, jj, kk]
+    # -------- save cloud info -------
+    # Create path to the directory where info will be saved.
+    directory = "./MyCloudsProps"
 
-    _h2_aa = aa.data['h2density']
-    h2_aa = (density_aa * factor_density) * H2_aa
-    assert round(_h2_aa[0]) == round(h2_aa[0])
-
-    import pdb; pdb.set_trace()
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
-
-
-# then... look at fields in these corresponding grid points for the "clumps" identified.....
-
-
-# seems to need lower steps to identify more structures.. will do after cleaning up code maybe, or write in another python script for this.
+# -------------
