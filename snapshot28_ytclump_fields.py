@@ -1,4 +1,9 @@
+
 """
+
+Example usage:
+    python snapshot28_ytclump_fields.py 28 --savepickle --plot --saveplot test_png/
+
 
 http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 
