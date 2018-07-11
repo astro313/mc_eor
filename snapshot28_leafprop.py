@@ -21,6 +21,7 @@ print (__doc__)
 import numpy as np
 import cPickle as pickle
 import astropy.constants as C
+import matplotlib.pyplot as plt
 
 
 class Cloud(object):
@@ -128,6 +129,9 @@ class Cloud(object):
         self.ydisp = np.std(self.vely) * self.km2cm
         self.zdisp = np.std(self.velz) * self.km2cm
 
+        # plt.hist(self.velx, bins=30)
+        # plt.show()
+
     def sigmaSq_3(self):
         sss = 1. / 3 * (self.density * (self.xdisp**2 + self.ydisp **
                                         2 + self.zdisp**2)).sum() / self.density.sum()
@@ -136,9 +140,9 @@ class Cloud(object):
     def sigmaSq(self):
         """ mass-weighted 1-D sigmaSq """
 
-        _velx = (self.velx - np.median(self.velx)) * self.km2cm
-        _vely = (self.vely - np.median(self.vely)) * self.km2cm
-        _velz = (self.velz - np.median(self.velz)) * self.km2cm
+        _velx = (self.velx - np.mean(self.velx)) * self.km2cm
+        _vely = (self.vely - np.mean(self.vely)) * self.km2cm
+        _velz = (self.velz - np.mean(self.velz)) * self.km2cm
 
         self.sigmaSq = 1. / 3 * \
             (self.density * ((_velx)**2 + (_vely) **
@@ -172,7 +176,7 @@ class Cloud(object):
         self.sigmaSq_tot = self.sigmaSq + self.cs_avg**2
 
     def tff(self):
-        self.tff = (3. * np.pi / 32.0 / self.G_cgs / self.avg_density)**0.5
+        self.tff = (3. * np.pi / 32.0 / self.G_cgs / (self.avg_density * C.m_p.value * self.kg2g))**0.5
 
     def tff_Myr(self):
         self.tff_Myr = self.tff * self.s2Myr
@@ -197,9 +201,8 @@ class Cloud(object):
 
         """
 
-        self.M_jeans = self.avg_density * \
-            (np.average(self.L_jeans_pc) * self.pc2cm)**3 * \
-            C.m_p.value * self.kg2Msun
+        self.M_jeans = (self.avg_density * C.m_p.cgs.value) * \
+            (np.average(self.L_jeans_pc) * self.pc2cm)**3
 
     def alphaVir(self):
         """
@@ -231,9 +234,9 @@ class Cloud(object):
 
         # Star formation rate as in Joung & Mac Low 2006.
         if (self.mass_Msun / self.M_jeans > 1.0):
-            self.sfr_JML = 0.3 * self.mass_Msun / self.tff_Myr
+            self.SFR_JML = 0.3 * self.mass_Msun / self.tff_Myr
         else:
-            self.sfr_JML = 0.0
+            self.SFR_JML = 0.0
 
     def __str__(self):
         print '\n', '=' * 100
@@ -243,9 +246,10 @@ class Cloud(object):
         print "Number of Cells          =", len(self.density)
         print "average density          =", self.avg_density, " [1/cm3]"
         print "Spherical radius         =", self.R_cm, " [cm]     ", self.R_pc, " [pc]"
+        print "Mass Surface Density     =", self.massSD, " [Msun/pc^2] "
         print "Free fall time           =", self.tff, " [s]     ", self.tff_Myr, " [Myr]"
-        print "Velocity disp            =", self.xdisp, ", ", self.ydisp, ", ", self.zdisp, " [cm s-1]"
-        print "Velocity disp 3D         =", np.sqrt(self.sigmaSq), " [cm/s]"
+        print "Velocity disp            =", self.xdisp/1.e5, ", ", self.ydisp/1.e5, ", ", self.zdisp/1.e5, " [km s-1]"
+        print "Velocity disp 3D         =", np.sqrt(self.sigmaSq)/1.e5, " [km/s]"
 
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
         print "cs avg       =", self.cs_avg,           "     [cm/s]"
@@ -261,7 +265,7 @@ class Cloud(object):
         print "sfr_tff       = ", self.sfr_ff, "          eq 41 in Krumholtz, Matzner & McKee 2006"
         print "Mdot          = ", self.SFR, "          eq 42 ''     ''       ''        ''      [Msun/Myr] "
         print ""
-        print "SFR simple    = ", self.sfr_JML, "          as in Joung & Mac Low 2006, [Msun/Myr]"
+        print "SFR simple    = ", self.SFR_JML, "          as in Joung & Mac Low 2006, [Msun/Myr]"
 
         return '=' * 100
 
