@@ -109,7 +109,7 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     # individual clumps that have no children of their own
     leaf_clumps = get_lowest_clumps(master_clump)
 
-    def plotclumps(ds, field=field, saveplot=saveplot, fold_out=fold_out):
+    def plotclumps(ds, leaf_clumps, field=field, saveplot=saveplot, fold_out=fold_out):
         """ overplot the clumps found (specifically the leaf_clumps) along 3 images, each created by projecting onto x-, y-, and z-axis. """
 
         axes = {'0': 'x', '1': 'y', '2': 'z'}
@@ -121,6 +121,18 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                                     field,
                                     center='c')
             prj.annotate_clumps(leaf_clumps)
+
+            for ileaf in range(len(leaf_clumps)):
+                _fc = leaf_clumps[ileaf].data.fcoords
+                _coordx = {'0': _fc[1], '1': _fc[2], '2': _fc[0]}
+                _coordy = {'0': _fc[2], '1': _fc[0], '2': _fc[1]}
+
+                prj.annotate_marker([_coordx[int(kk)], _coordy[int(kk)]],
+                                    coord_system='data',
+                                    plot_args={'color': 'yellow', 's': 500})
+                prj.annotate_text([_coordx[int(kk)], _coordy[int(kk)]],
+                                    kk,
+                                    coord_system='data')
             if saveplot:
                 prj.save(fold_out + 'clumps1_' + str(int(n_cut)) + '_' +
                          str(int(step)) + '-' + str(int(N_cell_min)) + '_' + vv + 'axis.png')
@@ -305,13 +317,13 @@ if __name__ == '__main__':
     parser.add_argument('--save', action="store_true", default=False,
                         help="save the clump tree as a reloadable dataset (using yt func)")
 
-    parser.add_argument('--savepickle', action="store_true", default=None,
+    parser.add_argument('--savepickle', action="store_true", default=False,
                         help="save the fields of all leafs stored in dict into a pickled file")
 
-    parser.add_argument('--plot', action="store_true", default=None,
+    parser.add_argument('--plot', action="store_true", default=False,
                         help="plot leaf clump on projection plots")
 
-    parser.add_argument('--saveplot', action="store_true", default=None,
+    parser.add_argument('--saveplot', action="store_true", default=False,
                         help="save figure instead of showing it")
 
     parser.add_argument('fold_out', action='store',
@@ -435,6 +447,8 @@ if __name__ == '__main__':
             os.mkdir(outdir)
 
         pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + ".p", "wb"))
+
+        pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "class.p", "wb"))
 
 
 

@@ -221,6 +221,7 @@ def get_units(ro=None):
     assert ro is not None
     # conversion dictionary
     dict_unit = {}
+    dict_unit['dx'] = [ro.info['unit_length'].express(C.pc), 'pc']
     dict_unit['rho'] = [
         (ro.info['unit_density'] / C.mH).express(1 / C.cm**3), 'cm-3']
     dict_unit['P'] = [ro.info['unit_pressure'].express(
