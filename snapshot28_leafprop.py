@@ -2,13 +2,10 @@
 
 Cloud Object to store cloud physical properties.
 
-last mod: 10 July 2018
+last mod: 11 July 2018
 
 NOTE
 ----
-- .... Careful units .... make sure everything is consistent....
-    - erhh.. can Andrea pls look at each function...
-
 - information on dx_pc is now hard coded...
 
 - surface area is claculated simply using pi*R^2, perhaps we need to project along different axes given that the clumps/leafs identified are not spherical..?
@@ -278,6 +275,7 @@ class Cloud(object):
         return '=' * 100
 
 
+# below is for testing
 if __name__ == '__main__':
 
     # to load back in fields of each leaf
@@ -306,12 +304,3 @@ if __name__ == '__main__':
     C0 = Cloud(dx_pc, leaf_fields['0'], int('0'))
     print C0
 
-    # # -------- save cloud info -------
-    # # Create path to the directory where info will be saved.
-    # leafdir = "leaf_fields_" + str(snapshot_num) + "/"
-    # subdirectory = "MyCloudsProps/"
-
-    # if not os.path.exists(leafdir + subdirectory):
-    #     os.system('mkdir -ip ' + leafdir + subdirectory)
-
-    # pickle.dump(cl_prop, open(outClPickle, "wb"))
