@@ -282,7 +282,7 @@ if __name__ == '__main__':
     snapshot_num = 28
     leafdir = 'leaf_fields_' + str(snapshot_num) + '/'
     # '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) from snapshot28_leafprop.py
-    fname = "0.03_5_3.p"
+    fname = "0.03_5_3_fields.p"
 
     leaf_fields = pickle.load(open(leafdir + fname, "rb"))
     outClPickle = fname.replace('.p', '_cloudprop.p')
