@@ -126,16 +126,16 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                 _fc = leaf_clumps[ileaf].data.fcoords[0]
                 prj.annotate_marker(_fc,
                                     coord_system='data',
-                                    plot_args={'color': 'yellow', 's': 500})
+                                    plot_args={'color': 'red', 's': 500})
                 prj.annotate_text(_fc,
                                     ileaf,
                                     coord_system='data',
-                                    text_args={'color': 'black', 'size': 10},
+                                    text_args={'color': 'black', 'size': 8},
                                     inset_box_args={'boxstyle': 'square',
                                     'facecolor': 'white',
                                     'linewidth': 2.0,
                                     'edgecolor': 'white',
-                                    'alpha': 0.5})
+                                    'alpha': 0.35})
             if saveplot:
                 prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) + \
                         '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
