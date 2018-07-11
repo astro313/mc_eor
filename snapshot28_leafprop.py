@@ -36,6 +36,7 @@ class Cloud(object):
 
         self.kg2g = 1.E+03
         self.Msun2g = 1.989E+33
+        self.g2Msun = 1./self.Msun2g
         self.kg2Msun = 1. / 1.989E30
 
         self.s2Myr = 3.17098e-8 * 1.e-6
@@ -75,10 +76,11 @@ class Cloud(object):
         self.Mjeans()
         self.alphaVir()
         self.Mach()
+        self.Mach_vec()
         self.SFR_per_tff()
 
     def vol_pc3(self):
-        self.vol_pc3 = self.dx**3
+        self.vol_pc3 = self.dx**3 * len(self.density)
 
     def vol_cc(self):
         self.vol_cc = (self.dx * self.pc2cm)**3
@@ -106,11 +108,11 @@ class Cloud(object):
 
     def JeansL_cm(self):
         J2erg = 1.E+07
-        k_B_erg = C.k_B.value * J2erg
+        self.k_B_erg = C.k_B.value * J2erg
 
         mH = C.m_p.value * self.kg2g
         mu = 1.3017 * mH
-        self.L_jeans_cm = (15.0 * self.T * k_B_erg / 4.0 /
+        self.L_jeans_cm = (15.0 * self.T * self.k_B_erg / 4.0 /
                            np.pi / self.G_cgs / mu**2 / self.density)**0.5
 
         # # just to make sure the equations we use in JeansL_pc and JeansL_cm are equivalent, which they!
@@ -172,7 +174,7 @@ class Cloud(object):
     def tot_veldisp(self):
         """ non-thermal, turbulent + average mass-weighted sound speed"""
 
-        self.cs_avg = np.sqrt(np.mean(self.Pressure) / self.avg_density)
+        self.cs_avg = np.sqrt(np.mean(self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density)
         self.sigmaSq_tot = self.sigmaSq + self.cs_avg**2
 
     def tff(self):
@@ -202,7 +204,7 @@ class Cloud(object):
         """
 
         self.M_jeans = (self.avg_density * C.m_p.cgs.value) * \
-            (np.average(self.L_jeans_pc) * self.pc2cm)**3
+            (np.average(self.L_jeans_pc) * self.pc2cm)**3 * self.g2Msun
 
     def alphaVir(self):
         """
@@ -215,11 +217,17 @@ class Cloud(object):
 
         """
 
-        self.alpha = 5. * (self.sigmaSq_tot)**2 * \
+        self.alpha = 5. * (self.sigmaSq_tot) * \
             self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
 
     def Mach(self):
         self.Mach = np.sqrt(self.sigmaSq) / self.cs_avg
+
+    def Mach_vec(self):
+        self.Mach_vec = np.sqrt((self.Pressure + self.P_nt)/self.Pressure)
+        # weight by density?
+
+        print np.log10(self.Mach), np.log10(np.mean(self.Mach_vec))
 
     def SFR_per_tff(self):
         """ Find the star formation  per free fall time of the cloud. As in  Krumholz, Matzner & McKee 2006. Eqn 40 and 41.
@@ -229,7 +237,7 @@ class Cloud(object):
         SFR = Mdot = sfr_ff * M_cl / t_ff
 
         """
-        self.sfr_ff = 0.073 * self.alpha**(-0.68) * self.Mach**(-0.32)
+        self.sfr_ff = 0.073 * self.alpha**(-0.68) * np.mean(self.Mach_vec)**(-0.32)
         self.SFR = self.sfr_ff * self.mass_Msun / self.tff_Myr
 
         # Star formation rate as in Joung & Mac Low 2006.
@@ -252,10 +260,10 @@ class Cloud(object):
         print "Velocity disp 3D         =", np.sqrt(self.sigmaSq)/1.e5, " [km/s]"
 
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
-        print "cs avg       =", self.cs_avg,           "     [cm/s]"
-        print "sigma turb   =", np.sqrt(self.sigmaSq), "     [cm/s]"
+        print "cs avg       =", self.cs_avg/1.e5,           "     [km/s]"
+        print "sigma turb   =", np.sqrt(self.sigmaSq)/1.e5, "     [km/s]"
 
-        print "sigma tot    =", np.sqrt(self.sigmaSq_tot),   "      [cm/s]    = ", np.sqrt(self.sigmaSq_tot) / 1.e5,           "      [km/s] "
+        print "sigma tot    =", np.sqrt(self.sigmaSq_tot)/1.e5,   "      [km/s]"
         print "Jeans length =", np.mean(self.L_jeans_cm), "      [cm]      = ", np.mean(self.L_jeans_pc), " [pc] "
         print "Jeans Mass   =", self.M_jeans, "      Msun "
 
@@ -263,9 +271,9 @@ class Cloud(object):
         print "alpha virial  =", self.alpha, "          Bertoldi & McKee 1992"
         print "Mach number   = ", self.Mach
         print "sfr_tff       = ", self.sfr_ff, "          eq 41 in Krumholtz, Matzner & McKee 2006"
-        print "Mdot          = ", self.SFR, "          eq 42 ''     ''       ''        ''      [Msun/Myr] "
+        print "SFR          = ", self.SFR / 1.e6, "          eq 42 ''     ''       ''        ''      [Msun/yr] "
         print ""
-        print "SFR simple    = ", self.SFR_JML, "          as in Joung & Mac Low 2006, [Msun/Myr]"
+        print "SFR simple    = ", self.SFR_JML/1.e6, "          as in Joung & Mac Low 2006, [Msun/yr]"
 
         return '=' * 100
 
