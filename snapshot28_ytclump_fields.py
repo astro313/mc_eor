@@ -140,7 +140,7 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                 prj.show()
 
     if plot:
-        plotclumps(ds, saveplot=saveplot, fold_out=fold_out)
+        plotclumps(ds, leaf_clumps, saveplot=saveplot, fold_out=fold_out)
 
     return master_clump, leaf_clumps
 
@@ -446,9 +446,9 @@ if __name__ == '__main__':
         if not os.path.isdir(outdir):
             os.mkdir(outdir)
 
-        pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + ".p", "wb"))
+        pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_fields.p", "wb"))
 
-        pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "class.p", "wb"))
+        pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_class.p", "wb"))
 
 
 
