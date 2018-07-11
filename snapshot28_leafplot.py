@@ -66,26 +66,30 @@ for kkk in leaf_fields.iterkeys():
     print Cloud_dict[kkk]
 
 # plotting
-MMj = Cloud_dict['0'].mass_Msun / Cloud_dict['0'].M_jeans
-
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.scatter(Cloud_dict['0'].mass_Msun, MMj, s=70, alpha=0.7, c='r')
+for kkk in leaf_fields.iterkeys():
+    MMj = Cloud_dict[kkk].mass_Msun / Cloud_dict[kkk].M_jeans
+    ax.scatter(Cloud_dict[kkk].mass_Msun, MMj, s=70, alpha=0.7, c='r')
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
 ax.set_xlabel("Cloud Mass [Msun]", fontsize=20)
 ax.set_ylabel(r"$M_{\rm cl} / $M$_J$", fontsize=20)
+plt.tight_layout()
 plt.show()
 fig.savefig(leafdir + 'my_cloud_sample.png', bbox_inches="tight")
+
 
 
 fig = plt.figure()
 
 ax = fig.add_subplot(111)
-ax.scatter(Cloud_dict['0'].mass_Msun, Cloud_dict['0'].alpha, s=70,
-           alpha=0.7, c='g')
+for kkk in leaf_fields.iterkeys():
+
+    ax.scatter(Cloud_dict[kkk].mass_Msun, Cloud_dict[kkk].alpha, s=70,
+               alpha=0.7, c='g')
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -99,16 +103,15 @@ plt.show()
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-ax.scatter(Cloud_dict['0'].mass_Msun, np.array(Cloud_dict['0'].SFR) / 1.0e6,
-           label="SFR KMM06", s=80, alpha=0.7, c='r', marker="*")
-ax.scatter(Cloud_dict['0'].mass_Msun, np.array(Cloud_dict['0'].SFR_JML) / 1.0e6,
-           label="SFR JML", s=80, alpha=0.7, c='r', marker="*")
+for kkk in leaf_fields.iterkeys():
+    ax.scatter(Cloud_dict[kkk].mass_Msun, np.array(Cloud_dict[kkk].SFR) / 1.0e6, label="SFR KMM06", s=80, alpha=0.7, c='r', marker="*")
+    ax.scatter(Cloud_dict[kkk].mass_Msun, np.array(Cloud_dict[kkk].SFR_JML) / 1.0e6 , label="SFR JML", s=80, alpha=0.7, c='r', marker="*")
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
 ax.set_xlabel("Cloud Mass [Msun]")
-ax.set_ylabel(r"Star Formation [Msun yr$^{-1}$]")
+ax.set_ylabel(r"Star Formation Rate [Msun yr$^{-1}$]")
 
 ax.legend(loc=2)
 
@@ -118,6 +121,9 @@ ax.legend(loc=2)
 plt.show()
 fig.savefig(leafdir + "SFR_CloudMass.png", bbox_inches="tight")
 
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
 
 # Table 1 in Heiderman 2010
 cloud_name = ["Cha II", "lup I", 'lup II', 'lup IV',
@@ -152,20 +158,21 @@ Heinerman_SigmaSFR = [0.605, 0.367, 1.10, 1.19, 2.45,
                       0.440, 0.343, 2.01]
 
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
 x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
 
 pc2kpc = 1.e-3
-ax.scatter(np.array(Cloud_dict['0'].massSD),
-           np.array(Cloud_dict['0'].SFR) / 1.0e6 / \
-           (np.pi * Cloud_dict['0'].R_pc * pc2kpc)**2,
-           label="This Work", s=80, alpha=0.7, c='r', marker='*')
 
 ax.plot(x, y, '-b', linewidth=2, label="Kennicut")
 ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, 'bo',
         linewidth=2, alpha=0.7, label="Heinerman 2010")
+
+for kkk in leaf_fields.iterkeys():
+
+    ax.scatter(np.array(Cloud_dict[kkk].massSD),
+               np.array(Cloud_dict[kkk].SFR) / 1.0e6 / \
+               (np.pi * Cloud_dict[kkk].R_pc * pc2kpc)**2,
+               label="This Work", s=80, alpha=0.7, c='r', marker='*')
+
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -174,11 +181,8 @@ ax.set_xlabel(r"$\Sigma_{\rm gas}$ [Msun pc$^2$]", fontsize=20)
 ax.set_ylabel(r"$\Sigma_{\rm SFR}$ [Msun yr$^{-1}$ kpc$^2$]", fontsize=20)
 
 ax.legend(loc=4)
-
-ax.set_xlim(5.0e0, 1.0e3)
-
+# ax.set_xlim(5.0e0, 1.0e3)
 plt.show()
-
 fig.savefig(leafdir + 'SurfSFR_SurfGas.png', bbox_inches="tight")
 
 
@@ -187,15 +191,17 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 
 cm2km = 1.e-5
-ax.scatter(Cloud_dict['0'].R_pc * 2.0,
-           np.sqrt(Cloud_dict['0'].sigmaSq) * cm2km,
-           c='k', marker='o', alpha=0.6, s=30)
 
 x = np.logspace(1, 3, 10)
 #y = 1.3e-2*x**0.38
 y = 1.01 * x**0.38
 
 ax.plot(x, y, '--k', linewidth=2, label='Larson $\sigma \propto L^{0.38}$')
+
+for kkk in leaf_fields.iterkeys():
+    ax.scatter(Cloud_dict[kkk].R_pc * 2.0,
+               np.sqrt(Cloud_dict[kkk].sigmaSq) * cm2km,
+               c='k', marker='o', alpha=0.6, s=30)
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -212,4 +218,4 @@ ax.legend(loc=1, fontsize=20)
 plt.show()
 fig.savefig(leafdir + 'LarsonsLike_plot.png', bbox_inches="tight")
 
-# -----------
+    # -----------
