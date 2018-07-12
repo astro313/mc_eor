@@ -2,7 +2,7 @@
 
 Cloud Object to store cloud physical properties.
 
-last mod: 11 July 2018
+last mod: 12 July 2018
 
 NOTE
 ----
@@ -248,33 +248,31 @@ class Cloud(object):
 
     def __str__(self):
         print '\n', '=' * 100
-        print "Calculated parameters of cloud   ", self.cl_indx
-        print "Mass x 10^7              =", self.mass_Msun/1.e7, "  [Msun]"
-        print "Volume                   =", self.vol_pc3,   "  [pc^3]"
-        print "Number of Cells          =", len(self.density)
-        print "average density          =", self.avg_density, " [1/cm3]"
-        print "Spherical radius         =", self.R_cm, " [cm]     ", self.R_pc, " [pc]"
-        print "Mass Surface Density     =", self.massSD, " [Msun/pc^2] "
-        print "Free fall time           =", self.tff, " [s]     ", self.tff_Myr, " [Myr]"
-        print "Velocity disp            =", self.xdisp/1.e5, ", ", self.ydisp/1.e5, ", ", self.zdisp/1.e5, " [km s-1]"
-        print "Velocity disp 3D         =", np.sqrt(self.sigmaSq)/1.e5, " [km/s]"
+        print("Calculated parameters of cloud  {:d}").format(self.cl_indx)
+        print("Mass x 10^7              = {:.2f} [Msun]").format(self.mass_Msun/1.e7)
+        print("Volume                   = {:.2f} [pc^3]").format(self.vol_pc3)
+        print("Number of Cells          = {:d}").format(len(self.density))
+        print("average density          = {:.2f}").format(self.avg_density)
+        print("Spherical radius         = {:.2f} [pc]").format(self.R_pc)
+        print "Mass Surface Density     = {:.2f} [Msun/pc^2]".format(self.massSD)
+        print("Free fall time           = {:.2f} [Myr]").format(self.tff_Myr)
+        print("Velocity disp            = {:.2f}, {:.2f}, {:.2f} [km/s]").format(self.xdisp/1.e5, self.ydisp/1.e5, self.zdisp/1.e5)
+        print("Velocity disp 3D         = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
 
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
-        print "cs avg       =", self.cs_avg/1.e5,           "     [km/s]"
-        print "sigma turb   =", np.sqrt(self.sigmaSq)/1.e5, "     [km/s]"
-
-        print "sigma tot    =", np.sqrt(self.sigmaSq_tot)/1.e5,   "      [km/s]"
-        print "Jeans length =", np.mean(self.L_jeans_cm), "      [cm]      = ", np.mean(self.L_jeans_pc), " [pc] "
-        print "Jeans Mass   =", self.M_jeans, "      Msun "
+        print("cs avg       = {:.2f} [km/s]").format(self.cs_avg/1.e5)
+        print("sigma turb   = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
+        print("sigma tot    = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq_tot)/1.e5)
+        print("Jeans length = {:.2f} [pc]").format(np.mean(self.L_jeans_pc))
+        print("Jeans Mass   = {:.2f} [Msun]").format(self.M_jeans)
 
         print "*" * 10 + "   Star Formation rate calculation:   " + "*" * 10
-        print "alpha virial  =", self.alpha, "          Bertoldi & McKee 1992"
-        print "Mach number   = ", self.Mach
-        print "sfr_tff       = ", self.sfr_ff, "          eq 41 in Krumholtz, Matzner & McKee 2006"
-        print "SFR          = ", self.SFR / 1.e6, "          eq 42 ''     ''       ''        ''      [Msun/yr] "
+        print("alpha virial  = {:.2f}").format(self.alpha)
+        print("Mach number   = {:.2f} ").format(self.Mach)
+        print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
+        print("SFR          = {:.2f} [Msun/yr] ").format(self.SFR / 1.e6)
         print ""
-        print "SFR simple 30% SFE   = ", self.SFR_JML/1.e6, "          as in Joung & Mac Low 2006, [Msun/yr]"
-
+        print("SFR simple 30% SFE   = {:.2f} [Msun/yr]").format(self.SFR_JML/1.e6)
         return '=' * 100
 
 
