@@ -263,7 +263,7 @@ if __name__ == '__main__':
 
             snapshot_num: snapshot file to load in, integer.
 
-            convert_unit: if true, convert from code unit to more commonly used units, depending on how fetch_gal_fields.py is implemented.
+            not_convert_unit: if true, convert NOT from code unit to more commonly used units, depending on how fetch_gal_fields.py is implemented.
 
             n_cut: threshold to look for clumps, in units of nH2/cc
 
@@ -280,8 +280,6 @@ if __name__ == '__main__':
             saveplot: if true, will save figure instead of showing it
 
             fold_out: directory to save figures
-
-            debug: if true, enter debug mode
 
         ''')
 
@@ -303,7 +301,9 @@ if __name__ == '__main__':
     parser.add_argument('snapshot_num', action="store", type=int,
                         help="snapshot number to load in (no default).")
 
-    parser.add_argument('not_convert_unit', action="store_true", default=False,
+    parser.add_argument('--not_convert_unit',
+                        action="store_true",
+                        default=False,
                         help="do NOT convert from code units to more commonly used units, depending on how fetch_gal_fields.py is implemented.")
 
     parser.add_argument('-nc', '--ncut', action="store", type=float,
@@ -334,20 +334,9 @@ if __name__ == '__main__':
                         default='test_png/',
                         help="directory to save plot files ending with /")
 
-    parser.add_argument('--debug', action="store_true", default=False,
-                        help="debug mode")
-
     args = parser.parse_args()
 
     # ---------------------------------------------------------------
-
-    if args.debug:
-        namefile = "output/output_000" + str(args.snapshot_num) + "/info_000" + str(args.snapshot_num) + ".txt"
-        myfile = namefile
-
-        print "Loading file,", myfile
-        pf = load(myfile)
-
 
     f = h5py.File("snapshot" + str(args.snapshot_num) + "_center_fields0123456-15_resampled.h5", "r")
     # careful sometimes i used "density" (e.g., resample.py), see
@@ -360,7 +349,6 @@ if __name__ == '__main__':
     velx = f["vel_x"].value
     vely = f["vel_y"].value
     velz = f["vel_z"].value
-
 
     if not args.not_convert_unit:
         import pymses
