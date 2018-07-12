@@ -12,32 +12,13 @@ which ones do we need?
 'Pressure'
 'Pressure_nt'
 
-'cell_volume'    << from yt only?
-'cell_mass'   << from yt only?
-'averaged_density'  << from yt only?
-'temperature'
 
-last mod: 9 July 2018
+last mod: 12 July 2018
 
 
 '''
 
 import numpy as np
-
-# saved in fetch_gal_fields.py
-ds = np.load('snapshot28_center_fields0123456-15.npz')
-outname = "snapshot28_center_fields0123456-15_resampled.h5"
-
-#
-dx_vector = ds['dx_vector']
-loc_vector = ds['loc_vector']
-
-fields = ['rho', 'P_nt', 'P', 'H2', 'Z']
-# extract 'vel' separately below ..
-
-import os
-if os.path.exists(outname):
-    os.system('rm ' + outname)
 
 
 def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, originalSize=0.0015, debug=True):
@@ -339,23 +320,38 @@ def resam_vel_field(dx_vector, loc_vector, field_vector, axisname, outname,
     return None
 
 
+if __name__ == '__main__':
 
-fieldsDict = {}
-for i in fields:
-    fieldsDict[i] = ds[i]
+    # saved in fetch_gal_fields.py
+    ds = np.load('snapshot28_center_fields0123456-15.npz')
+    outname = "snapshot28_center_fields0123456-15_resampled.h5"
 
-# print fieldsDict
-# import pdb; pdb.set_trace()
+    import os
+    if os.path.exists(outname):
+        os.system('rm ' + outname)
 
-for kkk, vvv in fieldsDict.iteritems():
-    resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=False)
+    #
+    dx_vector = ds['dx_vector']
+    loc_vector = ds['loc_vector']
 
-# -- velocity --
-vel = ds['vel']
-axes = {'x': vel[:, 0], 'y': vel[:, 1], 'z': vel[:, 2]}
+    fieldsToExtract = ['rho', 'P_nt', 'P', 'H2', 'Z']
 
-for kkk, vvv in axes.iteritems():
-    resam_vel_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
+    fieldsDict = {}
+    for i in fieldsToExtract:
+        fieldsDict[i] = ds[i]
+
+    # print fieldsDict
+    # import pdb; pdb.set_trace()
+
+    for kkk, vvv in fieldsDict.iteritems():
+        resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=False)
+
+    # -- velocity --
+    vel = ds['vel']
+    axes = {'x': vel[:, 0], 'y': vel[:, 1], 'z': vel[:, 2]}
+
+    for kkk, vvv in axes.iteritems():
+        resam_vel_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
 
 
 # ------
