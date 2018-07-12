@@ -12,24 +12,28 @@ TODO
 - overplot PHANGS relation on sigma-gasSD plot
 - add fit the relations for our clouds
 - plot alpha_CO versus metallicity for clouds and obtain fit.
+- add cloud properties from DYNAMO survey
+- plot cloud mass distribution
 
 '''
 
 import matplotlib
+print(matplotlib.matplotlib_fname())
+
 matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
-                            , 'font.size': 22      # points
-                            , 'legend.fontsize': 14      # points
+                            , 'font.size': 20      # points
+                            , 'legend.fontsize': 13      # points
                             , 'lines.linewidth': 2       # points
-                            , 'axes.linewidth': 2       # points
+                            , 'axes.linewidth': 1       # points
                             , 'text.usetex': True    # Use LaTeX to layout text
                             , 'font.family': "serif"  # Use serifed fonts
-                            , 'xtick.major.size': 6     # length, points
+                            , 'xtick.major.size': 10     # length, points
                             , 'xtick.major.width': 2     # points
-                            , 'xtick.minor.size': 3     # length, points
+                            , 'xtick.minor.size': 6     # length, points
                             , 'xtick.minor.width': 1     # points
-                            , 'ytick.major.size': 6     # length, points
+                            , 'ytick.major.size': 10     # length, points
                             , 'ytick.major.width': 2     # points
-                            , 'ytick.minor.size': 3     # length, points
+                            , 'ytick.minor.size': 6     # length, points
 
                             , 'ytick.minor.width': 1     # points
                             , 'font.serif': ("Times", "Palatino", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
@@ -48,8 +52,14 @@ leafdir = 'leaf_fields_' + str(snapshot_num) + '/'
 
 # defined as ... '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_'
 # + str(args.Nmin) from snapshot28_leafprop.py
-fname = "0.03_5_3_fields.p"
+# fname = "0.03_5_3_fields.p"
+# fname = "1.00_5_10_fields.p"
+fname = "1.00_3_10_fields.p"
 leaf_fields = pickle.load(open(leafdir + fname, "rb"))
+leafdir_out = leafdir + fname[:fname.find('.p')] + '/'
+if not os.path.isdir(leafdir_out):
+    os.mkdir(leafdir_out)
+
 
 # hard-code to get dx for now...
 # saved in fetch_gal_fields.py
@@ -68,32 +78,35 @@ Cloud_dict = {}
 for kkk in leaf_fields.iterkeys():
     Cloud_dict[kkk] = Cloud(dx_pc, leaf_fields[kkk], int(kkk))
     print Cloud_dict[kkk]
-
+plt.close('all')
 
 # plotting
 fig = plt.figure()
 ax = fig.add_subplot(111)
 for kkk in leaf_fields.iterkeys():
     MMj = Cloud_dict[kkk].mass_Msun / Cloud_dict[kkk].M_jeans
-    ax.scatter(Cloud_dict[kkk].mass_Msun, MMj, s=70, alpha=0.7, c='r')
+    ax.scatter(Cloud_dict[kkk].mass_Msun, MMj, s=70, c='r', marker='*')
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
-ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]", fontsize=20)
-ax.set_ylabel(r"$M_{\rm cl} / $M$_J$", fontsize=20)
+ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+ax.set_ylabel(r"$M_{\rm cl} / $M$_J$")
+
+ax.set_xlim(1.0e3, 1.0e8)
+ax.set_ylim(10.0, 5.e6)
+
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + 'my_cloud_sample.png', bbox_inches="tight")
+fig.savefig(leafdir_out + 'my_cloud_sample.png', bbox_inches="tight")
 
 
 fig = plt.figure()
 
 ax = fig.add_subplot(111)
 for kkk in leaf_fields.iterkeys():
-
     ax.scatter(Cloud_dict[kkk].mass_Msun, Cloud_dict[kkk].alpha, s=70,
-               alpha=0.7, c='g')
+               c='r', marker='*')
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -101,9 +114,12 @@ ax.set_yscale("log")
 ax.set_xlabel("Cloud Mass [M$_{\odot}$]")
 ax.set_ylabel(r"$\alpha_{\rm vir}$")
 
+ax.set_xlim(1.e3, 1.e8)
+ax.set_ylim(0.5, 1.e2)
+
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + "alphaVir_CloudMass.png", bbox_inches="tight")
+fig.savefig(leafdir_out + "alphaVir_CloudMass.png", bbox_inches="tight")
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -113,21 +129,25 @@ _y = []
 _y2 = []
 
 for kkk in leaf_fields.iterkeys():
-    _x.appen(Cloud_dict[kkk].mass_Msun)
+    _x.append(Cloud_dict[kkk].mass_Msun)
     _y.append(np.array(Cloud_dict[kkk].SFR) / 1.0e6)
     _y2.append(np.array(Cloud_dict[kkk].SFR_JML) / 1.0e6)
 
 ax.plot(_x, _y, markersize=8, ls='',
-               alpha=0.7, c='r', marker="*", label="SFR KMM06")
+               c='r', marker="*", label="SFR KMM06")
 
 ax.plot(_x, _y2, ls='',
-               markersize=8, alpha=0.7, c='g', marker="*", label="SFR JML06")
+               markersize=8, c='g',
+               marker="*", label="SFR JML06")
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
+ax.set_xlim(1.e3, 1.e8)
+ax.set_ylim(1.e-3, 10.0)
+
 ax.set_xlabel(r"Cloud Mass [M$_{\odot}$]")
-ax.set_ylabel(r"Star Formation Rate [M$_{\odot}$ yr$^{-1}$]")
+ax.set_ylabel(r"SFR [M$_{\odot}$ yr$^{-1}$]")
 
 ax.legend(loc=2)
 
@@ -135,7 +155,7 @@ ax.legend(loc=2)
 # ax.set_ylim(1.0e-5, 1.0e1)
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + "SFR_CloudMass.png", bbox_inches="tight")
+fig.savefig(leafdir_out + "SFR_CloudMass.png", bbox_inches="tight")
 
 
 fig = plt.figure()
@@ -180,8 +200,8 @@ pc2kpc = 1.e-3
 
 
 ax.plot(x, y, '-b', linewidth=2, label="Kennicutt")
-ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, 'bo',
-        linewidth=2, alpha=0.7, label="MW Heiderman+2010")
+ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, 'b.',
+        linewidth=2, label="MW Heiderman+2010", markersize=10)
 
 _x = []
 _y = []
@@ -192,21 +212,23 @@ for kkk in leaf_fields.iterkeys():
               (np.pi * Cloud_dict[kkk].R_pc * pc2kpc)**2)
 
 ax.plot(_x, _y, ls='',
-        markersize=8, alpha=0.7, c='r', marker='*', label='This work')
+        markersize=8, c='r', marker='*', label='This work')
 
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
-ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]", fontsize=20)
+ax.tick_params(axis='both', which='both')   # direction='in'
+
+ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
 ax.set_ylabel(
-    r"$\Sigma_{\rm SFR}$ [M$_{\odot}$ yr$^{-1}$ kpc$^2$]", fontsize=20)
+    r"$\Sigma_{\rm SFR}$ [M$_{\odot}$ yr$^{-1}$ kpc$^2$]")
 
 ax.legend(loc="best")
 # ax.set_xlim(5.0e0, 1.0e3)
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + 'SurfSFR_SurfGas.png', bbox_inches="tight")
+fig.savefig(leafdir_out + 'SurfSFR_SurfGas.png', bbox_inches="tight")
 
 
 # Larson's relations
@@ -219,7 +241,7 @@ x = np.logspace(1, 3, 10)
 #y = 1.3e-2*x**0.38
 y = 1.01 * x**0.38
 
-ax.plot(x, y, '--k', linewidth=2, label='Larson $\sigma \propto L^{0.38}$')
+ax.plot(x, y, '--k', linewidth=2, label=r'Larson $\sigma \propto L^{0.38}$')
 
 # Add Swinbank+11
 litpath = 'literature/'
@@ -231,7 +253,7 @@ x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
 xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)
 
 # read in
-ax.scatter(xmark, ymark, label="SMM J2135-0102", color='r', marker='*', s=7)
+ax.scatter(xmark, ymark, label="SMM J2135-0102", color='g', marker='D', s=7)
 ax.scatter(x64, y64, label="M64", color='orange', marker='^', s=10)
 ax.scatter(xgc, ygc, label="Galactic Center", color='b', marker='o', s=7)
 ax.scatter(xegc, yegc, label="Extra-Galactic GMCs", color='k', marker='.', s=10)
@@ -239,48 +261,52 @@ ax.scatter(xegc, yegc, label="Extra-Galactic GMCs", color='k', marker='.', s=10)
 for kkk in leaf_fields.iterkeys():
     ax.scatter(Cloud_dict[kkk].R_pc * 2.0,
                np.sqrt(Cloud_dict[kkk].sigmaSq) * cm2km,
-               c='k', marker='o', alpha=0.6, s=30)
+               c='r', marker='*', alpha=0.75, s=80)
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
-ax.set_xlabel("Cloud Size [pc]", fontsize=20)
-ax.set_ylabel(r"$\sigma$ [km/s]", fontsize=20)
+ax.set_xlabel("Cloud Size [pc]")
+ax.set_ylabel(r"$\sigma$ [km/s]")
 
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
+ax.legend(loc="best")
 
-ax.legend(loc=1, fontsize=10)
-# ax.set_xlim(1.0e1, 1.0e3)
+ax.set_xlim(1.0, 1.0e3)
+ax.set_ylim(0.1, 7.e2)
+
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + 'LarsonsLike_plot.png', bbox_inches="tight")
+fig.savefig(leafdir_out + 'LarsonsLike_plot.png', bbox_inches="tight")
 
 
 # sigma_v - gas mass SD plot
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
+_x = []
+_y = []
+
 for kkk in leaf_fields.iterkeys():
-    ax.scatter(Cloud_dict[kkk].R_pc * 2.0,
-               Cloud_dict[kkk].massSD,
-               c='k', marker='o', alpha=0.6, s=30)
+    _x.append(Cloud_dict[kkk].R_pc * 2.0)
+    _y.append(Cloud_dict[kkk].massSD)
+
+ax.plot(_x, _y, ls='', c='r', marker='*', markersize=7, label="This work")
+
 
 # TODO: overplot Sun+18 relation from PHANGS+M51
-
 ax.set_xscale("log")
 ax.set_yscale("log")
 
-ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]", fontsize=20)
-ax.set_ylabel(r"$\sigma$ [km/s]", fontsize=20)
+ax.set_xlim(1, 1.e5)
+ax.set_ylim(1.0, 1.e4)
 
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
+ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
+ax.set_ylabel(r"$\sigma$ [km/s]")
 
-ax.legend(loc=1, fontsize=20)
+ax.legend(loc="best")
 plt.tight_layout()
 plt.show()
-fig.savefig(leafdir + 'veldisp_gasSD.png', bbox_inches="tight")
+fig.savefig(leafdir_out + 'veldisp_gasSD.png', bbox_inches="tight")
 
 
 # -----------
