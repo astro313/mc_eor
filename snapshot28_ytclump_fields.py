@@ -9,7 +9,7 @@ http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 
 After getting the finely gridded cube from resample_fields.py, use yt clump finder.
 
-Last mod: 10 July 2018
+Last mod: 11 July 2018
 
 NOTE
 ----
@@ -123,19 +123,23 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
             prj.annotate_clumps(leaf_clumps)
 
             for ileaf in range(len(leaf_clumps)):
-                _fc = leaf_clumps[ileaf].data.fcoords
-                _coordx = {'0': _fc[1], '1': _fc[2], '2': _fc[0]}
-                _coordy = {'0': _fc[2], '1': _fc[0], '2': _fc[1]}
-
-                prj.annotate_marker([_coordx[int(kk)], _coordy[int(kk)]],
+                _fc = leaf_clumps[ileaf].data.fcoords[0]
+                prj.annotate_marker(_fc,
                                     coord_system='data',
-                                    plot_args={'color': 'yellow', 's': 500})
-                prj.annotate_text([_coordx[int(kk)], _coordy[int(kk)]],
-                                    kk,
-                                    coord_system='data')
+                                    plot_args={'color': 'red', 's': 500})
+                prj.annotate_text(_fc,
+                                    ileaf,
+                                    coord_system='data',
+                                    text_args={'color': 'black', 'size': 8},
+                                    inset_box_args={'boxstyle': 'square',
+                                    'facecolor': 'white',
+                                    'linewidth': 2.0,
+                                    'edgecolor': 'white',
+                                    'alpha': 0.35})
             if saveplot:
-                prj.save(fold_out + 'clumps1_' + str(int(n_cut)) + '_' +
-                         str(int(step)) + '-' + str(int(N_cell_min)) + '_' + vv + 'axis.png')
+                prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) + \
+                        '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
+                        '_' + vv + 'axis.png')
             else:
                 prj.show()
 
@@ -259,7 +263,7 @@ if __name__ == '__main__':
 
             snapshot_num: snapshot file to load in, integer.
 
-            convert_unit: if true, convert from code unit to more commonly used units, depending on how fetch_gal_fields.py is implemented.
+            not_convert_unit: if true, convert NOT from code unit to more commonly used units, depending on how fetch_gal_fields.py is implemented.
 
             n_cut: threshold to look for clumps, in units of nH2/cc
 
@@ -276,8 +280,6 @@ if __name__ == '__main__':
             saveplot: if true, will save figure instead of showing it
 
             fold_out: directory to save figures
-
-            debug: if true, enter debug mode
 
         ''')
 
@@ -299,12 +301,14 @@ if __name__ == '__main__':
     parser.add_argument('snapshot_num', action="store", type=int,
                         help="snapshot number to load in (no default).")
 
-    parser.add_argument('not_convert_unit', action="store_true", default=False,
+    parser.add_argument('--not_convert_unit',
+                        action="store_true",
+                        default=False,
                         help="do NOT convert from code units to more commonly used units, depending on how fetch_gal_fields.py is implemented.")
 
     parser.add_argument('-nc', '--ncut', action="store", type=float,
                         default=n_cut_2,
-                        help="threshold to look for clumps, in units of nH2/cc")
+                        help="threshold to look for clumps, in units of nH2 [1/cc]")
 
     parser.add_argument('-s', '--step', action="store", type=int,
                         default=5,
@@ -330,20 +334,9 @@ if __name__ == '__main__':
                         default='test_png/',
                         help="directory to save plot files ending with /")
 
-    parser.add_argument('--debug', action="store_true", default=False,
-                        help="debug mode")
-
     args = parser.parse_args()
 
     # ---------------------------------------------------------------
-
-    if args.debug:
-        namefile = "output/output_000" + str(args.snapshot_num) + "/info_000" + str(args.snapshot_num) + ".txt"
-        myfile = namefile
-
-        print "Loading file,", myfile
-        pf = load(myfile)
-
 
     f = h5py.File("snapshot" + str(args.snapshot_num) + "_center_fields0123456-15_resampled.h5", "r")
     # careful sometimes i used "density" (e.g., resample.py), see
@@ -356,7 +349,6 @@ if __name__ == '__main__':
     velx = f["vel_x"].value
     vely = f["vel_y"].value
     velz = f["vel_z"].value
-
 
     if not args.not_convert_unit:
         import pymses
@@ -448,7 +440,11 @@ if __name__ == '__main__':
 
         pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_fields.p", "wb"))
 
-        pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_class.p", "wb"))
+        # pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_class.p", "wb"))
+        # can't dump the leaf class for some reason...
+        #   File "/mnt/home/daisyleung/Downloads/yt-conda/lib/python2.7/site-packages/yt/analysis_modules/level_sets/clump_handling.py", line 404, in __reduce__
+        #     self.valid, self.children, self.data, self.clump_info,
+        # AttributeError: 'Clump' object has no attribute 'clump_info'
 
 
 

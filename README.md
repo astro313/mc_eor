@@ -2,6 +2,26 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
+TODO: 
+- make all plots for different n_cut and snapshots: 
+  - ID clouds using surface density cut. (to implement)
+  - ID clouds using different n_H2 based on Euler Characteristic
+  - ID clouds using different N_cell_min
+    + perhaps at least 10 cells. Note 1 cell ~ 30 pc.
+  - ID clouds using total gas density of ~100 cm^-3 as cut (instead of Euler Characteristic of n_H2)?
+- repeat for the satellites as well
+
+
+
+July 11th 2018
+- tracing cloud evolution. We have finely sampled snapshots of 0.1 Myr or 0.5 Myr, but we don't have tracer particles..
+  + to track evolution of clouds, we could check by (w/ small delta_t between snapshots) 
+    1. visualizing the clouds identified in each snapshots by plotting
+    2. look at the cloud positions (e.g., fcoords or icoords) and velocity distributions, then calc. a pseudo upper limit on how far we expect the cloud to be displaced over that delta_t. Then, check neighboring cells to try to connect the clouds across snapshots.
+- worry that we may cut off/break up cloud into multiple components because of the selected n_threshold..
+  + we should probably look into how much variations do we see in the MC properties relations w/ different n_threshold (or n_cut).
+    * probably interesting to plot as one figure in the paper.
+
 July 8th 2018
 - note about LoG and DoG stuff: http://www.cse.psu.edu/~rtc12/CSE486/lecture11_6pp.pdf
 
