@@ -3,6 +3,7 @@
 See github commit and code doc for other progres.. lazy to update this README file.
 
 TODO: 
+- plot "cloud mass distribution"
 - make all plots for different n_cut and snapshots: 
   - ID clouds using surface density cut. (to implement)
   - ID clouds using different n_H2 based on Euler Characteristic
@@ -10,7 +11,6 @@ TODO:
     + perhaps at least 10 cells. Note 1 cell ~ 30 pc.
   - ID clouds using total gas density of ~100 cm^-3 as cut (instead of Euler Characteristic of n_H2)?
 - repeat for the satellites as well
-
 
 
 July 11th 2018
