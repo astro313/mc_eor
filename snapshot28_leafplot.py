@@ -18,7 +18,7 @@ TODO
 import matplotlib
 matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
                             , 'font.size': 22      # points
-                            , 'legend.fontsize': 16      # points
+                            , 'legend.fontsize': 14      # points
                             , 'lines.linewidth': 2       # points
                             , 'axes.linewidth': 2       # points
                             , 'text.usetex': True    # Use LaTeX to layout text
@@ -101,20 +101,27 @@ ax.set_yscale("log")
 ax.set_xlabel("Cloud Mass [M$_{\odot}$]")
 ax.set_ylabel(r"$\alpha_{\rm vir}$")
 
+plt.tight_layout()
 plt.show()
-plt.savefig(leafdir + "alphaVir_CloudMass.png", bbox_inches="tight")
+fig.savefig(leafdir + "alphaVir_CloudMass.png", bbox_inches="tight")
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
+_x = []
+_y = []
+_y2 = []
+
 for kkk in leaf_fields.iterkeys():
-    ax.scatter(Cloud_dict[kkk].mass_Msun,
-                np.array(Cloud_dict[kkk].SFR) / 1.0e6,
-                s=80,
-                alpha=0.7, c='r', marker="*")
-    ax.scatter(Cloud_dict[kkk].mass_Msun,
-                np.array(Cloud_dict[kkk].SFR_JML) / 1.0e6,
-                s=80, alpha=0.7, c='g', marker="*")
+    _x.appen(Cloud_dict[kkk].mass_Msun)
+    _y.append(np.array(Cloud_dict[kkk].SFR) / 1.0e6)
+    _y2.append(np.array(Cloud_dict[kkk].SFR_JML) / 1.0e6)
+
+ax.plot(_x, _y, markersize=8, ls='',
+               alpha=0.7, c='r', marker="*", label="SFR KMM06")
+
+ax.plot(_x, _y2, ls='',
+               markersize=8, alpha=0.7, c='g', marker="*", label="SFR JML06")
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -122,13 +129,11 @@ ax.set_yscale("log")
 ax.set_xlabel(r"Cloud Mass [M$_{\odot}$]")
 ax.set_ylabel(r"Star Formation Rate [M$_{\odot}$ yr$^{-1}$]")
 
-labels = ("SFR KMM06", "SFR JML06")
-markers = ("r*", "g*")
-ax.legend(markers, labels, loc=2)
+ax.legend(loc=2)
 
 # ax.set_xlim(1.0e3, 1.0e7)
 # ax.set_ylim(1.0e-5, 1.0e1)
-
+plt.tight_layout()
 plt.show()
 fig.savefig(leafdir + "SFR_CloudMass.png", bbox_inches="tight")
 
@@ -173,29 +178,33 @@ x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
 
 pc2kpc = 1.e-3
 
+
 ax.plot(x, y, '-b', linewidth=2, label="Kennicutt")
 ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, 'bo',
         linewidth=2, alpha=0.7, label="MW Heiderman+2010")
 
+_x = []
+_y = []
 for kkk in leaf_fields.iterkeys():
 
-    ax.scatter(np.array(Cloud_dict[kkk].massSD),
-               np.array(Cloud_dict[kkk].SFR) / 1.0e6 /
-               (np.pi * Cloud_dict[kkk].R_pc * pc2kpc)**2,
-               s=80, alpha=0.7, c='r', marker='*')
+    _x.append(Cloud_dict[kkk].massSD)
+    _y.append((Cloud_dict[kkk].SFR) / 1.0e6 /
+              (np.pi * Cloud_dict[kkk].R_pc * pc2kpc)**2)
+
+ax.plot(_x, _y, ls='',
+        markersize=8, alpha=0.7, c='r', marker='*', label='This work')
 
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
-ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^2$]", fontsize=20)
+ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]", fontsize=20)
 ax.set_ylabel(
     r"$\Sigma_{\rm SFR}$ [M$_{\odot}$ yr$^{-1}$ kpc$^2$]", fontsize=20)
 
-label = ("This Work")
-marker = ('r*')
-ax.legend(marker, label, loc=4)
+ax.legend(loc="best")
 # ax.set_xlim(5.0e0, 1.0e3)
+plt.tight_layout()
 plt.show()
 fig.savefig(leafdir + 'SurfSFR_SurfGas.png', bbox_inches="tight")
 
@@ -214,8 +223,10 @@ ax.plot(x, y, '--k', linewidth=2, label='Larson $\sigma \propto L^{0.38}$')
 
 # Add Swinbank+11
 litpath = 'literature/'
-xegc, yegc = np.loadtxt(litpath + 'ExtraGalacticGMCs.csv', delimiter=',', unpack=True)
-xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv', delimiter=',', unpack=True)
+xegc, yegc = np.loadtxt(litpath + 'ExtraGalacticGMCs.csv',
+                        delimiter=',', unpack=True)
+xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv',
+                      delimiter=',', unpack=True)
 x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
 xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)
 
@@ -241,10 +252,9 @@ plt.yticks(fontsize=15)
 
 ax.legend(loc=1, fontsize=10)
 # ax.set_xlim(1.0e1, 1.0e3)
-
+plt.tight_layout()
 plt.show()
 fig.savefig(leafdir + 'LarsonsLike_plot.png', bbox_inches="tight")
-
 
 
 # sigma_v - gas mass SD plot
@@ -268,11 +278,9 @@ plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 
 ax.legend(loc=1, fontsize=20)
-
+plt.tight_layout()
 plt.show()
 fig.savefig(leafdir + 'veldisp_gasSD.png', bbox_inches="tight")
-
-
 
 
 # -----------
