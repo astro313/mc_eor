@@ -153,6 +153,7 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
             pass
 
     import h5py
+    import os
     # if not exist, then create the .h5 file, else append mode
     if os.path.exists(outname):
         mode = "a"
@@ -299,7 +300,8 @@ def resam_vel_field(dx_vector, loc_vector, field_vector, axisname, outname,
         plt.title('vel_' + axisname)
         plt.show()
 
-    import h5py, os
+    import h5py
+    import os
     # if not exist, then create the .h5 file, else append mode
     if os.path.exists(outname):
         mode = "a"
