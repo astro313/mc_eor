@@ -53,6 +53,9 @@ class Cloud(object):
         self.velx = leaf_0_dict['velx']            # km/s
         self.vely = leaf_0_dict['vely']
         self.velz = leaf_0_dict['velz']
+        # plt.hist(self.velx)
+        # plt.show()
+        # import pdb; pdb.set_trace()
         self.vol_pc3()
         self.vol_cc()
         self.mass_Msun()
@@ -246,8 +249,8 @@ class Cloud(object):
     def __str__(self):
         print '\n', '=' * 100
         print "Calculated parameters of cloud   ", self.cl_indx
-        print "Mass                     =", self.mass_Msun, "  [Msun]"
-        print "Volume                   =", self.vol_cc, "  [cm^3]       ", self.vol_pc3, " [pc^3]"
+        print "Mass x 10^7              =", self.mass_Msun/1.e7, "  [Msun]"
+        print "Volume                   =", self.vol_pc3,   "  [pc^3]"
         print "Number of Cells          =", len(self.density)
         print "average density          =", self.avg_density, " [1/cm3]"
         print "Spherical radius         =", self.R_cm, " [cm]     ", self.R_pc, " [pc]"
@@ -270,7 +273,7 @@ class Cloud(object):
         print "sfr_tff       = ", self.sfr_ff, "          eq 41 in Krumholtz, Matzner & McKee 2006"
         print "SFR          = ", self.SFR / 1.e6, "          eq 42 ''     ''       ''        ''      [Msun/yr] "
         print ""
-        print "SFR simple    = ", self.SFR_JML/1.e6, "          as in Joung & Mac Low 2006, [Msun/yr]"
+        print "SFR simple 30% SFE   = ", self.SFR_JML/1.e6, "          as in Joung & Mac Low 2006, [Msun/yr]"
 
         return '=' * 100
 
