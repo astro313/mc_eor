@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 Plot_stuff = False
 debug = False
 
-fold_out = 'test_png'
+fold_out = 'test_png_28'
 
 # convert from code unit density to g/cc (depending on how
 # fetch_gal_fields.py is implemented.)
@@ -34,7 +34,7 @@ if debug:
     print "Loading file,", myfile
     pf = load(myfile)
 
-f_in = 'snapshot28_center_fields012345-15_resampled.h5'
+f_in = 'snapshot28_center_fields0123456-15_resampled.h5'
 
 f          = h5py.File(f_in, "r")
 density    = f["rho"].value
