@@ -7,7 +7,7 @@ Last mod: 13 July 2018
 
 import os
 import numpy as np
-from resample_fields import resam_each_field, resam_vel_field
+from resample_fields import resam_each_field
 import pickle
 
 folder = 'precomputed_data/'
@@ -27,7 +27,7 @@ for ssnum in snapshotToLoad:
     if os.path.exists(outname):
         os.system('rm ' + outname)
 
-    originalSize = [data[str(ssnum)]['size']]
+    originalSize = data[str(ssnum)]['size']
 
     #
     dx_vector = ds['dx_vector']
@@ -38,13 +38,13 @@ for ssnum in snapshotToLoad:
         fieldsDict[i] = ds[i]
 
     for kkk, vvv in fieldsDict.iteritems():
-        resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=False)
+        resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, originalSize, debug=False)
 
     # -- velocity --
     axes = {'vel_x': ds['vel'][:, 0], 'vel_y': ds['vel'][:, 1], 'vel_z': ds['vel'][:, 2]}
 
     for kkk, vvv in axes.iteritems():
-      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, originalSize, debug=True)
+      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, originalSize, debug=False)
 
 
 # ------
