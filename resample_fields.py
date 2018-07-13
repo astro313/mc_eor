@@ -191,7 +191,7 @@ if __name__ == '__main__':
       resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
 
     # -- velocity --
-    axes = {'velx': ds['vel'][:, 0], 'vely': ds['vel'][:, 1], 'velz': ds['vel'][:, 2]}
+    axes = {'vel_x': ds['vel'][:, 0], 'vel_y': ds['vel'][:, 1], 'vel_z': ds['vel'][:, 2]}
 
     for kkk, vvv in axes.iteritems():
       resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
