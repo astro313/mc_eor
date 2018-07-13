@@ -110,7 +110,7 @@ def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=Fals
     return celle
 
 
-def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=True):
+def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=False):
     """
 
     Parameters
@@ -145,21 +145,14 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
                                               'region_size': region_size},
                                    verbose=debug)
 
-    # (Pdb) cells_inside_camera.fields['vel'].shape
-    # (688726, 3)
-    # (Pdb) cells_inside_camera.fields['H2'].shape
-    # (688726,)
+    dx_vector  = cells_inside_camera.get_sizes() # width of the cells
+    loc_vector = cells_inside_camera.points      # position of the center of the cells
 
-    dx_vector = cells_inside_camera.get_sizes()
-    loc_vector = cells_inside_camera.points
-
-    dict_unit = get_units(ro=ro)
+    dict_unit  = get_units(ro=ro)                # unit dictionary to convert variables
 
     if debug:
-
         print "length of dx_vector: ", len(dx_vector)
         print "shape of x_vector: ", loc_vector.shape
-
         # check location
         print 'xmin, xmax', loc_vector[:, 0].min(), loc_vector[:, 0].max()
 
