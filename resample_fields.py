@@ -1,26 +1,15 @@
 '''
 
-resample AMR points to finest resolution, do so for other useful fields in addition to "density"
+resample AMR points to finest resolution.
 
-which ones do we need?
-
-'x-velocity'
-'y-velocity'
-'z-velocity'
-'Density'
-'H2'
-'Pressure'
-'Pressure_nt'
-
-
-last mod: 12 July 2018
+Last mod: 13 July 2018
 
 
 '''
 
 import numpy as np
 
-def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, originalSize=0.0015, debug=True):
+def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, originalSize, debug=True):
 
     """One liner description
 
@@ -59,18 +48,8 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
 
     highestRes = 2.**(-levels_uni.max())
     N          = originalSize / highestRes
-    if debug: 
+    if debug:
       print N
-
-    # make sure it's even number
-    # N = 196
-    #N = int(N)
-    #if N % 2:  # odd number
-    #    N += 1
-    #assert N % 2 == 0
-    #
-    #if debug: 
-    #  print N
 
     Ninit      = 1.*N / 2**len(levels_uni)
     Ninit      = int(np.ceil(Ninit))
@@ -78,12 +57,13 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
 
     imatrix = np.ones((2, 2, 2))
 
-    aa = Ninit
-    print 'init size',aa
-    for lll in np.sort(levels_uni):
-      aa = aa*2
-    print 'final size',aa
-    print levels_uni
+    if debug:
+        aa = Ninit
+        print 'init size',aa
+        for lll in np.sort(levels_uni):
+          aa = aa*2
+        print 'final size',aa
+        print levels_uni
 
     for lll in np.sort(levels_uni):
         if debug:
@@ -167,8 +147,20 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
 if __name__ == '__main__':
 
     # saved in fetch_gal_fields.py
-    ds = np.load('snapshot28_center_fields0123456-15.npz')
-    outname = "snapshot28_center_fields0123456-15_resampled.h5"
+    ssnum = 28
+    ds = np.load('snapshot' + str(ssnum) + '_center_fields0123456-15.npz')
+    outname = 'snapshot' + str(ssnum) + "_center_fields0123456-15_resampled.h5"
+
+    import os
+    import pickle
+
+    folder = 'precomputed_data/'
+    f_camera = folder + 'camera_settings.log'
+
+    with open(f_camera,'rb') as f:
+        data = pickle.load(f)
+
+    originalSize = [data[str(ssnum)]['size']]
 
     import os
     if os.path.exists(outname):
@@ -188,12 +180,12 @@ if __name__ == '__main__':
     # import pdb; pdb.set_trace()
 
     for kkk, vvv in fieldsDict.iteritems():
-      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
+      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, originalSize, debug=True)
 
     # -- velocity --
     axes = {'vel_x': ds['vel'][:, 0], 'vel_y': ds['vel'][:, 1], 'vel_z': ds['vel'][:, 2]}
 
     for kkk, vvv in axes.iteritems():
-      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
+      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, originalSize, debug=True)
 
 # ------
