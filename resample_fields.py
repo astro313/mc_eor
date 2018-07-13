@@ -12,12 +12,8 @@ which ones do we need?
 'Pressure'
 'Pressure_nt'
 
-'cell_volume'    << from yt only?
-'cell_mass'   << from yt only?
-'averaged_density'  << from yt only?
-'temperature'
 
-last mod: 9 July 2018
+last mod: 12 July 2018
 
 
 '''
@@ -148,6 +144,7 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
             pass
 
     import h5py
+    import os
     # if not exist, then create the .h5 file, else append mode
     if os.path.exists(outname):
         mode = "a"
@@ -167,38 +164,36 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
 
     return None
 
+if __name__ == '__main__':
 
-# saved in fetch_gal_fields.py
-ds      = np.load('snapshot28_center_fields0123456-15.npz')
-outname = "snapshot28_center_fields0123456-15_resampled.h5"
+    # saved in fetch_gal_fields.py
+    ds = np.load('snapshot28_center_fields0123456-15.npz')
+    outname = "snapshot28_center_fields0123456-15_resampled.h5"
 
-#
-dx_vector  = ds['dx_vector']
-loc_vector = ds['loc_vector']
+    import os
+    if os.path.exists(outname):
+        os.system('rm ' + outname)
 
-fields = ['rho', 'P_nt', 'P', 'H2', 'Z']
-# extract 'vel' separately below ..
+    #
+    dx_vector = ds['dx_vector']
+    loc_vector = ds['loc_vector']
 
-import os
-if os.path.exists(outname):
-    os.system('rm ' + outname)
+    fieldsToExtract = ['rho', 'P_nt', 'P', 'H2', 'Z']
 
+    fieldsDict = {}
+    for i in fieldsToExtract:
+        fieldsDict[i] = ds[i]
 
-fieldsDict = {}
-for i in fields:
-    fieldsDict[i] = ds[i]
+    # print fieldsDict
+    # import pdb; pdb.set_trace()
 
-# print fieldsDict
-# import pdb; pdb.set_trace()
+    for kkk, vvv in fieldsDict.iteritems():
+      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
 
-for kkk, vvv in fieldsDict.iteritems():
-    resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
+    # -- velocity --
+    axes = {'velx': ds['vel'][:, 0], 'vely': ds['vel'][:, 1], 'velz': ds['vel'][:, 2]}
 
-# -- velocity --
-axes = {'velx': ds['vel'][:, 0], 'vely': ds['vel'][:, 1], 'velz': ds['vel'][:, 2]}
-
-for kkk, vvv in axes.iteritems():
-    resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
-
+    for kkk, vvv in axes.iteritems():
+      resam_each_field(dx_vector, loc_vector, vvv, kkk, outname, debug=True)
 
 # ------
