@@ -27,11 +27,38 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import yt
-from yt.analysis_modules.level_sets.api import Clump, find_clumps, get_lowest_clumps, write_clump_index, write_clumps
+from yt.analysis_modules.level_sets.api import find_clumps, get_lowest_clumps, write_clump_index, write_clumps
 import h5py
 
 
-def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./'):
+from yt.analysis_modules.level_sets.api import Clump
+
+'''
+from yt.analysis_modules.level_sets.api import Clump as Clump_yt
+class Clump(Clump_yt):
+
+  def __init__(self, *arg):
+    Clump_yt.__init__(self,*arg)
+    self._function   = None
+    self.___reduce__ = None
+    self.aaaaaa      = 'aaaaaa'
+  # over-write broken method and property (otherwise no dump)
+  @property
+  def __reduce__(self):
+    return None
+  @__reduce__.setter
+  def __reduce__(self):
+    return None
+
+  @property
+  def function(self):
+    return None
+  @function.setter
+  def function(self):
+    return None
+'''
+
+def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./', verbose = False):
     '''
 
     The way it's implemented now only works for single "density" field.
@@ -76,6 +103,9 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
 
     '''
 
+    if verbose:
+      from time import time
+
     if plot:
         assert saveplot is not None
 
@@ -95,7 +125,13 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     # weed out clumps < N_cell_min cells.
     master_clump.add_validator("min_cells", N_cell_min)
 
+    if verbose:
+      print 'find_clumps()'
+      t0 = time()
     find_clumps(master_clump, c_min, c_max, step)
+    if verbose:
+      print '  done'
+      print '  time taken', (time()-t0)/60 ,'min'
 
     if save:
 
@@ -107,7 +143,13 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
 
     # traverse clump hierarchy to get list of all 'leaf' clumps, which are the
     # individual clumps that have no children of their own
+    if verbose:
+      print 'get_lowest_clumps()'
+      t0 = time()
     leaf_clumps = get_lowest_clumps(master_clump)
+    if verbose:
+      print '  done'
+      print '  time taken', (time()-t0)/60 ,'min'
 
     def plotclumps(ds, leaf_clumps, field=field, saveplot=saveplot, fold_out=fold_out):
         """ overplot the clumps found (specifically the leaf_clumps) along 3 images, each created by projecting onto x-, y-, and z-axis. """
@@ -190,7 +232,6 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
 
     """
 
-    subleaf = subleaf
     _leaf_fields = {'density': None,
                     'H2density': None,
                     'Pressure': None,
@@ -211,11 +252,11 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
     for fff in _leaf_fields.iterkeys():
         _leaf_fields[fff] = eval(fff)[ii, jj, kk]
 
-    _h2_subleaf = subleaf.data['h2density']
-    h2_subleaf = _leaf_fields['H2density']
-    assert round(_h2_subleaf[0]) == round(h2_subleaf[0])
-    del h2_subleaf
-    del _h2_subleaf
+    #_h2_subleaf = subleaf.data['h2density']
+    #h2_subleaf = _leaf_fields['H2density']
+    #assert round(_h2_subleaf[0]) == round(h2_subleaf[0])
+    #del h2_subleaf
+    #del _h2_subleaf
 
     if plothist:
         # hard code for now
@@ -334,21 +375,28 @@ if __name__ == '__main__':
                         default='test_png/',
                         help="directory to save plot files ending with /")
 
+    parser.add_argument('--verbose', action="store_true", default=False,
+                        help="verbose option")
+
+
     args = parser.parse_args()
 
     # ---------------------------------------------------------------
 
+
+    if(args.verbose):
+      print 'loading file'
     f = h5py.File("snapshot" + str(args.snapshot_num) + "_center_fields0123456-15_resampled.h5", "r")
     # careful sometimes i used "density" (e.g., resample.py), see
     # resample_fields.py to make sure
-    density = f["rho"].value
-    H2 = f["H2"].value
-    Pressure = f["P"].value
-    P_nt = f["P_nt"].value
+    density     = f["rho"].value
+    H2          = f["H2"].value
+    Pressure    = f["P"].value
+    P_nt        = f["P_nt"].value
     metallicity = f["Z"].value
-    velx = f["vel_x"].value
-    vely = f["vel_y"].value
-    velz = f["vel_z"].value
+    velx        = f["vel_x"].value
+    vely        = f["vel_y"].value
+    velz        = f["vel_z"].value
 
     if not args.not_convert_unit:
         import pymses
@@ -373,13 +421,14 @@ if __name__ == '__main__':
         print np.log10(Pressure.max()), np.log10(P_nt.max())
 
 
-    data = dict(density=density, H2=H2,
-                P=Pressure,
-                P_nt=P_nt,
-                Z=metallicity,
-                velx=velx,
-                vely=vely,
-                velz=velz)
+    data = dict(density = density, H2=H2,
+                P       = Pressure,
+                P_nt    = P_nt,
+                Z       = metallicity,
+                velx    = velx,
+                vely    = vely,
+                velz    = velz
+                )
 
     ds = yt.load_uniform_grid(data, f["rho"].shape)
     dd = ds.all_data()
@@ -399,7 +448,6 @@ if __name__ == '__main__':
 
     assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
 
-
     # -------------- run clump finder -------------
     # master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
     #                                 n_cut=n_cut_1,
@@ -409,6 +457,12 @@ if __name__ == '__main__':
     #                                 saveplot=True,
     #                                 fold_out=fold_out)
 
+    assert isinstance(args.fold_out,str)
+    if not os.path.isdir(args.fold_out):
+      os.mkdir(args.fold_out)
+
+    if(args.verbose):
+      print 'start clumpfinder'
     # --- repeat for n_cut_2 ---
     master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=args.ncut,
@@ -416,8 +470,12 @@ if __name__ == '__main__':
                                     N_cell_min=args.Nmin,
                                     plot=args.plot,
                                     saveplot=args.saveplot,
-                                    fold_out=args.fold_out)
+                                    fold_out=args.fold_out, verbose= args.verbose)
+    if(args.verbose):
+      print '  complete'
 
+    if(args.verbose):
+      print '  compute properties'
     # to retreive physical properties of leaf
     leaf_fields = {}
     for n_leaf in range(len(leaf5)):
@@ -431,7 +489,8 @@ if __name__ == '__main__':
     print "saved leaf fields: ", leaf_fields['0'].keys()
 
     if args.savepickle:
-        import cPickle as pickle
+        #import cPickle as pickle
+        import pickle
 
         outdir = "leaf_fields_" + str(args.snapshot_num) + "/"
 
@@ -440,7 +499,13 @@ if __name__ == '__main__':
 
         pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_fields.p", "wb"))
 
-        # pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_class.p", "wb"))
+        #for i in xrange(len(leaf5)):
+        #  leaf5[i].set_default_clump_info()
+        # 
+        # __reduce__ want to use self.function which is not defined
+        # i did not manage to overwrite the class
+
+        #pickle.dump(leaf5, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_class.p", "wb"))
         # can't dump the leaf class for some reason...
         #   File "/mnt/home/daisyleung/Downloads/yt-conda/lib/python2.7/site-packages/yt/analysis_modules/level_sets/clump_handling.py", line 404, in __reduce__
         #     self.valid, self.children, self.data, self.clump_info,
