@@ -160,7 +160,7 @@ if __name__ == '__main__':
     with open(f_camera,'rb') as f:
         data = pickle.load(f)
 
-    originalSize = [data[str(ssnum)]['size']]
+    originalSize = data[str(ssnum)]['size']
 
     import os
     if os.path.exists(outname):
