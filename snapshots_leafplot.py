@@ -8,8 +8,6 @@ NOTE
 ----
 - hard-code to get dx for now...
 
-- plot cloud mass distribution
-
 '''
 
 import matplotlib
@@ -413,8 +411,10 @@ for ks in iter(sorted(ss.iterkeys())):
         _x.append(ss[ks][kkk].tff_Myr)
         _y.append(ss[ks][kkk].R_pc)
         _z.append(ss[ks][kkk].mass_Msun)
-    cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(), marker='*',
-          label='snapshot: ' + str(ks))
+
+    cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(),
+                     marker='*',
+                     label='snapshot: ' + str(ks))
 
 # ax.set_xscale("log")
 ax.set_yscale("log")
@@ -497,6 +497,56 @@ ax.legend(loc="best")
 plt.tight_layout()
 plt.show()
 fig.savefig(leafdir_out + 'PVE-like.png', bbox_inches="tight")
+
+
+# --- Cloud mass distribution, of clouds ID across all snapshots -----
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+allmasses = []
+for snap in ss.iterkeys():
+    for snapleafs in ss[snap].iterkeys():
+        allmasses.append(ss[snap][snapleafs].mass_Msun)
+allmasses = np.array(allmasses)
+
+# unbinned CDF
+X2 = np.sort(allmasses)
+F2 = np.array(range(len(allmasses)))/float(len(allmasses))
+ax.plot(X2, F2, label='unbinned CDF', lw=2, alpha=1, zorder=2)
+
+# binned CDF
+H, X1 = np.histogram(allmasses, bins=10, normed=True)
+dx = X1[1] - X1[0]
+F1 = np.cumsum(H) * dx
+ax.plot(X1[1:], F1, label='binned CDF, bins=10', lw=2.0, alpha=0.9, zorder=3)
+
+H, X1 = np.histogram(allmasses, bins=50, normed=True)
+dx = X1[1] - X1[0]
+F1 = np.cumsum(H) * dx
+ax.plot(X1[1:], F1, label='binned CDF, bins=50', lw=2.0, alpha=0.9, zorder=3)
+
+H, X1 = np.histogram(allmasses, bins=100, normed=True)
+dx = X1[1] - X1[0]
+F1 = np.cumsum(H) * dx
+ax.plot(X1[1:], F1, label='binned CDF, bins=100', lw=2.0, alpha=0.9, zorder=3)
+
+H, X1 = np.histogram(allmasses, bins=200, normed=True)
+dx = X1[1] - X1[0]
+F1 = np.cumsum(H) * dx
+ax.plot(X1[1:], F1, label='binned CDF, bins=200', lw=2.0, alpha=0.9, zorder=3)
+
+ax.set_xscale("log")
+ax.set_yscale("log")
+
+ax.set_xlabel(r"$M_{\rm cl}$ [M$_\odot$]")
+ax.set_ylabel("CDF")
+
+ax.set_xlim(allmasses.min(), allmasses.max())
+
+ax.legend(loc="best")
+plt.tight_layout()
+plt.show()
+fig.savefig(leafdir_out + 'MassDistribution.png', bbox_inches="tight")
 
 
 # -----------
