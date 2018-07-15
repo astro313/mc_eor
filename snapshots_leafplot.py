@@ -2,7 +2,7 @@
 
 plot physical properties of clouds across all snapshots, identified using same way (ncut, steps, etc).
 
-last mod: 12 July 2018
+last mod: 15 July 2018
 
 NOTE
 ----
@@ -84,7 +84,6 @@ for issnum in range(16, 29):
     ss[str(issnum)] = Cloud_dict
 
 
-
 NUM_COLORS = len(range(16, 29))
 cm = plt.get_cmap('gist_rainbow')
 
@@ -92,15 +91,16 @@ cm = plt.get_cmap('gist_rainbow')
 plt.close('all')
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        MMj = Cloud_dict[kkk].mass_Msun / Cloud_dict[kkk].M_jeans
+    for kkk in ss[ks].iterkeys():
+        print ss[ks][kkk]
+        MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
         _y.append(MMj)
-        _x.append(Cloud_dict[kkk].mass_Msun)
+        _x.append(ss[ks][kkk].mass_Msun)
     ax.plot(_x, _y, ls='', markersize=7, marker='*', label="snapshot: " + ks)
 
 ax.set_xscale("log")
@@ -112,6 +112,8 @@ ax.set_ylabel(r"$M_{\rm cl} / $M$_J$")
 ax.set_xlim(1.0e3, 1.0e8)
 ax.set_ylim(10.0, 5.e6)
 
+ax.legend(loc='best')
+
 plt.tight_layout()
 plt.show()
 fig.savefig(leafdir_out + 'my_cloud_sample.png', bbox_inches="tight")
@@ -119,14 +121,14 @@ fig.savefig(leafdir_out + 'my_cloud_sample.png', bbox_inches="tight")
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _y.append(Cloud_dict[kkk].alpha)
-        _x.append(Cloud_dict[kkk].mass_Msun)
+    for kkk in ss[ks].iterkeys():
+        _y.append(ss[ks][kkk].alpha)
+        _x.append(ss[ks][kkk].mass_Msun)
     ax.plot(_x, _y, ls='', markersize=7, marker='*', label="snapshot: " + ks)
 
 ax.set_xscale("log")
@@ -138,6 +140,8 @@ ax.set_ylabel(r"$\alpha_{\rm vir}$")
 ax.set_xlim(1.e3, 1.e8)
 ax.set_ylim(0.5, 1.e2)
 
+ax.legend(loc="best")
+
 plt.tight_layout()
 plt.show()
 fig.savefig(leafdir_out + "alphaVir_CloudMass.png", bbox_inches="tight")
@@ -145,19 +149,19 @@ fig.savefig(leafdir_out + "alphaVir_CloudMass.png", bbox_inches="tight")
 # ---
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    _y2 = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].mass_Msun)
-        _y.append(np.array(Cloud_dict[kkk].SFR) / 1.0e6)
-        _y2.append(np.array(Cloud_dict[kkk].SFR_JML) / 1.0e6)
+    # _y2 = []
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].mass_Msun)
+        _y.append(np.array(ss[ks][kkk].SFR) / 1.0e6)  # to be replaced using LIR
+        # _y2.append(np.array(ss[ks][kkk].SFR_JML) / 1.0e6)
 
     ax.plot(_x, _y, ls='', markersize=7, marker='*', label="snapshot: " + ks)
-    ax.plot(_x, _y2, ls='', markersize=8, marker="D") #, label="SFR JML06")
+    # ax.plot(_x, _y2, ls='', markersize=8, marker="D") #, label="SFR JML06")
 
 
 ax.set_xscale("log")
@@ -169,7 +173,7 @@ ax.set_ylim(1.e-3, 10.0)
 ax.set_xlabel(r"Cloud Mass [M$_{\odot}$]")
 ax.set_ylabel(r"SFR [M$_{\odot}$ yr$^{-1}$]")
 
-ax.legend(loc=2)
+ax.legend(loc='best')
 
 # ax.set_xlim(1.0e3, 1.0e7)
 # ax.set_ylim(1.0e-5, 1.0e1)
@@ -223,18 +227,18 @@ ax.plot(x, y, '-b', linewidth=2, label="Kennicutt 1998")  # \citep{SK}
 ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, 'b.',
         linewidth=2, label="MW Heiderman+2010", markersize=10)
 
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].massSD)
-        _y.append((Cloud_dict[kkk].SFR) / 1.0e6 /
-                  (np.pi * Cloud_dict[kkk].R_pc * pc2kpc)**2)
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].massSD)
+        _y.append((ss[ks][kkk].SFR) / 1.0e6 /
+                  (np.pi * ss[ks][kkk].R_pc * pc2kpc)**2)
 
     ax.plot(_x, _y, ls='',
-        markersize=8, c='r', marker='*', label='snapshot: ' + str(ks))
+            markersize=8, marker='*', label='snapshot: ' + str(ks))
 
 
 ax.set_xscale("log")
@@ -293,31 +297,34 @@ xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)
 
 
 # read in
-ax.scatter(xmark, ymark, label="SMM J2135-0102", color='g', marker='D', s=7)
+ax.scatter(xmark, ymark, label="SMM J2135-0102", color='magenta', marker='D', s=10)
 ax.scatter(x64, y64, label="M64", color='orange', marker='^', s=10)
 ax.scatter(xgc, ygc, label="Heyer Galactic Center", color='b', marker='o', s=7)
 ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
            color='k', marker='.', s=10)
 
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].R_pc * 2.0)
-        _y.append(np.sqrt(Cloud_dict[kkk].sigmaSq) * cm2km)
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].R_pc * 2.0)
+        _y.append(np.sqrt(ss[ks][kkk].sigmaSq) * cm2km)
 
-        ax.plot(_x, _y, ls='',
-        markersize=10, c='r', marker='*', label='snapshot: ' + str(ks))
+    ax.plot(_x, _y, ls='',
+        markersize=10, marker='*', label='snapshot: ' + str(ks))
 
 ax.set_xscale("log")
 ax.set_yscale("log")
 
 ax.set_xlabel("Cloud Size [pc]")
-ax.set_ylabel(r"$\sigma$ [km/s]")
+ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
 
-ax.legend(loc="best", ncol=3, fontsize=9)
+# Shrink current axis by 20%
+box = ax.get_position()
+# ax.set_position([box.x0, box.y0 + 0.25, box.width, box.height])
+ax.legend(loc="upper center", ncol=4, fontsize=9, bbox_to_anchor=(0.5, -0.18))
 
 ax.set_xlim(1.0, 1.0e3)
 ax.set_ylim(0.1, 7.e2)
@@ -330,16 +337,16 @@ fig.savefig(leafdir_out + 'LarsonsLike_plot.png', bbox_inches="tight")
 # --- sigma_v - gas mass SD plot ---
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].R_pc * 2.0)
-        _y.append(Cloud_dict[kkk].massSD)
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].R_pc * 2.0)
+        _y.append(ss[ks][kkk].massSD)
 
-    ax.plot(_x, _y, ls='', markersize=10, c='r',
+    ax.plot(_x, _y, ls='', markersize=10,
             marker='*', label='snapshot: ' + str(ks))
 
 # # overplot Sun+18 relation from PHANGS+M51
@@ -354,7 +361,7 @@ ax.set_xlim(1, 1.e5)
 ax.set_ylim(1.0, 1.e4)
 
 ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
-ax.set_ylabel(r"$\sigma$ [km/s]")
+ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
 
 ax.legend(loc="best")
 plt.tight_layout()
@@ -365,16 +372,16 @@ fig.savefig(leafdir_out + 'veldisp_gasSD.png', bbox_inches="tight")
 # --- Mgas - R^2 relation --
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].R_pc * 2.0)
-        _y.append(Cloud_dict[kkk].mass_Msun)
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].R_pc * 2.0)
+        _y.append(ss[ks][kkk].mass_Msun)
     ax.plot(_x, _y, ls='', markersize=10,
-            c='r', marker='*', label='snapshot: ' + str(ks))
+            marker='*', label='snapshot: ' + str(ks))
 
 ax.set_xscale("log")
 ax.set_yscale("log")
@@ -396,20 +403,18 @@ from matplotlib.ticker import NullFormatter
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
     _z = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].tff_Myr)
-        _y.append(Cloud_dict[kkk].R_pc)
-        _z.append(Cloud_dict[kkk].mass_Msun)
-    cax = ax.scatter(_x, _y, c=np.array(_z), marker='*', s=40, label='snapshot: ' + str(ks))
-    # cbar = fig.colorbar(cax, ticks=[0.5e7, 1.0e7, 1.5e7, 2.0e7])
-    # cbar.ax.set_yticklabels(['0.5', '1.0', '1.5', '2.0'])
-    # cbar.set_label(r'$\times$10$^7$ [M$_\odot$]')   # rotation=270
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].tff_Myr)
+        _y.append(ss[ks][kkk].R_pc)
+        _z.append(ss[ks][kkk].mass_Msun)
+    cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(), marker='*',
+          label='snapshot: ' + str(ks))
 
 # ax.set_xscale("log")
 ax.set_yscale("log")
@@ -424,7 +429,7 @@ ax.yaxis.set_minor_formatter(NullFormatter())
 ax.set_xlabel(r"$t_{\rm ff}$ [Myr]")
 ax.set_ylabel(r"$R$ [pc]")
 
-# ax.legend(loc="best")
+ax.legend(loc="best")
 plt.tight_layout()
 plt.show()
 fig.savefig(leafdir_out + 'R-tff-Mass.png', bbox_inches="tight")
@@ -465,18 +470,18 @@ sd_cgs = np.logspace(-3, 1.0, 30)
 xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
 ax.scatter(xxx, yyy, marker='.', color='k', s=7, label='Heyer+09 GRS')
 
-ax.set_color_cycle([cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
+ax.set_prop_cycle('color', [cm(1.*i/NUM_COLORS) for i in range(NUM_COLORS)])
 
-for ks in ss.iterkeys():
+for ks in iter(sorted(ss.iterkeys())):
     _x = []
     _y = []
-    for kkk in leaf_fields.iterkeys():
-        _x.append(Cloud_dict[kkk].massSD *
-              Cloud_dict[kkk].Msun2g / (Cloud_dict[kkk].pc2cm)**2)
-        _y.append(Cloud_dict[kkk].sigmaSq / (1.e5)**2 / Cloud_dict[kkk].R_pc)
+    for kkk in ss[ks].iterkeys():
+        _x.append(ss[ks][kkk].massSD *
+              ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
+        _y.append(ss[ks][kkk].sigmaSq / (1.e5)**2 / ss[ks][kkk].R_pc)
 
     ax.plot(_x, _y, ls='', markersize=10,
-            c='r', marker='*', label='snapshot: ' + str(ks))
+            marker='*', label='snapshot: ' + str(ks))
 
 ax.set_xscale("log")
 ax.set_yscale("log")
