@@ -451,4 +451,13 @@ ax.set_xlim(10**-3, 10**1.5)
 ax.set_ylim(10**-1.5, 10**2.5)
 # ax.yaxis.set_minor_formatter(NullFormatter())
 
-ax.se
+ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
+ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
+
+ax.legend(loc="best")
+plt.tight_layout()
+plt.show()
+fig.savefig(leafdir_out + 'PVE-like.png', bbox_inches="tight")
+
+
+# -----------
