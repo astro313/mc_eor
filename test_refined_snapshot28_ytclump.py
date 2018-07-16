@@ -142,74 +142,74 @@ def ytclumpfind(ds, dd, field=('density'), n_cut=100, step=10, N_cell_min=20, sa
 
     return master_clump, leaf_clumps
 
-
-master10, leaf10 = ytclumpfind(ds, dd, ("density"),
+if __name__ == "__main__"
+  master10, leaf10 = ytclumpfind(ds, dd, ("density"),
                                n_cut=100,
                                step=10,
                                N_cell_min=20,
                                plot=True,
                                saveplot=True)
 
-print(master10.children)
-print(master10.children[0]['density'])    # children
-print(master10.children[0].children[0]['density'])   # sub-children
+  print(master10.children)
+  print(master10.children[0]['density'])    # children
+  print(master10.children[0].children[0]['density'])   # sub-children
 
-# traverse the entire clump tree .
-for clump in master10:
+  # traverse the entire clump tree .
+  for clump in master10:
     # print(clump.total_clumps)
     print(clump.clump_id)
 
-write_clump_index(master10, 0, "master10_clump_hierarchy.txt")
-write_clumps(master10, 0,  "master10_clumps.txt")
+  write_clump_index(master10, 0, "master10_clump_hierarchy.txt")
+  write_clumps(master10, 0,  "master10_clumps.txt")
 
-import os
-os.system('cat *_clump_hierarchy.txt')
-os.system('cat *_clumps.txt')
+  import os
+  os.system('cat *_clump_hierarchy.txt')
+  os.system('cat *_clumps.txt')
 
 
-# look at leave prop.
-print("see more.. in http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html")
+  # look at leave prop.
+  print("see more.. in http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html")
 
-for ind in range(len(leaf10)):
+  for ind in range(len(leaf10)):
     print(leaf10[ind]["density"])
     print(leaf10[ind].quantities.total_mass())
     print(leaf10[ind].quantities.center_of_mass())
 
 
-master20, leaf20 = ytclumpfind(ds, dd, ("density"),
+  master20, leaf20 = ytclumpfind(ds, dd, ("density"),
                                n_cut=100,
                                step=20,
                                N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master20, 0, "master20_clump_hierarchy.txt")
-write_clumps(master20, 0,  "master20_clumps.txt")
+  write_clump_index(master20, 0, "master20_clump_hierarchy.txt")
+  write_clumps(master20, 0,  "master20_clumps.txt")
 
-master30, leaf30 = ytclumpfind(ds, dd, ("density"),
+  master30, leaf30 = ytclumpfind(ds, dd, ("density"),
                                n_cut=100,
                                step=30,
                                N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master30, 0, "master30_clump_hierarchy.txt")
-write_clumps(master30, 0,  "master30_clumps.txt")
+  write_clump_index(master30, 0, "master30_clump_hierarchy.txt")
+  write_clumps(master30, 0,  "master30_clumps.txt")
 
-master70, leaf70 = ytclumpfind(ds, dd, ("density"),
+  master70, leaf70 = ytclumpfind(ds, dd, ("density"),
                                 n_cut=100,
                                 step=70,
                                 N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master70, 0, "master70_clump_hierarchy.txt")
-write_clumps(master70, 0,  "master70_clumps.txt")
+  write_clump_index(master70, 0, "master70_clump_hierarchy.txt")
+  write_clumps(master70, 0,  "master70_clumps.txt")
 
-master100, leaf100 = ytclumpfind(ds, dd, ("density"),
+  master100, leaf100 = ytclumpfind(ds, dd, ("density"),
                                  n_cut=100,
                                  step=100,
                                  N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master100, 0, "master100_clump_hierarchy.txt")
-write_clumps(master100, 0,  "master100_clumps.txt")
+  write_clump_index(master100, 0, "master100_clump_hierarchy.txt")
+  write_clumps(master100, 0,  "master100_clumps.txt")
 
 
-master200, leaf200 = ytclumpfind(ds, dd, ("density"),
+  master200, leaf200 = ytclumpfind(ds, dd, ("density"),
                                  n_cut=100,
                                  step=200,
                                  N_cell_min=20, plot=True, saveplot=True)
-write_clump_index(master200, 0, "master200_clump_hierarchy.txt")
-write_clumps(master200, 0,  "master200_clumps.txt")
+  write_clump_index(master200, 0, "master200_clump_hierarchy.txt")
+  write_clumps(master200, 0,  "master200_clumps.txt")
 
 
