@@ -8,7 +8,7 @@ last mod: 16 July 2018
 import numpy as np
 
 
-def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_fields0123456-15_resampled.h5", verbose=True):
+def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_fields0123456-15_resampled.h5", verbose=True, convert = True):
 
     import pymses
     from pymses.utils import constants as C
@@ -36,26 +36,27 @@ def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_f
 
     ro = pymses.RamsesOutput(folder_ramsesdata, isnap)
 
-    factor_density, unit_dens = get_units(ro=ro)['rho']      # 1/cm^3 (not H/cm^3)
-    density *= factor_density
-    if(verbose):
-        print 'max density'
-        print density.max(), unit_dens
-
-    factor_vel, unit_vel = get_units(ro=ro)['vel']
-    velx *= factor_vel
-    vely *= factor_vel
-    velz *= factor_vel
-    if(verbose):
-        print 'max vel'
-        print velx.max(), vely.max(), velz.max(), unit_vel
-
-    factor_P, unit_P = get_units(ro=ro)['P']
-    Pressure *= factor_P
-    P_nt *= factor_P
-    if(verbose):
-        print 'max P, P_nt'
-        print np.log10(Pressure.max()), np.log10(P_nt.max()), unit_P
+    if convert:
+      factor_density, unit_dens = get_units(ro=ro)['rho']      # 1/cm^3 (not H/cm^3)
+      density *= factor_density
+      if(verbose):
+          print 'max density'
+          print density.max(), unit_dens
+  
+      factor_vel, unit_vel = get_units(ro=ro)['vel']
+      velx *= factor_vel
+      vely *= factor_vel
+      velz *= factor_vel
+      if(verbose):
+          print 'max vel'
+          print velx.max(), vely.max(), velz.max(), unit_vel
+  
+      factor_P, unit_P = get_units(ro=ro)['P']
+      Pressure *= factor_P
+      P_nt *= factor_P
+      if(verbose):
+          print 'max P, P_nt'
+          print np.log10(Pressure.max()), np.log10(P_nt.max()), unit_P
 
     data = dict(density=density, H2=H2,
                 P=Pressure,
