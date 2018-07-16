@@ -9,7 +9,7 @@ http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 
 After getting the finely gridded cube from resample_fields.py, use yt clump finder.
 
-Last mod: 11 July 2018
+Last mod: 16 July 2018
 
 NOTE
 ----
@@ -57,7 +57,17 @@ class Clump(Clump_yt):
     return None
 '''
 
-def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./', verbose = False):
+
+def col_f(ii, cm=None):
+    """
+    get a different color for each indx, ii
+    """
+    if cm is None:
+        cm = plt.get_cmap('gist_heat')
+    return cm(ii)
+
+
+def ytclumpfind_H2(ds, dd, field, n_cut, cmax=None, step=10, N_cell_min=20, save=False, plot=True, saveplot=None, fold_out='./', verbose=False):
     '''
 
     The way it's implemented now only works for single "density" field.
@@ -74,6 +84,8 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     n_cut: float or int
         defines lowest contour level to start searching from.
         e.g., density to cut the clouds.
+
+    cmax: float
 
     step: int
         multiplicative interval between subsequent contours
@@ -103,7 +115,7 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     '''
 
     if verbose:
-      from time import time
+        from time import time
 
     if plot:
         assert saveplot is not None
@@ -111,7 +123,11 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     # c_min = 10**np.floor(np.log10(dd[field]).min()  )
     # c_max = 10**np.floor(np.log10(dd[field]).max()+1)
     if n_cut < 1.e-5:
-        n_cut = 1.0    # to make sure whatever comes out after multiplicative by step won't be too small
+        print("n_cut may be too low?")
+        raise UserWarning    # to make sure whatever comes out after multiplicative by step won't be too small
+
+    assert step > 1.0   # since it's multiplicative
+
     c_min = n_cut
     c_max = (dd[field]).max()
 
@@ -125,12 +141,12 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     master_clump.add_validator("min_cells", N_cell_min)
 
     if verbose:
-      print 'find_clumps()'
-      t0 = time()
+        print 'find_clumps()'
+        t0 = time()
     find_clumps(master_clump, c_min, c_max, step)
     if verbose:
-      print '  done'
-      print '  time taken', (time()-t0)/60 ,'min'
+        print '  done'
+        print '  time taken', (time() - t0) / 60, 'min'
 
     if save:
 
@@ -143,14 +159,24 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
     # traverse clump hierarchy to get list of all 'leaf' clumps, which are the
     # individual clumps that have no children of their own
     if verbose:
-      print 'get_lowest_clumps()'
-      t0 = time()
+        print 'get_lowest_clumps()'
+        t0 = time()
     leaf_clumps = get_lowest_clumps(master_clump)
-    if verbose:
-      print '  done'
-      print '  time taken', (time()-t0)/60 ,'min'
 
-    def plotclumps(ds, leaf_clumps, field=field, saveplot=saveplot, fold_out=fold_out):
+    if verbose:
+        print '  done'
+        print '  time taken', (time() - t0) / 60, 'min'
+
+        print 'ncut = ', n_cut
+        print '  N clumps', len(leaf_clumps)
+        for i in xrange(len(leaf_clumps)):
+            print '    id     ', i
+            print '    len    ', len(leaf_clumps[i]["h2density"])
+            print '    max H2density', np.max(leaf_clumps[i]["h2density"])
+            print '    min H2density', np.min(leaf_clumps[i]["h2density"])
+
+
+    def plotclumps(ds, leaf_clumps, field=field, saveplot=saveplot, fold_out=fold_out, verbose=False):
         """ overplot the clumps found (specifically the leaf_clumps) along 3 images, each created by projecting onto x-, y-, and z-axis. """
 
         axes = {'0': 'x', '1': 'y', '2': 'z'}
@@ -160,29 +186,52 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
             prj = yt.ProjectionPlot(ds,
                                     int(kk),
                                     field,
-                                    center='c')
+                                    center='c',
+                                    weight_field='density')
 
-            prj.annotate_clumps(leaf_clumps)
-            prj.zoom(3)
+            # prj.annotate_clumps(leaf_clumps) << buggy, sometimes won't plot
+            # all the clumps, so instead, we loop through all of them and plot
+            # each separately
+            prj.zoom(2)
 
-            for ileaf in range(len(leaf_clumps)):
-                _fc = leaf_clumps[ileaf].data.fcoords[0]
+            # sort by mass, so that we can use zorder to show all clumps w/
+            # least overlapping.
+            id_sorted = range(len(leaf_clumps))
+            id_sorted = sorted(id_sorted,
+                               key=lambda x: np.sum(leaf_clumps[x]["density"]))
+
+            for ileaf in id_sorted:
+                _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
+
+                if(1):   # hacky for now
+                    ff = float(ileaf) / len(leaf_clumps)
+                else:
+                    # one color for each threshold.. (useful for testing clump find function, and finding clumps threshold by threshold)
+                    # ... iii, nthres in enumerate(th_list) ...
+                    ff = float(iii) / len(th_list)
+
+                prj.annotate_clumps([leaf_clumps[ileaf]],
+                                    plot_args={'colors': [col_f(ff)],
+                                               'alpha': 0.8,
+                                               'zorder': ileaf
+                                              })
+
                 prj.annotate_marker(_fc,
                                     coord_system='data',
                                     plot_args={'color': 'red', 's': 500})
                 prj.annotate_text(_fc,
-                                    ileaf,
-                                    coord_system='data',
-                                    text_args={'color': 'black', 'size': 8},
-                                    inset_box_args={'boxstyle': 'square',
-                                    'facecolor': 'white',
-                                    'linewidth': 2.0,
-                                    'edgecolor': 'white',
-                                    'alpha': 0.35})
+                                  ileaf,
+                                  coord_system='data',
+                                  text_args={'color': 'black', 'size': 8},
+                                  inset_box_args={'boxstyle': 'square',
+                                                  'facecolor': 'white',
+                                                  'linewidth': 2.0,
+                                                  'edgecolor': 'white',
+                                                  'alpha': 0.35})
 
             if saveplot:
-                prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) + \
-                         '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
+                prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) +
+                         '_' + str(int(step)) + '-' + str(int(N_cell_min)) +
                          '_' + vv + 'axis.png')
             else:
                 prj.show()
@@ -290,7 +339,6 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
     return _leaf_fields
 
 
-
 if __name__ == '__main__':
 
     import argparse
@@ -329,7 +377,6 @@ if __name__ == '__main__':
     fmter = argparse.RawDescriptionHelpFormatter
     parser = argparse.ArgumentParser(description=desc, epilog=epi,
                                      formatter_class=fmter)
-
 
     # -------------- decide on n_cut --------------
     # fig 6 Pallottini 2017 for n_H2 cut as starting point, lower right panel,
@@ -380,25 +427,24 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', action="store_true", default=False,
                         help="verbose option")
 
-
     args = parser.parse_args()
 
     # ---------------------------------------------------------------
 
-
     if(args.verbose):
-      print 'loading file'
-    f = h5py.File("snapshot" + str(args.snapshot_num) + "_center_fields0123456-15_resampled.h5", "r")
+        print 'loading file'
+    f = h5py.File("snapshot" + str(args.snapshot_num) +
+                  "_center_fields0123456-15_resampled.h5", "r")
     # careful sometimes i used "density" (e.g., resample.py), see
     # resample_fields.py to make sure
-    density     = f["rho"].value
-    H2          = f["H2"].value
-    Pressure    = f["P"].value
-    P_nt        = f["P_nt"].value
+    density = f["rho"].value
+    H2 = f["H2"].value
+    Pressure = f["P"].value
+    P_nt = f["P_nt"].value
     metallicity = f["Z"].value
-    velx        = f["vel_x"].value
-    vely        = f["vel_y"].value
-    velz        = f["vel_z"].value
+    velx = f["vel_x"].value
+    vely = f["vel_y"].value
+    velz = f["vel_z"].value
 
     if not args.not_convert_unit:
         import pymses
@@ -422,14 +468,13 @@ if __name__ == '__main__':
         P_nt *= factor_P
         print np.log10(Pressure.max()), np.log10(P_nt.max())
 
-
-    data = dict(density = density, H2=H2,
-                P       = Pressure,
-                P_nt    = P_nt,
-                Z       = metallicity,
-                velx    = velx,
-                vely    = vely,
-                velz    = velz
+    data = dict(density=density, H2=H2,
+                P=Pressure,
+                P_nt=P_nt,
+                Z=metallicity,
+                velx=velx,
+                vely=vely,
+                velz=velz
                 )
 
     ds = yt.load_uniform_grid(data, f["rho"].shape)
@@ -441,7 +486,6 @@ if __name__ == '__main__':
             return data["density"] * data["H2"]
         except:
             return data[("stream", "density")] * data[("stream", "H2")]
-
 
     from yt.units import dimensions
     ds.add_field(("stream", "h2density"), function=_h2density,
@@ -459,12 +503,12 @@ if __name__ == '__main__':
     #                                 saveplot=True,
     #                                 fold_out=fold_out)
 
-    assert isinstance(args.fold_out,str)
+    assert isinstance(args.fold_out, str)
     if not os.path.isdir(args.fold_out):
-      os.mkdir(args.fold_out)
+        os.mkdir(args.fold_out)
 
     if(args.verbose):
-      print 'start clumpfinder'
+        print 'start clumpfinder'
     # --- repeat for n_cut_2 ---
     master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=args.ncut,
@@ -472,12 +516,12 @@ if __name__ == '__main__':
                                     N_cell_min=args.Nmin,
                                     plot=args.plot,
                                     saveplot=args.saveplot,
-                                    fold_out=args.fold_out, verbose= args.verbose)
+                                    fold_out=args.fold_out, verbose=args.verbose)
     if(args.verbose):
-      print '  complete'
+        print '  complete'
 
     if(args.verbose):
-      print '  compute properties'
+        print '  compute properties'
     # to retreive physical properties of leaf
     leaf_fields = {}
     for n_leaf in range(len(leaf5)):
@@ -499,9 +543,10 @@ if __name__ == '__main__':
         if not os.path.isdir(outdir):
             os.mkdir(outdir)
 
-        pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) + "_fields.p", "wb"))
+        pickle.dump(leaf_fields, open(outdir + '{0:.2f}'.format(args.ncut) + '_' + str(
+            args.step) + '_' + str(args.Nmin) + "_fields.p", "wb"))
 
-        #for i in xrange(len(leaf5)):
+        # for i in xrange(len(leaf5)):
         #  leaf5[i].set_default_clump_info()
         #
         # __reduce__ want to use self.function which is not defined
@@ -512,7 +557,6 @@ if __name__ == '__main__':
         #   File "/mnt/home/daisyleung/Downloads/yt-conda/lib/python2.7/site-packages/yt/analysis_modules/level_sets/clump_handling.py", line 404, in __reduce__
         #     self.valid, self.children, self.data, self.clump_info,
         # AttributeError: 'Clump' object has no attribute 'clump_info'
-
 
 
 # -------------
