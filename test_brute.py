@@ -5,7 +5,7 @@ from yt.funcs import mylog
 mylog.setLevel(40) # This sets the log level to "ERROR", http://yt-project.org/doc/faq/index.html
 import numpy as np
 
-from test_refined_snapshot28_ytclump_fields import ytclumpfind_H2
+from clump_modules.clump_wrapper import ytclumpfind_H2
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid,check_hist_h2
 
 def col_f(ii, cm=None):
@@ -18,10 +18,9 @@ f_out        = '12345.png'
 
 field_select = "h2density"
 th_list      = 10**np.linspace(-0.5, 1.5, 7)
+th_list      = [7.]
 
 test         = False
-
-
 
 
 data = import_fetch_gal(isnap = 28)
@@ -41,7 +40,6 @@ prj = yt.ProjectionPlot(ds, 0,field_select,
 for iii, nthres in enumerate(th_list):
 
     cmax = None
-
 
     _, leaf_clumps = ytclumpfind_H2(ds, dd, field_select, nthres,
                                     c_max=cmax, step=1e+6,
