@@ -292,10 +292,12 @@ xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv',
 x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
 # normalization ~5x higher than found in MW
 xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)
+rmark, rmark_err = np.loadtxt(litpath + "eyelash_larson.dat", unpack=True, usecols=(5,6))
 
 
 # read in
-ax.scatter(xmark, ymark, label="SMM J2135-0102", color='magenta', marker='D', s=10)
+# ax.scatter(xmark, ymark, label="SMM J2135-0102", color='magenta', marker='D', s=10)
+ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err, label="SMM J2135-0102", color='magenta', fmt='D', markersize=3.5, markeredgewidth=1.0)
 ax.scatter(x64, y64, label="M64", color='orange', marker='^', s=10)
 ax.scatter(xgc, ygc, label="Heyer Galactic Center", color='b', marker='o', s=7)
 ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
@@ -330,6 +332,7 @@ ax.set_ylim(0.1, 7.e2)
 plt.tight_layout()
 plt.show()
 fig.savefig(leafdir_out + 'LarsonsLike_plot.png', bbox_inches="tight")
+import sys; sys.exit()
 
 
 # --- sigma_v - gas mass SD plot ---

@@ -50,9 +50,9 @@ leafdir = 'leaf_fields_' + str(snapshot_num) + '/'
 
 # defined as ... '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_'
 # + str(args.Nmin) from snapshot28_leafprop.py
-# fname = "0.03_5_3_fields.p"
+fname = "0.03_5_3_fields.p"
 # fname = "1.00_5_10_fields.p"
-fname = "1.00_3_10_fields.p"
+# fname = "1.00_3_10_fields.p"
 leaf_fields = pickle.load(open(leafdir + fname, "rb"))
 leafdir_out = leafdir + fname[:fname.find('.p')] + '/'
 if not os.path.isdir(leafdir_out):
@@ -263,10 +263,12 @@ xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv',
                       delimiter=',', unpack=True)
 x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
 xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)   # normalization ~5x higher than found in MW
+rmark, rmark_err = np.loadtxt(litpath + "eyelash_larson.dat", unpack=True, usecols=(5,6))
 
 
 # read in
-ax.scatter(xmark, ymark, label="SMM J2135-0102", color='g', marker='D', s=7)
+# ax.scatter(xmark, ymark, label="SMM J2135-0102", color='g', marker='D', s=7)
+ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err, label="SMM J2135-0102", color='magenta', fmt='D', markersize=3.5, markeredgewidth=1.0)
 ax.scatter(x64, y64, label="M64", color='orange', marker='^', s=10)
 ax.scatter(xgc, ygc, label="Heyer Galactic Center", color='b', marker='o', s=7)
 ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs", color='k', marker='.', s=10)
@@ -449,13 +451,4 @@ ax.set_xlim(10**-3, 10**1.5)
 ax.set_ylim(10**-1.5, 10**2.5)
 # ax.yaxis.set_minor_formatter(NullFormatter())
 
-ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
-ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
-
-ax.legend(loc="best")
-plt.tight_layout()
-plt.show()
-fig.savefig(leafdir_out + 'PVE-like.png', bbox_inches="tight")
-
-
-# -----------
+ax.se
