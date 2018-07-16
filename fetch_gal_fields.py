@@ -24,6 +24,8 @@ last mod: 9 July 2018
 
 """
 
+from io_module.manipulate_fetch_gal_fields import get_units
+
 print (__doc__)
 
 import pymses
@@ -209,21 +211,6 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     return None
 
-
-def get_units(ro=None):
-    assert ro is not None
-    # conversion dictionary
-    dict_unit = {}
-    dict_unit['dx'] = [ro.info['unit_length'].express(C.pc), 'pc']
-    dict_unit['rho'] = [
-        (ro.info['unit_density'] / C.mH).express(1 / C.cm**3), 'cm-3']
-    dict_unit['P'] = [ro.info['unit_pressure'].express(
-        C.erg / C.cm**3) / C.kB.express(C.erg / C.K), 'K cm-3']
-    dict_unit['P_nt'] = dict_unit['P']
-    dict_unit['H2'] = [1, '']
-    dict_unit['vel'] = [ro.info['unit_velocity'].express(C.km / C.s), 'km/s']
-
-    return dict_unit
 
 
 if __name__ == "__main__":

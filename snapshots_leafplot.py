@@ -36,7 +36,7 @@ import cPickle as pickle
 from snapshot28_leafprop import Cloud
 import numpy as np
 import os
-from fetch_gal_fields import get_units
+from io_module.manipulate_fetch_gal_fields import get_units
 import pymses
 
 # defined as ... '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_'

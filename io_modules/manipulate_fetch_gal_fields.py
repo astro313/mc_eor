@@ -4,16 +4,28 @@ last mod: 16 July 2018
 
 '''
 
-
 import numpy as np
 
+def get_units(ro=None):
+    assert ro is not None
+    # conversion dictionary
+    dict_unit = {}
+    dict_unit['dx'] = [ro.info['unit_length'].express(C.pc), 'pc']
+    dict_unit['rho'] = [
+        (ro.info['unit_density'] / C.mH).express(1 / C.cm**3), 'cm-3']
+    dict_unit['P'] = [ro.info['unit_pressure'].express(
+        C.erg / C.cm**3) / C.kB.express(C.erg / C.K), 'K cm-3']
+    dict_unit['P_nt'] = dict_unit['P']
+    dict_unit['H2'] = [1, '']
+    dict_unit['vel'] = [ro.info['unit_velocity'].express(C.km / C.s), 'km/s']
+
+    return dict_unit
 
 def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_fields0123456-15_resampled.h5", verbose=True, convert = True):
 
     import pymses
     from pymses.utils import constants as C
     import h5py
-    from fetch_gal_fields import get_units
 
     nsnap = str(isnap)
 

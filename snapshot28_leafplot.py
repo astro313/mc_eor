@@ -61,7 +61,8 @@ if not os.path.isdir(leafdir_out):
 
 # hard-code to get dx for now...
 # saved in fetch_gal_fields.py
-from fetch_gal_fields import get_units
+from io_module.manipulate_fetch_gal_fields import get_units
+
 import pymses
 ro = pymses.RamsesOutput("output", 28)
 ds = np.load('snapshot28_center_fields0123456-15.npz')
