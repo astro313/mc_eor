@@ -30,7 +30,6 @@ import yt
 from yt.analysis_modules.level_sets.api import find_clumps, get_lowest_clumps, write_clump_index, write_clumps
 import h5py
 
-
 from yt.analysis_modules.level_sets.api import Clump
 
 '''
@@ -162,7 +161,9 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                                     int(kk),
                                     field,
                                     center='c')
+
             prj.annotate_clumps(leaf_clumps)
+            prj.zoom(3)
 
             for ileaf in range(len(leaf_clumps)):
                 _fc = leaf_clumps[ileaf].data.fcoords[0]
@@ -178,10 +179,11 @@ def ytclumpfind_H2(ds, dd, field, n_cut, step=10, N_cell_min=20, save=False, plo
                                     'linewidth': 2.0,
                                     'edgecolor': 'white',
                                     'alpha': 0.35})
+
             if saveplot:
                 prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) + \
-                        '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
-                        '_' + vv + 'axis.png')
+                         '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
+                         '_' + vv + 'axis.png')
             else:
                 prj.show()
 
@@ -489,8 +491,8 @@ if __name__ == '__main__':
     print "saved leaf fields: ", leaf_fields['0'].keys()
 
     if args.savepickle:
-        #import cPickle as pickle
-        import pickle
+        import cPickle as pickle
+        # import pickle
 
         outdir = "leaf_fields_" + str(args.snapshot_num) + "/"
 
@@ -501,7 +503,7 @@ if __name__ == '__main__':
 
         #for i in xrange(len(leaf5)):
         #  leaf5[i].set_default_clump_info()
-        # 
+        #
         # __reduce__ want to use self.function which is not defined
         # i did not manage to overwrite the class
 
