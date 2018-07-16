@@ -22,37 +22,6 @@ import yt
 from yt.analysis_modules.level_sets.api import Clump, find_clumps, get_lowest_clumps, write_clump_index, write_clumps
 import h5py
 
-Plot_stuff = False
-debug = False
-
-# convert from code unit density to g/cc (depending on how fetch_gal.py is implemented.)
-convert_unit = True
-
-if debug:
-    namefile = "output/output_00028/info_00028.txt"
-    myfile = namefile
-
-    print "Loading file,", myfile
-    pf = load(myfile)
-
-
-f = h5py.File("snapshot28_center_densityfield_resampled.h5", "r")
-density = f["density"].value
-
-if convert_unit:
-    import pymses
-    from pymses.utils import constants as C
-
-    ro = pymses.RamsesOutput("output", 28)
-    factor = ro.info["unit_density"].express(C.H_cc)
-    density *= factor
-    print density.max()
-
-data = dict(density=density)
-ds = yt.load_uniform_grid(data, f["density"].shape)
-
-dd = ds.all_data()
-
 
 def ytclumpfind(ds, dd, field=('density'), n_cut=100, step=10, N_cell_min=20, save=False, plot=True, saveplot=None):
     '''
@@ -142,7 +111,44 @@ def ytclumpfind(ds, dd, field=('density'), n_cut=100, step=10, N_cell_min=20, sa
 
     return master_clump, leaf_clumps
 
-if __name__ == "__main__"
+if __name__ == "__main__":
+
+  Plot_stuff = False
+  debug = False
+
+  # convert from code unit density to g/cc (depending on how fetch_gal.py is implemented.)
+  convert_unit = True
+
+  #
+  # this stuff was working for the old version of fetch_gal, is it correct?
+  #
+  if debug:
+    namefile = "output/output_00028/info_00028.txt"
+    myfile = namefile
+
+    print "Loading file,", myfile
+    pf = load(myfile)
+
+  f = h5py.File("snapshot28_center_densityfield_resampled.h5", "r")
+  density = f["density"].value
+  #
+  if convert_unit:
+    import pymses
+    from pymses.utils import constants as C
+
+    ro = pymses.RamsesOutput("output", 28)
+    factor = ro.info["unit_density"].express(C.H_cc)
+    density *= factor
+    print density.max()
+  #
+
+
+  data = dict(density=density)
+  ds = yt.load_uniform_grid(data, f["density"].shape)
+
+  dd = ds.all_data()
+
+
   master10, leaf10 = ytclumpfind(ds, dd, ("density"),
                                n_cut=100,
                                step=10,
