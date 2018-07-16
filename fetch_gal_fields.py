@@ -14,30 +14,19 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'Pressure_nt'
 'Z'
 
-'cell_volume'    << from yt only?
-'cell_mass'   << from yt only?
-'averaged_density'  << from yt only?
-'temperature'
-
-last mod: 9 July 2018
+last mod: 16 July 2018
 
 
 """
 
 from io_module.manipulate_fetch_gal_fields import get_units
 
-print (__doc__)
+# print (__doc__)
 
 import pymses
 from pymses.sources.ramses import output
-
-from pymses.filters import PointFunctionFilter
 from pymses.utils import constants as C
-import os
-from pymses.analysis.visualization import Camera
-from numpy import array
 import numpy as np
-import pylab
 from pymses.analysis.visualization import *
 import matplotlib.pyplot as plt
 
