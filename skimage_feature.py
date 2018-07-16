@@ -5,6 +5,8 @@ compare results from LoG and DoG
 
 '''
 
+import os
+
 from math import sqrt
 from skimage import data
 from skimage.feature import blob_dog, blob_log
@@ -13,6 +15,13 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 import h5py
+
+
+fold_out = 'skimage_plots/'
+
+if not os.path.isdir(fold_out):
+  os.mkdir(fold_out)
+
 
 f = h5py.File("snapshot28_center_densityfield_resampled.h5", "r")
 density = f["density"].value
@@ -77,7 +86,7 @@ for idx, (blobs, color, title) in enumerate(sequence):
 
 plt.tight_layout()
 plt.show()
-fig.savefig('skimage_feature.png')
+fig.savefig(fold_out+'skimage_feature.png')
 
 
 fig, axes = plt.subplots(1, 2, figsize=(6, 3), sharex=True, sharey=True)
@@ -95,7 +104,7 @@ for idx, (blobs, color, title) in enumerate(sequence):
 
 plt.tight_layout()
 plt.show()
-fig.savefig('skimage_feature_xz.png')
+fig.savefig(fold_out+'skimage_feature_xz.png')
 
 
 
@@ -114,4 +123,4 @@ for idx, (blobs, color, title) in enumerate(sequence):
 
 plt.tight_layout()
 plt.show()
-fig.savefig('skimage_feature_xy.png')
+fig.savefig(fold_out+'skimage_feature_xy.png')
