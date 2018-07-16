@@ -1,8 +1,7 @@
 '''
 
-script to test some skimage functions.. trying to understand what input shape do blob_dog and blob_log work on.. and whether we need first run rgb2gray()..
+script to test some skimage functions.. trying to understand what input shape do blob_dog and blob_log work on.. and whether we need first run rgb2gray().. YES WE DO.
 
-The resuts are confusing.. it seems like the functions can directly run on the cube, w/o needing to run thru rgb2gray() first, but results from which to trust..? They don't seem identical.
 
 last mod: 6 July 2018
 
@@ -20,6 +19,7 @@ from skimage import data
 blob2d = data.binary_blobs(length=128, n_dim=2)
 blob3d = data.binary_blobs(length=128, n_dim=3)
 print blob3d.shape
+# data from binary_blobs is binary (boolean type numpy array), not color or grayscale - so it doesn't make a ton of sense to apply the rgb2gray function on it.
 blob3d_gray = rgb2gray(blob3d)
 print blob3d_gray.shape
 # ok... after passing through rgb2gray, it collapsed into 2D....
@@ -32,7 +32,7 @@ blobs_dog = blob_dog(blob2d) # , max_sigma=10)
 print blobs_dog
 blobs_dog = blob_dog(rgb2gray(blob2d))   # , max_sigma=10)
 print blobs_dog
-# -- whether or not running rgb2gray() doesn't actually affect blob_dog() operation, at least on 2D image
+# -- whether or not running rgb2gray() doesn't actually affect blob_dog() operation, at least on 2D image, but that's because it's binary data.
 
 
 # test dog 3d
@@ -58,7 +58,7 @@ print blobs_log.shape
 blobs_log = blob_log(rgb2gray(blob2d))   # , max_sigma=10)
 print blobs_log
 print blobs_log.shape
-# -- whether or not running rgb2gray() doesn't actually affect blob_log() operation, at least on 2D image
+# -- whether or not running rgb2gray() doesn't actually affect blob_log() operation, at least on 2D image, but that's because it's binary data.
 
 
 # test log 3d
@@ -74,7 +74,7 @@ blobs_log = blob_log(rgb2gray(blob3d))
 print blobs_log
 print blobs_log.shape
 print rgb2gray(blob3d).shape
-# -- so then, can blob_log work on the cube directly (without running through rgb2gray() first??)
+# -- so then, can blob_log work on the cube directly (without running through rgb2gray() first?? NO..)
 # (99, 3)
 # (128, 128)
 
