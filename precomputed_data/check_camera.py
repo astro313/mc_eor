@@ -2,7 +2,7 @@
 import os
 import pickle
 
-this_folder = os.path.dirname(os.path.abspath(__file__))+'/'
+this_folder = "./"
 f_camera    = this_folder+'camera_settings.log'
 
 with open(f_camera,'rb') as f:
