@@ -23,8 +23,8 @@ if not os.path.isdir(fold_out):
   os.mkdir(fold_out)
 
 
-f = h5py.File("snapshot28_center_densityfield_resampled.h5", "r")
-density = f["density"].value
+f = h5py.File("snapshot28_center_fields0123456-15_resampled.h5", "r")
+density = f["rho"].value
 
 # convert from code unit density to g/cc (depending on how fetch_gal.py is implemented.)
 convert_unit = True
