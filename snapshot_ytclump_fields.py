@@ -2,14 +2,14 @@
 """
 
 Example usage:
-    python snapshot28_ytclump_fields.py 28 --savepickle --plot --saveplot test_png/
+    python snapshot_ytclump_fields.py 28 --savepickle --plot --saveplot test_png/
 
 
 http://yt-project.org/doc/analyzing/analysis_modules/clump_finding.html
 
 After getting the finely gridded cube from resample_fields.py, use yt clump finder.
 
-Last mod: 16 July 2018
+Last mod: 17 July 2018
 
 NOTE
 ----
@@ -31,6 +31,7 @@ import h5py
 
 from yt.analysis_modules.level_sets.api import Clump
 
+
 def col_f(ii, cm=None):
     """
     get a different color for each indx, ii
@@ -40,6 +41,7 @@ def col_f(ii, cm=None):
     return cm(ii)
 
 from clump_modules.clump_wrapper import ytclumpfind_H2
+
 
 def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity, velx, vely, velz, plothist=False):
     """
@@ -230,22 +232,12 @@ if __name__ == '__main__':
 
     # ---------------------------------------------------------------
 
-
     from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid
 
-    data = import_fetch_gal(isnap = args.snapshot_num, verbose = args.verbose , convert = (not args.not_convert_unit))
+    data = import_fetch_gal(isnap=args.snapshot_num, verbose=args.verbose, convert=(
+        not args.not_convert_unit))
 
-    ds,dd = prepare_unigrid(data= data)
-
-
-    # -------------- run clump finder -------------
-    # master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
-    #                                 n_cut=n_cut_1,
-    #                                 step=5,
-    #                                 N_cell_min=3,
-    #                                 plot=True,
-    #                                 saveplot=True,
-    #                                 fold_out=fold_out)
+    ds, dd = prepare_unigrid(data=data)
 
     assert isinstance(args.fold_out, str)
     if not os.path.isdir(args.fold_out):
@@ -253,6 +245,7 @@ if __name__ == '__main__':
 
     if(args.verbose):
         print 'start clumpfinder'
+
     # --- repeat for n_cut_2 ---
     master5, leaf5 = ytclumpfind_H2(ds, dd, ("h2density"),
                                     n_cut=args.ncut,
@@ -271,10 +264,12 @@ if __name__ == '__main__':
     for n_leaf in range(len(leaf5)):
         leaf_fields[str(n_leaf)] = get_phyprop_of_leaf(leaf5[n_leaf],
                                                        data['density'],
-                                                       data['H2'] * data['density'],
+                                                       data['H2'] *
+                                                       data['density'],
                                                        data['P'], data['P_nt'],
                                                        data['Z'],
-                                                       data['velx'], data['vely'], data['velz'],
+                                                       data['velx'], data[
+                                                           'vely'], data['velz'],
                                                        plothist=False)
     print "saved leaf fields: ", leaf_fields['0'].keys()
 
