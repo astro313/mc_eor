@@ -38,7 +38,7 @@ matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
                             })
 import matplotlib.pyplot as plt
 import cPickle as pickle
-from snapshot28_leafprop import Cloud
+from snapshot_leafprop import Cloud
 import numpy as np
 import os
 from io_modules.manipulate_fetch_gal_fields import get_units
