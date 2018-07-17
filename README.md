@@ -12,6 +12,11 @@ TODO:
   - ID clouds using total gas density of ~100 cm^-3 as cut (instead of Euler Characteristic of n_H2)?
 - repeat for the satellites as well
 
+July 16th 2018
+- two really problematic bugs in yt clump find module
+  1. sometimes annotate_clumps() will plot all clumps, but sometimes it won't even if you explicitly ask it to.. Work around: loop through all the clumps and plot one-by-one
+  2. yt sometimes will reset the region to look for "children", such that the region at higher density it looks for can be greater than the parent region which is bogus. Work around: brute force loop through each density cut instead of using the yt find_clump(cmin, cmax, step) functionality.
+  3. minor bug: plot_args in annotate_clumps() sometime takes 'color', sometime takes 'colors'. No errors is caught, it will just completely ignore the keyword argument..
 
 July 11th 2018
 - tracing cloud evolution. We have finely sampled snapshots of 0.1 Myr or 0.5 Myr, but we don't have tracer particles..
