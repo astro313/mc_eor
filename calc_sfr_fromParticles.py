@@ -25,32 +25,6 @@ if not os.path.isdir(stardir):
     os.mkdir(stardir)
 
 
-def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
-
-    if(time_proper):
-        # switch depends on ramses run setup
-        import cosmolopy.distance as cd
-        import cosmolopy.constants as cc
-
-        cosmo = {'omega_M_0': ro_in.info["omega_m"],
-                 'omega_lambda_0': ro_in.info["omega_l"],
-                 'h': ro_in.info["H0"] / 100.
-                 }
-        cosmo = cd.set_omega_k_0(cosmo)
-
-        t_z0 = cd.age(0., **cosmo) / (cc.Gyr_s /
-                                      1.e+3)                         # Myr
-        ram2myr = ro_in.info["unit_time"].express(
-            C.Myr) / ro_in.info["aexp"]**2  # Myr
-        # age of the universe when the star particle was created
-        star_age = t_z0 + dset_in["epoch"][:] * ram2myr
-    else:
-        Myr_unit_time = ro_in.info["unit_time"].express(C.Myr)
-        stars_age = (ro_in.info["time"] - dset_in["epoch"][:]) * Myr_unit_time
-
-    return stars_age
-
-
 pymses.RamsesOutput.amr_field_descrs_by_file = \
     {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
                       output.Vector("Bl", [4, 5, 6]),
@@ -75,64 +49,12 @@ pymses.RamsesOutput.amr_field_descrs_by_file = \
             "grav": [output.Vector("g", [0, 1, 2])]}}
 
 
-def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in={}, verbose=False):
-    """
-    log_sfera: Boolean
-        True for sphere
-    """
-
-    assert ro != None
-    assert list_var != None
-
-    from pymses.utils import regions
-    from pymses.filters import RegionFilter, CellsToPoints
-
-    part = ro.particle_source(list_var)
-
-    # Filter all the particles which are initially present in the simulation
-    from pymses.filters import PointFunctionFilter
-    if star:
-        star_filter = lambda dset: dset["epoch"] != 0.0
-        part = PointFunctionFilter(star_filter, part)
-    else:
-        dm_filter = lambda dset: dset["epoch"] == 0.0
-        part = PointFunctionFilter(dm_filter, part)
-
-    center = camera_in['center']
-    radius = camera_in['region_size'][0]
-
-    if(log_sfera):
-        regione_sp = regions.Sphere(center, radius)
-    else:
-        sinistra = np.copy(center) - radius
-        destra = np.copy(center) + radius
-        regione_sp = regions.Box((sinistra, destra))
-
-    if(verbose):
-        print 'Extracting cells'
-        if(log_sfera):
-            print '  getting a sphere'
-            print '  center:', center
-            print '  radius:', radius
-        else:
-            print '  getting a box'
-            print '  center:', center
-            print '  size  :', radius
-            print '  left  :', sinistra
-            print '  right :', destra
-
-    # cut the region
-    part = RegionFilter(regione_sp, part)
-    celle = part.flatten()
-
-    return celle, part
-
-
 if __name__ == '__main__':
 
     debug = False
     import cPickle as pickle
     import matplotlib.pyplot as plt
+    from io_modules.pymses_helper import particles2cell, calculate_age_stars
 
     part_fields = ['vel', "id", "epoch", "mass", 'level']
 
@@ -162,11 +84,10 @@ if __name__ == '__main__':
                      'up_vec': up,
                      'map_max_size': mms}
 
-        parts_inside_camera_vec, parts_inside_camera = particles2cell(ro, star=True,
-                                                                      list_var=part_fields,
-                                                                      camera_in={'center': center,
-                                                                                 'region_size': region_size},
-                                                                      verbose=debug)
+        parts_inside_camera_vec, parts_inside_camera = particles2cell(ro,
+                                        star=True, list_var=part_fields, camera_in={'center': center,
+                                                       'region_size':region_size},
+                                            verbose=debug)
 
         mass = parts_inside_camera_vec['mass'] * \
             ro.info['unit_mass'].express(C.Msun)
@@ -196,7 +117,7 @@ if __name__ == '__main__':
         plt.imshow(np.log10(mapp))
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
 
-        # position automatically loadded in.
+        # particles positions are automatically loadded in.
         print parts_inside_camera_vec.points.shape
 
         # ----------------------------------------------------------------
@@ -204,17 +125,21 @@ if __name__ == '__main__':
         lookbackTimeGyr = parts_inside_camera_vec[
             "epoch"] * ro.info['unit_time'].express(C.Gyr)
 
-        print (13.7 - abs(lookbackTimeGyr)
-               ).max(), (13.7 - abs(lookbackTimeGyr)).min()
-        # # exclude IC particles
-        # idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
-
-        # convert "epoch" to Myr?
         age_star_myr = calculate_age_stars(
-            ro_in=ro, dset_in=parts_inside_camera["epoch"])
+            ro_in=ro, dset_in=parts_inside_camera_vec)
 
-        # exclude IC particles
-        idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
+        idx_within10Myr = np.abs(np.max(age_star_myr)-age_star_myr) <= delta_t
+        print 'SFR within', delta_t, 'Myr'
+        print '  ', np.sum(mass[idx_within10Myr])/1.e+6/delta_t,'Msun/yr'
+
+        # "SFH"
+        ii = np.argsort(age_star_myr)
+        x = age_star_myr[ii]
+        y = mass[ii]
+        y = np.cumsum(y)
+        plt.figure()
+        plt.plot(x, y)
+        plt.savefig('12345.png')
 
         # # convert stellar mass in code unit to Msun
         # Mstar_Msun = something here
