@@ -22,7 +22,7 @@ from pymses.utils import constants as C
 
 ro = pymses.RamsesOutput("output", snapshot_num)
 
-from io_module.manipulate_fetch_gal_fields import get_units
+from io_modules.manipulate_fetch_gal_fields import get_units
 factor_density = get_units(ro=ro)['rho'][0]      # 1/cm^3 (not H/cm^3)
 density *= factor_density
 print density.max()

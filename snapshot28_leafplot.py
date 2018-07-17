@@ -61,7 +61,7 @@ if not os.path.isdir(leafdir_out):
 
 # hard-code to get dx for now...
 # saved in fetch_gal_fields.py
-from io_module.manipulate_fetch_gal_fields import get_units
+from io_modules.manipulate_fetch_gal_fields import get_units
 
 import pymses
 ro = pymses.RamsesOutput("output", 28)

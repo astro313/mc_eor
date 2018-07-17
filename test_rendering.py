@@ -45,7 +45,7 @@ if not os.path.isdir(fold_out):
     os.mkdir(fold_out)
 
 if convert_unit:
-    from io_module.manipulate_fetch_gal_fields import get_units
+    from io_modules.manipulate_fetch_gal_fields import get_units
     import pymses
     ro = pymses.RamsesOutput("output", 28)
     factor = get_units(ro=ro)['rho'][0]      # 1/cm^3 (not H/cm^3)

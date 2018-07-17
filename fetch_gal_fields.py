@@ -19,7 +19,7 @@ last mod: 16 July 2018
 
 """
 
-from io_module.manipulate_fetch_gal_fields import get_units
+from io_modules.manipulate_fetch_gal_fields import get_units
 
 # print (__doc__)
 
