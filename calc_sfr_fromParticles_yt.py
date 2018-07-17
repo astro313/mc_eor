@@ -9,9 +9,15 @@ Last mod: 16 July 2018
 import yt
 from io_modules.manipulate_fetch_gal_fields import get_units
 import numpy as np
+import os
 
 from yt.analysis_modules.star_analysis.api import StarFormationRate
 import matplotlib.pyplot as plt
+
+stardir = 'star_particles/'
+
+if not os.path.isdir(stardir):
+    os.mkdir(stardir)
 
 
 def young_stars(pfilter, data, delta_t_Myr):
@@ -25,7 +31,7 @@ if __name__ == '__main__':
     debug = False
     import cPickle as pickle
 
-    part_fields = ['vel', "id", "epoch", "mass"]
+    part_fields = ['vel', "id", "epoch", "mass", "level"]
 
     delta_t_Myr = 10.0    # Myr
 
@@ -75,14 +81,40 @@ if __name__ == '__main__':
 
         mass = sp[("io", "particle_mass")].in_units('Msun')
         lookBack_Gyr = sp[("io", "age")].in_units('Gyr')   # is this age of stellar particle in lookback time?
+        Z = sp[("io", "particle_metallicity")]
+
+        print 'dm Mass: ', sum(mass[Z == 0.0].value)
+        print 'star Mass: ', sum(mass[Z > 0.0].value)
+
+        plt.figure()
+        plt.hist(abs(Z[Z > 0].value))
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.savefig(stardir +  "starZ_" + str(ssnum) + "_yt.png")
+
+        plt.figure()
+        plt.hist(abs(lookBack_Gyr[Z > 0].value))
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.savefig(stardir +  "starMassAge_" + str(ssnum) + "_yt.png")
+
+        plt.figure()
+        plt.hist(mass[Z > 0].value)
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.savefig(stardir +  "starMassHist_" + str(ssnum) + "_yt.png")
 
         from yt.utilities.cosmology import Cosmology
         co = Cosmology()
         Gyr2s = 3.15576E+16
 
+        # get only for stars
+        lookBack_Gyr = lookBack_Gyr[Z > 0]
+        starMass = mass[Z > 0]
+
         ageUniverse_z0_Gyr = co.hubble_time(0.).in_units("Gyr")
         ageUniverseAtz_Gyr = ageUniverse_z0_Gyr - abs(lookBack_Gyr)
-        print ageUniverseAtz_Gyr.max()
+        print ageUniverseAtz_Gyr.max()   # should be < 1 Gyr or so.
         print(co.z_from_t(ageUniverseAtz_Gyr*Gyr2s)).max()
         print(co.z_from_t(1.0*Gyr2s))   # z=6 ~1 Gyr
 
