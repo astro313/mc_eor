@@ -142,7 +142,10 @@ for incut in th_list:
         print "saved leaf fields: ", leaf_fields['0'].keys()
         suboutdir = "leaf_fields_" + str(snapshotnum) + "/"
 
-        pickle.dump(leaf_fields, open(outdir + suboutdir + '{0:.2f}'.format(ncut) + '_' + str(n_cell_min) + "_fields.p", "wb"))
+        if not os.path.isdir(outdir + suboutdir):
+            os.mkdir(outdir + suboutdir)
+
+        pickle.dump(leaf_fields, open(outdir + suboutdir + '{0:.2f}'.format(incut) + '_' + str(n_cell_min) + "_fields.p", "wb"))
 
 
     # ------------
