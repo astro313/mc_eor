@@ -17,6 +17,14 @@ from pymses.utils import constants as C
 import numpy as np
 from pymses.analysis.visualization import *
 
+def calculate_age_stars(ro_in=None,dset_in=None):
+
+  Myr_unit_time = ro_in.info["unit_time"].express(C.Myr)
+  stars_age     = (ro_in.info["time"] - dset_in["epoch"][:])*Myr_unit_time
+
+  return stars_age
+
+
 
 pymses.RamsesOutput.amr_field_descrs_by_file = \
     {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
@@ -157,7 +165,7 @@ if __name__ == '__main__':
         # each star particle has a mass and age. Select those w/in delta_t
 
         # convert "epoch" to Myr?
-        something here...
+        age_star_myr = calculate_age_stars(ro_in = ro, dset_in = parts_inside_camera["epoch"])
 
         # exclude IC particles
         idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
