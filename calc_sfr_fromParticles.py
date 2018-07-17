@@ -1,6 +1,11 @@
 '''
 
-Calculate the globally integrated SFR for each snapshot. (using pymses, not fully functional). Always load in "level"!!
+Calculate the globally integrated SFR for each snapshot. Using pymses.
+
+NOTE
+----
+Always load in "level" for AMR particles to work!
+
 
 Last mod: 17 July 2018
 
