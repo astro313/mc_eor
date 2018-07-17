@@ -1,6 +1,6 @@
 '''
 
-Calculate the globally integrated SFR for each snapshot.
+Calculate the globally integrated SFR for each snapshot. (using pymses, not fully functional)
 
 Last mod: 16 July 2018
 
