@@ -18,10 +18,38 @@ import numpy as np
 import os
 from pymses.analysis.visualization import *
 
+
 stardir = 'star_particles/'
 
 if not os.path.isdir(stardir):
     os.mkdir(stardir)
+
+
+def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
+
+    if(time_proper):
+        # switch depends on ramses run setup
+        import cosmolopy.distance as cd
+        import cosmolopy.constants as cc
+
+        cosmo = {'omega_M_0': ro_in.info["omega_m"],
+                 'omega_lambda_0': ro_in.info["omega_l"],
+                 'h': ro_in.info["H0"] / 100.
+                 }
+        cosmo = cd.set_omega_k_0(cosmo)
+
+        t_z0 = cd.age(0., **cosmo) / (cc.Gyr_s /
+                                      1.e+3)                         # Myr
+        ram2myr = ro_in.info["unit_time"].express(
+            C.Myr) / ro_in.info["aexp"]**2  # Myr
+        # age of the universe when the star particle was created
+        star_age = t_z0 + dset_in["epoch"][:] * ram2myr
+    else:
+        Myr_unit_time = ro_in.info["unit_time"].express(C.Myr)
+        stars_age = (ro_in.info["time"] - dset_in["epoch"][:]) * Myr_unit_time
+
+    return stars_age
+
 
 pymses.RamsesOutput.amr_field_descrs_by_file = \
     {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
@@ -135,28 +163,30 @@ if __name__ == '__main__':
                      'map_max_size': mms}
 
         parts_inside_camera_vec, parts_inside_camera = particles2cell(ro, star=True,
-                                             list_var=part_fields,
-                                             camera_in={'center': center,
-                                                        'region_size': region_size},
-                                             verbose=debug)
+                                                                      list_var=part_fields,
+                                                                      camera_in={'center': center,
+                                                                                 'region_size': region_size},
+                                                                      verbose=debug)
 
-        mass = parts_inside_camera_vec['mass'] * ro.info['unit_mass'].express(C.Msun)
+        mass = parts_inside_camera_vec['mass'] * \
+            ro.info['unit_mass'].express(C.Msun)
         plt.hist(mass)
         plt.xscale('log')
         plt.yscale('log')
-        plt.savefig(stardir +  "starMassHist_" + str(ssnum) + ".png")
-
+        plt.savefig(stardir + "starMassHist_" + str(ssnum) + ".png")
 
         # visualize
         # map operator: mass
-        scal_func = ScalarOperator(lambda dset: dset["mass"]* ro.info['unit_mass'].express(C.Msun)/(ro.info['unit_length'].express(C.pc))**2)     # simple, plot the mass
+        scal_func = ScalarOperator(lambda dset: dset["mass"] * ro.info['unit_mass'].express(
+            C.Msun) / (ro.info['unit_length'].express(C.pc))**2)     # simple, plot the mass
 
         # map processing
         mp = fft_projection.MapFFTProcessor(parts_inside_camera, ro.info)
 
         cam = Camera(center=camera_in['center'],
                      line_of_sight_axis=camera_in['los'],
-                     region_size=[camera_in['region_size'][0], camera_in['region_size'][0]],
+                     region_size=[camera_in['region_size']
+                                  [0], camera_in['region_size'][0]],
                      distance=dist,
                      far_cut_depth=far_cut_depth,
                      up_vector=camera_in['up_vec'],
@@ -171,16 +201,22 @@ if __name__ == '__main__':
 
         # ----------------------------------------------------------------
         # each star particle has a mass and age. Select those w/in delta_t
-        lookbackTimeGyr = parts_inside_camera_vec["epoch"] * ro.info['unit_time'].express(C.Gyr)
+        lookbackTimeGyr = parts_inside_camera_vec[
+            "epoch"] * ro.info['unit_time'].express(C.Gyr)
 
-        print (13.7 - abs(lookbackTimeGyr)).max(), (13.7 - abs(lookbackTimeGyr)).min()
+        print (13.7 - abs(lookbackTimeGyr)
+               ).max(), (13.7 - abs(lookbackTimeGyr)).min()
         # # exclude IC particles
         # idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
 
+        # convert "epoch" to Myr?
+        age_star_myr = calculate_age_stars(
+            ro_in=ro, dset_in=parts_inside_camera["epoch"])
+
+        # exclude IC particles
+        idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
 
         # # convert stellar mass in code unit to Msun
         # Mstar_Msun = something here
 
         # SFR = Mstar_Msun[idx]
-
-
