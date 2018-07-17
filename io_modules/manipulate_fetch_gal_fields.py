@@ -7,6 +7,7 @@ last mod: 16 July 2018
 import numpy as np
 
 def get_units(ro=None):
+    from pymses.utils import constants as C
     assert ro is not None
     # conversion dictionary
     dict_unit = {}
@@ -54,7 +55,7 @@ def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_f
       if(verbose):
           print 'max density'
           print density.max(), unit_dens
-  
+
       factor_vel, unit_vel = get_units(ro=ro)['vel']
       velx *= factor_vel
       vely *= factor_vel
@@ -62,7 +63,7 @@ def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_f
       if(verbose):
           print 'max vel'
           print velx.max(), vely.max(), velz.max(), unit_vel
-  
+
       factor_P, unit_P = get_units(ro=ro)['P']
       Pressure *= factor_P
       P_nt *= factor_P
@@ -115,7 +116,21 @@ def prepare_unigrid(data, verbose=False):
     return ds, dd
 
 
-def check_hist_h2(data):
+def check_hist_h2(data, th_list, ss=None, outdir='./'):
+    """
+
+    print summary statistics for H2 density. Plot histogram of H2 density, then plot vertical lines of the cuts.
+
+
+    Parameters
+    ----------
+    th_list: list
+        list of threshold to make cuts to identify clumps.
+    ss: int (optional)
+        snapshot number
+
+    """
+
     import matplotlib.pyplot as plt
     aa = (data["density"] * data["H2"]).flatten()
     print np.max(aa), np.min(aa), np.min(aa[aa > 0])
@@ -131,4 +146,7 @@ def check_hist_h2(data):
         x = np.log10(ele)
         plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
     plt.yscale('log')
-    plt.savefig('hist_test.png')
+    if ss is None:
+        plt.savefig(outdir + 'hist_test.png')
+    else:
+        plt.savefig(outdir + 'hist_test_' + str(ss) + '.png')
