@@ -5,6 +5,20 @@ last mod: 16 July 2018
 '''
 
 import numpy as np
+import pymses
+
+def get_dx(ssnum):
+    # hard-code to get dx for now...
+    # saved in fetch_gal_fields.py
+    ro = pymses.RamsesOutput("output", ssnum)
+    ds = np.load('snapshot'+ str(ssnum) +'_center_fields0123456-15.npz')
+    dx_vector = ds['dx_vector']
+
+    originalLevels = np.log2(1. / np.unique(dx_vector))
+    highestRes = 2.**(originalLevels.max() * -1)
+    # after finely sample unigrid
+    dx_pc = highestRes * get_units(ro=ro)['dx'][0]
+    return dx_pc
 
 def get_units(ro=None):
     from pymses.utils import constants as C
@@ -130,6 +144,9 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
         snapshot number
 
     """
+
+    if not isinstance(th_list, list):
+        th_list = [th_list]
 
     import matplotlib.pyplot as plt
     aa = (data["density"] * data["H2"]).flatten()

@@ -2,6 +2,51 @@ import numpy as np
 import pymses
 from pymses.utils import constants as C
 
+def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
+    """
+    log_sfera: Boolean
+        True for sphere
+    """
+    assert ro != None
+    assert list_var != None
+
+    from pymses.utils import regions
+    from pymses.filters import RegionFilter, CellsToPoints
+
+    amr = ro.amr_source(list_var)
+
+    center = camera_in['center']
+    radius = camera_in['region_size'][0]
+
+    if(log_sfera):
+        regione_sp = regions.Sphere(center, radius)
+    else:
+        sinistra = np.copy(center) - radius
+        destra = np.copy(center) + radius
+        regione_sp = regions.Box((sinistra, destra))
+
+    if(verbose):
+        print 'Extracting cells'
+        if(log_sfera):
+            print '  getting a sphere'
+            print '  center:', center
+            print '  radius:', radius
+        else:
+            print '  getting a box'
+            print '  center:', center
+            print '  size  :', radius
+            print '  left  :', sinistra
+            print '  right :', destra
+
+    # cut the region
+    amr = RegionFilter(regione_sp, amr)
+    amr = CellsToPoints(amr)
+
+    celle = amr.flatten()
+    amr = None
+
+    return celle
+
 
 def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
