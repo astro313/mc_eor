@@ -4,6 +4,18 @@ Get to the buttom of the buggy yt clump finder...
 
 Loop through all snapshots, plot h2density histogram, pick cuts, then find one clump at a time (vs. plot all clumps given a list of n_cuts, but there's a bug in yt that doesn't do this properly....)
 
+NOTE
+----
+THE BUG (yt will reset itself to look from region > parent region...something like below):
+Number of children in this clump:  8
+ncut =  14.67799267622069
+  N clumps 1
+    id      0
+    len     16777216
+    max f*d 48.6998896743599 g/cm**3
+    min f*d 6.880567814353917e-08 g/cm**3
+
+
 last mod: 16 July 2018
 
 
@@ -33,10 +45,10 @@ if not os.path.isdir(outdir):
 
 field_select = "h2density"
 
-th_list = 10**np.linspace(-0.5, 1.5, 7)
-th_list = [7.]
-th_list = [10**-0.5]
-test = True
+# th_list = 10**np.linspace(-0.5, 1.5, 7)
+# th_list = [7.]
+# th_list = [10**-0.5]
+test = False
 
 # loop through all snapshots
 for snapshotnum in range(16, 29):
@@ -47,7 +59,7 @@ for snapshotnum in range(16, 29):
         check_hist_h2(data, th_list, ss=snapshotnum, outdir=outdir)
         f_out = outdir + "ss_" + str(snapshotnum) + "_ncut_" + "{:.2f}.png".format(th_list[0])
     else:
-        f_out = outdir + "ss_" + str(snapshotnum) + "list_of_ncuts.png"
+        f_out = outdir + "ss_" + str(snapshotnum) + "list_of_ncuts_{:.2f}-{:.2f}".format(th_list.min(), th_list.max()) + ".png"
 
     ds, dd = prepare_unigrid(data=data)
     prj = yt.ProjectionPlot(ds, 0, field_select,
