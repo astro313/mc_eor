@@ -17,10 +17,25 @@ from pymses.utils import constants as C
 import numpy as np
 from pymses.analysis.visualization import *
 
-def calculate_age_stars(ro_in=None,dset_in=None):
+def calculate_age_stars(ro_in=None,dset_in=None, time_proper = True):
 
-  Myr_unit_time = ro_in.info["unit_time"].express(C.Myr)
-  stars_age     = (ro_in.info["time"] - dset_in["epoch"][:])*Myr_unit_time
+  if(time_proper):
+    # switch depends on ramses run setup
+    import cosmolopy.distance as cd
+    import cosmolopy.constants as cc
+
+    cosmo = {'omega_M_0'      : ro_in.info["omega_m"],
+             'omega_lambda_0' : ro_in.info["omega_l"],
+             'h'              : ro_in.info["H0"]/100.
+                                  }
+    cosmo         = cd.set_omega_k_0(cosmo)
+
+    t_z0     = cd.age(0., **cosmo)/(cc.Gyr_s/1.e+3)                         # Myr
+    ram2myr  = ro_in.info["unit_time"].express(C.Myr)/ro_in.info["aexp"]**2 # Myr
+    star_age = t_z0 + dset_in["epoch"][:]*ram2myr                           # age of the universe when the star particle was created
+  else:
+    Myr_unit_time = ro_in.info["unit_time"].express(C.Myr)
+    stars_age     = (ro_in.info["time"] - dset_in["epoch"][:])*Myr_unit_time
 
   return stars_age
 
