@@ -57,7 +57,7 @@ field_select = "h2density"
 # th_list = [7.]
 # th_list = [10**-0.5]
 # th_list = [35.]
-th_list = [5.]
+th_list = [6.81]
 test = True
 
 n_cell_min = 10.0
@@ -77,7 +77,7 @@ for incut in th_list:
 
         ds, dd = prepare_unigrid(data=data)
         prj = yt.ProjectionPlot(ds, 0, field_select,
-                                center='c', weight_field='density')
+                                center='c', weight_field='h2density')
 
         #prj.set_zlim('h2density', 1.e-3, 1e-1)
         _, leaf_clumps = ytclumpfind_H2(ds, dd, field_select, incut,
@@ -90,7 +90,8 @@ for incut in th_list:
         id_sorted = sorted(range(len(leaf_clumps)),
                            key=lambda x: np.sum(leaf_clumps[x]["density"]))
 
-        prj.annotate_contour(field='h2density', ncont=1, clim=(incut, largeNum))
+        prj.annotate_contour(field="h2density", ncont=1, factor=1,
+                             clim=(incut, largeNum))
 
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
