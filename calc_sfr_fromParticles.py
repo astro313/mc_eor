@@ -1,8 +1,8 @@
 '''
 
-Calculate the globally integrated SFR for each snapshot. (using pymses, not fully functional)
+Calculate the globally integrated SFR for each snapshot. (using pymses, not fully functional). Always load in "level"!!
 
-Last mod: 16 July 2018
+Last mod: 17 July 2018
 
 '''
 
@@ -15,8 +15,13 @@ import pymses
 from pymses.sources.ramses import output
 from pymses.utils import constants as C
 import numpy as np
+import os
 from pymses.analysis.visualization import *
 
+stardir = 'star_particles/'
+
+if not os.path.isdir(stardir):
+    os.mkdir(stardir)
 
 pymses.RamsesOutput.amr_field_descrs_by_file = \
     {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
@@ -41,12 +46,13 @@ pymses.RamsesOutput.amr_field_descrs_by_file = \
                       ],
             "grav": [output.Vector("g", [0, 1, 2])]}}
 
-def particles2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
 
+def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
     log_sfera: Boolean
         True for sphere
     """
+
     assert ro != None
     assert list_var != None
 
@@ -54,6 +60,15 @@ def particles2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbos
     from pymses.filters import RegionFilter, CellsToPoints
 
     part = ro.particle_source(list_var)
+
+    # Filter all the particles which are initially present in the simulation
+    from pymses.filters import PointFunctionFilter
+    if star:
+        star_filter = lambda dset: dset["epoch"] != 0.0
+        part = PointFunctionFilter(star_filter, part)
+    else:
+        dm_filter = lambda dset: dset["epoch"] == 0.0
+        part = PointFunctionFilter(dm_filter, part)
 
     center = camera_in['center']
     radius = camera_in['region_size'][0]
@@ -80,19 +95,18 @@ def particles2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbos
 
     # cut the region
     part = RegionFilter(regione_sp, part)
-
     celle = part.flatten()
-    part = None
 
-    return celle
+    return celle, part
 
 
 if __name__ == '__main__':
 
     debug = False
     import cPickle as pickle
+    import matplotlib.pyplot as plt
 
-    part_fields = ['vel', "id", "epoch", "mass"]
+    part_fields = ['vel', "id", "epoch", "mass", 'level']
 
     delta_t = 10.0    # Myr
 
@@ -104,7 +118,7 @@ if __name__ == '__main__':
     with open(f_camera, 'rb') as f:
         data = pickle.load(f)
 
-    snapshotsToLoad = range(16, 29)
+    snapshotsToLoad = range(28, 29)
     for ssnum in snapshotsToLoad:
         ro = pymses.RamsesOutput("output", ssnum)
 
@@ -120,20 +134,22 @@ if __name__ == '__main__':
                      'up_vec': up,
                      'map_max_size': mms}
 
-        # Filter all the particles which are initially present in the simulation
-        from pymses.filters import PointFunctionFilter
-        dm_filter = lambda dset: dset["epoch"] == 0.0
-        dm_parts = PointFunctionFilter(dm_filter, point_dset)
+        parts_inside_camera_vec, parts_inside_camera = particles2cell(ro, star=True,
+                                             list_var=part_fields,
+                                             camera_in={'center': center,
+                                                        'region_size': region_size},
+                                             verbose=debug)
 
-        parts_inside_camera = particles2cell(ro,
-                                   list_var=part_fields,
-                                   camera_in={'center': center,
-                                              'region_size': region_size},
-                                   verbose=debug)
+        mass = parts_inside_camera_vec['mass'] * ro.info['unit_mass'].express(C.Msun)
+        plt.hist(mass)
+        plt.xscale('log')
+        plt.yscale('log')
+        plt.savefig(stardir +  "starMassHist_" + str(ssnum) + ".png")
+
 
         # visualize
         # map operator: mass
-        scal_func = ScalarOperator(lambda dset: dset["mass"])     # simple, plot the mass
+        scal_func = ScalarOperator(lambda dset: dset["mass"]* ro.info['unit_mass'].express(C.Msun)/(ro.info['unit_length'].express(C.pc))**2)     # simple, plot the mass
 
         # map processing
         mp = fft_projection.MapFFTProcessor(parts_inside_camera, ro.info)
@@ -147,25 +163,24 @@ if __name__ == '__main__':
                      map_max_size=camera_in['map_max_size'],
                      log_sensitive=True)
         mapp = mp.process(scal_func, cam, surf_qty=True)
-        P.imshow(np.log10(mapp))
-        P.show()
+        plt.imshow(np.log10(mapp))
+        plt.savefig(stardir + "star_" + str(ssnum) + '.png')
 
-        # can't plot???
-
+        # position automatically loadded in.
+        print parts_inside_camera_vec.points.shape
 
         # ----------------------------------------------------------------
         # each star particle has a mass and age. Select those w/in delta_t
+        lookbackTimeGyr = parts_inside_camera_vec["epoch"] * ro.info['unit_time'].express(C.Gyr)
 
-        # convert "epoch" to Myr?
-        something here...
-
-        # exclude IC particles
-        idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
+        print (13.7 - abs(lookbackTimeGyr)).max(), (13.7 - abs(lookbackTimeGyr)).min()
+        # # exclude IC particles
+        # idx_within10Myr = parts_inside_camera["epoch"] <= 10.0
 
 
-        # convert stellar mass in code unit to Msun
-        Mstar_Msun = something here
+        # # convert stellar mass in code unit to Msun
+        # Mstar_Msun = something here
 
-        SFR = Mstar_Msun[idx]
+        # SFR = Mstar_Msun[idx]
 
 
