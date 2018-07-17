@@ -19,8 +19,7 @@ ncut =  1.4677992676220695
 Dump to
    test_brute/ss_28_ncut_1.47.png
 
-
-Bug persist even if we do cut one-by-one. We modified yt clump_handling.py to fix this..
+-- Bug persist even if we do cut one-by-one. We modified yt clump_handling.py to fix this..
 
 
 last mod: 17 July 2018
@@ -28,7 +27,6 @@ last mod: 17 July 2018
 
 """
 
-import matplotlib.pyplot as plt
 import yt
 import os
 from yt.funcs import mylog
@@ -38,12 +36,6 @@ import numpy as np
 
 from clump_modules.clump_wrapper import ytclumpfind_H2
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, check_hist_h2
-
-
-def col_f(ii, cm=None):
-    if cm is None:
-        cm = plt.get_cmap('gist_heat')
-    return cm(ii)
 
 
 outdir = 'test_brute/'
@@ -61,7 +53,7 @@ th_list = [6.81]
 test = True
 
 n_cell_min = 10.0
-largeNum = 1.e+42   # to plot only one contour hacky way
+largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
@@ -91,24 +83,10 @@ for incut in th_list:
                            key=lambda x: np.sum(leaf_clumps[x]["density"]))
 
         prj.annotate_contour(field="h2density", ncont=1, factor=1,
-                             clim=(incut, largeNum))
+                             clim=(incut, largeNum))  # to deal w/ stupid yt annotate_clump() bug
 
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
-
-            if(0):
-                ff = float(iii) / len(th_list)
-            else:
-                ff = float(ileaf) / len(leaf_clumps)
-
-            # prj.annotate_clumps([leaf_clumps[ileaf]],
-            #                        ,plot_args={
-            #                        'colors': [col_f(ff)],
-            #                        'alpha': 0.8,
-            #                        'zorder': ileaf
-            #                        })
-
-            # leaf_clumps[ileaf]["index", xf].copy()
 
             prj.annotate_marker(_fc,
                                 coord_system='data',
