@@ -14,6 +14,7 @@ With yt, connected sets can be identified. This enables the location and analysi
 import yt
 from yt.analysis_modules.level_sets.api import Clump, find_clumps, get_lowest_clumps, write_clump_index, write_clumps
 
+
 def ytclumpfind_H2(ds, dd, field, n_cut, c_max=None, step=3, N_cell_min=10, save=False, plot=False, saveplot=False, fold_out='./'):
     '''
 
@@ -65,7 +66,8 @@ def ytclumpfind_H2(ds, dd, field, n_cut, c_max=None, step=3, N_cell_min=10, save
     # c_min = 10**np.floor(np.log10(dd[field]).min()  )
     # c_max = 10**np.floor(np.log10(dd[field]).max()+1)
     # if n_cut < 1.e-5:
-    #     n_cut = 1.0    # to make sure whatever comes out after multiplicative by step won't be too small
+    # n_cut = 1.0    # to make sure whatever comes out after multiplicative by
+    # step won't be too small
 
     if step <= 1.0:
         step += 1
@@ -100,14 +102,14 @@ def ytclumpfind_H2(ds, dd, field, n_cut, c_max=None, step=3, N_cell_min=10, save
     # # *** AttributeError: 'StreamDataset' object has no attribute 'tree'
 
     if plot:
-        plotclumps(ds=ds, leaf_clumps = leaf_clumps,field=field, master_clump = master_clump, saveplot=saveplot, fold_out=fold_out
-            , n_cut = n_cut,N_cell_min = N_cell_min,step = step
-            )
+        plotclumps(ds=ds, leaf_clumps=leaf_clumps, field=field, master_clump=master_clump, saveplot=saveplot, fold_out=fold_out, n_cut=n_cut, N_cell_min=N_cell_min, step=step
+                   )
 
     return master_clump, leaf_clumps
 
+
 def plotclumps(ds, leaf_clumps, master_clump, field='h2density', saveplot=False, fold_out='',
-    n_cut = 0 ,N_cell_min = 0,step= 0 ):
+               n_cut=0, N_cell_min=0, step=0):
     """ overplot the clumps found (specifically the leaf_clumps) along 3 images, each created by projecting onto x-, y-, and z-axis. """
 
     axes = {'0': 'x', '1': 'y', '2': 'z'}
@@ -120,12 +122,12 @@ def plotclumps(ds, leaf_clumps, master_clump, field='h2density', saveplot=False,
                                 center='c')
 
         tc1 = [c for c in master_clump]
-        prj.annotate_clumps(tc1)    # ok, seems like this works.., but we can't force it to plot other colors, okay, maybe the problem was the syntax.... it only takes
-                        # plot_args={
-                        # 'colors': [col_f(ff)]
-                        # }
-
-        # prj.set_unit(field=("h2density"), new_unit=..., equivalency=...)
+        # ok, seems like this works.., but we can't force it to plot other
+        # colors, okay, maybe the problem was the syntax.... it only takes
+        # plot_args={
+        # 'colors': [col_f(ff)]
+        # }
+        prj.annotate_clumps(tc1)
 
         # print type(leaf_clumps)
         # print "***"
@@ -135,11 +137,105 @@ def plotclumps(ds, leaf_clumps, master_clump, field='h2density', saveplot=False,
         prj.zoom(3)
 
         if saveplot:
-            prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) + \
-                    '_' + str(int(step)) + '-' + str(int(N_cell_min)) + \
-                    '_' + vv + 'axis.png')
+            prj.save(fold_out + 'clumps1_' + '{0:.2f}'.format(n_cut) +
+                     '_' + str(int(step)) + '-' + str(int(N_cell_min)) +
+                     '_' + vv + 'axis.png')
         else:
             prj.show()
 
 
+def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity, velx, vely, velz, plothist=False):
+    """
 
+    Parameters
+    ----------
+    subleaf: a leaf object (i.e., w/o children)
+
+    density: array
+        density of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    H2density: array
+        H2 density of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    Pressure: array
+        Thermal Pressure of uniformly sampled subregion (probably converted into desire units at this point.)
+
+    P_nt: array
+        P_nt of uniformly sampled subregion
+
+    metallicity: array
+        Z of uniformly sampled subregion, divide by 0.02 to get to solar metallicity
+
+    velx: array
+        vel-x of uniformly sampled subregion
+
+    vely: array
+        vel-y of uniformly sampled subregion
+
+    velz: array
+        vel-z of uniformly sampled subregion
+
+    plothist: bool
+        whether or not to plot the histogram for each field corresponding to the clump
+
+    Returns
+    -------
+    _leaf_fields: dict
+        bunch of fields
+
+    """
+
+    _leaf_fields = {'density': None,
+                    'H2density': None,
+                    'Pressure': None,
+                    'P_nt': None,
+                    'metallicity': None,
+                    'velx': None,
+                    'vely': None,
+                    'velz': None}
+
+    # index corresponding to the clumps (w/ no children)
+    ii = subleaf.data.icoords[:, 0]
+    jj = subleaf.data.icoords[:, 1]
+    kk = subleaf.data.icoords[:, 2]
+
+    # print(subleaf.quantities.total_mass())
+    # print(subleaf.quantities.center_of_mass())
+
+    for fff in _leaf_fields.iterkeys():
+        _leaf_fields[fff] = eval(fff)[ii, jj, kk]
+
+    #_h2_subleaf = subleaf.data['h2density']
+    #h2_subleaf = _leaf_fields['H2density']
+    #assert round(_h2_subleaf[0]) == round(h2_subleaf[0])
+    #del h2_subleaf
+    #del _h2_subleaf
+
+    if plothist:
+        # hard code for now
+        plt.hist(density_aa)
+        plt.title('density [1/cm^3]')
+        plt.show()
+        plt.hist(H2_aa)
+        plt.title('H2 density [1/cm^3]')
+        plt.show()
+        plt.hist(np.log10(Pressure_aa))
+        plt.title('Thermal Pressure [K cm-3]')
+        plt.show()
+        plt.hist(np.log10(P_nt_aa))
+        plt.title('Non-thermal Pressure [K cm-3]')
+        plt.show()
+        plt.hist(metallicity_aa / 0.02)
+        plt.title('Metallicity in Solar Z units')
+        plt.show()
+        plt.hist(velx)
+        plt.title('vel-x [km/s]')
+        plt.show()
+        plt.hist(vely)
+        plt.title('vel-y [km/s]')
+        plt.show()
+        plt.hist(velz)
+        plt.title('vel-z [km/s]')
+        plt.show()
+
+    return _leaf_fields
