@@ -34,7 +34,7 @@ from yt.funcs import mylog
 mylog.setLevel(0)
 import numpy as np
 
-from clump_modules.clump_wrapper import ytclumpfind_H2
+from clump_modules.clump_wrapper import ytclumpfind_H2, get_phyprop_of_leaf
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, check_hist_h2
 
 
@@ -115,7 +115,6 @@ for incut in th_list:
         print '  ', f_out
         prj = None
 
-        from snapshot_ytclump_fields import get_phyprop_of_leaf
         import cPickle as pickle
         print '  compute properties'
         # to retreive physical properties of leaf
