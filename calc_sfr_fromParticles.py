@@ -7,7 +7,7 @@ NOTE
 Always load in "level" for AMR particles to work!
 
 
-Last mod: 17 July 2018
+Last mod: 18 July 2018
 
 '''
 
@@ -73,7 +73,9 @@ if __name__ == '__main__':
     with open(f_camera, 'rb') as f:
         data = pickle.load(f)
 
-    snapshotsToLoad = range(28, 29)
+    sfrs = []
+    starMs = []
+    snapshotsToLoad = range(16, 29)
     for ssnum in snapshotsToLoad:
         ro = pymses.RamsesOutput("output", ssnum)
 
@@ -96,10 +98,15 @@ if __name__ == '__main__':
 
         mass = parts_inside_camera_vec['mass'] * \
             ro.info['unit_mass'].express(C.Msun)
+
+        plt.figure()
         plt.hist(mass)
         plt.xscale('log')
         plt.yscale('log')
+        plt.xlabel('Stellar Mass [Msun]')
+        plt.title("Mass of Star Particles in snapshot " + str(ssnum))
         plt.savefig(stardir + "starMassHist_" + str(ssnum) + ".png")
+        plt.close()
 
         # visualize
         # map operator: mass
@@ -119,8 +126,11 @@ if __name__ == '__main__':
                      map_max_size=camera_in['map_max_size'],
                      log_sensitive=True)
         mapp = mp.process(scal_func, cam, surf_qty=True)
+        plt.close()
+        plt.figure()
         plt.imshow(np.log10(mapp))
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
+        plt.close()
 
         # particles positions are automatically loadded in.
         print parts_inside_camera_vec.points.shape
@@ -130,23 +140,48 @@ if __name__ == '__main__':
         lookbackTimeGyr = parts_inside_camera_vec[
             "epoch"] * ro.info['unit_time'].express(C.Gyr)
 
-        age_star_myr = calculate_age_stars(
+        UniverseAgeStarFormationMyr = calculate_age_stars(
             ro_in=ro, dset_in=parts_inside_camera_vec)
 
-        idx_within10Myr = np.abs(np.max(age_star_myr)-age_star_myr) <= delta_t
+        idx_within10Myr = np.abs(np.max(UniverseAgeStarFormationMyr)-UniverseAgeStarFormationMyr) <= delta_t
         print 'SFR within', delta_t, 'Myr'
         print '  ', np.sum(mass[idx_within10Myr])/1.e+6/delta_t,'Msun/yr'
+        sfrs.append(np.sum(mass[idx_within10Myr])/1.e+6/delta_t)
 
-        # "SFH"
-        ii = np.argsort(age_star_myr)
-        x = age_star_myr[ii]
+        # stellar mass buildup history
+        ii = np.argsort(UniverseAgeStarFormationMyr)
+        x = UniverseAgeStarFormationMyr[ii]
         y = mass[ii]
         y = np.cumsum(y)
         plt.figure()
         plt.plot(x, y)
-        plt.savefig('12345.png')
+        print "Total Stellar Mass buildup: {:.2f} x 10^10 [Msun]".format(y.max()/1.e10)
 
-        # # convert stellar mass in code unit to Msun
-        # Mstar_Msun = something here
+        starMs.append(y.max()/1.e10)
 
-        # SFR = Mstar_Msun[idx]
+        plt.ylabel("Stellar Mass [Msun]")
+        plt.xlabel("Age of Universe [Myr]")
+        plt.savefig(stardir + "snapshot" + str(ssnum) + '_MstarBuildup.png')
+        plt.close()
+
+
+        # get SFR
+        x = UniverseAgeStarFormationMyr[ii]
+        time_bins_dt = np.gradient(x)
+        y = mass[ii]/(time_bins_dt * 1.e6)
+        plt.figure()
+        plt.plot(x, y, '.')
+        plt.ylabel("dM/dt [Msun/yr]")
+        plt.xlabel("Age of Universe [Myr]")
+        plt.title(" SFR of Main Galaxy in snapshot " + str(ssnum))
+        plt.tight_layout()
+        plt.savefig(stardir + "snapshot" + str(ssnum) + '_SFR.png')
+        plt.close()
+
+print 'SFR within', delta_t, 'Myr for each snapshot: '
+print '  ', sfrs, 'Msun/yr'
+
+print 'Stellar mass buildup for each snapshot: '
+print '  ', starMs, 'Msun/yr'
+
+# ----------
