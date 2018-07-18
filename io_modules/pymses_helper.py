@@ -1,6 +1,34 @@
 import numpy as np
 import pymses
 from pymses.utils import constants as C
+from pymses.sources.ramses import output
+
+
+def load_in_amr():
+    pymses.RamsesOutput.amr_field_descrs_by_file = \
+        {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
+                          output.Vector("Bl", [4, 5, 6]),
+                          output.Vector("Br", [7, 8, 9]),
+                          output.Scalar("P", 10),
+                          output.Scalar("Z", 11)],
+                "grav": [output.Vector("g", [0, 1, 2])]},
+         "3D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
+                          output.Scalar("P_nt", 4), output.Scalar("P", 5),
+                          output.Scalar("Z", 6),
+                          # # note field 7 is skipped here because it's just flags for structure of the AMR, and pymses is not picking about skipping fields
+                          # output.Scalar("H", 8),
+                          # output.Scalar("E", 9),
+                          # output.Scalar("H+", 10),
+                          # output.Scalar("HE", 11),
+                          # output.Scalar("HE+", 12),
+                          # output.Scalar("HE++", 13),
+                          # output.Scalar("H-", 14),
+                          output.Scalar("H2", 15)
+                          #                      ,output.Scalar("H2+", 16)
+                          ],
+                "grav": [output.Vector("g", [0, 1, 2])]}}
+    return None
+
 
 def amr2cell(ro=None, list_var=None, log_sfera=False, camera_in={}, verbose=False):
     """
@@ -101,7 +129,7 @@ def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in
     return celle, part
 
 
-def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
+def calculate_age_stars(ro_in=None, dset_in=None, time_proper=False):
 
     """
 
