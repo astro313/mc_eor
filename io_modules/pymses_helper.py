@@ -129,7 +129,7 @@ def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in
     return celle, part
 
 
-def calculate_age_stars(ro_in=None, dset_in=None, time_proper=False):
+def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
 
     """
 

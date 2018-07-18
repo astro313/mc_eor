@@ -25,6 +25,9 @@ from pymses.analysis.visualization import *
 
 if __name__ == '__main__':
 
+
+    debug   = False
+    verbose = True
     stardir = 'star_particles/'
 
     if not os.path.isdir(stardir):
@@ -33,12 +36,11 @@ if __name__ == '__main__':
     from io_modules.pymses_helper import load_in_amr
     load_in_amr()
 
-    debug = False
     import cPickle as pickle
     import matplotlib.pyplot as plt
     from io_modules.pymses_helper import particles2cell, calculate_age_stars
 
-    part_fields = ['vel', "id", "epoch", "mass", 'level']
+    part_fields = ["id", "epoch", "mass", 'level']
 
     delta_t = [4.0, 10.0, 20.0, 100.0]    # Myr
     assert len(delta_t) == 4      # because of the way we wrote I/O
@@ -55,14 +57,18 @@ if __name__ == '__main__':
     sfrs_MsunPerYr = {}
 
     snapshotsToLoad = range(16, 29)
+    snapshotsToLoad = range(28, 29)
     for ssnum in snapshotsToLoad:
         ro = pymses.RamsesOutput("output", ssnum)
 
-        center = data[str(ssnum)]['center_init']
+        center      = data[str(ssnum)]['center_init']
         region_size = [data[str(ssnum)]['size']]
-        los = data[str(ssnum)]['los_vec']
-        up = data[str(ssnum)]['up_vec']
-        mms = data[str(ssnum)]['mms']
+        los         = data[str(ssnum)]['los_vec']
+        up          = data[str(ssnum)]['up_vec']
+        mms         = data[str(ssnum)]['mms']
+
+        if debug:
+          region_size = [0.1,0.1]
 
         camera_in = {'center': center,
                      'region_size': region_size,
@@ -80,16 +86,26 @@ if __name__ == '__main__':
                                },
                                verbose=debug)
 
+        if debug:
+          xx = parts_inside_camera_vec.points[:,0]
+          xx = xx*ro.info['unit_length'].express(C.kpc)
+          print np.max(xx),np.min(xx)
+          print np.max(xx)-np.min(xx)
+          print np.shape(xx)
         mass = parts_inside_camera_vec['mass'] * \
             ro.info['unit_mass'].express(C.Msun)
 
+        name_out = stardir + "starMassHist_" + str(ssnum) + ".png"
+        if verbose:
+          print 'Figure to '
+          print name_out
         plt.figure()
         plt.hist(mass, bins=200)
         plt.xscale('log')
         plt.yscale('log')
         plt.xlabel('Stellar Mass [Msun]')
         plt.title("Mass of Star Particles in snapshot " + str(ssnum))
-        plt.savefig(stardir + "starMassHist_" + str(ssnum) + ".png")
+        plt.savefig(name_out)
         plt.close()
 
         # visualize
@@ -133,45 +149,60 @@ if __name__ == '__main__':
             np.min(UniverseAgeStarFormationMyr)
 
         # stellar mass buildup history
+        name_out = stardir + "snapshot" + str(ssnum) + '_MstarBuildup.png'
+        if verbose:
+          print 'Stellar mass to'
+          print '  ',name_out
         ii = np.argsort(GalaxyAgeFirstStarFormationMyr)
-        x = GalaxyAgeFirstStarFormationMyr[ii]
-        y = mass[ii]
+        x = np.copy(GalaxyAgeFirstStarFormationMyr[ii])
+        y = np.copy(mass[ii])
         y = np.cumsum(y)
         plt.figure()
         plt.plot(x, y)
-        print "Total Stellar Mass buildup: {:.2f} x 10^10 [Msun]".format(y.max() / 1.e10)
+        if verbose:
+          print "Total Stellar Mass buildup: {:.2f} x 10^10 [Msun]".format(y.max() / 1.e10)
         starMs.append(y.max() / 1.e10)
-
         plt.ylabel("Stellar Mass [Msun]")
         plt.xlabel("Age of Universe [Myr]")
-        plt.savefig(stardir + "snapshot" + str(ssnum) + '_MstarBuildup.png')
+        plt.savefig(name_out)
         plt.close()
 
         _sfrs = {}
         for it in delta_t:
             idx_withinNMyr = np.abs(np.max(GalaxyAgeFirstStarFormationMyr) - GalaxyAgeFirstStarFormationMyr) <= it
 
-            print 'SFR within', it, 'Myr'
-            print '  ', np.sum(mass[idx_withinNMyr]) / 1.e+6 / it, 'Msun/yr'
+            if verbose:
+              print 'SFR within', it, 'Myr'
+              print '  ', np.sum(mass[idx_withinNMyr]) / 1.e+6 / it, 'Msun/yr'
             _sfrs[str(int(it))] = (np.sum(mass[idx_withinNMyr]) / 1.e+6 / it)
 
             # get SFR averaged over delta_t
-            x = GalaxyAgeFirstStarFormationMyr[ii]
-            x_binned_myr = np.arange(np.min(x), np.max(x), it)
+            if(1):
+              x = GalaxyAgeFirstStarFormationMyr[ii]
+              x_binned_myr = np.arange(np.min(x), np.max(x), it)
+              y, t_binned = np.histogram(
+                  x, weights=mass[ii], bins=int((x.max() - x.min()) / it))
+              t_binned = t_binned[1:]
+              y = y / (np.mean(np.diff(t_binned)) * 1.e6)
+            else:
+              # equivalent, only for testing
+              t_binned = np.arange(np.min(GalaxyAgeFirstStarFormationMyr),np.max(GalaxyAgeFirstStarFormationMyr),it)
+              print np.min(GalaxyAgeFirstStarFormationMyr),np.max(GalaxyAgeFirstStarFormationMyr)
+              print t_binned
+              bin_in_x = np.digitize(GalaxyAgeFirstStarFormationMyr, t_binned[:-1])
+              y        = np.bincount(bin_in_x,weights = mass) / ( it * 1.e6)
 
-            y, t_binned = np.histogram(
-                x, weights=mass[ii], bins=int((x.max() - x.min()) / it))
-            t_binned = t_binned[1:]
-
-            y = y / (np.mean(np.diff(t_binned)) * 1.e6)
-
+            out_name = stardir + "snapshot" + str(ssnum) + '_SFR_' + str(int(it)) + 'Myr.png'
+            if verbose:
+              print '  SFR averaged over',it,'Myr to'
+              print '    ',name_out
             plt.figure()
             plt.plot(t_binned, y)
             plt.ylabel("dM/dt [Msun/yr]")
             plt.xlabel("Age of Galaxy [Myr]")
             plt.title(" SFR of Main Galaxy in snapshot " + str(ssnum) + " averaged over " + str(int(it)) + " Myr")
             plt.tight_layout()
-            plt.savefig(stardir + "snapshot" + str(ssnum) + '_SFR_' + str(int(it)) + 'Myr.png')
+            plt.savefig(out_name)
             plt.close()
 
         sfrs_MsunPerYr[str(ssnum)] = _sfrs
