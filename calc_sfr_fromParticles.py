@@ -117,8 +117,7 @@ if __name__ == '__main__':
 
         # visualize
         # map operator: mass
-        scal_func = ScalarOperator(lambda dset: dset["mass"] * ro.info['unit_mass'].express(
-            C.Msun) / (ro.info['unit_length'].express(C.pc))**2)     # simple, plot the mass
+        scal_func = ScalarOperator(lambda dset: dset["mass"] * ro.info['unit_mass'].express(C.Msun) / (ro.info['unit_length'].express(C.pc))**2)     # simple, plot the mass
 
         # map processing
         mp = fft_projection.MapFFTProcessor(parts_inside_camera, ro.info)
@@ -136,6 +135,8 @@ if __name__ == '__main__':
         plt.close()
         plt.figure()
         plt.imshow(np.log10(mapp))
+        cbar = plt.colorbar()
+        cbar.set_label(r"log10(Mass surface density [Msun/pc$^2$])")
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
         plt.close()
 
@@ -212,7 +213,5 @@ if __name__ == '__main__':
 
 print 'Stellar mass buildup for each snapshot: '
 print ' ', np.round(np.array(starMs), 2), 'x 10^10 Msun/yr'
-
-# write out
 
 # ----------
