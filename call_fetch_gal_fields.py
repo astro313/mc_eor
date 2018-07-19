@@ -9,7 +9,7 @@ Last mod: 12 July 2018
 
 import os
 import pickle
-from fetch_gal_fields import getpoints4fields
+from io_modules.fetch_gal_fields import getpoints4fields
 import pymses
 from pymses.utils import constants as C
 
