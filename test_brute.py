@@ -81,9 +81,11 @@ for incut in th_list:
         if len(leaf_clumps) == 1:
             if (len(leaf_clumps[0]["h2density"]) < n_cell_min) or (len(leaf_clumps[0]["h2density"] > 100**3)):
                 print("Removing the very last clump after checking N_cell_min criterion. Found no clumps...")
+                del leaf_clumps
                 continue
             if len(leaf_clumps[0]["h2density"]) == dd.shape[0]:
                 print("Found no clumps and yt is being stupid..")
+                del leaf_clumps
                 continue
 
         id_sorted = range(len(leaf_clumps))
