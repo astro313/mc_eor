@@ -107,7 +107,8 @@ def unpack_xy(ss):
 
 def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
                leglabel='', tag='', cm='gist_rainbow',
-               to_plot=None, save=True, outdir='./'):
+               to_plot=None, save=True, outdir='./',
+               sfrlabel=False):
     """
 
     Parameters
@@ -122,6 +123,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
          something like "ncut: ", or "snapshot: " for legend
 
     to_plot: dict
+
+    sfrlabel: bool
+        if true, will label marker using SFR instead of snapshot number
 
     Returns
     -------
@@ -233,12 +237,21 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
 
+    if sfrlabel:
+        # load in SFR of each snapshot (averaged over 4 Myr, see load_misc.py)
+        from io_modules.load_misc import load_SFR_perSS
+        sfr = load_SFR_perSS()
+
     for ks in iter(sorted(to_plot.iterkeys())):
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
-        ax.plot(_x, _y, ls=ls, markersize=markersize,
-                marker=marker, label=leglabel + ks)
-
+        if sfrlabel:
+            ax.plot(_x, _y, ls=ls, markersize=markersize,
+                    marker=marker,
+                    label="SFR: " + "{0:d}".format(int(sfr[ks])))
+        else:
+            ax.plot(_x, _y, ls=ls, markersize=markersize,
+                    marker=marker, label=leglabel + ks)
 
     if(xstr == 'cloud mass'):
         ax.set_xscale("log")
