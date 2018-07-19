@@ -2,7 +2,7 @@ import cPickle as pickle
 import sys
 sys.path.append('../')
 
-from snapshot_leafprop import Cloud
+from clump_modules.leafprop import Cloud
 from io_modules.manipulate_fetch_gal_fields import get_dx
 
 
