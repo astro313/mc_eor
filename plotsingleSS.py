@@ -47,7 +47,7 @@ def plotting_procedure(snapshot_num):
 # ---
 
 if __name__ == '__main__':
-    plotting_procedure(16)
-    plotting_procedure(27)
-    plotting_procedure(28)
+
+    for isnap in range(16, 29):
+        plotting_procedure(isnap)
 
