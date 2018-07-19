@@ -19,40 +19,16 @@ last mod: 16 July 2018
 
 """
 
-from io_modules.manipulate_fetch_gal_fields import get_units
-
-# print (__doc__)
+from manipulate_fetch_gal_fields import get_units
+from pymses_helper import load_in_amr
 
 import pymses
-from pymses.sources.ramses import output
 from pymses.utils import constants as C
 import numpy as np
 from pymses.analysis.visualization import *
 import matplotlib.pyplot as plt
 
-
-pymses.RamsesOutput.amr_field_descrs_by_file = \
-    {"2D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
-                      output.Vector("Bl", [4, 5, 6]),
-                      output.Vector("Br", [7, 8, 9]),
-                      output.Scalar("P", 10),
-                      output.Scalar("Z", 11)],
-            "grav": [output.Vector("g", [0, 1, 2])]},
-     "3D": {"hydro": [output.Scalar("rho", 0), output.Vector("vel", [1, 2, 3]),
-                      output.Scalar("P_nt", 4), output.Scalar("P", 5),
-                      output.Scalar("Z", 6),
-                      # # note field 7 is skipped here because it's just flags for structure of the AMR, and pymses is not picking about skipping fields
-                      # output.Scalar("H", 8),
-                      # output.Scalar("E", 9),
-                      # output.Scalar("H+", 10),
-                      # output.Scalar("HE", 11),
-                      # output.Scalar("HE+", 12),
-                      # output.Scalar("HE++", 13),
-                      # output.Scalar("H-", 14),
-                      output.Scalar("H2", 15)
-                      #                      ,output.Scalar("H2+", 16)
-                      ],
-            "grav": [output.Vector("g", [0, 1, 2])]}}
+load_in_amr()
 
 
 def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, debug=False):
@@ -83,7 +59,7 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     """
 
-    from io_modules.pymses_helper import amr2cell
+    from pymses_helper import amr2cell
     cells_inside_camera = amr2cell(ro,
                                    list_var=fields,
                                    log_sfera=log_sfera,
