@@ -22,7 +22,7 @@ Dump to
 -- Bug persist even if we do cut one-by-one. We modified yt clump_handling.py to fix this..
 
 
-last mod: 17 July 2018
+last mod: 18 July 2018
 
 
 """
@@ -45,14 +45,14 @@ if not os.path.isdir(outdir):
 
 field_select = "h2density"
 
-# th_list = 10**np.linspace(-0.5, 1.5, 7)
+th_list = 10**np.linspace(-0.5, 1.5, 8)
 # th_list = [7.]
 # th_list = [10**-0.5]
 # th_list = [35.]
-th_list = [6.81]
+# th_list = [6.81]
 test = True
 
-n_cell_min = 10.0
+n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 # because of the stupid yt bug, we will loop through the cuts and run
@@ -60,7 +60,7 @@ largeNum = 1.e+42   # to plot only one contour in a hacky way
 for incut in th_list:
 
     # loop through all snapshots
-    for snapshotnum in range(28, 29):
+    for snapshotnum in range(16, 29):
         data = import_fetch_gal(isnap=snapshotnum)
 
         check_hist_h2(data, incut, ss=snapshotnum, outdir=outdir)
