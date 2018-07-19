@@ -334,8 +334,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
 def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
                leglabel='', tag='', cm='gist_rainbow',
-               to_plot=None, save=True, outdir='./'):
+                    to_plot=None, save=True, outdir='./', sfrlabel=False):
     from matplotlib.ticker import NullFormatter
+
+    if sfrlabel:
+        # load in SFR of each snapshot (averaged over 4 Myr, see load_misc.py)
+        from io_modules.load_misc import load_SFR_perSS
+        sfr = load_SFR_perSS()
 
     plt.close('all')
     fig = plt.figure()
@@ -352,8 +357,16 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
         _z = to_plot[ks][zstr]
-        cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
-                        marker=marker, label=leglabel + ks)
+
+        if sfrlabel:
+            cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(), 
+                    markersize=markersize,
+                    marker=marker,
+                    label="SFR: " + "{0:d}".format(int(sfr[ks])))
+        else:
+            cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
+                             marker=marker, label=leglabel + ks)
+
 
     if(xstr == 'tff Myr'):
         ax.set_xlabel(r"$t_{\rm ff}$ [Myr]")
