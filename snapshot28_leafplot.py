@@ -8,7 +8,7 @@ last mod: 18 July 2018
 
 
 import cPickle as pickle
-from snapshot_leafprop import Cloud
+from clump_modules.leafprop import Cloud
 import numpy as np
 import os
 from plot_modules.plot_cloud_prop import setup_plot

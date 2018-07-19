@@ -79,15 +79,15 @@ def unpack_xy(ss):
             _alpha.append(ss[ks][kkk].alpha)
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
-            _R2pc2.append(np.array(_sizepc) ** 2.0)
+            _R2pc2.append((ss[ks][kkk].R_pc * 2.0) ** 2.0)
             _SFRSD.append((ss[ks][kkk].SFR) / 1.0e6 /
                           (np.pi * ss[ks][kkk].R_pc * pc2kpc)**2)
             _sigmakms.append(np.sqrt(ss[ks][kkk].sigmaSq) * cm2km)
             _tffMyr.append(ss[ks][kkk].tff_Myr)
-            _mSD_cgs.append(np.array(_mSD) *
+            _mSD_cgs.append(ss[ks][kkk].massSD *
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
-            _sigma2oR.append(np.array(ss[ks][kkk].sigmaSq) / (1.e5)**2 /
-                             _sizepc)
+            _sigma2oR.append(ss[ks][kkk].sigmaSq / (1.e5)**2 /
+                             (ss[ks][kkk].R_pc * 2.0))
 
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
@@ -193,6 +193,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
     if xstr == "gas sd cgs" and ystr == "sigmaSq over size":
         # Heyer+09 GRS data
+        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
         xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
         ax.scatter(xxx, yyy, marker='.', color='k', s=7, label='Heyer+09 GRS')
 
@@ -235,10 +236,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     for ks in iter(sorted(to_plot.iterkeys())):
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
-        if xstr == 'R2 pc2':
-            print xstr, ystr
-            print _x, _y
-            import pdb; pdb.set_trace()
         ax.plot(_x, _y, ls=ls, markersize=markersize,
                 marker=marker, label=leglabel + ks)
 
@@ -343,7 +340,6 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
         _y = to_plot[ks][ystr]
         _z = to_plot[ks][zstr]
         cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
-                        ls=ls, markersize=markersize,
                         marker=marker, label=leglabel + ks)
 
     if(xstr == 'tff Myr'):
