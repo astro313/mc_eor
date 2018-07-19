@@ -50,6 +50,7 @@ th_list = 10**np.linspace(-0.5, 1.5, 8)
 # th_list = [10**-0.5]
 # th_list = [35.]
 # th_list = [6.81]
+# th_list = [31.62]
 test = True
 
 n_cell_min = 10
@@ -76,6 +77,14 @@ for incut in th_list:
                                         c_max=None, step=1e+6,
                                         N_cell_min=n_cell_min, save=False,
                                         plot=False, saveplot=None, fold_out='./')
+        # stupid yt does not check N_cell_min criterion if no children survived!
+        if len(leaf_clumps) == 1:
+            if (len(leaf_clumps[0]["h2density"]) < n_cell_min) or (len(leaf_clumps[0]["h2density"] > 100**3)):
+                print("Removing the very last clump after checking N_cell_min criterion. Found no clumps...")
+                continue
+            if len(leaf_clumps[0]["h2density"]) == dd.shape[0]:
+                print("Found no clumps and yt is being stupid..")
+                continue
 
         id_sorted = range(len(leaf_clumps))
         # leaf_clumps to sort by np.sum(leaf_clumps[id_sorted]["density"])
