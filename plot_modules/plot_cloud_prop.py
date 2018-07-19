@@ -139,7 +139,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
-        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=10, linestyle=None, label="MW Heiderman+2010")
+        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=10, linestyle='', label="MW Heiderman+2010")
 
         x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
         ax.plot(x, y, linestyle='-', color='b', linewidth=2, label="Kennicutt 1998")
@@ -572,7 +572,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     """
 
     fig = plt.figure()
-    ax = fig.add_subplot(111)
+    ax = fig.add_subplot(121)
     # allmasses_low = np.array(allmasses[allmasses < 5.e6])
     # allmasses_low_log = np.log(allmasses_low)
 
@@ -589,7 +589,10 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
                              logged=False,
                              nbins=nbins)
     ax.plot(mbin / 1.e7, df)
+    ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
+    ax.set_ylabel("dN/d ln M")
 
+    ax = fig.add_subplot(122)
     mbin, df = mass_function(allmasses[allmasses > 2.e7], \
                              logged=False,
                              nbins=8)
@@ -598,12 +601,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     # ax.set_xscale("log")
     # ax.set_yscale("log")
 
-    ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
-    ax.set_ylabel("dN/d ln M")
-
     # ax.set_xlim(allmasses.min(), allmasses.max())
-
-    ax.legend(loc="best")
     plt.tight_layout()
     if save:
         fig.savefig(outdir + 'MassDistribution_differential_' + tag + '.png', \
