@@ -554,7 +554,7 @@ def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag='
         plt.show()
 
 
-def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./', tag=''):
+def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./', tag='', verbose=False):
     """
 
     Plot dN/dln M.
@@ -586,7 +586,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
 
     # since it's pretty bimodal?!
     mbin, df = mass_function(allmasses[allmasses < 2.e7], \
-                             logged=False,
+                             logged=logged,
                              nbins=nbins)
     ax.plot(mbin / 1.e7, df)
     ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
@@ -594,8 +594,9 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
 
     ax = fig.add_subplot(122)
     mbin, df = mass_function(allmasses[allmasses > 2.e7], \
-                             logged=False,
-                             nbins=8)
+                             logged=logged,
+                             nbins=8,
+                             verbose=verbose)
     ax.plot(mbin / 1.e7, df)
 
     # ax.set_xscale("log")
