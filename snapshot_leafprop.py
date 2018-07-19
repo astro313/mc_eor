@@ -2,18 +2,16 @@
 
 Cloud Object to store cloud physical properties.
 
-last mod: 12 July 2018
+last mod: 18 July 2018
 
 NOTE
 ----
-- information on dx_pc is now hard coded...
-
 - surface area is claculated simply using pi*R^2, perhaps we need to project along different axes given that the clumps/leafs identified are not spherical..?
 
 
 '''
 
-print (__doc__)
+# print (__doc__)
 
 import numpy as np
 import cPickle as pickle
@@ -290,18 +288,10 @@ if __name__ == '__main__':
 
     # hard-code to get dx for now...
     # saved in fetch_gal_fields.py
-    from fetch_gal_fields import get_units
+    from io_modules.manipulate_fetch_gal_fields import get_units, get_dx
     import pymses
-    ro = pymses.RamsesOutput("output", 28)
-    ds = np.load('snapshot28_center_fields0123456-15.npz')
-    dx_vector = ds['dx_vector']
-
-    originalLevels = np.log2(1. / np.unique(dx_vector))
-    highestRes = 2.**(originalLevels.max() * -1)
-    # after finely sample unigrid
-    dx_pc = highestRes * get_units(ro=ro)['dx'][0]
 
     # call cloud 0 for testing code..
-    C0 = Cloud(dx_pc, leaf_fields['0'], int('0'))
+    C0 = Cloud(get_dx(snapshot_num), leaf_fields['0'], int('0'))
     print C0
 
