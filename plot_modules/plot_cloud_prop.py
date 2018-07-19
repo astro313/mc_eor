@@ -252,16 +252,16 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     if xstr == 'size pc':
         ax.set_xscale("log")
         ax.set_xlabel("Cloud Size [pc]")
-        ax.set_xlim(1.0, 1.0e5)
+        ax.set_xlim(1.0, 2.e3)
 
     if xstr == 'R2 pc2':
         ax.set_xscale("log")
-        ax.set_xlim(1, 1.e5)
+        ax.set_xlim(10.0, 1.e8)
         ax.set_xlabel(r"$R^2$ [pc$^{2}$]")
 
     if xstr == 'gas sd cgs':
         ax.set_xscale("log")
-        ax.set_xlim(10**-3, 10**1.5)
+        ax.set_xlim(10**-3, 10**1.0)
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
 
     if ystr == 'sigma kms':
