@@ -360,7 +360,6 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
 
         if sfrlabel:
             cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(), 
-                    markersize=markersize,
                     marker=marker,
                     label="SFR: " + "{0:d}".format(int(sfr[ks])))
         else:

@@ -46,3 +46,11 @@ def plotting_procedure(minss, maxss, fname):
 if __name__ == '__main__':
 
     plotting_procedure(16, 28, fname="1.18_10_fields.p")
+    plotting_procedure(16, 28, fname="0.32_10_fields.p")
+    plotting_procedure(16, 28, fname="0.61_10_fields.p")
+    plotting_procedure(16, 28, fname="1.18_10_fields.p")
+    plotting_procedure(16, 28, fname="2.28_10_fields.p")
+    plotting_procedure(16, 28, fname="4.39_10_fields.p")
+    plotting_procedure(16, 28, fname="8.48_10_fields.p")
+    plotting_procedure(16, 28, fname="16.38_10_fields.p")
+    plotting_procedure(16, 28, fname="31.62_10_fields.p")
