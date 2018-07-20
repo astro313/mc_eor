@@ -14,9 +14,16 @@ import os
 from plot_modules.plot_cloud_prop import setup_plot
 plt = setup_plot()
 
-
 def plotting_procedure(snapshot_num):
-    leafdir_out = "/mnt/home/daisyleung/mc_eor/test_brute/leaf_fields_" + str(snapshot_num) + '/'
+
+    try:
+      here = os.path.dirname(os.path.abspath(__file__))+'/'
+    except NameError:
+      # for ipython copy and paste compatibility
+      here = '/mnt/home/daisyleung/mc_eor/'
+
+    leafdir_out = here+"test_brute/leaf_fields_" + str(snapshot_num) + '/'
+
     if not os.path.isdir(leafdir_out):
         os.mkdir(leafdir_out)
 
