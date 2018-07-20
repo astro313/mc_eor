@@ -61,7 +61,6 @@ class Cloud(object):
         self.spherical_radius_cm()
         self.temp()
         self.JeansL_pc()
-        self.JeansL_cm()
         self.veldisp()
         self.sigmaSq_3()
         self.sigmaSq()
