@@ -143,10 +143,34 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
-        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=10, linestyle='', label="MW Heiderman+2010")
+        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=7, linestyle='', \
+                label="MW Heiderman+2010", color='k', alpha=0.8)
 
         x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
         ax.plot(x, y, linestyle='-', color='b', linewidth=2, label="Kennicutt 1998")
+
+        # more from high-z literature
+        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
+        x0901, y0901 = np.loadtxt(litpath + "J0901_KS10_points.txt", unpack=True)  # in log
+        x14011, y14011 = np.loadtxt(litpath + "J14011_KSpoints2.txt", unpack=True)  # not in log
+        xrawle, yrawle = np.loadtxt(litpath + "Rawle_KSpoints.txt", unpack=True, usecols=(0,1))  # in log
+        xgn20, xgn20err, ygn20, ygn20err = np.loadtxt(litpath + "Hodge_resolvedKS.txt", unpack=True)   # not in log
+        xegs, xegserr, yegs, yegserr = np.loadtxt(litpath + "Genzel_KSpoints.txt", unpack=True) # in log
+
+        ax.scatter(10**x0901, 10**y0901, label="J0901 @ z=2.26", \
+                   color='red', marker='o', s=5, facecolors='none', alpha=0.6)
+        ax.scatter(x14011, y14011, label="SMM J14011 @ z=2.56", \
+                   color='darkblue', marker='^', s=13, facecolors='none', alpha=0.8)
+        ax.scatter(10**xrawle, 10**yrawle, label="HLS0918 @ z=5.24", \
+                   color='purple', marker='v', s=10, facecolors='none', alpha=0.8)
+        ax.errorbar(xgn20, ygn20, yerr=ygn20err, xerr=xgn20err, \
+                    label="GN20 @ z=4.05",
+                    color='orange', fmt='s', markersize=4.5,
+                    markeredgewidth=0.6, mfc='none', elinewidth=0.5)
+        ax.errorbar(10**xegs, 10**yegs, yerr=yegserr, xerr=xegserr, \
+                    label="EGS13011166 @ z=1.53",
+                    color='green', fmt='D', markersize=3.5,
+                    markeredgewidth=0.6, mfc='none', zorder=0.5, alpha=0.56, elinewidth=0.5)
 
     if xstr == "size pc" and ystr == "sigma kms":
         # Solomon+87: slope=0.5, based on 273 GMCs (superceeded by Heyer+09):
