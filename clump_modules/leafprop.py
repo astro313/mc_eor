@@ -100,29 +100,14 @@ class Cloud(object):
         """ Temp in Kelvin. """
         self.T = self.Pressure / self.density
 
-    def JeansL_pc(self):
+    def JeansL_pc(self, total_pressure= True):
+
+        temp   = self.T
+        if total_pressure:
+          temp = temp + self.P_nt/self.density
+
         self.L_jeans_pc = 3.31 * \
-            (self.density / 100.0)**(-0.5) * (self.T / 20.0)**0.5
-
-    def JeansL_cm(self):
-        J2erg = 1.E+07
-        self.k_B_erg = C.k_B.value * J2erg
-
-        mH = C.m_p.value * self.kg2g
-        mu = 1.3017 * mH
-        self.L_jeans_cm = (15.0 * self.T * self.k_B_erg / 4.0 /
-                           np.pi / self.G_cgs / mu**2 / self.density)**0.5
-
-        # # just to make sure the equations we use in JeansL_pc and JeansL_cm are equivalent, which they!
-        # plt.figure()
-        # plt.hist(self.L_jeans_pc * self.pc2cm)
-        # plt.title("110")
-        # plt.show(block=False)
-
-        # plt.figure()
-        # plt.hist(self.L_jeans_cm)
-        # plt.title("116")
-        # plt.show(block=False)
+            (self.density / 100.0)**(-0.5) * (temp / 20.0)**0.5
 
     def veldisp(self):
         self.xdisp = np.std(self.velx) * self.km2cm
