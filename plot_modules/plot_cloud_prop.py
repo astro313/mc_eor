@@ -322,12 +322,12 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     if(ystr == 'mass over jeans mass'):
         ax.set_yscale("log")
         ax.set_ylabel(r"$M_{\rm cl} / $M$_J$")
-        ax.set_ylim(10.0, 5.e6)
+#        ax.set_ylim(10.0, 5.e6)
 
     if(ystr == 'alpha vir'):
         ax.set_yscale("log")
         ax.set_ylabel(r"$\alpha_{\rm vir}$")
-        ax.set_ylim(0.5, 1.e2)
+        ax.set_ylim(0.01, 1.e2)
 
     if ystr == 'sigmaSq over size':
         ax.set_yscale("log")
