@@ -38,7 +38,7 @@ class Cloud(object):
 
         self.G_cgs = C.G.value * (self.m2cm)**3 / self.kg2g
         self.J2erg   = 1.E+07
--       self.k_B_erg = C.k_B.value * self.J2erg
+        self.k_B_erg = C.k_B.value * self.J2erg
 
         self.dx = float(dx)            # pc
         # for the units, see fetch_ga_fields.py
