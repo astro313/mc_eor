@@ -192,16 +192,21 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
       # see http://yt-project.org/doc/examining/generic_array_data.html
       # for reference
       
-      unit_base = {'UnitLength_in_cm'         : 3.08568e+21}#,
-                 #'UnitMass_in_g'            :   1.989e+43,
+      unit_base = {
+          'UnitLength_in_cm'         : 3.08568e+21
+         ,'UnitMass_in_g'            : 1.6726219e-24,
+          }#,
                  # 'UnitVelocity_in_cm_per_s' :      100000}
       # reminder: it should be
       #   read from the camera
       bbox_lim = 7. # kpc
+      bbox_lim = bbox_lim/2.
+      bbox     = np.array([[-bbox_lim, bbox_lim],
+                           [-bbox_lim, bbox_lim],
+                           [-bbox_lim, bbox_lim]])
 
-      bbox = np.array([[-bbox_lim, bbox_lim],
-        [-bbox_lim, bbox_lim],
-        [-bbox_lim, bbox_lim]])
+      #data = dict(density = (data['density'], "g/cm**3"))
+
       ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
       import pdb; pdb.set_trace()
     else:
