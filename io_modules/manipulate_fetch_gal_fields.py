@@ -171,7 +171,7 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
     return dataDict
 
 
-def prepare_unigrid(data, verbose=False, add_unit= False):
+def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
 
     import yt
 
@@ -179,24 +179,13 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
         from yt.funcs import mylog
         mylog.setLevel(40)
 
-    field = ("h2density")
-
-    def _h2density(field, data):
-        try:
-            return data["density"] * data["H2"]
-        except:
-            return data[("stream", "density")] * data[("stream", "H2")]
-
     if( add_unit):
-      print 'Feature not yet fully implemented'
+      print 'Fields must be added manually in the dictionary'
       # see http://yt-project.org/doc/examining/generic_array_data.html
       # for reference
-      
-      unit_base = {
-          'UnitLength_in_cm'         : 3.08568e+21
-         ,'UnitMass_in_g'            : 1.6726219e-24,
-          }#,
-                 # 'UnitVelocity_in_cm_per_s' :      100000}
+     
+      mp =  1.6726219e-24
+
       # reminder: it should be
       #   read from the camera
       bbox_lim = 7. # kpc
@@ -205,19 +194,45 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
                            [-bbox_lim, bbox_lim],
                            [-bbox_lim, bbox_lim]])
 
-      data = dict(density = (data['density'], "g/cm**3"))
+      shape_data = data['density'].shape
+      # data should be added with proper units here
+      #   (maybe get_units from pymses can be used)
 
-      ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
+      print data.keys()
+
+      data       = dict( density   = (mp*data['density']          , "g/cm**3")
+                        ,h2density = (data["density"] * data["H2"], "1/cm**3")
+                       )
+
+      ds = yt.load_uniform_grid(data, shape_data,  length_unit='kpc', bbox=bbox)
     else:
       ds = yt.load_uniform_grid(data, data["density"].shape )
 
-    dd = ds.all_data()
-    ds.add_field(("stream", "h2density"), function=_h2density, units="g/cm**3")  # unit is in 1/cc only if convert_unit is properly called when loading in data
-    assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
+      field = ("h2density")
+      def _h2density(field, data):
+          try:
+              return data["density"] * data["H2"]
+          except:
+              return data[("stream", "density")] * data[("stream", "H2")]
 
-    if add_unit:
-        prj = yt.ProjectionPlot(ds, 0, field_select,
-                    center='c', weight_field='h2density')
+      # unit is in 1/cc only if convert_unit is properly called when loading in data
+      ds.add_field(("stream", "h2density"), function=_h2density, units="g/cm**3")
+
+    dd = ds.all_data()
+
+    if test:
+
+        if(0):
+          prj = yt.ProjectionPlot(ds, 0, 'h2density' ,
+                    center='c', weight_field='density')
+          #prj.set_unit('h2density', '1/cm**3')
+        else:
+          prj = yt.ProjectionPlot(ds, 0, 'density' ,
+                    center='c', weight_field='density')
+          #prj.set_unit('density', 'g/cm**3')
+          prj.set_unit('density', 'Msun/pc**3')
+          #prj.set_unit('density', 'code_mass/code_length**3')
+
         prj.save('test_h2density_yt_unit_plot.png')
         import sys; sys.exit('Exiting..')
 
