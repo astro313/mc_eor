@@ -78,9 +78,9 @@ cpdef grid_particle_mass(
     assert n_part == len(mass)
 
     for id_part in range(n_part):
-        i              = int(pos_id[id_part,0])
-        j              = int(pos_id[id_part,1])
-        k              = int(pos_id[id_part,2])
+        i              = long(pos_id[id_part,0])
+        j              = long(pos_id[id_part,1])
+        k              = long(pos_id[id_part,2])
         cube_in[i,j,k] = cube_in[i,j,k] + mass[id_part]
         cube_avg_in[i,j,k] = cube_avg_in[i,j,k] + (mass[id_part] * epoch[id_part])
 
