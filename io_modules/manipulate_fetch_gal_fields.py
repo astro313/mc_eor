@@ -171,7 +171,7 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
     return dataDict
 
 
-def prepare_unigrid(data, verbose=False):
+def prepare_unigrid(data, verbose=False, add_unit= False):
 
     import yt
 
@@ -187,20 +187,26 @@ def prepare_unigrid(data, verbose=False):
         except:
             return data[("stream", "density")] * data[("stream", "H2")]
 
-
-    unit_base = {'UnitLength_in_cm'         : 3.08568e+21}#,
+    if( add_unit):
+      print 'Feature not yet fully implemented'
+      # see http://yt-project.org/doc/examining/generic_array_data.html
+      # for reference
+      
+      unit_base = {'UnitLength_in_cm'         : 3.08568e+21}#,
                  #'UnitMass_in_g'            :   1.989e+43,
                  # 'UnitVelocity_in_cm_per_s' :      100000}
-    # reminder: it should be
-    #   read from the camera
-    bbox_lim = 7. # kpc
+      # reminder: it should be
+      #   read from the camera
+      bbox_lim = 7. # kpc
 
-    bbox = np.array([[-bbox_lim, bbox_lim],
+      bbox = np.array([[-bbox_lim, bbox_lim],
         [-bbox_lim, bbox_lim],
         [-bbox_lim, bbox_lim]])
- 
-    ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
-    import pdb; pdb.set_trace()
+      ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
+      import pdb; pdb.set_trace()
+    else:
+      ds = yt.load_uniform_grid(data, data["density"].shape )
+
     dd = ds.all_data()
     ds.add_field(("stream", "h2density"), function=_h2density, units="1/cm**3")  # unit is in 1/cc only if convert_unit is properly called when loading in data
     assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
