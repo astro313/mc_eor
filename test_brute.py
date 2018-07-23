@@ -22,7 +22,7 @@ Dump to
 -- Bug persist even if we do cut one-by-one. We modified yt clump_handling.py to fix this..
 
 
-last mod: 18 July 2018
+last mod: 23 July 2018
 
 
 """
@@ -59,6 +59,16 @@ largeNum = 1.e+42   # to plot only one contour in a hacky way
 test =  not os.path.isfile('snapshot28_center_stars_resampled.h5')
 read_proper_unit = True
 
+if read_proper_unit:
+    folder = '/mnt/home/daisyleung/mc_eor/precomputed_data/'
+    f_camera = folder + 'camera_settings.log'
+    from io_modules.load_misc import get_camera_from_file
+    data = get_camera_from_file(f_camera)
+    regionsize_kpc = data['size_kpc']
+else:
+    regionsize_kpc = None
+
+
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
 for incut in th_list:
@@ -77,7 +87,11 @@ for incut in th_list:
         f_out = outdir + "ss_" + str(snapshotnum) + \
             "_ncut_" + "{:.2f}.png".format(incut)
 
-        ds, dd = prepare_unigrid(data=data, add_unit=read_proper_unit, debug=False)
+        ds, dd = prepare_unigrid(data=data, 
+                                 add_unit=read_proper_unit, 
+                                 regionsize_kpc=regionsize_kpc, 
+                                 debug=False)
+
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
 
@@ -92,6 +106,7 @@ for incut in th_list:
                                         c_max=None, step=1e+6,
                                         N_cell_min=n_cell_min, save=False,
                                         plot=False, saveplot=None, fold_out='./')
+
         # stupid yt does not check N_cell_min criterion if no children survived!
         if len(leaf_clumps) == 1:
             if (len(leaf_clumps[0]["h2density"]) < n_cell_min) or (len(leaf_clumps[0]["h2density"] > 100**3)):
