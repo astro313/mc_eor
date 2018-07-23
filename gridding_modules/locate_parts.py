@@ -53,8 +53,10 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     outfieldnames = ['mass', 'epoch']
 
     originalSize = np.array(camera['region_size'])
-    if len(originalSize) > 1:
-        originalSize = originalSize[0]
+
+    if type(originalSize) == float is False:
+        if len(originalSize) > 1:
+            originalSize = originalSize[0]
 
     if Nrefined is None:
         dx_vector = np.array(1/(np.e * levels_vec))        
