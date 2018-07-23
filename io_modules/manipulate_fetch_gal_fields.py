@@ -205,7 +205,7 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
                            [-bbox_lim, bbox_lim],
                            [-bbox_lim, bbox_lim]])
 
-      #data = dict(density = (data['density'], "g/cm**3"))
+      data = dict(density = (data['density'], "g/cm**3"))
 
       ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
       import pdb; pdb.set_trace()
