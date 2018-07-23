@@ -171,7 +171,7 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
     return dataDict
 
 
-def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
+def prepare_unigrid(data, regionsize_kpc=7., verbose=False, add_unit= False, debug = False):
 
     import yt
 
@@ -188,8 +188,7 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
 
       # reminder: it should be
       #   read from the camera
-      bbox_lim = 7. # kpc
-      bbox_lim = bbox_lim/2.
+      bbox_lim = regionsize_kpc/2.
       bbox     = np.array([[-bbox_lim, bbox_lim],
                            [-bbox_lim, bbox_lim],
                            [-bbox_lim, bbox_lim]])
