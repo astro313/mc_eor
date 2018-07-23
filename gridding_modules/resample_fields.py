@@ -51,11 +51,17 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
     if debug:
       print N
 
+    # start with coarser level
     Ninit      = 1.*N / 2**len(levels_uni)
     Ninit      = int(np.ceil(Ninit))
     field_cube = np.zeros((Ninit, Ninit, Ninit))
 
-    imatrix = np.ones((2, 2, 2))
+    # set the kron magic multiplication
+    imatrix    = np.ones((2, 2, 2))
+
+    # actually this should be defined by the camera region
+    bound_left  = np.min(loc_vector[:,:],axis = 0)
+    bound_right = np.max(loc_vector[:,:],axis = 0)
 
     if debug:
         aa = Ninit
@@ -65,44 +71,38 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
         print 'final size',aa
         print levels_uni
 
+    # cycle over levels
     for lll in np.sort(levels_uni):
         if debug:
-            print lll
+            print 'level',lll
 
+        # expand matrix with kron product
         field_cube = np.kron(field_cube, imatrix)
 
-        pos = loc_vector[d[str(lll)], :]
+        # get cell position in the selected level
+        pos        = loc_vector[d[str(lll)], :]
+        # prepare cell id
+        pos_id = np.zeros_like(pos)
 
-        xx = (pos[:, 0] - loc_vector[:, 0].min()) / \
-            (loc_vector[:, 0].max() - loc_vector[:, 0].min())
-        yy = (pos[:, 1] - loc_vector[:, 1].min()) / \
-            (loc_vector[:, 1].max() - loc_vector[:, 1].min())
-        zz = (pos[:, 2] - loc_vector[:, 2].min()) / \
-            (loc_vector[:, 2].max() - loc_vector[:, 2].min())
+        # cast positions to cube ids
+        for iii in xrange(3):
+          pos_id[:,iii] = (pos[:,iii] - bound_left[iii]) / (bound_right[iii] - bound_left[iii])
+          pos_id[:,iii] = pos_id[:,iii] * field_cube.shape[iii]
+        #
+        pos_id = np.array(pos_id, dtype=int)
+        # safety cut to avoid boundary problems
+        for iii in xrange(3):
+          pos_id[:,iii][pos_id[:,iii] >= field_cube.shape[iii]] = field_cube.shape[iii] - 1
 
-        if debug:
-            print '  x:', xx.min(), xx.max()
-            print '  y:', yy.min(), yy.max()
-            print '  z:', zz.min(), zz.max()
-            #import pdb; pdb.set_trace()
-
-        xx = xx * field_cube.shape[0]
-        yy = yy * field_cube.shape[1]
-        zz = zz * field_cube.shape[2]
-
-
-        xpos = np.array(xx, dtype=int)
-        ypos = np.array(yy, dtype=int)
-        zpos = np.array(zz, dtype=int)
-
-        xpos[xpos == field_cube.shape[0]] = field_cube.shape[0] - 1
-        ypos[ypos == field_cube.shape[1]] = field_cube.shape[1] - 1
-        zpos[zpos == field_cube.shape[2]] = field_cube.shape[2] - 1
-        field_cube[xpos, ypos, zpos] = field_vector[d[str(lll)]]
+        # assign field value to the cube
+        field_cube[pos_id[:,0], pos_id[:,1], pos_id[:,2]] = field_vector[d[str(lll)]]
 
         if debug:
-            print '  field    :', field_cube.min(), field_cube.max()
-            print '  field log:', np.log10(field_cube.min()), np.log10(field_cube.max())
+            print '  id        :'
+            for iii in xrange(3):
+              print '    ',iii,np.min(pos_id[:,iii]),np.max(pos_id[:,iii])
+            print '  field     :', field_cube.min(), field_cube.max()
+            print '  field log :', np.log10(field_cube.min()), np.log10(field_cube.max())
 
 
     if debug:
