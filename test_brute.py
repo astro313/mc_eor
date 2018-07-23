@@ -55,6 +55,9 @@ th_list = [6.81]
 n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
 
+
+test = True
+
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
 for incut in th_list:
@@ -62,9 +65,12 @@ for incut in th_list:
     # loop through all snapshots
 
 #     for snapshotnum in range(16, 29):
-    for snapshotnum in range(16, 17):
+#    for snapshotnum in range(16, 17):
+    for snapshotnum in range(28, 29):
         data = import_fetch_gal(isnap=snapshotnum)
-        starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
+
+        if not test:
+          starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
 
         check_hist_h2(data, incut, ss=snapshotnum, outdir=outdir)
         f_out = outdir + "ss_" + str(snapshotnum) + \
@@ -77,8 +83,8 @@ for incut in th_list:
 #         prj = yt.OffAxisProjectionPlot(ds, [1,1,0], field_select, width=(1, 'box_length'), 
 #                                        north_vector=[-1,1,0])
 # 
-        prj.save('123.png')
-        import sys; sys.exit()
+#        prj.save('123.png')
+#        import sys; sys.exit()
 
         #prj.set_zlim('h2density', 1.e-3, 1e-1)
         _, leaf_clumps = ytclumpfind_H2(ds, dd, field_select, incut,
