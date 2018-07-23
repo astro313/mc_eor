@@ -215,7 +215,7 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
     ds.add_field(("stream", "h2density"), function=_h2density, units="g/cm**3")  # unit is in 1/cc only if convert_unit is properly called when loading in data
     assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
 
-    if add_units:
+    if add_unit:
         prj = yt.ProjectionPlot(ds, 0, field_select,
                     center='c', weight_field='h2density')
         prj.save('test_h2density_yt_unit_plot.png')
