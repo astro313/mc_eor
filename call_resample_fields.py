@@ -20,10 +20,10 @@ if not os.path.isdir(plotdir):
 
 folder = '/mnt/home/daisyleung/mc_eor/precomputed_data/'
 f_camera = folder + 'camera_settings.log'
-with open(f_camera, 'rb') as f:
-    data = pickle.load(f)
+from io_modules.load_misc import get_camera_from_file
+data = get_camera_from_file(f_camera)
 
-snapshotToLoad = range(28, 29)
+snapshotToLoad = range(16, 29)
 fieldsToExtract = ['rho', 'P_nt', 'P', 'H2', 'Z']
 
 for ssnum in snapshotToLoad:
@@ -89,12 +89,7 @@ for ssnum in snapshotToLoad:
     id_vec = ds['id']
     mass_vec = ds['mass']
 
-#     # hard-coded for now because don't want to re-run
-#     amrfile = 'snapshot' + str(ssnum) + '_center_fields0123456-15_resampled.h5'
-#     f = h5py.File(amrfile, "r")
-#     N = f['rho'].shape[0]
-# 
-    # resample star particle mass and compute mass-weighted avg epoch correspondingly                        
+    # resample star particle mass and compute mass-weighted avg epoch correspondingly                       
     resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, Nrefined=N, debug=False)
 
     # ------ sanity check -- still in code units..
