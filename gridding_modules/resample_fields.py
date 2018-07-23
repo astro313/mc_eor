@@ -62,6 +62,21 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
     # actually this should be defined by the camera region
     bound_left  = np.min(loc_vector[:,:],axis = 0)
     bound_right = np.max(loc_vector[:,:],axis = 0)
+    # below, the syntax as it appears in locate_parts
+    '''
+    # get the subregion
+    center       = np.array(camera['center'])
+    originalSize = np.array(camera['region_size'])
+    if type(originalSize) == float is False:
+        if len(originalSize) > 1:
+            originalSize = originalSize[0]
+    # init bound
+    bound_left  = np.zeros((3))
+    bound_right = np.zeros((3))
+    # get the bounds
+    bound_left   = center - originalSize/2.
+    bound_right  = center + originalSize/2.
+    '''
 
     if debug:
         aa = Ninit

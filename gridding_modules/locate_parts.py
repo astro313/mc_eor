@@ -52,11 +52,18 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
 
     outfieldnames = ['mass', 'epoch']
 
+    # get the subregion
+    center       = np.array(camera['center'])
     originalSize = np.array(camera['region_size'])
-
     if type(originalSize) == float is False:
         if len(originalSize) > 1:
             originalSize = originalSize[0]
+    # init bound
+    bound_left  = np.zeros((3))
+    bound_right = np.zeros((3))
+    # get the bounds
+    bound_left   = center - originalSize/2.
+    bound_right  = center + originalSize/2.
 
     if Nrefined is None:
         dx_vector = np.array(1/(np.e * levels_vec))        
@@ -69,13 +76,6 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     
     mass_cube = np.zeros((N, N, N))
     epoch_cube = np.zeros((N, N, N))
-
-    bound_left  = np.zeros((3))
-    bound_right = np.zeros((3))
-
-    center = np.array(camera['center'])
-    bound_left   = center - originalSize/2.
-    bound_right  = center + originalSize/2.
 
     xx = np.zeros_like(loc_vector)
 
