@@ -23,7 +23,7 @@ f_camera = folder + 'camera_settings.log'
 with open(f_camera, 'rb') as f:
     data = pickle.load(f)
 
-snapshotToLoad = range(16, 29)
+snapshotToLoad = range(28, 29)
 fieldsToExtract = ['rho', 'P_nt', 'P', 'H2', 'Z']
 
 for ssnum in snapshotToLoad:
@@ -35,7 +35,9 @@ for ssnum in snapshotToLoad:
     if os.path.exists(outname):
         os.system('rm ' + outname)
 
+    center = data[str(ssnum)]['center_init']
     originalSize = data[str(ssnum)]['size']
+
 
     #
     dx_vector = ds['dx_vector']
