@@ -220,7 +220,7 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
 
     dd = ds.all_data()
 
-    if test:
+    if debug:
 
         if(0):
           prj = yt.ProjectionPlot(ds, 0, 'h2density' ,
