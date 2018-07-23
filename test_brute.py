@@ -56,7 +56,7 @@ n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 
-test = False
+test =  not os.path.isfile('snapshot28_center_stars_resampled.h5')
 read_proper_unit = False
 
 # because of the stupid yt bug, we will loop through the cuts and run

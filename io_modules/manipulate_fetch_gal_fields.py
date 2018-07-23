@@ -183,8 +183,9 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
       print 'Fields must be added manually in the dictionary'
       # see http://yt-project.org/doc/examining/generic_array_data.html
       # for reference
-     
-      mp =  1.6726219e-24
+    
+      from astropy import constants as cc
+      mp = cc.m_p.cgs.value
 
       # reminder: it should be
       #   read from the camera
@@ -221,19 +222,22 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
     dd = ds.all_data()
 
     if debug:
+        print max(dd['h2density']), max(dd['h2density'])
+        print max(dd['density']), max(dd['density'])
 
-        if(0):
-          prj = yt.ProjectionPlot(ds, 0, 'h2density' ,
+        prj = yt.ProjectionPlot(ds, 0, 'h2density' ,
                     center='c', weight_field='density')
-          #prj.set_unit('h2density', '1/cm**3')
-        else:
-          prj = yt.ProjectionPlot(ds, 0, 'density' ,
-                    center='c', weight_field='density')
-          #prj.set_unit('density', 'g/cm**3')
-          prj.set_unit('density', 'Msun/pc**3')
-          #prj.set_unit('density', 'code_mass/code_length**3')
-
+        prj.set_unit('h2density', '1/cm**3')
         prj.save('test_h2density_yt_unit_plot.png')
+        print 'dump to ','test_h2density_yt_unit_plot.png'
+        
+        prj = yt.ProjectionPlot(ds, 0, 'density' ,
+                    center='c', weight_field='density')
+        #prj.set_unit('density', 'g/cm**3')
+        prj.set_unit('density', 'Msun/pc**3')
+        #prj.set_unit('density', 'code_mass/code_length**3')
+        prj.save('test_density_yt_unit_plot.png')
+        print 'dump to ','test_density_yt_unit_plot.png'
         import sys; sys.exit('Exiting..')
 
     return ds, dd
