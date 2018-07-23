@@ -180,7 +180,6 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
         mylog.setLevel(40)
 
     if( add_unit):
-      print 'Fields must be added manually in the dictionary'
       # see http://yt-project.org/doc/examining/generic_array_data.html
       # for reference
     
@@ -201,8 +200,14 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
 
       print data.keys()
 
-      data       = dict( density   = (mp*data['density']          , "g/cm**3")
-                        ,h2density = (data["density"] * data["H2"], "1/cm**3")
+      data       = dict( density   = (mp*data['density']          , "g/cm**3"),
+                         h2density = (data["density"] * data["H2"], "1/cm**3"),
+                         P         = (data['P'], "K/cm**3"),
+                         P_nt         = (data['P_nt'], "K/cm**3"),
+                         Z         = (data['Z'], ""),
+                         velx      = (data['velx'], "km/s"),
+                         vely      = (data['vely'], "km/s"),
+                         velz      = (data['velz'], "km/s")
                        )
 
       ds = yt.load_uniform_grid(data, shape_data,  length_unit='kpc', bbox=bbox)
@@ -222,8 +227,6 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
     dd = ds.all_data()
 
     if debug:
-        print max(dd['h2density']), max(dd['h2density'])
-        print max(dd['density']), max(dd['density'])
 
         prj = yt.ProjectionPlot(ds, 0, 'h2density' ,
                     center='c', weight_field='density')
@@ -238,7 +241,9 @@ def prepare_unigrid(data, verbose=False, add_unit= False, debug = False):
         #prj.set_unit('density', 'code_mass/code_length**3')
         prj.save('test_density_yt_unit_plot.png')
         print 'dump to ','test_density_yt_unit_plot.png'
-        import sys; sys.exit('Exiting..')
+
+        print dd['h2density'].max(), dd['h2density'].min()
+        print dd['density'].max(), dd['density'].min()
 
     return ds, dd
 
