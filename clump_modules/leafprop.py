@@ -56,6 +56,12 @@ class Cloud(object):
         # plt.hist(self.velx)
         # plt.show()
         # import pdb; pdb.set_trace()
+
+        self.mstar = leaf_0_dict['mass']           # Msun
+        self.epoch = leaf_0_dict['epoch']          # Myr (age of universe when SF)
+        
+        self.mass_star_Msun()
+
         self.vol_pc3()
         self.vol_cc()
         self.mass_Msun()
@@ -78,6 +84,12 @@ class Cloud(object):
         self.Mach_vec()
         self.SFR_per_tff()
 
+    # --- star particles --- 
+    def mass_star_Msun(self):
+        self.mstar_Msun_tot = self.mstar.sum()
+
+        
+    # --- AMR ---- 
     def vol_pc3(self):
         self.vol_pc3 = self.dx**3 * len(self.density)
 
@@ -255,29 +267,30 @@ class Cloud(object):
         print("Mach number   = {:.2f} ").format(self.Mach)
         print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
         print("SFR          = {:.2f} [Msun/yr] ").format(self.SFR / 1.e6)
-        print ""
         print("SFR simple 30% SFE   = {:.2f} [Msun/yr]").format(self.SFR_JML/1.e6)
+        print "*" * 10 + " star particle properties: " + "*" * 10
+        print ("Stellar mass: {:.2f} x10^7 Msun").format(self.mstar_Msun_tot/1.e7)
+        print ("star to gas mass ratio: {:.2f}").format(self.mstar_Msun_tot/self.mass_Msun)
+
         return '=' * 100
+
 
 
 # below is for testing
 if __name__ == '__main__':
 
-    # to load back in fields of each leaf
-    snapshot_num = 28
-    leafdir = 'leaf_fields_' + str(snapshot_num) + '/'
-    # '{0:.2f}'.format(args.ncut) + '_' + str(args.step) + '_' + str(args.Nmin) from snapshot28_leafprop.py
-    fname = "0.03_5_3_fields.p"
+    import sys
+    sys.path.append('../')
 
-    leaf_fields = pickle.load(open(leafdir + fname, "rb"))
-    outClPickle = fname.replace('.p', '_cloudprop.p')
-
-    # hard-code to get dx for now...
-    # saved in fetch_gal_fields.py
     from io_modules.manipulate_fetch_gal_fields import get_units, get_dx
     import pymses
 
-    # call cloud 0 for testing code..
-    C0 = Cloud(get_dx(snapshot_num), leaf_fields['0'], int('0'))
-    print C0
+    snapshot_num = 16
+    leafdir = 'test_brute/leaf_fields_' + str(snapshot_num) + '/'
+    fname = "6.81_10_fields.p"
+
+    leaf_fields = pickle.load(open(leafdir + fname, "rb"))
+
+    for cidx in range(len(leaf_fields)):
+        print Cloud(get_dx(snapshot_num), leaf_fields[str(cidx)], cidx)
 
