@@ -59,6 +59,7 @@ def unpack_xy(ss):
     for ks in iter(sorted(ss.iterkeys())):
         _MMj = []
         _m = []
+        _mstar = []
         _alpha = []
         _mSD = []
         _sizepc = []
@@ -76,6 +77,7 @@ def unpack_xy(ss):
             MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
             _MMj.append(MMj)
             _m.append(ss[ks][kkk].mass_Msun)
+            _mstar.append(ss[ks][kkk].mstar_Msun_tot)
             _alpha.append(ss[ks][kkk].alpha)
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
@@ -91,6 +93,7 @@ def unpack_xy(ss):
 
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
+        to_plot[ks]['cloud stellar mass'] = _mstar
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
         to_plot[ks]['gas sd'] = _mSD
@@ -281,6 +284,11 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.set_xscale("log")
         ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
         ax.set_xlim(1.0e3, 1.0e8)
+
+    if(xstr == 'cloud stellar mass'):
+        ax.set_xscale("log")
+        ax.set_xlabel(r"$M_{\rm cl}^*$ [M$_{\odot}$]")
+        ax.set_xlim(1.0e5, 1.0e10)
 
     if(xstr == "gas sd"):
         ax.set_xscale("log")
