@@ -92,9 +92,22 @@ for ssnum in snapshotToLoad:   # to merge w/ above
     mass_vec = ds['mass']
 
     # hard-coded for now because don't want to re-run
-    amrfile = '../snapshot' + str(ssnum) + '_center_fields0123456-15_resampled.h5'
+    amrfile = 'snapshot' + str(ssnum) + '_center_fields0123456-15_resampled.h5'
     f = h5py.File(amrfile, "r")
     N = f['rho'].shape[0]
 
     # resample star particle mass and compute mass-weighted avg epoch correspondingly                        
     resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, Nrefined=N, debug=True)
+
+    # ------ sanity check -- still in code units..
+    f = h5py.File(outname, "r")
+    mass = f['mass'].value
+    plt.figure()
+    plt.imshow(np.log10(mass[:, :, :].sum(axis=0)))
+    plt.tight_layout()
+    plt.savefig(plotdir + str(ssnum) + "_massCollapsed.png")
+
+    plt.figure()
+    plt.hist(np.log10(mass[mass > 1.e-23].flatten()), bins=100)
+    plt.tight_layout()
+    plt.savefig(plotdir + str(ssnum) + "_massCollapsedHist.png")
