@@ -70,9 +70,15 @@ for incut in th_list:
         f_out = outdir + "ss_" + str(snapshotnum) + \
             "_ncut_" + "{:.2f}.png".format(incut)
 
-        ds, dd = prepare_unigrid(data=data)
+        ds, dd = prepare_unigrid(data=data, add_unit=True)
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
+
+#         prj = yt.OffAxisProjectionPlot(ds, [1,1,0], field_select, width=(1, 'box_length'), 
+#                                        north_vector=[-1,1,0])
+# 
+        prj.save('123.png')
+        import sys; sys.exit()
 
         #prj.set_zlim('h2density', 1.e-3, 1e-1)
         _, leaf_clumps = ytclumpfind_H2(ds, dd, field_select, incut,
@@ -107,12 +113,12 @@ for incut in th_list:
             prj.annotate_text(_fc,
                               ileaf,
                               coord_system='data',
-                              text_args={'color': 'black', 'size': 8},
+                              text_args={'color': 'black', 'size': 32},
                               inset_box_args={'boxstyle': 'square',
                                               'facecolor': 'white',
                                               'linewidth': 2.0,
                                               'edgecolor': 'white',
-                                              'alpha': 0.35})
+                                              'alpha': 0.})
 
         print 'ncut = ', incut
         print '  N clumps', len(leaf_clumps)
