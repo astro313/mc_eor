@@ -54,15 +54,17 @@ cpdef sum_along_one_axis(
 
 # example function
 cpdef grid_particle_mass(
-                    N.ndarray[DTYPEf_t, ndim=3] cube_in
-                    N.ndarray[DTYPEf_t, ndim=2] pos_id
-                    N.ndarray[DTYPEf_t, ndim=1] mass
-
+                    N.ndarray[DTYPEf_t, ndim=3] cube_in,
+                    N.ndarray[DTYPEf_t, ndim=3] cube_avg_in,
+                    N.ndarray[DTYPEf_t, ndim=2] pos_id,
+                    N.ndarray[DTYPEf_t, ndim=1] mass,
+                    N.ndarray[DTYPEf_t, ndim=1] epoch
                          ):
     """
       cube_in (n0,n1,n2) : input/output array with particle mass field
       pos_id  (n_part,3) : ids of the particles (position relative to the field)
       mass    (n_part)   : masses of the particles
+      epoch    (n_part)   : epoch of the particles
 
       sum to cube_in the contribution to the mass due to the particles at each location
     """
@@ -70,18 +72,25 @@ cpdef grid_particle_mass(
         long n0     = N.shape(cube_in)[0]
         long n1     = N.shape(cube_in)[1]
         long n2     = N.shape(cube_in)[2]
-        long n_part = N.shape(pos)[1]
+        long n_part = N.shape(pos_id)[0]
         long k, i, j,id_part
 
     assert n_part == len(mass)
 
     for id_part in range(n_part):
-        i              = pos_id[id_part,0]
-        j              = pos_id[id_part,1]
-        k              = pos_id[id_part,2]
+        i              = int(pos_id[id_part,0])
+        j              = int(pos_id[id_part,1])
+        k              = int(pos_id[id_part,2])
         cube_in[i,j,k] = cube_in[i,j,k] + mass[id_part]
+        cube_avg_in[i,j,k] = cube_avg_in[i,j,k] + (mass[id_part] * epoch[id_part])
 
-    return N.array(cube_in,dtype=DTYPEf)
+    for k in range(n2):
+        for j in range(n1):
+            for i in range(n0):
+                if(cube_in[i,j,k] > 0 ):
+                    cube_avg_in[i,j,k] = cube_avg_in[i,j,k]/cube_in[i,j,k]
+
+    return N.array(cube_in,dtype=DTYPEf),N.array(cube_avg_in,dtype=DTYPEf)
 
 
 # additional example, does a density estimator with a gaussian kernel
