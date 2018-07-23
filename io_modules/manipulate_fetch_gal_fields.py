@@ -208,13 +208,18 @@ def prepare_unigrid(data, verbose=False, add_unit= False):
       data = dict(density = (data['density'], "g/cm**3"))
 
       ds = yt.load_uniform_grid(data, data["density"].shape,  length_unit='kpc', bbox=bbox)
-      import pdb; pdb.set_trace()
     else:
       ds = yt.load_uniform_grid(data, data["density"].shape )
 
     dd = ds.all_data()
     ds.add_field(("stream", "h2density"), function=_h2density, units="g/cm**3")  # unit is in 1/cc only if convert_unit is properly called when loading in data
     assert (dd['H2'] * dd['density']).max() == dd['h2density'].max()
+
+    if add_units:
+        prj = yt.ProjectionPlot(ds, 0, field_select,
+                    center='c', weight_field='h2density')
+        prj.save('test_h2density_yt_unit_plot.png')
+        import sys; sys.exit('Exiting..')
 
     return ds, dd
 
