@@ -56,7 +56,8 @@ n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 
-test = True
+test = False
+read_proper_unit = False
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
@@ -76,7 +77,7 @@ for incut in th_list:
         f_out = outdir + "ss_" + str(snapshotnum) + \
             "_ncut_" + "{:.2f}.png".format(incut)
 
-        ds, dd = prepare_unigrid(data=data, add_unit=True)
+        ds, dd = prepare_unigrid(data=data, add_unit=read_proper_unit)
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
 
