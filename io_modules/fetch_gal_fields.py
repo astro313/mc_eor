@@ -20,7 +20,7 @@ last mod: 16 July 2018
 """
 
 from manipulate_fetch_gal_fields import get_units
-from pymses_helper import load_in_amr
+from pymses_helper import load_in_amr, particles2cell
 
 import pymses
 from pymses.utils import constants as C
@@ -53,6 +53,7 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     debug: bool
 
+
     Returns
     -------
     None
@@ -60,15 +61,16 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
     """
 
     from pymses_helper import amr2cell
-    cells_inside_camera = amr2cell(ro,
-                                   list_var=fields,
-                                   log_sfera=log_sfera,
-                                   camera_in={'center': center,
-                                              'region_size': region_size},
-                                   verbose=debug)
 
-    dx_vector  = cells_inside_camera.get_sizes() # width of the cells
-    loc_vector = cells_inside_camera.points      # position of the center of the cells
+    if not star:
+        cells_inside_camera = amr2cell(ro,
+                                       list_var=fields,
+                                       log_sfera=log_sfera,
+                                       camera_in={'center': center,
+                                                  'region_size': region_size},
+                                       verbose=debug)
+        dx_vector  = cells_inside_camera.get_sizes() # width of the cells
+        loc_vector = cells_inside_camera.points      # position of the center of the cells
 
     dict_unit  = get_units(ro=ro)                # unit dictionary to convert variables
 
@@ -132,9 +134,49 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
     return None
 
 
+def get_stars_for_fields(ro, outname,
+                     fieldsToLoadstars, center, region_size,
+                     log_sfera=False, debug=False, star=True):
+
+    parts_inside_camera_vec,\
+            parts_inside_camera =\
+            particles2cell(ro, star=star, 
+                          list_var=fieldsToLoadstars,
+                                camera_in=
+                                {
+                               'center': center,
+                               'region_size': region_size
+                               },
+                               verbose=debug)
+
+    loc_vector = parts_inside_camera_vec.points
+
+    xx = loc_vector[:,0]
+    yy = loc_vector[:,1]
+    zz = loc_vector[:,2]
+
+    param_dict = {'loc_vector': loc_vector}
+
+    for i in fieldsToLoadstars:
+        param_dict[i] = parts_inside_camera_vec[i]   # code_unit
+
+    if debug:
+        print param_dict
+
+    import os
+    if os.path.isfile(outname):
+        os.system('rm ' + outname)
+    if debug:
+        print 'Saving data to'
+        print '  ', outname
+    np.savez_compressed(outname, **param_dict)
+
+    return None
+
+
 
 if __name__ == "__main__":
-    ro = pymses.RamsesOutput("output", 28)
+    ro = pymses.RamsesOutput("../output", 28)
 
     boxlen_pc = ro.info['unit_length'].express(C.pc)  # 32.09690179793066 pc
     finest_res = boxlen_pc / 2**ro.info['levelmax']
@@ -143,9 +185,13 @@ if __name__ == "__main__":
     region_size = [0.0015, 0.0015]
 
     fields = ['rho', 'vel', 'P_nt', 'P', 'H2', 'Z']
+    fields_stars = ['id', 'epoch', 'mass', 'level']
 
     camera_in = {'center': center,
                  'region_size': region_size}
 
-    getpoints4fields(ro, 'snapshot28_center_fields0123456-15',
+    getpoints4fields(ro, '../snapshot28_center_fields0123456-15',
                      fields, center, region_size, log_sfera=False, debug=True)
+
+    get_stars_for_fields(ro, '../snapshot28_center_stars',
+                     fields_stars, center, region_size, log_sfera=False, debug=True, star=True)

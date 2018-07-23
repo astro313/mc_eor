@@ -1,15 +1,15 @@
 '''
 
-fetch fields for snapshots 16-27
+fetch AMR and star fields for snapshots 16-28
 
-Last mod: 12 July 2018
+Last mod: 23 July 2018
 
 '''
 
 
 import os
 import pickle
-from io_modules.fetch_gal_fields import getpoints4fields
+from io_modules.fetch_gal_fields import getpoints4fields, get_stars_for_fields
 import pymses
 from pymses.utils import constants as C
 
@@ -17,8 +17,9 @@ from pymses.utils import constants as C
 folder = 'precomputed_data/'
 f_camera = folder + 'camera_settings.log'
 
-snapshotsToLoad = range(16, 28)
+snapshotsToLoad = range(16, 29)
 fieldsToLoad = ['rho', 'vel', 'P_nt', 'P', 'H2', 'Z']
+fields_stars = ['id', 'epoch', 'mass', 'level']
 
 with open(f_camera, 'rb') as f:
     data = pickle.load(f)
@@ -34,7 +35,12 @@ for ssnum in snapshotsToLoad:
 
     camera_in = {'center': center,
                  'region_size': region_size}
-
+    # AMR
     getpoints4fields(ro, 'snapshot' + str(ssnum) + '_center_fields0123456-15',
                      fieldsToLoad, center, region_size,
                      log_sfera=False, debug=False)
+    
+    # star particles
+    get_stars_for_fields(ro, 'snapshot' + str(ssnum) + '_center_stars',
+                     fields_stars, center, region_size,
+                     log_sfera=False, debug=False, star=True)
