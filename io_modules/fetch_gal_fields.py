@@ -14,7 +14,7 @@ Get density, delta x, x_vector in subregion defined by Andrea's .csv file
 'Pressure_nt'
 'Z'
 
-last mod: 16 July 2018
+last mod: 23 July 2018
 
 
 """
@@ -62,15 +62,14 @@ def getpoints4fields(ro, outname, fields, center, region_size, log_sfera=False, 
 
     from pymses_helper import amr2cell
 
-    if not star:
-        cells_inside_camera = amr2cell(ro,
-                                       list_var=fields,
-                                       log_sfera=log_sfera,
-                                       camera_in={'center': center,
-                                                  'region_size': region_size},
-                                       verbose=debug)
-        dx_vector  = cells_inside_camera.get_sizes() # width of the cells
-        loc_vector = cells_inside_camera.points      # position of the center of the cells
+    cells_inside_camera = amr2cell(ro,
+                                   list_var=fields,
+                                   log_sfera=log_sfera,
+                                   camera_in={'center': center,
+                                              'region_size': region_size},
+                                   verbose=debug)
+    dx_vector  = cells_inside_camera.get_sizes() # width of the cells
+    loc_vector = cells_inside_camera.points      # position of the center of the cells
 
     dict_unit  = get_units(ro=ro)                # unit dictionary to convert variables
 
