@@ -35,7 +35,7 @@ mylog.setLevel(0)
 import numpy as np
 
 from clump_modules.clump_wrapper import ytclumpfind_H2, get_phyprop_of_leaf
-from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, check_hist_h2
+from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, import_fetch_stars, prepare_unigrid, check_hist_h2
 
 
 outdir = 'test_brute/'
@@ -49,9 +49,8 @@ th_list = 10**np.linspace(-0.5, 1.5, 8)
 # th_list = [7.]
 # th_list = [10**-0.5]
 # th_list = [35.]
-# th_list = [6.81]
+th_list = [6.81]
 # th_list = [31.62]
-test = True
 
 n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
@@ -61,8 +60,11 @@ largeNum = 1.e+42   # to plot only one contour in a hacky way
 for incut in th_list:
 
     # loop through all snapshots
-    for snapshotnum in range(16, 29):
+
+#     for snapshotnum in range(16, 29):
+    for snapshotnum in range(16, 17):
         data = import_fetch_gal(isnap=snapshotnum)
+        starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
 
         check_hist_h2(data, incut, ss=snapshotnum, outdir=outdir)
         f_out = outdir + "ss_" + str(snapshotnum) + \
@@ -141,6 +143,7 @@ for incut in th_list:
                                                            data['velx'],
                                                            data['vely'],
                                                            data['velz'],
+                                                           starPartDict=starData,
                                                            plothist=False)
         print "saved leaf fields: ", leaf_fields['0'].keys()
         suboutdir = "leaf_fields_" + str(snapshotnum) + "/"

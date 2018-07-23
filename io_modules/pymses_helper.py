@@ -129,9 +129,14 @@ def particles2cell(ro=None, star=True, list_var=None, log_sfera=False, camera_in
     return celle, part
 
 
-def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
+def calculate_age_stars(ro_in=None, dset_in=None, converted=False, time_proper=True):
 
     """
+
+    Parameters
+    ----------
+    converted: bool
+        if the epoch field is in code unit or converted to some physical unit
 
     Return
     ------
@@ -139,6 +144,9 @@ def calculate_age_stars(ro_in=None, dset_in=None, time_proper=True):
         age of the universe when the star particle was created in Myr
 
     """
+
+    if converted:
+        raise ValueError("Epoch field should be in code unit for this function to work properly..")
 
     if(time_proper):
         # switch depends on ramses run setup

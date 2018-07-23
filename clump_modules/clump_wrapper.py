@@ -144,12 +144,12 @@ def plotclumps(ds, leaf_clumps, master_clump, field='h2density', saveplot=False,
             prj.show()
 
 
-def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity, velx, vely, velz, plothist=False):
+def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity, velx, vely, velz, starPartDict=None, plothist=False):
     """
 
     Parameters
     ----------
-    subleaf: a leaf object (i.e., w/o children)
+    subleaf: a "leaf" object
 
     density: array
         density of uniformly sampled subregion (probably converted into desire units at this point.)
@@ -175,6 +175,9 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
     velz: array
         vel-z of uniformly sampled subregion
 
+    starPartDict: dict
+        contains mass and epochs fields of stars
+
     plothist: bool
         whether or not to plot the histogram for each field corresponding to the clump
 
@@ -194,7 +197,11 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
                     'vely': None,
                     'velz': None}
 
-    # index corresponding to the clumps (w/ no children)
+    if starPartDict is not None:
+        for kkk in starPartDict.iterkeys():
+            _leaf_fields[kkk] = None
+
+    # index corresponding to the clumps
     ii = subleaf.data.icoords[:, 0]
     jj = subleaf.data.icoords[:, 1]
     kk = subleaf.data.icoords[:, 2]
@@ -203,7 +210,10 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
     # print(subleaf.quantities.center_of_mass())
 
     for fff in _leaf_fields.iterkeys():
-        _leaf_fields[fff] = eval(fff)[ii, jj, kk]
+        if not fff in ['mass', 'epoch']:
+            _leaf_fields[fff] = eval(fff)[ii, jj, kk]
+        else:
+            _leaf_fields[fff] = starPartDict[kkk][ii, jj, kk]
 
     #_h2_subleaf = subleaf.data['h2density']
     #h2_subleaf = _leaf_fields['H2density']
@@ -237,5 +247,10 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
         plt.hist(velz)
         plt.title('vel-z [km/s]')
         plt.show()
+
+        if starPartDict is not None:
+            plt.hist(np.log10(mass[mass > 1.e-23]))
+            plt.title('mass')
+            plt.show()
 
     return _leaf_fields
