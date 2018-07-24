@@ -104,12 +104,8 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
       ,weight_field='density'
       )
     
-    if ....:
-      prj.set_xlabel('  [kpc]')
-      prj.set_ylabel('  [kpc]')
-    elif:
-      prj.set_xlabel('  [kpc]')
-      prj.set_ylabel('  [kpc]')
+    prj.set_xlabel(' kpc')
+    prj.set_ylabel(' kpc')
       
     prj.set_cmap(field=selected_field, cmap='inferno')
 
@@ -128,6 +124,10 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
     plot.axes   = grid[iplot].axes
     plot.cax    = grid.cbar_axes[iplot]
 
+    if iplot == 1:
+      plot.axes.yaxis.set_label([])
+      plot.axes.yaxis.set_ticks([])
+
     #prj.set_minorticks('all','off')
     # Finally, this actually redraws the plot.
     prj._setup_plots()
@@ -139,9 +139,8 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
   prj.save(f_out, mpl_kwargs={'bbox_inches':'tight'})
   print 'dump to ',f_out
   
-  return prj
+  return prj, plot.axes
 
 if __name__ == '__main__':
-  prj = plot_face_edge()
-  import pdb; pdb.set_trace()
+  prj, axes = plot_face_edge()
 
