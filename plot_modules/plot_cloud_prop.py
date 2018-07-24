@@ -56,7 +56,7 @@ def unpack_xy(ss):
 
     to_plot = {}
 
-    for ks in iter(sorted(ss.iterkeys())):
+    for ks in sorted(ss.iterkeys()):
         _MMj = []
         _m = []
         _mach = []
@@ -308,6 +308,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     if xstr == "stellar to gas mass":
         # ax.set_xlim(0.0, 0.5)
         ax.set_xlabel(r"$M_*/M_{\rm gas}$")
+        ax.set_xscale("log")
         
     if(xstr == "gas sd"):
         ax.set_xscale("log")
