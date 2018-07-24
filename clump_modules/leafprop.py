@@ -1,8 +1,11 @@
 '''
 
+Hard coding young stars defined as 10.0 Myr, old stars defined as 100.0 Myr.
+
 Cloud Object to store cloud physical properties.
 
-last mod: 18 July 2018
+
+last mod: 24 July 2018
 
 NOTE
 ----
@@ -58,10 +61,10 @@ class Cloud(object):
         # import pdb; pdb.set_trace()
 
         self.mstar = leaf_0_dict['mass']           # Msun
-        self.epoch = leaf_0_dict['epoch']          # Myr (age of universe when SF)
+        self.epoch = leaf_0_dict['epochMyr']       # Myr (age of universe when SF)
+        self.mstar_young = leaf_0_dict['young10']       # Myr (age of universe when SF)
+        self.mstar_old = leaf_0_dict['old100']       # Myr (age of universe when SF)
         
-        self.mass_star_Msun()
-
         self.vol_pc3()
         self.vol_cc()
         self.mass_Msun()
@@ -84,10 +87,25 @@ class Cloud(object):
         self.Mach_vec()
         self.SFR_per_tff()
 
+        self.mass_star_Msun()
+        self.young_SFR()
+        self.old_SFR()
+
+
     # --- star particles --- 
     def mass_star_Msun(self):
         self.mstar_Msun_tot = self.mstar.sum()
+        self.s2gR = self.mstar_Msun_tot/self.mass_Msun
 
+    def young_SFR(self):
+        """ calculate the SFR based on young stars [Msun/yr]
+        """ 
+        self.young_SFR_MsunPyr = self.mstar_young.sum() / 10.0e6
+
+    def old_SFR(self):
+        """ calculate the SFR based on old stars [Msun/yr]
+        """ 
+        self.old_SFR_MsunPyr = self.mstar_old.sum() / 100.0e6
         
     # --- AMR ---- 
     def vol_pc3(self):
@@ -270,7 +288,9 @@ class Cloud(object):
         print("SFR simple 30% SFE   = {:.2f} [Msun/yr]").format(self.SFR_JML/1.e6)
         print "*" * 10 + " star particle properties: " + "*" * 10
         print ("Stellar mass: {:.2f} x10^7 Msun").format(self.mstar_Msun_tot/1.e7)
-        print ("star to gas mass ratio: {:.2f}").format(self.mstar_Msun_tot/self.mass_Msun)
+        print ("stellar to gas mass ratio: {:.4f}").format(self.s2gR)
+        print ("SFR based on young stars in structure: {:.4f} [Msun/yr] ").format(self.young_SFR_MsunPyr)
+        print ("SFR based on old stars in structure: {:.4f} [Msun/yr] ").format(self.old_SFR_MsunPyr)
 
         return '=' * 100
 
@@ -287,7 +307,7 @@ if __name__ == '__main__':
 
     snapshot_num = 16
     leafdir = 'test_brute/leaf_fields_' + str(snapshot_num) + '/'
-    fname = "6.81_10_fields.p"
+    fname = "0.32_10_fields.p"
 
     leaf_fields = pickle.load(open(leafdir + fname, "rb"))
 
