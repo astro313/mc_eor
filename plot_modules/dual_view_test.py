@@ -91,18 +91,16 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
 
   #los_vec = e_vectors[0,:] # face on
   #los_vec = e_vectors[1,:] # edge on
+  #los_vec = e_vectors[2,:] # face on (again, perpendicular direction)
 
-  los_vec = e_vectors[2,:] # face on (again)
-  #up_vec  = e_vectors[1,:]
-  #up_vec  = np.cross(los_vec,up_vec)
+  vec_list = [ e_vectors[2,:], e_vectors[1,:]  ]
+  up_list  = [ e_vectors[0,:], e_vectors[0,:] ]
 
-  vec_list = [ e_vectors[2,:],e_vectors[1,:]]
-
-  for iplot,los_vec in zip(xrange(2),vec_list):
+  for iplot,los_vec,up_vec in zip(xrange(2),vec_list, up_list):
 
     prj = yt.OffAxisProjectionPlot(ds = ds, center = [0,0,0], normal = los_vec , fields= selected_field
       ,width       =(4, 'kpc')
-      #,north_vector=up_vec
+      ,north_vector=up_vec
       ,weight_field='density'
       )
     
@@ -142,7 +140,6 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
   print 'dump to ',f_out
   
   return prj
-
 
 if __name__ == '__main__':
   prj = plot_face_edge()
