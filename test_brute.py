@@ -60,10 +60,18 @@ test =  not os.path.isfile('snapshot28_center_stars_resampled.h5')
 read_proper_unit = True
 
 if read_proper_unit:
-    folder = '/mnt/home/daisyleung/mc_eor/precomputed_data/'
-    f_camera = folder + 'camera_settings.log'
+
     from io_modules.load_misc import get_camera_from_file
-    data = get_camera_from_file(f_camera)
+
+    try:
+      here = os.path.dirname(os.path.abspath(__file__))+'/'
+    except NameError:
+      # for ipython copy and paste compatibility
+      here = '/mnt/home/daisyleung/mc_eor/'
+
+    folder         = here+'precomputed_data/'
+    f_camera       = folder + 'camera_settings.log'
+    data           = get_camera_from_file(f_camera)
     regionsize_kpc = data['size_kpc']
 else:
     regionsize_kpc = None
@@ -71,26 +79,28 @@ else:
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
-for incut in th_list:
-
-    # loop through all snapshots
-
 #     for snapshotnum in range(16, 29):
 #    for snapshotnum in range(16, 17):
-    for snapshotnum in range(28, 29):
-        data = import_fetch_gal(isnap=snapshotnum)
+# loop through all snapshots
+for snapshotnum in range(28, 29):
 
-        if not test:
-          starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
 
-        check_hist_h2(data, incut, ss=snapshotnum, outdir=outdir)
+    # read data
+    data = import_fetch_gal(isnap=snapshotnum)
+    if not test:
+      starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
+
+    ds, dd = prepare_unigrid(data=data, 
+                             add_unit=read_proper_unit, 
+                             regionsize_kpc=regionsize_kpc, 
+                             debug=False)
+
+    check_hist_h2(data, th_list, ss=snapshotnum, outdir=outdir)
+
+    for incut in th_list:
+
         f_out = outdir + "ss_" + str(snapshotnum) + \
-            "_ncut_" + "{:.2f}.png".format(incut)
-
-        ds, dd = prepare_unigrid(data=data, 
-                                 add_unit=read_proper_unit, 
-                                 regionsize_kpc=regionsize_kpc, 
-                                 debug=False)
+          "_ncut_" + "{:.2f}.png".format(incut)
 
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
