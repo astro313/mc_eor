@@ -45,11 +45,11 @@ if not os.path.isdir(outdir):
 
 field_select = "h2density"
 
-th_list = 10**np.linspace(-0.5, 1.5, 8)
+th_list = 10**np.linspace(-0.5, 1.5, 10)
 # th_list = [7.]
 # th_list = [10**-0.5]
 # th_list = [35.]
-th_list = [6.81]
+# th_list = [6.81]
 # th_list = [31.62]
 
 n_cell_min = 10
@@ -63,21 +63,22 @@ if read_proper_unit:
     folder = '/mnt/home/daisyleung/mc_eor/precomputed_data/'
     f_camera = folder + 'camera_settings.log'
     from io_modules.load_misc import get_camera_from_file
-    data = get_camera_from_file(f_camera)
-    regionsize_kpc = data['size_kpc']
+    cameraDat = get_camera_from_file(f_camera)
 else:
-    regionsize_kpc = None
-
+    pass
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
 for incut in th_list:
 
     # loop through all snapshots
-
-#     for snapshotnum in range(16, 29):
-#    for snapshotnum in range(16, 17):
-    for snapshotnum in range(28, 29):
+    for snapshotnum in range(16, 29):
+        
+        if read_proper_unit:
+            regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
+        else:
+            regionsize_kpc = None
+            
         data = import_fetch_gal(isnap=snapshotnum)
 
         if not test:
