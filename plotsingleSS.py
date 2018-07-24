@@ -5,7 +5,7 @@ plot physical properties of clouds.
 Single snapshot, different ncuts (from test_brute.py)
 
 
-last mod: 18 July 2018
+last mod: 24 July 2018
 
 '''
 
@@ -35,6 +35,8 @@ def plotting_procedure(snapshot_num):
 
     plot_stuff("cloud mass", "mass over jeans mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("Mach", "SFR young", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("gas sd", "sfr sd", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("gas sd", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)

@@ -59,7 +59,11 @@ def unpack_xy(ss):
     for ks in iter(sorted(ss.iterkeys())):
         _MMj = []
         _m = []
+        _mach = []
         _mstar = []
+        _mstar2mgas = []
+        _SFR_young = []
+        _SFR_old = []
         _alpha = []
         _mSD = []
         _sizepc = []
@@ -76,8 +80,12 @@ def unpack_xy(ss):
             # print ss[ks][kkk]
             MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
             _MMj.append(MMj)
+            _mach.append(ss[ks][kkk].Mach)
             _m.append(ss[ks][kkk].mass_Msun)
             _mstar.append(ss[ks][kkk].mstar_Msun_tot)
+            _mstar2mgas.append(ss[ks][kkk].s2gR)
+            _SFR_young.append(ss[ks][kkk].young_SFR_MsunPyr)
+            _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
             _alpha.append(ss[ks][kkk].alpha)
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
@@ -93,7 +101,11 @@ def unpack_xy(ss):
 
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
+        to_plot[ks]['Mach'] = _mach
         to_plot[ks]['cloud stellar mass'] = _mstar
+        to_plot[ks]['stellar to gas mass'] = _mstar2mgas
+        to_plot[ks]['SFR young'] = _SFR_young
+        to_plot[ks]['SFR old'] = _SFR_old
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
         to_plot[ks]['gas sd'] = _mSD
@@ -290,6 +302,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.set_xlabel(r"$M_{\rm cl}^*$ [M$_{\odot}$]")
         ax.set_xlim(1.0e5, 1.0e10)
 
+    if xstr == "Mach":
+        ax.set_xlabel("Mach ")
+
+    if xstr == "stellar to gas mass":
+        # ax.set_xlim(0.0, 0.5)
+        ax.set_xlabel(r"$M_*/M_{\rm gas}$")
+        
     if(xstr == "gas sd"):
         ax.set_xscale("log")
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
@@ -313,6 +332,10 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.set_yscale("log")
         ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
         ax.set_ylim(0.1, 7.e2)
+
+    if ystr == "SFR young":
+        ax.set_yscale("log")
+        ax.set_ylabel("SFR from existing young stars [Msun " + r"yr$^{-1}$]")
 
     if(ystr == "gas sd"):
         ax.set_ylim(1.0, 1.e4)
