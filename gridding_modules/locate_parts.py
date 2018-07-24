@@ -9,17 +9,17 @@ Last mod: 23 July 2018
 
 import numpy as np
 import sys
-
 sys.path.append('../')
-from cy_modules.cython_helper import grid_particle_mass
 
 
 def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
-                           outname, camera, Nrefined=None, debug=True):
+                           outname, camera, old_dt_myr=100., young_dt_myr=10., ro_in=None, Nrefined=None, debug=True):
 
     """
 
     cast each variable field of the star particles onto the same gridding as the AMR unigrid.
+
+    Note that epoch_vector is converted from code unit into age of Universe (when stars were formed) in debug print statement, but output in .h5 file is still in code unit to preserve backward compatibility.
 
     Parameters
     ----------
@@ -29,10 +29,10 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     levels_vec: array
 
     mass_vector: array
-        mass of star particles in subregion
+        mass of star particles in subregion (in code Unit)
 
     epoch_vector: array
-        epoch of star particles in subregion
+        epoch of star particles in subregion (in code unit)
 
     outname: str
         output .h5 filename
@@ -40,15 +40,30 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     camera: dict
         region of which we extracted this subset of fields from the original box, in code unit, with center and region_size
 
+    old_dt_myr: float
+        default: 100 Myr
+
+    young_dt_myr: float
+        default: 10 Myr
+
     Nrefined: int
        1D size of the resampled unigrid of the AMR stuff 
 
+    ro_in: pymses.RamsesOutput object
+
     debug: bool
+
 
     Returns
     -------
+    outname: str
+        .h5 file to save the resampled subregion of star particles (fields are in code units).
 
     """
+
+    from cy_modules.cython_helper import grid_particle_mass
+    from io_modules.pymses_helper import calculate_age_stars
+    from pymses.utils import constants as C
 
     outfieldnames = ['mass', 'epoch']
 
@@ -102,9 +117,17 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
          print iii,np.max(xx),np.min(xx)
     #xx = np.array(xx, dtype=int)
 
-    mass_cube, epoch_cube = grid_particle_mass(mass_cube, epoch_cube, xx, mass_vector, epoch_vector)
+    epoch_vec_universeAge = calculate_age_stars(ro_in=ro_in, dset_in={'epoch': epoch_vector})
+    mass_cube, epoch_cube, young_cube, old_cube = grid_particle_mass(N, young_dt_myr, old_dt_myr, xx, mass_vector, epoch_vec_universeAge)
 
-    if debug:
+    if debug: 
+        print 'Max mass cube in 10^8 Msun: ', mass_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun)
+        print 'Max young cube (SF in past %d Myr) mass in 10^8 Msun: %.2f ' %(young_dt_myr, young_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun))
+        print 'Young cube (SF in past %d Myr) SFR [Msun/yr]: %.2f ' %(young_dt_myr, young_cube.sum()/1.e6/young_dt_myr * ro_in.info['unit_mass'].express(C.Msun))
+        print 'Max old cube (SF in past %d Myr) mass in 10^8 Msun: %.2f' %(old_dt_myr, old_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun))
+        print 'Old cube (SF in past %d Myr) SFR [Msun/yr]: %.2f' %(old_dt_myr, old_cube.sum()/1.e6/old_dt_myr * ro_in.info['unit_mass'].express(C.Msun))
+
+        print ' '
         print '  Mass field    :', mass_cube.min(), mass_cube.max()
         print '  Mass field log:', np.log10(mass_cube[mass_cube>0].min()), np.log10(mass_cube.max())
 
@@ -137,9 +160,11 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     print outname
 
     f = h5py.File(outname, mode)
-    # create a dataset at the root
+    # in code unit
     f.create_dataset("/mass", data=mass_cube)
     f.create_dataset("/epoch", data=epoch_cube)
+    f.create_dataset("/young" + str(int(young_dt_myr)), data=young_cube)
+    f.create_dataset("/old" + str(int(old_dt_myr)) , data=old_cube)
     f.close()
 
     if debug:
@@ -185,8 +210,12 @@ if __name__ == '__main__':
     import h5py
     f = h5py.File(amrfile, "r")
     N = f['rho'].shape[0]
+
+    import pymses
+    ro = pymses.RamsesOutput("../output", ssnum)
                  
     # resample star particle mass and compute mass-weighted avg epoch correspondingly
-    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, Nrefined=N, debug=True)
+    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, old_dt_myr=100., \
+                           young_dt_myr=10., ro_in=ro, Nrefined=N, debug=True)
 
 # ------
