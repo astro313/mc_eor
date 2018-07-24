@@ -2,6 +2,9 @@
 
 import yt
 import numpy as np
+import sys
+sys.path.append('../')
+
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal,prepare_unigrid
 
 def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = False):
@@ -58,7 +61,7 @@ def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = F
 def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5, f_out=None):
 
   if f_out is None:
-    f_out='test_'+selected_field+'_out'+str(isnap)+'_yt_unit_plot.png')
+    f_out='test_'+selected_field+'_out'+str(isnap)+'_yt_unit_plot.png'
 
   from mpl_toolkits.axes_grid import AxesGrid
   import matplotlib.pyplot as plt
@@ -102,7 +105,14 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
       #,north_vector=up_vec
       ,weight_field='density'
       )
-
+    
+    if ....:
+      prj.set_xlabel('  [kpc]')
+      prj.set_ylabel('  [kpc]')
+    elif:
+      prj.set_xlabel('  [kpc]')
+      prj.set_ylabel('  [kpc]')
+      
     prj.set_cmap(field=selected_field, cmap='inferno')
 
     if selected_field == 'density':
@@ -130,9 +140,11 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
 
   prj.save(f_out, mpl_kwargs={'bbox_inches':'tight'})
   print 'dump to ',f_out
-
+  
+  return prj
 
 
 if __name__ == '__main__':
-  plot_face_edge()
+  prj = plot_face_edge()
+  import pdb; pdb.set_trace()
 
