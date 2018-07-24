@@ -38,7 +38,6 @@ for ssnum in snapshotToLoad:
     center = data[str(ssnum)]['center_init']
     originalSize = data[str(ssnum)]['size']
 
-
     #
     dx_vector = ds['dx_vector']
     loc_vector = ds['loc_vector']
@@ -108,3 +107,10 @@ for ssnum in snapshotToLoad:
     plt.hist(np.log10(mass[mass > 1.e-23].flatten()), bins=100)
     plt.tight_layout()
     plt.savefig(plotdir + str(ssnum) + "_massCollapsedHist.png")
+
+
+    # final sanity check of AMR and stellar field shapes
+    assert mass.shape == H2density.shape
+    assert mass.shape[0] == H2density.shape[0] == N
+
+    
