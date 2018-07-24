@@ -157,7 +157,7 @@ def resam_each_field(dx_vector, loc_vector, field_vector, fieldname, outname, or
         print f.keys()
         f.close()
 
-    return N
+    return field_cube.shape[0]
 
 if __name__ == '__main__':
 
