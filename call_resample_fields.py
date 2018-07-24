@@ -1,6 +1,6 @@
 '''
 
-Last mod: 23 July 2018
+Last mod: 24 July 2018
 
 
 '''
@@ -89,8 +89,12 @@ for ssnum in snapshotToLoad:
     id_vec = ds['id']
     mass_vec = ds['mass']
 
+    import pymses
+    ro = pymses.RamsesOutput("output", ssnum)
+
     # resample star particle mass and compute mass-weighted avg epoch correspondingly                       
-    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, Nrefined=N, debug=False)
+    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, \
+                           old_dt_myr=100., young_dt_myr=10., ro_in=ro, Nrefined=N, debug=False)
 
     # ------ sanity check -- still in code units..
     f = h5py.File(outname, "r")
