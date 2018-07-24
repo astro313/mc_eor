@@ -69,7 +69,7 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 
 grid = AxesGrid(fig, (0.075,0.075,0.85,0.85),
-                nrows_ncols = (2,2),
+                nrows_ncols = (1,2),
                 axes_pad = 0.05,
                 label_mode = "L",
                 share_all = True,
@@ -106,14 +106,12 @@ for iplot,los_vec in zip(xrange(2),vec_list):
 
   prj.set_cmap(field=selected_field, cmap='inferno')
 
-  '''
   if selected_field == 'density':
     selected_unit = 'Msun/pc**3'
   else:
     raise TypeError('unit not implemented for the field')
   prj.set_unit(selected_field, selected_unit)
   prj.set_zlim(selected_field, 1e-5 * dd[selected_field].max().to(selected_unit), dd[selected_field].max().to(selected_unit))
-  '''
 
   plot        = prj.plots[selected_field]
   plot.figure = fig
