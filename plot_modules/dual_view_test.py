@@ -71,12 +71,14 @@ fig = plt.figure()
 grid = AxesGrid(fig, (0.075,0.075,0.85,0.85),
                 nrows_ncols = (1,2),
                 axes_pad = 0.05,
-                label_mode = "L",
+                #label_mode = "L",
+                label_mode = "1",
                 share_all = True,
                 cbar_location="right",
                 cbar_mode="single",
                 cbar_size="3%",
-                cbar_pad="0%")
+                cbar_pad= 0.01)
+#grid = [fig.add_subplot(211),fig.add_subplot(212)]
 
 data = import_fetch_gal(isnap=isnap)
 
@@ -119,10 +121,12 @@ for iplot,los_vec in zip(xrange(2),vec_list):
   plot.cax    = grid.cbar_axes[iplot]
 
   #prj.set_minorticks('all','off')
-
   # Finally, this actually redraws the plot.
   prj._setup_plots()
 
+for cax in grid.cbar_axes:
+    cax.toggle_label(True)
+    #cax.axis[cax.orientation].set_label(field_select)
 
 f_out = 'test_'+selected_field+'_out'+str(isnap)+'_yt_unit_plot.png'
 
