@@ -103,7 +103,7 @@ def unpack_xy(ss):
         to_plot[ks]['cloud mass'] = _m
         to_plot[ks]['Mach'] = _mach
         to_plot[ks]['cloud stellar mass'] = _mstar
-        to_plot[ks]['stellar to gas msss'] = _mstar2mgas
+        to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
         to_plot[ks]['SFR old'] = _SFR_old
         to_plot[ks]['mass over jeans mass'] = _MMj
