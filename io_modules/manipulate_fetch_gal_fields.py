@@ -113,10 +113,12 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
 
     """
 
+    In the input .h5 file, epochMyr is converted into Myr (Universe Age).
+
     Returns
     -------
     dataDict: dict
-        containing star fields (mass and epoch) in converted units
+        containing star fields (mass, epochMyr, young10, old100) in converted units
 
     """
 
@@ -134,22 +136,25 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
         print '  ', h5_file
 
     f = h5py.File(h5_file, "r")
-    mass = f["mass"].value
-    epoch = f["epoch"].value
 
-    from io_modules.pymses_helper import calculate_age_stars
-    UniverseAgeStarFormationMyr = calculate_age_stars(ro_in=ro, dset_in ={'epoch': epoch})   # input for calculate_age_stars() should be in code unit
+    for fff in f.iterkeys():
+        print fff
+        exec(str(fff) + '= f[fff].value')
+        
+    # print mass.shape, epochMyr.shape, young10.shape, old100.shape
 
-    mask = mass>0
-    epoch[mask] = UniverseAgeStarFormationMyr[mask]
-    
     if verbose:
         print 'max and min of Universe age when stars are formed [Gyr] '
-        print epoch.max()/1.e3, epoch[epoch>0].min()/1.e3 
+        print epochMyr.max()/1.e3, epochMyr[epochMyr>0].min()/1.e3 
 
     if convert:
       factor_mass, unit_mass = get_units(ro=ro)['mass']      
       mass *= factor_mass
+
+      for fff in f.iterkeys():
+          if ('young' in fff) or ('old' in fff):
+              exec(str(fff) + '= factor_mass * f[fff].value')
+
       if(verbose):
           print 'max mass in log10'
           print np.log10(mass.max()), unit_mass
@@ -157,8 +162,10 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
           print 'sum of all masses in log: Msun'
           print np.log10(mass.sum())
 
-    dataDict = dict(mass=mass, 
-                epoch=epoch)
+    dataDict = {}
+    for fff in f.iterkeys():
+        dataDict[fff] = eval(fff)
+
     if True:
         if verbose:
             print 'Clipping variables'

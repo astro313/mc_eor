@@ -57,7 +57,7 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     Returns
     -------
     outname: str
-        .h5 file to save the resampled subregion of star particles (fields are in code units).
+        .h5 file to save the resampled subregion of star particles (fields are in code units, except for epochMyr).
 
     """
 
@@ -118,7 +118,7 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     #xx = np.array(xx, dtype=int)
 
     epoch_vec_universeAge = calculate_age_stars(ro_in=ro_in, dset_in={'epoch': epoch_vector})
-    mass_cube, epoch_cube, young_cube, old_cube = grid_particle_mass(N, young_dt_myr, old_dt_myr, xx, mass_vector, epoch_vec_universeAge)
+    mass_cube, epoch_universeAgeMyr_cube, young_cube, old_cube = grid_particle_mass(N, young_dt_myr, old_dt_myr, xx, mass_vector, epoch_vec_universeAge)
 
     if debug: 
         print 'Max mass cube in 10^8 Msun: ', mass_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun)
@@ -162,7 +162,7 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     f = h5py.File(outname, mode)
     # in code unit
     f.create_dataset("/mass", data=mass_cube)
-    f.create_dataset("/epoch", data=epoch_cube)
+    f.create_dataset("/epochMyr", data=epoch_universeAgeMyr_cube)
     f.create_dataset("/young" + str(int(young_dt_myr)), data=young_cube)
     f.create_dataset("/old" + str(int(old_dt_myr)) , data=old_cube)
     f.close()
