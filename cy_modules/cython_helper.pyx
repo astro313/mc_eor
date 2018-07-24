@@ -54,43 +54,55 @@ cpdef sum_along_one_axis(
 
 # example function
 cpdef grid_particle_mass(
-                    N.ndarray[DTYPEf_t, ndim=3] cube_in,
-                    N.ndarray[DTYPEf_t, ndim=3] cube_avg_in,
+#                    N.ndarray[DTYPEf_t, ndim=3] cube_in,
+#                    N.ndarray[DTYPEf_t, ndim=3] cube_avg_in,
+                    long                           Nsize,
+                    DTYPEf_t                       young_dt_Myr,
+                    DTYPEf_t                       old_dt_Myr,
                     N.ndarray[DTYPEf_t, ndim=2] pos_id,
                     N.ndarray[DTYPEf_t, ndim=1] mass,
                     N.ndarray[DTYPEf_t, ndim=1] epoch
                          ):
     """
-      cube_in (n0,n1,n2) : input/output array with particle mass field
       pos_id  (n_part,3) : ids of the particles (position relative to the field)
       mass    (n_part)   : masses of the particles
-      epoch    (n_part)   : epoch of the particles
+      epoch    (n_part)   : epoch of the particles (in age of universe when stars formed)
 
       sum to cube_in the contribution to the mass due to the particles at each location
     """
     cdef:
-        long n0     = N.shape(cube_in)[0]
-        long n1     = N.shape(cube_in)[1]
-        long n2     = N.shape(cube_in)[2]
+        N.ndarray[DTYPEf_t, ndim=3] mass_cube    = N.zeros((Nsize, Nsize, Nsize), dtype=DTYPEf)
+        N.ndarray[DTYPEf_t, ndim=3] epoch_cube    = N.zeros((Nsize, Nsize, Nsize), dtype=DTYPEf)
+        N.ndarray[DTYPEf_t, ndim=3] young_cube    = N.zeros((Nsize, Nsize, Nsize), dtype=DTYPEf)
+        N.ndarray[DTYPEf_t, ndim=3] old_cube    = N.zeros((Nsize, Nsize, Nsize), dtype=DTYPEf)
         long n_part = N.shape(pos_id)[0]
-        long k, i, j,id_part
+        long k, i, j, id_part
+        DTYPEf_t maxAge
 
     assert n_part == len(mass)
+    maxAge = N.max(epoch)
 
     for id_part in range(n_part):
         i              = long(pos_id[id_part,0])
         j              = long(pos_id[id_part,1])
         k              = long(pos_id[id_part,2])
-        cube_in[i,j,k] = cube_in[i,j,k] + mass[id_part]
-        cube_avg_in[i,j,k] = cube_avg_in[i,j,k] + (mass[id_part] * epoch[id_part])
+        mass_cube[i,j,k] = mass_cube[i,j,k] + mass[id_part]
+        epoch_cube[i,j,k] = epoch_cube[i,j,k] + (mass[id_part] * epoch[id_part])
 
-    for k in range(n2):
-        for j in range(n1):
-            for i in range(n0):
-                if(cube_in[i,j,k] > 0 ):
-                    cube_avg_in[i,j,k] = cube_avg_in[i,j,k]/cube_in[i,j,k]
+        if epoch[id_part] > 0:
+            if maxAge - epoch[id_part] <= young_dt_Myr:
+                young_cube[i,j,k] = young_cube[i,j,k] + mass[id_part]
+                
+            if maxAge - epoch[id_part] <= old_dt_Myr:
+                old_cube[i,j,k] = old_cube[i,j,k] + mass[id_part]
 
-    return N.array(cube_in,dtype=DTYPEf),N.array(cube_avg_in,dtype=DTYPEf)
+    for k in range(Nsize):
+        for j in range(Nsize):
+            for i in range(Nsize):
+                if(mass_cube[i,j,k] > 0 ):
+                    epoch_cube[i,j,k] = epoch_cube[i,j,k]/mass_cube[i,j,k]
+
+    return N.array(mass_cube,dtype=DTYPEf),N.array(epoch_cube,dtype=DTYPEf),N.array(young_cube,dtype=DTYPEf),N.array(old_cube,dtype=DTYPEf)
 
 
 # additional example, does a density estimator with a gaussian kernel
