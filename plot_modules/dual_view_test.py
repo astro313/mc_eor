@@ -6,6 +6,7 @@ import sys
 sys.path.append('../')
 
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal,prepare_unigrid
+from clump_modules.clump_wrapper import ytclumpfind_H2
 
 def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = False):
 
@@ -57,8 +58,8 @@ def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = F
   return e_values, e_vectors
 
 
-
-def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5, f_out=None):
+def plot_face_edge(isnap=28, selected_field='h2density', sizekpc=7., cutLow=1.e-5, f_out=None,save_plot = True,
+    overplot_clumps = True, incut = 6., field_cut = 'h2density', n_cell_min = 8, largeNum=1.e+42):
 
   if f_out is None:
     f_out='test_'+selected_field+'_out'+str(isnap)+'_yt_unit_plot.png'
@@ -96,6 +97,16 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
   vec_list = [ e_vectors[2,:], e_vectors[1,:]  ]
   up_list  = [ e_vectors[0,:], e_vectors[0,:] ]
 
+  if overplot_clumps:
+    __ , leaf_clumps = ytclumpfind_H2(ds, dd, field_cut, incut,
+                                        c_max=None, step=1e+6,
+                                        N_cell_min=n_cell_min, save=False,
+                                        plot=False, saveplot=None, fold_out='./')
+
+    id_sorted = sorted(range(len(leaf_clumps)),
+                     key=lambda x: np.sum(leaf_clumps[x]["density"]))
+
+
   for iplot,los_vec,up_vec in zip(xrange(2),vec_list, up_list):
 
     prj = yt.OffAxisProjectionPlot(ds = ds, center = [0,0,0], normal = los_vec , fields= selected_field
@@ -124,6 +135,29 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
     prj.set_zlim(selected_field, cutLow * dd[selected_field].max().to(selected_unit), \
                  dd[selected_field].max().to(selected_unit))
 
+    if overplot_clumps:
+      prj.annotate_contour(field=field_cut, ncont=1, factor=1,
+          clim=(incut, largeNum),plot_args = {'colors':'white'}
+          )  # to deal w/ stupid yt annotate_clump() bug
+   
+      for ileaf in id_sorted:
+          _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
+   
+          prj.annotate_marker(_fc,
+                              coord_system='data',
+                              plot_args={'color': 'red', 's': 50})
+          prj.annotate_text(_fc,
+                            ileaf+1,
+                            coord_system='data',
+                            text_args={'color': 'red', 'size': 25},
+                            inset_box_args={'boxstyle': 'square',
+                                            'facecolor': 'white',
+                                            'linewidth': 1.0,
+                                            'edgecolor': 'white',
+                                            'alpha': 0.})
+
+
+
     plot        = prj.plots[selected_field]
     plot.figure = fig
     plot.axes   = grid[iplot].axes
@@ -137,11 +171,16 @@ def plot_face_edge(isnap=28, selected_field='density', sizekpc=7., cutLow=1.e-5,
       cax.toggle_label(True)
       #cax.axis[cax.orientation].set_label(field_select)
 
-  prj.save(f_out, mpl_kwargs={'bbox_inches':'tight'})
-  print 'dump to ',f_out
+  if save_plot:
+
+    prj.save(f_out, mpl_kwargs={'bbox_inches':'tight'})
+    print 'dump to ',f_out
   
   return prj, plot.axes
 
 if __name__ == '__main__':
-  prj, axes = plot_face_edge()
+  prj, axes = plot_face_edge(
+                             selected_field='h2density'
+                            ,field_cut = 'h2density'
+                            )
 
