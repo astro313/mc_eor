@@ -46,10 +46,6 @@ if not os.path.isdir(outdir):
 field_select = "h2density"
 
 th_list = 10**np.linspace(-0.5, 1.5, 10)
-# th_list = [7.]
-# th_list = [10**-0.5]
-# th_list = [35.]
-# th_list = [6.81]
 # th_list = [31.62]
 
 n_cell_min = 10
@@ -77,12 +73,9 @@ else:
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
-#     for snapshotnum in range(16, 29):
-#    for snapshotnum in range(16, 17):
 # loop through all snapshots
-for snapshotnum in range(28, 29):
+for snapshotnum in range(17, 29):
 
-        
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
     else:
