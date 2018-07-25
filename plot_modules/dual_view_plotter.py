@@ -7,6 +7,9 @@ sys.path.append('../')
 
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal,prepare_unigrid
 from clump_modules.clump_wrapper import ytclumpfind_H2
+from plot_cloud_prop import setup_plot
+
+setup_plot()
 
 def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = False):
 
@@ -58,8 +61,47 @@ def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = F
   return e_values, e_vectors
 
 
-def plot_face_edge(isnap=28, selected_field='h2density', sizekpc=7., cutLow=1.e-5, f_out=None,save_plot = True,
+def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5, f_out=None,save_plot = True,
     overplot_clumps = True, incut = 6., field_cut = 'h2density', n_cell_min = 8, largeNum=1.e+42):
+
+  """
+
+  Parameters
+  ----------
+    isnap: int
+           number of snaphot select for the plot
+
+    selected_field: str
+           field for image plot
+
+    sizekpc: float
+            size of the extracted region from isnap
+    
+    cutLow: float
+            dynamical range for the colorbar
+
+    f_out: str
+           output filename
+
+    save_plot: bool
+           print to file
+
+    overplot_clumps: bool
+           overplot clumps
+
+    incut: float
+           threshold for clump definition
+    
+    field_cut: str
+           field out of which clumps are identified    
+    
+    n_cell_min: int
+           min cell to define a clump
+    
+    largeNum: float
+           BS to have YT to collaborate
+
+  """
 
   if f_out is None:
     f_out='test_'+selected_field+'_out'+str(isnap)+'_yt_unit_plot.png'
@@ -179,7 +221,7 @@ def plot_face_edge(isnap=28, selected_field='h2density', sizekpc=7., cutLow=1.e-
   return prj, plot.axes
 
 if __name__ == '__main__':
-  prj, axes = plot_face_edge(
+  prj, axes = plot_face_edge(isnap=28,
                              selected_field='h2density'
                             ,field_cut = 'h2density'
                             )
