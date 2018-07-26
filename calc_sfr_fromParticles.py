@@ -21,11 +21,13 @@ from pymses.utils import constants as C
 import numpy as np
 import os
 from pymses.analysis.visualization import *
+from plot_modules.plot_cloud_prop import setup_plot
+
 
 
 if __name__ == '__main__':
 
-
+    setup_plot()
     debug   = False
     verbose = True
     stardir = 'star_particles/'
@@ -57,7 +59,6 @@ if __name__ == '__main__':
     sfrs_MsunPerYr = {}
 
     snapshotsToLoad = range(16, 29)
-    snapshotsToLoad = range(28, 29)
     for ssnum in snapshotsToLoad:
         ro = pymses.RamsesOutput("output", ssnum)
 
@@ -128,17 +129,22 @@ if __name__ == '__main__':
 
 
         mapp = mp.process(scal_func, cam, surf_qty=True)
-        plt.close()
-        plt.figure()
+        plt.close('all')
+        fig = plt.figure()
+        ax  = fig.add_subplot(111)
         #
+        z1,z2 = 0.0, np.log10(np.max(mapp))
+
         size_region_kpc = camera_in['region_size'][0] * ro.info['unit_length'].express(C.kpc)
-        plt.imshow(np.log10(mapp),extent = [-size_region_kpc/2,size_region_kpc/2,-size_region_kpc/2,+size_region_kpc/2]  )
+        bu = ax.imshow(np.log10(mapp),extent = [-size_region_kpc/2,size_region_kpc/2,-size_region_kpc/2,+size_region_kpc/2]
+                       ,vmin = z1, vmax = z2
+                      )
         plt.ylabel("kpc")
         plt.xlabel("kpc")
         #
-        cbar = plt.colorbar()
-        cbar.set_label(r"$\log10(\Sigma_{\star}/ {\rm M}_{\odot}\,{\rm pc}^{-2}])$")
-        cbar.set_clim(-2.0, np.log10(np.max(mapp)))
+        cbar = fig.colorbar(bu)
+        cbar.set_label(r"$\log \Sigma_{\star}$" + r"[M$_{\odot}\,{\rm pc}^{-2}]$")
+        cbar.set_clim(z1,z2)
         plt.tight_layout()
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
         plt.close()

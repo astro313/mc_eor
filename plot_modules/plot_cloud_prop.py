@@ -312,6 +312,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         
     if(xstr == "gas sd"):
         ax.set_xscale("log")
+        ax.set_xlim(1.e2, 1.e3)
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
 
     if xstr == 'size pc':
