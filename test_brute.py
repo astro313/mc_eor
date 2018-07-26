@@ -111,7 +111,9 @@ for snapshotnum in range(16, 17):
 
         from plot_modules.dual_view_plotter import plot_face_edge
 
-        __ppj, __paxes = plot_face_edge(data=data, ds=ds, dd=dd, leaf_clumps=leaf_clumps, \
+        # plot face on and edgeon view of the galaxy and overplot clumps
+        __ppj, __paxes = plot_face_edge(data=data, ds=ds, dd=dd, leaf_clumps=leaf_clumps,incut=incut,\
+                                        selected_field='h2density',                                  \
                                         f_out=f_out.replace("ss", "dual"))
 
         # stupid yt does not check N_cell_min criterion if no children survived!
