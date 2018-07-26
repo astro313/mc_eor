@@ -63,7 +63,7 @@ def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = F
 
 def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5, f_out=None,save_plot = True,
     overplot_clumps = True, incut = 6., field_cut = 'h2density', n_cell_min = 8, largeNum=1.e+42,
-    data = None, ds = None, dd = None, leaf_clumps = None
+    data = None, ds = None, dd = None, leaf_clumps = None, plotClumpID=False
     ):
 
   """
@@ -127,7 +127,8 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
                                         c_max=None, step=1e+6,
                                         N_cell_min=n_cell_min, save=False,
                                         plot=False, saveplot=None, fold_out='./')
-    #
+
+  if overplot_clumps:
     id_sorted = sorted(range(len(leaf_clumps)),
                      key=lambda x: np.sum(leaf_clumps[x]["density"]))
 
@@ -195,19 +196,20 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
    
       for ileaf in id_sorted:
           _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
-   
-          prj.annotate_marker(_fc,
+
+          if plotClumpID:
+            prj.annotate_marker(_fc,
+                                coord_system='data',
+                                plot_args={'color': 'red', 's': 50})
+            prj.annotate_text(_fc,
+                              ileaf+1,
                               coord_system='data',
-                              plot_args={'color': 'red', 's': 50})
-          prj.annotate_text(_fc,
-                            ileaf+1,
-                            coord_system='data',
-                            text_args={'color': 'red', 'size': 25},
-                            inset_box_args={'boxstyle': 'square',
-                                            'facecolor': 'white',
-                                            'linewidth': 1.0,
-                                            'edgecolor': 'white',
-                                            'alpha': 0.})
+                              text_args={'color': 'red', 'size': 25},
+                              inset_box_args={'boxstyle': 'square',
+                                              'facecolor': 'white',
+                                              'linewidth': 1.0,
+                                              'edgecolor': 'white',
+                                              'alpha': 0.})
 
 
     # set the plot into the grid
