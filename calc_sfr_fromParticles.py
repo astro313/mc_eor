@@ -115,6 +115,7 @@ if __name__ == '__main__':
         # map processing
         mp = fft_projection.MapFFTProcessor(parts_inside_camera, ro.info)
 
+
         cam = Camera(center=camera_in['center'],
                      line_of_sight_axis=camera_in['los'],
                      region_size=[camera_in['region_size']
@@ -124,12 +125,21 @@ if __name__ == '__main__':
                      up_vector=camera_in['up_vec'],
                      map_max_size=camera_in['map_max_size'],
                      log_sensitive=True)
+
+
         mapp = mp.process(scal_func, cam, surf_qty=True)
         plt.close()
         plt.figure()
-        plt.imshow(np.log10(mapp))
+        #
+        size_region_kpc = sizecamera_in['region_size'][0] * ro.info['unit_length'].express(C.kpc)
+        plt.imshow(np.log10(mapp),extent = [-size_region_kpc/2,size_region_kpc/2,-size_region_kpc/2,+size_region_kpc/2]  )
+        plt.ylabel("kpc")
+        plt.xlabel("kpc")
+        #
         cbar = plt.colorbar()
-        cbar.set_label(r"log10(Mass surface density [Msun/pc$^2$])")
+        cbar.set_label(r"$\log10(\Sigma_{\star}/ {\rm M}_{\odot}\,{\rm pc}^{-2}])$")
+        cbar.set_clim(-2.0, np.log10(np.max(mapp)))
+        plt.tight_layout()
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
         plt.close()
 
