@@ -131,7 +131,7 @@ if __name__ == '__main__':
         plt.close()
         plt.figure()
         #
-        size_region_kpc = sizecamera_in['region_size'][0] * ro.info['unit_length'].express(C.kpc)
+        size_region_kpc = camera_in['region_size'][0] * ro.info['unit_length'].express(C.kpc)
         plt.imshow(np.log10(mapp),extent = [-size_region_kpc/2,size_region_kpc/2,-size_region_kpc/2,+size_region_kpc/2]  )
         plt.ylabel("kpc")
         plt.xlabel("kpc")
