@@ -62,7 +62,9 @@ def calculate_eigenvektoren(data, sizekpc, selected_field='density', verbose = F
 
 
 def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5, f_out=None,save_plot = True,
-    overplot_clumps = True, incut = 6., field_cut = 'h2density', n_cell_min = 8, largeNum=1.e+42):
+    overplot_clumps = True, incut = 6., field_cut = 'h2density', n_cell_min = 8, largeNum=1.e+42,
+    data = None, ds = None, dd = None, leaf_clumps = None
+    ):
 
   """
 
@@ -109,8 +111,41 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
   from mpl_toolkits.axes_grid import AxesGrid
   import matplotlib.pyplot as plt
 
-  fig = plt.figure()
+  # prepare input data, if not already passed as arguments
+  #
+  if data is None:
+    data = import_fetch_gal(isnap=isnap)
+  #
+  if (ds is None) and (dd is None):
+    ds, dd = prepare_unigrid(data=data, 
+                           add_unit= True, 
+                           regionsize_kpc= sizekpc, 
+                           debug=False)
+  #
+  if overplot_clumps and (leaf_clumps is None):
+    __ , leaf_clumps = ytclumpfind_H2(ds, dd, field_cut, incut,
+                                        c_max=None, step=1e+6,
+                                        N_cell_min=n_cell_min, save=False,
+                                        plot=False, saveplot=None, fold_out='./')
+    #
+    id_sorted = sorted(range(len(leaf_clumps)),
+                     key=lambda x: np.sum(leaf_clumps[x]["density"]))
 
+  # compute inertia tensor and it principal axes
+  e_value,e_vectors = calculate_eigenvektoren(data=data,sizekpc=sizekpc)
+  # references
+  #los_vec = e_vectors[0,:] # face on
+  #los_vec = e_vectors[1,:] # edge on
+  #los_vec = e_vectors[2,:] # face on (again, perpendicular direction)
+  #
+  # set the camera axes along the principal axes of the inertia tensor
+  vec_list = [ e_vectors[2,:], e_vectors[1,:] ]
+  up_list  = [ e_vectors[0,:], e_vectors[0,:] ]
+
+  # setup the plot
+  #
+  fig = plt.figure()
+  #
   grid = AxesGrid(fig, (0.075,0.075,0.85,0.85),
                   nrows_ncols = (1,2),
                   axes_pad = 0.05,
@@ -121,34 +156,9 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
                   cbar_mode="single",
                   cbar_size="3%",
                   cbar_pad= 0.01)
-  #grid = [fig.add_subplot(211),fig.add_subplot(212)]
 
-  data = import_fetch_gal(isnap=isnap)
-
-  ds, dd = prepare_unigrid(data=data, 
-                           add_unit= True, 
-                           regionsize_kpc= sizekpc, 
-                           debug=False)
-
-  e_value,e_vectors = calculate_eigenvektoren(data=data,sizekpc=sizekpc)
-
-  #los_vec = e_vectors[0,:] # face on
-  #los_vec = e_vectors[1,:] # edge on
-  #los_vec = e_vectors[2,:] # face on (again, perpendicular direction)
-
-  vec_list = [ e_vectors[2,:], e_vectors[1,:]  ]
-  up_list  = [ e_vectors[0,:], e_vectors[0,:] ]
-
-  if overplot_clumps:
-    __ , leaf_clumps = ytclumpfind_H2(ds, dd, field_cut, incut,
-                                        c_max=None, step=1e+6,
-                                        N_cell_min=n_cell_min, save=False,
-                                        plot=False, saveplot=None, fold_out='./')
-
-    id_sorted = sorted(range(len(leaf_clumps)),
-                     key=lambda x: np.sum(leaf_clumps[x]["density"]))
-
-
+  # plot edge on and face on
+  #
   for iplot,los_vec,up_vec in zip(xrange(2),vec_list, up_list):
 
     prj = yt.OffAxisProjectionPlot(ds = ds, center = [0,0,0], normal = los_vec , fields= selected_field
@@ -177,6 +187,7 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
     prj.set_zlim(selected_field, cutLow * dd[selected_field].max().to(selected_unit), \
                  dd[selected_field].max().to(selected_unit))
 
+    # annotate clump if asked for
     if overplot_clumps:
       prj.annotate_contour(field=field_cut, ncont=1, factor=1,
           clim=(incut, largeNum),plot_args = {'colors':'white'}
@@ -199,13 +210,11 @@ def plot_face_edge(isnap=28,selected_field='h2density', sizekpc=7., cutLow=1.e-5
                                             'alpha': 0.})
 
 
-
+    # set the plot into the grid
     plot        = prj.plots[selected_field]
     plot.figure = fig
     plot.axes   = grid[iplot].axes
     plot.cax    = grid.cbar_axes[iplot]
-
-    #prj.set_minorticks('all','off')
     # Finally, this actually redraws the plot.
     prj._setup_plots()
 
