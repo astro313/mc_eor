@@ -73,8 +73,9 @@ else:
 
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
-# loop through all snapshots
-for snapshotnum in range(17, 29):
+
+# for snapshotnum in range(16, 29):
+for snapshotnum in range(16, 17):
 
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
@@ -102,17 +103,16 @@ for snapshotnum in range(17, 29):
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
 
-#         prj = yt.OffAxisProjectionPlot(ds, [1,1,0], field_select, width=(1, 'box_length'), 
-#                                        north_vector=[-1,1,0])
-# 
-#        prj.save('123.png')
-#        import sys; sys.exit()
-
         #prj.set_zlim('h2density', 1.e-3, 1e-1)
         _, leaf_clumps = ytclumpfind_H2(ds, dd, field_select, incut,
                                         c_max=None, step=1e+6,
                                         N_cell_min=n_cell_min, save=False,
                                         plot=False, saveplot=None, fold_out='./')
+
+        from plot_modules.dual_view_plotter import plot_face_edge
+
+        __ppj, __paxes = plot_face_edge(data=data, ds=ds, dd=dd, leaf_clumps=leaf_clumps, \
+                                        f_out=f_out.replace("ss", "dual"))
 
         # stupid yt does not check N_cell_min criterion if no children survived!
         if len(leaf_clumps) == 1:
