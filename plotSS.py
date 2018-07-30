@@ -26,6 +26,7 @@ def plotting_procedure(minss, maxss, fname):
         os.system('mkdir -p ' + leafdir_out)
 
     plot_stuff("cloud mass", "mass over jeans mass", leglabel="sfr: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("cloud mass", "jeans mass",  leglabel="sfr: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("Mach", "SFR young", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
