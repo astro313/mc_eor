@@ -29,7 +29,9 @@ def setup_plot():
 
 def col_f(ii, cm=None):
     if cm is None:
-        cm = plt.get_cmap('gist_heat')
+        cm = plt.get_cmap("Magma")
+        # cm = plt.get_cmap("cubehelix")
+#        cm = plt.get_cmap('gist_heat')
     # cm = plt.get_cmap('gist_rainbow')
 
     return cm(ii)
@@ -57,6 +59,7 @@ def unpack_xy(ss):
     to_plot = {}
 
     for ks in sorted(ss.iterkeys()):
+        _Mj = []
         _MMj = []
         _m = []
         _mach = []
@@ -78,6 +81,7 @@ def unpack_xy(ss):
 
         for kkk in ss[ks].iterkeys():
             # print ss[ks][kkk]
+            _Mj.append(ss[ks][kkk].M_jeans)
             MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
             _MMj.append(MMj)
             _mach.append(ss[ks][kkk].Mach)
@@ -106,6 +110,7 @@ def unpack_xy(ss):
         to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
         to_plot[ks]['SFR old'] = _SFR_old
+        to_plot[ks]['jeans mass'] = _Mj
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
         to_plot[ks]['gas sd'] = _mSD
@@ -147,49 +152,195 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     fig, ax
 
     """
+    import pandas as pd
+    import glob
 
     plt.close('all')
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap(cm)
-
+    cm = plt.get_cmap("Magma")
 
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
-        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=7, linestyle='', \
+        ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=7, linestyle='',
                 label="MW Heiderman+2010", color='k', alpha=0.8)
 
         x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
-        ax.plot(x, y, linestyle='-', color='b', linewidth=2, label="Kennicutt 1998")
+        ax.plot(x, y, linestyle='-', color='b',
+                linewidth=2, label="Kennicutt 1998")
 
         # more from high-z literature
         litpath = '/mnt/home/daisyleung/mc_eor/literature/'
-        x0901, y0901 = np.loadtxt(litpath + "J0901_KS10_points.txt", unpack=True)  # in log
-        x14011, y14011 = np.loadtxt(litpath + "J14011_KSpoints2.txt", unpack=True)  # not in log
-        xrawle, yrawle = np.loadtxt(litpath + "Rawle_KSpoints.txt", unpack=True, usecols=(0,1))  # in log
-        xgn20, xgn20err, ygn20, ygn20err = np.loadtxt(litpath + "Hodge_resolvedKS.txt", unpack=True)   # not in log
-        xegs, xegserr, yegs, yegserr = np.loadtxt(litpath + "Genzel_KSpoints.txt", unpack=True) # in log
+        x0901, y0901 = np.loadtxt(
+            litpath + "J0901_KS10_points.txt", unpack=True)  # in log
+        x14011, y14011 = np.loadtxt(
+            litpath + "J14011_KSpoints2.txt", unpack=True)  # not in log
+        xrawle, yrawle = np.loadtxt(
+            litpath + "Rawle_KSpoints.txt", unpack=True, usecols=(0, 1))  # in log
+        xgn20, xgn20err, ygn20, ygn20err = np.loadtxt(
+            litpath + "Hodge_resolvedKS.txt", unpack=True)   # not in log
+        xegs, xegserr, yegs, yegserr = np.loadtxt(
+            litpath + "Genzel_KSpoints.txt", unpack=True)  # in log
 
-        ax.scatter(10**x0901, 10**y0901, label="J0901 @ z=2.26", \
+        ax.scatter(10**x0901, 10**y0901, label="J0901 @ z=2.26",
                    color='red', marker='o', s=5, facecolors='none', alpha=0.6)
-        ax.scatter(x14011, y14011, label="SMM J14011 @ z=2.56", \
+        ax.scatter(x14011, y14011, label="SMM J14011 @ z=2.56",
                    color='darkblue', marker='^', s=13, facecolors='none', alpha=0.8)
-        ax.scatter(10**xrawle, 10**yrawle, label="HLS0918 @ z=5.24", \
+        ax.scatter(10**xrawle, 10**yrawle, label="HLS0918 @ z=5.24",
                    color='purple', marker='v', s=10, facecolors='none', alpha=0.8)
-        ax.errorbar(xgn20, ygn20, yerr=ygn20err, xerr=xgn20err, \
+        ax.errorbar(xgn20, ygn20, yerr=ygn20err, xerr=xgn20err,
                     label="GN20 @ z=4.05",
                     color='orange', fmt='s', markersize=4.5,
                     markeredgewidth=0.6, mfc='none', elinewidth=0.5)
-        ax.errorbar(10**xegs, 10**yegs, yerr=yegserr, xerr=xegserr, \
+        ax.errorbar(10**xegs, 10**yegs, yerr=yegserr, xerr=xegserr,
                     label="EGS13011166 @ z=1.53",
                     color='green', fmt='D', markersize=3.5,
                     markeredgewidth=0.6, mfc='none', zorder=0.5, alpha=0.56, elinewidth=0.5)
 
+    if ystr == "alpha vir" and xstr == "cloud mass":
+        # Kauffmann+17 Figure 4
+        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
+
+        # read data from old Kauffmann paper
+        CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
+                                  header=0,
+                                  delim_whitespace=True)
+
+        # CMZ data: GCMS dendrograms
+        DataTable = pd.DataFrame()
+        LinewidthSizeFiles = glob.glob(
+            litpath + './Kauffmann17/Clumps_*.pickle')
+        for File in LinewidthSizeFiles:
+            DataTable = DataTable.append(pd.read_pickle(File))
+
+        DataTable['mass'] = 224.46 * (2.0E23 / 1.0E22) * \
+            np.pi * (DataTable['r_eff'])**2.
+        DataTable['alpha'] = 1.2 * (DataTable['v_rms'])**2. * \
+            DataTable['r_eff'] * \
+            (DataTable['mass'] / 1.0E3)**(-1)
+        DataTable['Mach'] = DataTable['v_rms'] / \
+            (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+
+        np.unique(CloudData['Sample'])
+
+        # show instability range
+        ax.fill_between([1.0E-9, 1.0E9],
+                        [1.0E-9, 1.0E-9],
+                        [2., 2.],
+                        facecolor='0.9', edgecolor='none',
+                        zorder=0)
+        plt.annotate(s='unstable',
+                     xy=[2.e6, 0.2],
+                     color='0.3', size=22.,
+                     ha='left')
+
+        COFilterArray = (CloudData['Sample'] == 'DuvalGRS')
+        CloudData.loc[CloudData['Sample'] == 'HeyerGRS'] = 'NaN'
+
+        # plot reference data
+        plt.plot(CloudData['Mass'][COFilterArray],
+                 CloudData['Alpha'][COFilterArray],
+                 'p', markeredgecolor='palegreen', markeredgewidth=2.,
+                 markersize=7., markerfacecolor='none', label='Pipe Nebula dense gas')  # Pipe Nebula, C18O (associated with high-mass SF), NH3 (high-density tracer)
+
+        plt.plot(CloudData['Mass'][np.invert(COFilterArray)],
+                 CloudData['Alpha'][np.invert(COFilterArray)],
+                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas tracers')
+
+        # CMZ data: GCMS dendrograms
+        plt.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
+                 DataTable[DataTable['Target'] != 'SgrD']['alpha'],
+                 '+',
+                 markersize=13.,
+                 markeredgecolor='blue', markeredgewidth=3.,
+                 markerfacecolor=(1, 0.7, 0.7),
+                 zorder=10, label='CMZ')
+
+        plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+                 DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+                 '+',
+                 markersize=13.,
+                 markeredgecolor='blue', markeredgewidth=6.,
+                 markerfacecolor=(1, 0.7, 0.7),
+                 zorder=10, label='')
+
+        plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+                 DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+                 '+',
+                 markersize=13.,
+                 markeredgecolor='white', markeredgewidth=2.,
+                 markerfacecolor=(1, 0.7, 0.7),
+                 zorder=10, label='Sgr D outside CMZ')
+
+        ax.annotate(s='"clumps"',
+                    xy=[5.0E3, 0.7],
+                    color='blue',
+                    ha='left')
+
+        # # estimate for dense cores
+        # ax.fill_between([1.0E2, 1.0E3],
+        #                 1.2 * 0.6**2. * 0.1 /
+        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #                 1.2 * 2.2**2. * 0.1 /
+        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #                 facecolor='blue', edgecolor='none', alpha=0.3,
+        #                 zorder=3)
+        # plt.plot([1.0E2, 1.0E3],
+        #          1.2 * 0.6**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #          color='blue',
+        #          linewidth=3.)
+        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{0.6 \, km \, s^{-1}}$',
+        #          xy=[300., 1. / 1.5 * 1.2 * 0.6**2. * 0.1 / (300. / 1.0E3)],
+        #          color='blue',
+        #          ha='right')
+        # plt.plot([1.0E2, 1.0E3],
+        #          1.2 * 2.2**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #          color='blue',
+        #          linewidth=3.)
+        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{2.2 \, km \, s^{-1}}$',
+        #          xy=[100, 1.2 * 1.2 * 2.2**2. * 0.1 / (100. / 1.0E3)],
+        #          color='blue',
+        #          ha='center')
+
+        # CMZ data: entire clouds
+        EntireCloudData = pd.DataFrame()
+        EntireCloudData['Target'] = [
+            'SgrC', '20kms', '50kms', 'G0.253', 'SgrB1']
+        EntireCloudData['Mass'] = [2.5E4, 33.9E4, 6.5E4, 9.3E4, 14.5E4]
+        EntireCloudData['Size'] = [1.7, 5.1, 2.7, 2.8, 3.6]
+        EntireCloudData['VelocityDispersion'] = [6.5, 10.2, 13.9, 16.4, 13.1]
+        EntireCloudData['VirialParameter'] = 1.2 * EntireCloudData['VelocityDispersion']**2. * \
+            EntireCloudData['Size'] * \
+            (EntireCloudData['Mass'] / 1000.)**-1.
+        EntireCloudData['Mach'] = \
+            EntireCloudData['VelocityDispersion'] / \
+            (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+        EntireCloudData['MeanDensity'] = \
+            3.5E4 * (EntireCloudData['Mass'] / 1.0E4) / \
+            EntireCloudData['Size']**3.
+        EntireCloudData['ThresholdDensitySF'] = \
+            EntireCloudData['VirialParameter'] * \
+            EntireCloudData['Mach']**2. * \
+            EntireCloudData['MeanDensity']
+
+        plt.plot(EntireCloudData['Mass'],
+                 EntireCloudData['VirialParameter'],
+                 'D',
+                 markersize=13.,
+                 markeredgecolor='blue', markeredgewidth=3.,
+                 markerfacecolor='none',
+                 zorder=10, label='CO-based MW')
+
+        plt.annotate(s='entire clouds',
+                     xy=[1.0E5, 18.],
+                     color='blue',
+                     ha='center')
+
     if xstr == "size pc" and ystr == "sigma kms":
         # Solomon+87: slope=0.5, based on 273 GMCs (superceeded by Heyer+09):
-# y = 0.72 * x**0.5
+        # y = 0.72 * x**0.5
 
         # Heyer & Brunt 2004 (27 GMCs in MW): sigma = 0.9 * R^0.56
         x = np.logspace(1, 3, 10)
@@ -207,7 +358,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
                 label=r'Larson 1981 $\sigma \propto R^{0.38}$')
 
-
         # More data from literature
         litpath = '/mnt/home/daisyleung/mc_eor/literature/'
         xegc, yegc = np.loadtxt(litpath + 'ExtraGalacticGMCs.csv',  # Bolatto08
@@ -216,20 +366,22 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
                               delimiter=',', unpack=True)
         x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
         # normalization ~5x higher than found in MW
-        xmark, ymark, ymark_err = np.loadtxt(litpath + 'SMMJ2135.txt', unpack=True)
-        rmark, rmark_err = np.loadtxt(litpath + "eyelash_larson.dat", unpack=True, usecols=(5, 6))
-        xngc253, yngc253 = np.loadtxt(litpath + 'Leroy15_NGC253.csv', \
-                                     delimiter=',', unpack=True)
+        xmark, ymark, ymark_err = np.loadtxt(
+            litpath + 'SMMJ2135.txt', unpack=True)
+        rmark, rmark_err = np.loadtxt(
+            litpath + "eyelash_larson.dat", unpack=True, usecols=(5, 6))
+        xngc253, yngc253 = np.loadtxt(litpath + 'Leroy15_NGC253.csv',
+                                      delimiter=',', unpack=True)
 
-        ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err, \
+        ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err,
                     label="SMM J2135-0102",
                     color='magenta', fmt='D', markersize=3.5,
                     markeredgewidth=1.0)
-        ax.scatter(xngc253, yngc253, label="NGC 253", \
+        ax.scatter(xngc253, yngc253, label="NGC 253",
                    color='red', marker='o', s=7)
-        ax.scatter(x64, y64, label="M64", color='orange', \
+        ax.scatter(x64, y64, label="M64", color='orange',
                    marker='^', s=10)
-        ax.scatter(xgc, ygc, label="Heyer Galactic Center", \
+        ax.scatter(xgc, ygc, label="Heyer Galactic Center",
                    color='b', marker='o', s=7)
         ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
                    color='k', marker='.', s=10)
@@ -309,7 +461,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         # ax.set_xlim(0.0, 0.5)
         ax.set_xlabel(r"$M_*/M_{\rm gas}$")
         ax.set_xscale("log")
-        
+
     if(xstr == "gas sd"):
         ax.set_xscale("log")
         ax.set_xlim(1.e2, 1.e3)
@@ -360,7 +512,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     if(ystr == 'alpha vir'):
         ax.set_yscale("log")
         ax.set_ylabel(r"$\alpha_{\rm vir}$")
-        ax.set_ylim(0.01, 1.e2)
+        ax.set_ylim(0.02, 2.e2)
+
+        if(xstr == 'cloud mass'):
+            ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
+
+    if ystr == 'jeans mass':
+        ax.set_yscale('log')
 
     if ystr == 'sigmaSq over size':
         ax.set_yscale("log")
@@ -368,20 +526,55 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
 
     if leglabel is not '':
+
+        def sort_f(t, ss, leglabel='ncut'):
+            # ss = {'CO-based MW': 1, 'Sgr D outside CMZ': 2,
+            #       'MW clouds dense gas tracers': 3, 'Pipe Nebula dense gas': 4}
+            try:
+                out = ss[t]
+            except KeyError:
+                print t
+                val = t[t.index(leglabel) + len(leglabel)+1:]
+                print val
+                val = float(val)
+                out = int(100 * (1.+ val))
+            return out
+
+        handles, labels = ax.get_legend_handles_labels()
+        order = range(len(labels))
+
+        if xstr == "cloud mass" and ystr == "alpha vir":
+            ss = {'CMZ': 1,
+                  'CO-based MW': 2,
+                  'Sgr D outside CMZ': 3,
+                  'MW clouds dense gas tracers': 4,
+                  'Pipe Nebula dense gas': 5}
+            order = sorted(order, key=lambda t: sort_f(labels[t], ss, leglabel))
+
         if xstr == "size pc" and ystr == "sigma kms":
-            # Shrink current axis by 20%
+                # Shrink current axis by 20%
             box = ax.get_position()
             # ax.set_position([box.x0, box.y0 + 0.25, box.width, box.height])
-            ax.legend(loc="upper center", ncol=4, fontsize=9, bbox_to_anchor=(0.5, -0.18))
+            # ax.legend(loc="upper center", ncol=4, fontsize=9,
+            #           bbox_to_anchor=(0.5, -0.18))
+            ax.legend([handles[idx] for idx in order],
+                      [labels[idx] for idx in order],
+                      loc="upper center", ncol=4,
+                      fontsize=9,
+                      bbox_to_anchor=(0.5, -0.18))
+        elif xstr == "cloud mass" and ystr == 'alpha vir':
+            ax.legend([handles[idx] for idx in order],
+                      [labels[idx] for idx in order], loc='best', ncol=2, fontsize=10)
         else:
-            ax.legend(loc='best')
+            ax.legend([handles[idx] for idx in order],
+                      [labels[idx] for idx in order], loc='best', fontsize=10)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.tight_layout()
 
     if save:
         name_out = ystr.replace(' ', '-') + '_' + \
-                   xstr.replace(' ', '-')
+            xstr.replace(' ', '-')
         fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
     else:
         plt.show()
@@ -390,7 +583,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
 
 def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
-               leglabel='', tag='', cm='gist_rainbow',
+                    leglabel='', tag='', cm='gist_rainbow',
                     to_plot=None, save=True, outdir='./', sfrlabel=False):
     from matplotlib.ticker import NullFormatter
 
@@ -416,13 +609,12 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
         _z = to_plot[ks][zstr]
 
         if sfrlabel:
-            cax = ax.scatter(_x, _y, s=np.array(_z)/np.array(_z).min(), 
-                    marker=marker,
-                    label="SFR: " + "{0:d}".format(int(sfr[ks])))
+            cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
+                             marker=marker,
+                             label="SFR: " + "{0:d}".format(int(sfr[ks])))
         else:
             cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
                              marker=marker, label=leglabel + ks)
-
 
     if(xstr == 'tff Myr'):
         ax.set_xlabel(r"$t_{\rm ff}$ [Myr]")
@@ -444,8 +636,8 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
 
     if save:
         name_out = ystr.replace(' ', '-') + '_' + \
-                   xstr.replace(' ', '-') + '_' + \
-                   zstr.replace(' ', '-') + '_'
+            xstr.replace(' ', '-') + '_' + \
+            zstr.replace(' ', '-') + '_'
         fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
     else:
         plt.show()
@@ -584,7 +776,6 @@ def get_masses_all_clouds(ss):
 
 
 def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
-
     """ unbinned CDF """
 
     X2 = np.sort(allmasses)
@@ -605,11 +796,13 @@ def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
     ax.legend(loc="best")
     plt.tight_layout()
     if save:
-        fig.savefig(outdir + 'MassDistribution_' + tag + '.png', bbox_inches="tight")
+        fig.savefig(outdir + 'MassDistribution_' +
+                    tag + '.png', bbox_inches="tight")
     else:
         plt.show()
 
     return None
+
 
 def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag=''):
     """ PDF of all cloud masses """
@@ -630,7 +823,7 @@ def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag='
     ax.legend(loc="best")
     plt.tight_layout()
     if save:
-        fig.savefig(outdir + 'MassDistributionPDF_' + tag + '.png', \
+        fig.savefig(outdir + 'MassDistributionPDF_' + tag + '.png',
                     bbox_inches="tight")
     else:
         plt.show()
@@ -667,7 +860,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     # ax.plot(mbin, df)
 
     # since it's pretty bimodal?!
-    mbin, df = mass_function(allmasses[allmasses < 2.e7], \
+    mbin, df = mass_function(allmasses[allmasses < 2.e7],
                              logged=logged,
                              nbins=nbins)
     ax.plot(mbin / 1.e7, df)
@@ -675,7 +868,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     ax.set_ylabel("dN/d ln M")
 
     ax = fig.add_subplot(122)
-    mbin, df = mass_function(allmasses[allmasses > 2.e7], \
+    mbin, df = mass_function(allmasses[allmasses > 2.e7],
                              logged=logged,
                              nbins=8,
                              verbose=verbose)
@@ -687,11 +880,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     # ax.set_xlim(allmasses.min(), allmasses.max())
     plt.tight_layout()
     if save:
-        fig.savefig(outdir + 'MassDistribution_differential_' + tag + '.png', \
+        fig.savefig(outdir + 'MassDistribution_differential_' + tag + '.png',
                     bbox_inches="tight")
     else:
         plt.show()
-
-
-
-
