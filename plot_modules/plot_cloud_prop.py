@@ -29,7 +29,7 @@ def setup_plot():
 
 def col_f(ii, cm=None):
     if cm is None:
-        cm = plt.get_cmap("Magma")
+        cm = plt.get_cmap("magma")
         # cm = plt.get_cmap("cubehelix")
 #        cm = plt.get_cmap('gist_heat')
     # cm = plt.get_cmap('gist_rainbow')
@@ -125,7 +125,7 @@ def unpack_xy(ss):
     return to_plot
 
 
-def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
+def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                leglabel='', tag='', cm='gist_rainbow',
                to_plot=None, save=True, outdir='./',
                sfrlabel=False):
@@ -160,7 +160,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap("Magma")
+    cm = plt.get_cmap() # "plasma_r")
 
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
@@ -433,7 +433,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         from io_modules.load_misc import load_SFR_perSS
         sfr = load_SFR_perSS()
 
-    for ks in iter(sorted(to_plot.iterkeys())):
+    psuedo_keys = []
+    for kkk in to_plot.iterkeys():
+        psuedo_keys.append(float(kkk))
+    psuedo_keys = sorted(psuedo_keys)
+    psuedo_keys = map(str, psuedo_keys)
+
+    for ks in psuedo_keys:
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
         if sfrlabel:
@@ -519,6 +525,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
 
     if ystr == 'jeans mass':
         ax.set_yscale('log')
+        ax.set_ylabel(r"M$_{\rm Jeans}$")
 
     if ystr == 'sigmaSq over size':
         ax.set_yscale("log")
@@ -526,48 +533,20 @@ def plot_stuff(xstr, ystr, ls='', markersize=7, marker='*',
         ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
 
     if leglabel is not '':
-
-        def sort_f(t, ss, leglabel='ncut'):
-            # ss = {'CO-based MW': 1, 'Sgr D outside CMZ': 2,
-            #       'MW clouds dense gas tracers': 3, 'Pipe Nebula dense gas': 4}
-            try:
-                out = ss[t]
-            except KeyError:
-                print t
-                val = t[t.index(leglabel) + len(leglabel)+1:]
-                print val
-                val = float(val)
-                out = int(100 * (1.+ val))
-            return out
-
-        handles, labels = ax.get_legend_handles_labels()
-        order = range(len(labels))
-
-        if xstr == "cloud mass" and ystr == "alpha vir":
-            ss = {'CMZ': 1,
-                  'CO-based MW': 2,
-                  'Sgr D outside CMZ': 3,
-                  'MW clouds dense gas tracers': 4,
-                  'Pipe Nebula dense gas': 5}
-            order = sorted(order, key=lambda t: sort_f(labels[t], ss, leglabel))
-
         if xstr == "size pc" and ystr == "sigma kms":
                 # Shrink current axis by 20%
             box = ax.get_position()
             # ax.set_position([box.x0, box.y0 + 0.25, box.width, box.height])
             # ax.legend(loc="upper center", ncol=4, fontsize=9,
             #           bbox_to_anchor=(0.5, -0.18))
-            ax.legend([handles[idx] for idx in order],
-                      [labels[idx] for idx in order],
-                      loc="upper center", ncol=4,
+            ax.legend(loc="upper center", ncol=4,
                       fontsize=9,
                       bbox_to_anchor=(0.5, -0.18))
         elif xstr == "cloud mass" and ystr == 'alpha vir':
-            ax.legend([handles[idx] for idx in order],
-                      [labels[idx] for idx in order], loc='best', ncol=2, fontsize=10)
+            ax.legend(loc='best', ncol=2, fontsize=10)
         else:
-            ax.legend([handles[idx] for idx in order],
-                      [labels[idx] for idx in order], loc='best', fontsize=10)
+            ax.legend(loc='best', fontsize=10)
+
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.tight_layout()
@@ -597,7 +576,7 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap(cm)
+    cm = plt.get_cmap(cm) #"plasma_r")
 
     # --- my clouds ----
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
