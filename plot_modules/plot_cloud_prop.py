@@ -7,8 +7,8 @@ def setup_plot():
     # print(matplotlib.matplotlib_fname())
 
     matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
-                                , 'font.size': 10      # points
-                                , 'legend.fontsize': 8      # points
+                                , 'font.size': 12      # points
+                                , 'legend.fontsize': 10      # points
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
                                 , 'text.usetex': True    # Use LaTeX to layout text
@@ -160,7 +160,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap() # "plasma_r")
+    cm = plt.get_cmap()  # "plasma_r")
+
+    legend_h = []
 
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
@@ -339,24 +341,28 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                      ha='center')
 
     if xstr == "size pc" and ystr == "sigma kms":
+
         # Solomon+87: slope=0.5, based on 273 GMCs (superceeded by Heyer+09):
         # y = 0.72 * x**0.5
 
         # Heyer & Brunt 2004 (27 GMCs in MW): sigma = 0.9 * R^0.56
         x = np.logspace(1, 3, 10)
         yH04 = 0.9 * x**0.56
-        ax.plot(x, yH04, linestyle='-.', color='r', linewidth=2,
+        h, = ax.plot(x, yH04, linestyle='-.', color='r', linewidth=2,
                 label=r'Heyer \& Brunt 2004 $\sigma \propto R^{0.56}$')
+        legend_h.append(h)
 
         # Bolatto+08: sigma = 0.44 * R^0.6 km/s
         yB08 = 0.44 * x**0.60
-        ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
+        h, = ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
                 label=r'Bolatto+08 $\sigma \propto R^{0.60}$')
+        legend_h.append(h)
 
         # Larson81
         y = 1.10 * x**0.38       # Larson81 Eqn 1
-        ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
+        h, = ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
                 label=r'Larson 1981 $\sigma \propto R^{0.38}$')
+        legend_h.append(h)
 
         # More data from literature
         litpath = '/mnt/home/daisyleung/mc_eor/literature/'
@@ -373,18 +379,27 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         xngc253, yngc253 = np.loadtxt(litpath + 'Leroy15_NGC253.csv',
                                       delimiter=',', unpack=True)
 
-        ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err,
-                    label="SMM J2135-0102",
-                    color='magenta', fmt='D', markersize=3.5,
-                    markeredgewidth=1.0)
-        ax.scatter(xngc253, yngc253, label="NGC 253",
-                   color='red', marker='o', s=7)
-        ax.scatter(x64, y64, label="M64", color='orange',
-                   marker='^', s=10)
-        ax.scatter(xgc, ygc, label="Heyer Galactic Center",
-                   color='b', marker='o', s=7)
-        ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
-                   color='k', marker='.', s=10)
+        h = ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err,
+                        label="SMM J2135-0102",
+                        color='magenta', fmt='D', markersize=3.5,
+                        markeredgewidth=1.0)
+        legend_h.append(h)
+
+        h = ax.scatter(xngc253, yngc253, label="NGC 253",
+                       color='red', marker='o', s=7)
+        legend_h.append(h)
+
+        h = ax.scatter(x64, y64, label="M64", color='orange',
+                       marker='^', s=10)
+        legend_h.append(h)
+
+        h = ax.scatter(xgc, ygc, label="Heyer Galactic Center",
+                       color='b', marker='o', s=7)
+        legend_h.append(h)
+
+        h = ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
+                       color='k', marker='.', s=10)
+        legend_h.append(h)
 
     if xstr == "gas sd cgs" and ystr == "sigmaSq over size":
         # Heyer+09 GRS data
@@ -443,12 +458,15 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
         if sfrlabel:
-            ax.plot(_x, _y, ls=ls, markersize=markersize,
-                    marker=marker,
-                    label="SFR: " + "{0:d}".format(int(sfr[ks])))
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])))
+            legend_h.append(h)
+
         else:
-            ax.plot(_x, _y, ls=ls, markersize=markersize,
-                    marker=marker, label=leglabel + ks)
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker, label=leglabel + ks)
+            legend_h.append(h)
 
     if(xstr == 'cloud mass'):
         ax.set_xscale("log")
@@ -539,14 +557,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             # ax.set_position([box.x0, box.y0 + 0.25, box.width, box.height])
             # ax.legend(loc="upper center", ncol=4, fontsize=9,
             #           bbox_to_anchor=(0.5, -0.18))
-            ax.legend(loc="upper center", ncol=4,
+            ax.legend(handles=legend_h, loc="upper center", ncol=4,
                       fontsize=9,
                       bbox_to_anchor=(0.5, -0.18))
         elif xstr == "cloud mass" and ystr == 'alpha vir':
             ax.legend(loc='best', ncol=2, fontsize=10)
         else:
             ax.legend(loc='best', fontsize=10)
-
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.tight_layout()
@@ -576,7 +593,7 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap(cm) #"plasma_r")
+    cm = plt.get_cmap(cm)  # "plasma_r")
 
     # --- my clouds ----
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
