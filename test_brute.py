@@ -35,7 +35,7 @@ mylog.setLevel(0)
 import numpy as np
 
 from clump_modules.clump_wrapper import ytclumpfind_H2, get_phyprop_of_leaf
-from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, import_fetch_stars, prepare_unigrid, check_hist_h2
+from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, import_fetch_stars, prepare_unigrid, check_hist_h2, check_power
 
 
 outdir = 'test_brute/'
@@ -75,7 +75,8 @@ else:
 # clumpfinder one level at a time...
 
 # for snapshotnum in range(16, 29):
-for snapshotnum in range(16, 17):
+#for snapshotnum in range(16, 17):
+for snapshotnum in range(28,29):
 
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
@@ -93,6 +94,8 @@ for snapshotnum in range(16, 17):
                              debug=False)
 
     check_hist_h2(data, th_list, ss=snapshotnum, outdir=outdir)
+
+    #check_power(data=data, size_kpc = 7., isnap=snapshotnum, outdir = outdir)
 
     # loop over cuts
     for incut in th_list:
