@@ -36,6 +36,7 @@ def plotting_procedure(minss, maxss, fname):
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
 
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
     allmass = get_masses_all_clouds(ss)
