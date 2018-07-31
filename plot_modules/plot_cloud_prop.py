@@ -915,7 +915,7 @@ def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag='
         plt.show()
 
 
-def massFuncDifferential(allmasses, logged=False, nbins=15, save=True, outdir='./', tag='', verbose=False):
+def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./', tag='', verbose=False):
     """
 
     Plot dN/dln M.
