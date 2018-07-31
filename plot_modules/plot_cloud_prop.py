@@ -2,6 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+def setup_cmap(cm='gist_rainbow'):
+    import matplotlib.pyplot as plt
+    return plt.set_cmap(cm)
+
+
 def setup_plot():
     import matplotlib
     # print(matplotlib.matplotlib_fname())
@@ -24,7 +29,9 @@ def setup_plot():
                                 , 'ytick.minor.width': 1     # points
                                 , 'font.serif': ("Times", "Palatino", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
+    setup_cmap()
     return None
+
 
 
 def col_f(ii, cm=None):
@@ -249,7 +256,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
         plt.plot(CloudData['Mass'][np.invert(COFilterArray)],
                  CloudData['Alpha'][np.invert(COFilterArray)],
-                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas tracers')
+                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas')
 
         # CMZ data: GCMS dendrograms
         plt.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
@@ -449,10 +456,18 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         sfr = load_SFR_perSS()
 
     psuedo_keys = []
-    for kkk in to_plot.iterkeys():
-        psuedo_keys.append(float(kkk))
-    psuedo_keys = sorted(psuedo_keys)
-    psuedo_keys = map(str, psuedo_keys)
+    if not sfrlabel:
+        for kkk in to_plot.iterkeys():
+            psuedo_keys.append(float(kkk))
+        psuedo_keys = sorted(psuedo_keys)
+        psuedo_keys = map(str, psuedo_keys)
+    else:
+        sfr_ = []
+        for kkk in to_plot.iterkeys():
+            sfr_.append(sfr[kkk])
+            psuedo_keys.append(kkk)
+        _idx = np.argsort(sfr_)
+        psuedo_keys = [psuedo_keys[i] for i in _idx]
 
     for ks in psuedo_keys:
         _x = to_plot[ks][xstr]
@@ -460,12 +475,17 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         if sfrlabel:
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
-                         label="SFR: " + "{0:d}".format(int(sfr[ks])))
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
             legend_h.append(h)
 
         else:
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker, label=leglabel + ks)
+                         marker=marker, label=leglabel + ks,
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+
             legend_h.append(h)
 
     if(xstr == 'cloud mass'):
@@ -610,7 +630,8 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
                              label="SFR: " + "{0:d}".format(int(sfr[ks])))
         else:
             cax = ax.scatter(_x, _y, s=np.array(_z) / np.array(_z).min(),
-                             marker=marker, label=leglabel + ks)
+                             marker=marker, label=leglabel + ks,
+                             edgecolors='k')
 
     if(xstr == 'tff Myr'):
         ax.set_xlabel(r"$t_{\rm ff}$ [Myr]")
