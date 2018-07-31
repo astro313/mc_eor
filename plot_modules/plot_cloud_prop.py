@@ -414,10 +414,12 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
         ax.scatter(xxx, yyy, marker='.', color='k', s=7, label='Heyer+09 GRS')
 
-        POverKb = [1.e4, 1.e5, 1.e6, 1.e7]
-        sd_cgs = np.logspace(-3, 3.0, 30)
-        Plabel = ['4', '5', '6', '7']
-        cm2pc = 1. / 3.086E+18
+        POverKb = [1.e4, 1.e5, 1.e6, 1.e7]#, 1.e8, 1.e9]
+        # Mass_cgs = np.logspace(3, 8, 50)
+        # R_pc = np.logspace(1., 1.e5, 50)
+        # sd_cgs = Mass_cgs/(np.pi * (R_pc / cm2pc)**2)
+        sd_cgs = np.logspace(-5., 5., 100)
+        Plabel = ['4', '5', '6', '7']#, '8', '9']
 
         def V0_sq_func(pressure, sd_cgs, Gamma=3. / 5):
             """
@@ -430,21 +432,27 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
             """
             import astropy.constants as C
+            cm2pc = 1. / 3.086E+18
 
-            print np.pi * Gamma * C.G.cgs.value * sd_cgs
-            print pressure / sd_cgs
-            import pdb
-            pdb.set_trace()
+            # print np.pi * Gamma * C.G.cgs.value * sd_cgs
+            # print pressure / sd_cgs * C.k_B.cgs.value
 
             V0_sq = 1. / 3 * (np.pi * Gamma * C.G.cgs.value * sd_cgs +
-                              4. * pressure / sd_cgs)
-            print V0_sq
+                              4. * pressure * C.k_B.cgs.value / sd_cgs)
+            V0_sq = V0_sq/cm2pc/(1.e5)**2
             return V0_sq
 
-        # for ip, Pext in enumerate(POverKb):
-        #     V0_sq = V0_sq_func(Pext, sd_cgs)
-        #     ax.plot(sd_cgs, V0_sq/(1.e5)**2 / cm2pc,
-        #             label=r'Log P = ' + Plabel[ip] + r"K cm$^{-2}$")
+        for ip, Pext in enumerate(POverKb):
+            V0_sq = V0_sq_func(Pext, sd_cgs)
+            ax.plot(sd_cgs, V0_sq, 'k--',alpha=0.3)
+#                     label=r'$\log (P /{\rm K }\,{\rm cm}^{-3}) =' + Plabel[ip] +r'$')
+            x_text = 8e-3
+            y_text = 2*V0_sq[np.where(sd_cgs>x_text)[0][0]]
+            plt.annotate(s=r'$\log (P /{\rm K }\,{\rm cm}^{-3}) =' + Plabel[ip] +r'$',
+             xy=[x_text, y_text],
+             color='k',
+             ha='center')
+
 
     # --- my clouds ----
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -523,8 +531,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     if xstr == 'gas sd cgs':
         ax.set_xscale("log")
-        ax.set_xlim(10**-3, 10**1.0)
+        ax.set_xlim(10**-2.5, 10**0.3)
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
+
+    if xstr == 'alpha vir':
+        ax.set_xscale("log")
+        ax.set_xlabel(r"$\alpha_{\rm vir}$")
+        ax.set_xlim(0.02, 2.e2)
 
     if ystr == 'sigma kms':
         ax.set_yscale("log")
@@ -581,6 +594,8 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                       fontsize=9,
                       bbox_to_anchor=(0.5, -0.18))
         elif xstr == "cloud mass" and ystr == 'alpha vir':
+            ax.legend(loc='best', ncol=2, fontsize=10)
+        elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
             ax.legend(loc='best', ncol=2, fontsize=10)
         else:
             ax.legend(loc='best', fontsize=10)
