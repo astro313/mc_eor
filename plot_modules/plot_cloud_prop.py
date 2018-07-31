@@ -252,11 +252,12 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         plt.plot(CloudData['Mass'][COFilterArray],
                  CloudData['Alpha'][COFilterArray],
                  'p', markeredgecolor='palegreen', markeredgewidth=2.,
-                 markersize=7., markerfacecolor='none', label='Pipe Nebula dense gas')  # Pipe Nebula, C18O (associated with high-mass SF), NH3 (high-density tracer)
+                 markersize=7., markerfacecolor='none', label='GRS')
+                # Heyer+09, Roman-Duval+10
 
         plt.plot(CloudData['Mass'][np.invert(COFilterArray)],
                  CloudData['Alpha'][np.invert(COFilterArray)],
-                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas')
+                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
 
         # CMZ data: GCMS dendrograms
         plt.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
@@ -899,12 +900,24 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
     ax.set_ylabel("dN/d ln M")
 
+    # compare slope of -0.5 based on obs.
+    # Heyer & Dame ARAA 2015; McKee & Ostriker ARAA 2007
+    def func_to_fit(M,norm, slope):
+        return (norm/M)**slope
+
+    p0 = [1.e9, +0.5]
+
+    ax.plot(mbin / 1.e7, func_to_fit(mbin,norm=p0[0],slope=p0[1]),ls='--',color='0.7')
+
+
+    # high mass end
     ax = fig.add_subplot(122)
     mbin, df = mass_function(allmasses[allmasses > 2.e7],
                              logged=logged,
                              nbins=8,
                              verbose=verbose)
     ax.plot(mbin / 1.e7, df)
+
 
     # ax.set_xscale("log")
     # ax.set_yscale("log")
