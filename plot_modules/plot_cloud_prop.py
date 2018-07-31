@@ -257,7 +257,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
         plt.plot(CloudData['Mass'][np.invert(COFilterArray)],
                  CloudData['Alpha'][np.invert(COFilterArray)],
-                 'o', color='limegreen', markeredgewidth=0., label='MW clouds dense gas') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
+                 'o', color='limegreen', markeredgewidth=0., label='MW clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
 
         # CMZ data: GCMS dendrograms
         plt.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
@@ -837,6 +837,59 @@ def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
     return None
 
 
+def CMF(allmasses, save=True, outdir='./', tag=''):
+    """ Cumulative mass function"""
+    X2 = np.sort(allmasses)
+
+    F2 = np.linspace(0, len(X2)-1, len(X2))
+    F2 = F2[::-1]
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(X2, F2, label='CMF', lw=2, alpha=1, zorder=2)
+
+    from scipy.optimize import curve_fit
+    def func(x, *p):
+        coeff = p[0]
+        slope = p[1]
+        return coeff * x**slope
+
+    p, cov = curve_fit(func, X2[3:], F2[3:], \
+                        p0=(1.e+6, -1.7))
+
+    print("Covariance Matrix : \n", cov, "\n")
+    print("Estimated parameters: ", p)
+    try:
+        print("Estimated uncertainties: ", np.sqrt(cov.diagonal()))
+    except AttributeError:
+        print("Not calculated; fit is bad.")
+
+    ax.plot(X2, func(X2, *p), label='Best-fit Power-law', ls='--', color='0.7')
+
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+
+    plt.annotate(s=r'Slope = {:.2f} $\pm$ {:.2f}'.format(p[1],
+                 np.sqrt(cov.diagonal())[1]),
+                 xy=[3.e8, 15],
+                 color='k',
+                 ha='right')
+
+
+    ax.set_xlabel(r"M$_{\rm cl}\, [{\rm M}_{\odot}]$")
+    ax.set_ylabel("$n(M^{\prime}>M)$")
+
+    ax.legend(loc="best")
+    plt.tight_layout()
+    if save:
+        fig.savefig(outdir + 'CMF_' +
+                    tag + '.png', bbox_inches="tight")
+    else:
+        plt.show()
+
+    return None
+
+
 def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag=''):
     """ PDF of all cloud masses """
 
@@ -862,7 +915,7 @@ def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag='
         plt.show()
 
 
-def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./', tag='', verbose=False):
+def massFuncDifferential(allmasses, logged=False, nbins=15, save=True, outdir='./', tag='', verbose=False):
     """
 
     Plot dN/dln M.
@@ -900,15 +953,30 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
     ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
     ax.set_ylabel("dN/d ln M")
 
-    # compare slope of -0.5 based on obs.
-    # Heyer & Dame ARAA 2015; McKee & Ostriker ARAA 2007
-    def func_to_fit(M,norm, slope):
-        return (norm/M)**slope
+    # # compare to slope based on obs.
+    # # Heyer & Dame ARAA 2015; McKee & Ostriker ARAA 2007
 
-    p0 = [1.e9, +0.5]
+    # from scipy.optimize import curve_fit
+    # def func(x, *p):
+    #     coeff = p[0]
+    #     norm = p[1]
+    #     slope = p[2]
+    #     return coeff * (x/norm)**slope
 
-    ax.plot(mbin / 1.e7, func_to_fit(mbin,norm=p0[0],slope=p0[1]),ls='--',color='0.7')
+    # p, cov = curve_fit(func, mbin[3:], df[3:], \
+    #                     p0=(10.0, 1.e7, -0.5))
 
+    # print("Covariance Matrix : \n", cov, "\n")
+    # print("Estimated parameters: ", p)
+    # try:
+    #     print("Estimated uncertainties: ", np.sqrt(cov.diagonal()))
+    # except AttributeError:
+    #     print("Not calculated; fit is bad.")
+
+    # ax.plot(mbin/1.e7, func(mbin, *p), label='best-fit', ls='--', color='0.7')
+
+    # ax.set_xscale("log")
+    # ax.set_yscale("log")
 
     # high mass end
     ax = fig.add_subplot(122)
@@ -917,10 +985,6 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
                              nbins=8,
                              verbose=verbose)
     ax.plot(mbin / 1.e7, df)
-
-
-    # ax.set_xscale("log")
-    # ax.set_yscale("log")
 
     # ax.set_xlim(allmasses.min(), allmasses.max())
     plt.tight_layout()
