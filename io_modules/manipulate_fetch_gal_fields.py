@@ -291,3 +291,50 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
         plt.savefig(outdir + 'hist_test.png')
     else:
         plt.savefig(outdir + 'hist_test_' + str(ss) + '.png')
+
+def check_power(data, size_kpc = 7., isnap = 28, outdir = ''):
+
+
+    import matplotlib.pyplot as plt
+
+    f_out = outdir + 'test_power.png'
+
+    data_to_process  = np.copy(data["density"]) * np.copy(data["H2"])
+    n1,n2,n3         = np.shape(data_to_process)
+
+    # comput power
+    FT    = np.fft.fftn(data_to_process)
+    power = FT.real*FT.real + FT.imag*FT.imag
+
+    # set distance
+    x     = np.linspace(-size_kpc,size_kpc, n1)
+    y     = np.linspace(-size_kpc,size_kpc, n2)
+    z     = np.linspace(-size_kpc,size_kpc, n3)
+    x,y,z = np.meshgrid(x,y,z)
+    dist  = np.sqrt(x**2+y**2+z**2)
+
+    # 3D -> 1D
+    P    = power.reshape(np.size(power))
+    dist = dist.reshape(np.size(dist))
+
+    intervals = np.linspace(0.,size_kpc/2, n1)
+
+    p    = np.histogram(dist, bins=intervals, weights=P)[0]
+    pd   = np.histogram(dist, bins=intervals)[0]
+    pd.astype('float')
+    p = p/pd
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+
+    ax.plot(2.*np.pi/intervals[1:], p)
+    plt.xscale('log')
+    plt.yscale('log')
+
+    ax.set_xlim(0., 2*np.pi*size_kpc/2)
+
+    print 'saving to', f_out
+    plt.savefig(f_out)
+
+    exit()
+
