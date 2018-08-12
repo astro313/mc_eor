@@ -30,9 +30,10 @@ def plotting_procedure(snapshot_num):
     from io_modules.leaf_pickle import load_in_pickled_leaf_singleSS
     from plot_modules.plot_cloud_prop import unpack_xy, plot_stuff, plot_stuff_3dim
 
-    ss = load_in_pickled_leaf_singleSS(leafdir_out, snapshot_num)
+    ss = load_in_pickled_leaf_singleSS(leafdir_out, snapshot_num) # , pattern='2.45_*10*.p')
     to_plot = unpack_xy(ss)
-
+    plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "mass over jeans mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "jeans mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, cm='gist_rainbow')
     plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
@@ -43,7 +44,6 @@ def plotting_procedure(snapshot_num):
     plot_stuff("gas sd", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
-    plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
 
 
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
