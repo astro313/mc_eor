@@ -29,7 +29,7 @@ Dynamical Properties of Molecular Gas Complexes in a Redshift 6 Prototypical Gal
 \author{Mordecai-Mark Mac Low\altaffilmark{2, 6, 7}}
 
 \altaffiltext{1}{Department of Astronomy, Space Sciences Building, Cornell University, Ithaca, NY 14853, USA}
-\altaffiltext{2}{Center for Computational Astrophysics, Flatiron Institute, 162 Fifth Avenue, New York, NY 10010, USA}
+\altaffiltext{2}{Center for Computational Astrophysics, Flatiron Institute, Simons Foundation, 162 Fifth Avenue, New York, NY 10010, USA}
 \altaffiltext{3}{Centro Fermi, Museo Storico della Fisica e Centro Studi e Ricerche ``Enrico Fermi'', Piazza del Viminale 1, Roma, 00184, Italy}
 \altaffiltext{4}{Scuola Normale Superiore, Piazza dei Cavalieri 7, I-56126 Pisa, Italy}
 \altaffiltext{5}{Kavli IPMU, The University of Tokyo, 5-1-5 Kashiwanoha, Kashiwa 277-8583, Japan}
@@ -40,6 +40,11 @@ Dynamical Properties of Molecular Gas Complexes in a Redshift 6 Prototypical Gal
 
 
 \begin{abstract}
+We present results from the first study investigating the dynamical properties of molecular clouds 
+and their evolution in galaxies at Epoch of Reionization using state-of-the-art cosmological 
+zoom-in simulation, which includes a chemical network to determine the formation of molecular 
+hydrogen, heating and cooling of the ISM by metals, and stellar feedback via 
+kinetic and thermal energies. We..
 \end{abstract}
 %\keywords{infrared: galaxies --
 %          galaxies: high-redshift --
@@ -126,7 +131,8 @@ This paper is structured as follows.
 In \Sec{sim}, we describe the setup of our simulation and the properties of our galaxy (\flower).
 In \Sec{method}, we describe the method used to identify its molecular gas complexes (MC). 
 In \Sec{results}, we present scaling relations found based on the properties of 
-the identified MC and compare them with observations of nearby and \z$>$\,0 galaxies.
+the identified MC and compare them with observations of molecular 
+(sub-)structures seen in nearby and \z$>$\,0 galaxies.
 In \Sec{diss}, we discuss the results and implication of our findings,
 and conclude in \Sec{conclusion}.
 Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities 
@@ -189,16 +195,18 @@ To identify the molecular complexes, we use a customized version of the clump fi
 available in the \ncode{python} package \ncode{yt}, which was initially described in \citet{Smith09a}
 but this function has been modified since then.
 The latest version of the default \ncode{yt} clump finder decomposes the cells in the simulation
-into non-overlapping tiles, which are stored in a kd-tree.
+into non-overlapping tiles, which are stored in a k-dimentional tree (aka k-d tree).
 It then identifies the contours of a variable field (e.g., density field) within a tile and connects them across 
 the tiles. In the customized version used for this study, we modified \ncode{yt} in order for it to actually work.
 
 In the clump-finding process, we employ a set of different density thresholds defined based on the
 molecular hydrogen density of \flower taken at different cosmic times (especially between $z\eq$6\,$-$\,15, {\bf Pallo, check this pls}).
-We point out that this is in essence equivalent to identifying structures based on the noise levels of observational data,
+We note that this is in essence similar to 
+identifying structures based on the noise levels of observational data,
 as commonly adopted in the literature (e.g., identifying 
-``clumps'' based on/after applying $\sigma$-clipping in 
-``matched-filtering analysis, i.e., with e.g., \ncode{aips}'s task \ncode{serch} and \ncode{clumpfind}).
+``clumps'' based on/after applying $\sigma$-clipping, 
+using tools such as e.g., \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, 
+and \ncode{cprops}; \citealt{Willams94a, Rosolowsky06a}).
 
 We investigate the possible variations in the molecular structure properties to test 
 the robustness of our results against the choice of density threshold in \Sec{ncut}.
@@ -208,31 +216,63 @@ We note that due to the limited spatial resolution of our simulation ($l_{\rm ce
 impose an addition condition on the identified structure such that the said structures only survive if they
 span at least 10 cells in 3D position-position-position (PPP) space. 
 We caution that one caveats of such condition is that 
-we can only examine the parameter space of cloud
-relations at cloud size $R\gtrsim100$\,pc. 
-
+we can only examine the parameter space of ``cloud'' scaling
+relations at ``cloud'' size $R\gtrsim100$\,pc. 
 
 
 % --------------------
-\section{Results} \label{sec:results}
-
-Upon identified the molecular structures, we extract their basic properties such as
+\section{Cloud scaling relations} \label{sec:results}
+Upon identified the molecular structures, we extract parameters such as
 the virial parameter ($\alpha_{\rm vir}$), 
 the cloud mass ($M_{\rm cl}$), 
 the Mach number ($\mathcal{M}$), 
-the velocity dispersion ($\sigma$), and the 
-gas surface density ($\Sigma_{\rm gas}$).
+the velocity dispersion ($\sigma_v$), and the 
+gas surface density ($\Sigma_{\rm gas}$)
+to describe/characterize their dynamics.
 We find that the thermal sound speed ($c_s$) 
-of all identified molecular complexes are generally much smaller compared to the their turbulent velocities.
-We find comparable velocity dispersion derived by taking the root mean square versus
-that derived using thermal and non-thermal pressure, indicating that 
-rotation velocity is not a dominant source entering the velocity dispersion extracted.
-In \Fig{}, we show the properties of all the molecular structures identified in a single snapshot
-by applying volumetric H$_2$ density cuts of $n_{\rm cut}\in$[xxx]\,cm$^{-3}$\footnote{We also vary the range of 
-$n_{\rm cut}$ adopted but find not appreciated differences in the results}.
+of all identified molecular complexes are generally much smaller compared to the their
+turbulent velocities.
+We find comparable velocity dispersion derived by taking the root mean square ($\sigma_v^{\rm rms}$) versus
+that derived using thermal and non-thermal pressure ($\sigma_v^{P+P_{\rm nt}}$), indicating that 
+rotation velocity is unlikely to be the dominant source entering the velocity dispersion reported here.
+In the subsequent sections, we adopt the root mean square of the velocity field
+as the velocity dispersion (i.e., $\sigma_v$\eq$\sigma_v^{\rm rms}$).
 
-We identify a population of molecular structures that are ...largely similar to those observed 
-in \z\ssim2 spatially resolved DSFGs \citep{Swinbank11a}. 
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=0.5\textwidth]{\figpath/}  
+\caption{
+Volumetric H$_2$ density distribution of \flower taken from a single snapshot.
+\label{fig:h2density}}
+\end{figure}
+
+
+\begin{figure}[htbp]
+ \centering
+\includegraphics[width=0.5\textwidth]{\figpath/}  
+\caption{
+MC identified by applying 
+volumetric H$_2$ density cuts of 
+$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$.
+\label{fig:MC}}
+\end{figure}
+
+In \Fig{h2density}, we show an example of the volumetric H$_2$ density distribution of \flower 
+in a given snapshot, including contributions from its surrounding 7\,kpc.
+In \Fig{MC}, we show an example of
+the molecular structures identified by applying volumetric H$_2$ density cuts of 
+$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{
+Based on 10 elements spanning between [$-0.5, 1.5$] equally spaced in linear space 
+We also vary the range of 
+$n_{\rm cut}$ adopted but find no appreciated differences in the results.}
+overlaid on a H$_2$ surface density map of a single snapshot.
+The molecular structures identified could appear as overlapping structures depending on projections, we 
+therefore also show them in different three dimensional projections (\Fig{}) --- so that one can more 
+easily see that they are collections of disjoint structures.
+
+We identify a population of molecular structures that are largely similar to those observed 
+in \z\ssim2 spatially resolved \obs of gas-rich SFGs in
+terms of their velocity dispersions, sizes, and gas surface densities \citep[e.g.,][]{Swinbank11a}.
 As we increase the density threshold, we effectively select a population of 
 denser molecular structures that have similar to.... 
 Given their low $\alpha_{\rm vir}$ parameter,
@@ -242,6 +282,8 @@ are also molecular structures at the center of \flower,
 as they systematically have higher surface densities 
 and enhanced turbulence, which are expected in the nuclear regions of 
 galaxies given the deeper potential wells.
+These more massive molecular structures are indeed also evident in \obs (see e.g., 
+\citealt{Freeman17a}).
 
 
 \subsection{Variation in Properties depending on ncut, single snapshot}	 \label{sec:ncut}
@@ -272,23 +314,59 @@ the high $\mathcal{M}$ can be interpreted as a result of \SF resulting from feed
 massive stars.
 
 \subsection{MC Properties Evolution}
-Currently done for $\Delta t$\eq50\,Myr. 
+One of the advantage of studying the dynamical properties of molecular structures at 
+$z$\ssim6 in simulation is the fact that we can examine how their properties evolve 
+as a function of time. 
+Especially at early epochs, where the densest structures are beginning to form; 
+gas is constantly being accreted onto the central galaxy from the cosmic web and 
+satellite galaxies, thereby leading to bursts of \SF.
+Meanwhile, tidal forces resulting interactions with these surrounding 
+galaxies can disrupt the main disk and arms, likely leading to different dynamical states 
+for the molecular structures (e.g., some may disperse, some may agglomerate into more massive 
+structures). % mainly expecting differences in alpha_vir, sigma, M_cl.
 
-TODO: 0.1\,Myr (500 snapshots at $z$\eq$9$)
+To examine the difference in dynamical properties in the molecular structures as they 
+evolve over the few 100\,Myr simulated in our simulation,
+we repeat the analysis for a set of $\sim$14 snapshots, spaced by $\Delta t$\eq50\,Myr. 
+These snapshots include snapshots at different phases, from actively accreting phase 
+to a starburst phase, and relatively quiescent phase (we see that their SFRs vary from 
+$\sim$50\,\Msun\,yr\pmOne 
+to $\sim$100\,\Msun\,yr\pmOne and back to $\sim$30\,\Msun\,yr\pmOne).
+
+TODO: 0.1\,Myr (500 snapshots at $z$\eq$9)
+
 
 
 \subsection{Clump Mass Function}
-compare CMF with Blitz07a.
-
 Noisy due to resolution effect, since we only have one galaxy here. However, 
 we could improve the ``signal-to-noise'' ratio by including clouds identified from different 
 snapshots (valid unless in some snapshots, the galaxy experience a violent event).
 
+We find a shallower slope in the CMF compared to those observed in nearby galaxies (
+based on a sample of $\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds\citealt{Blitz07a}).
+
+While our result, of particular relevance here is the slope of the CMF, is subject 
+to the uncertainties in the analysis method and the resolution of our simulation --- i.e., that is 
+we are likely biased to finding more massive clouds.
+High resolution simulations will be useful to shed light on 
+the evolving dynamical properties of the lower-mass molecular structures in 
+galaxies at EoR; however, they are more expensive to run.
+On the contrary, an advantage of using cosmological zoom-in simulations for this study
+is that our computational boxes are not closed, allowing us to examine how 
+the molecular complexes' properties vary under the influence of gas inflow/outflow.
 
 
+\subsection{Mass Scales set by Toomre and Jeans Instabilities}
 
-
-\subsection{Cloud Properties of satellite?}
+In the limit of a thin rotating disk, rotation can help stabilizes self-gravitational contraction for wavelengths greater than the Toomre length:
+\begin{equation}
+\lambda_T = 4\pi^2 G\Sigma/\kappa^2,
+\end{equation} 
+where $\kappa$ is the epicyclic frequency (\citealt{Toomre64a}).
+However, if the condition $Q<Q_{\rm crit}$ is satisfied, where the latter is set by 
+the thermal pressure, then fragmentation can happen 
+(e.g., instability impose by angular momentum from gas accretion from the cosmic web and 
+satellite galaxies and stellar feedback).
 
 
 
@@ -307,16 +385,14 @@ spatial and mass structures that are also denser as we increase $n_{\rm cut}$. I
 the MCs we identified are much bigger in size and mass than nearby GMCs, which is consistent with 
 those observed in \z$\sim$2\,$-$\,4 galaxies with spatially resolved \obs.
 
+Looking at correlations between physical parameters such as xx, yy, zz and the CMF 
+can provide valuable information for developing models of \SF at EoR and 
+galaxy evolution.
+
+
 \subsection{Virial Parameter}
-In the limit of a thin rotating disk, rotation can help stabilizes self-gravitational contraction for wavelengths greater than the Toomre length:
-\begin{equation}
-\lambda_T = 4\pi^2 G\Sigma/\kappa^2,
-\end{equation} 
-where $\kappa$ is the epicyclic frequency (\citealt{Toomre64a}).
-However, if the condition $Q<Q_{\rm crit}$ is satisfied, where the latter is set by 
-the thermal pressure, then fragmentation can happen 
-(e.g., instability impose by angular momentum from gas accretion from the cosmic web and 
-satellite galaxies and stellar feedback).
+We quantify how stable a molecular structure is using the virial parameter, which 
+describes the balance between pressure support and gravity. 
 
 The high $\alpha_{\rm vir}$ suggest that the majority of the MCs identified are not collapsing. 
 The largest structures are presumably supported by galactic rotation and turbulence from the feedback of 
@@ -334,9 +410,16 @@ as in the classical MC hierarchy. These smaller structures likely no longer supp
 and turbulence has dissipated rapidly on these scales to enable collapse \citep{Clark04a}.
 Non-axisymmetric perturbations (e.g., arms) to the gravitational potential 
 can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation.
+Note also that \citet{Pettitt18a} report that the virial parameter could be a poor indicator 
+for the star-forming capacity of the massive (10$^{5-6}$\,\Msun) ``clouds'' in their simulation. They 
+do not find any significant correlation between $\alpha_{\rm vir}$ and cloud mass 
+and the star formation efficiency ($M_*/M_{\rm cl}$).
+
 
 
 \subsection{Larson's Relation}
+The Larson's relation... empirically-motivated.
+
 
 \subsection{CMF and IMF at EoR}
 
@@ -413,12 +496,13 @@ We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their da
 T.K.D.L. acknowledges support by the NSF through award SOSPA4-009
 from the NRAO.
 A.F. acknowledges support from the ERC Advanced Grant INTERSTELLAR H2020/740120.
-We thank the 2018 Kavli Summer Program in Astrophysics (KSPA); 
-its Scientific and Local Organizing Committees; the program founder, Pascale Garaud; 
-and the Kavli Foundation for supporting the genesis of this work. 
-We also thank the Simons Foundation for sponsoring this program and their hospitality.
-We thank the New York University CCPP for their hospitality in hosting us, the refugees, after the steam pipe explosion in NYC.
-
+This work was initiated as a project for the Kavli Summer Program in Astrophysics (KSPA) 
+held at the Center for 
+Computational Astrophysics of the Flatiron Institute in 2018. The program was co-funded by the Kavli 
+Foundation and the Simons Foundation. 
+We thank the KSPA Scientific and Local Organizing Committees, and the program founder, 
+Pascale Garaud for supporting the genesis of this work. 
+We also thank the New York University CCPP for their hospitality in hosting us, the refugees, after the steam pipe explosion in NYC during the KSPA.
 \bibliographystyle{yahapj}
 \bibliography{master_cleanup}
 \end{document}
