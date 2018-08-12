@@ -1,0 +1,191 @@
+\usepackage[breaklinks,colorlinks,citecolor=blue,linkcolor=red]{hyperref} % emulateapj
+% \hypersetup{linkcolor=red,citecolor=blue,filecolor=blue,urlcolor=magenta} % aastex
+%
+\usepackage{etoolbox}
+
+\makeatletter
+
+% Patch case where name and year are separated by aysep
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@aysep\NAT@spacechar}{\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@aysep\NAT@spacechar\NAT@hyper@{\NAT@date}}{}{}
+
+% Patch case where name and year are separated by opening bracket
+\patchcmd{\NAT@citex}
+  {\@citea\NAT@hyper@{%
+     \NAT@nmfmt{\NAT@nm}%
+     \hyper@natlinkbreak{\NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi}%
+       {\@citeb\@extra@b@citeb}%
+     \NAT@date}}
+  {\@citea\NAT@nmfmt{\NAT@nm}%
+   \NAT@spacechar\NAT@@open\if*#1*\else#1\NAT@spacechar\fi\NAT@hyper@{\NAT@date}}
+  {}{}
+
+\makeatother
+%
+% To fit table to pagewidth
+\usepackage{tabu}
+\usepackage{booktabs}% for better rules in the table
+%
+\usepackage{xspace}
+%
+\usepackage{apjfonts}
+\usepackage{amssymb, amsmath} % for e.g. \lesssim
+\usepackage{natbibspacing, natbib}
+\usepackage{aas_macros} % for understanding Journal in bib
+\usepackage{graphics,graphicx}
+% ---------------- Final Edit Markup emulateapj ------------------------
+% \usepackage[normalem]{ulem}
+% \usepackage[usenames]{xcolor}
+% \definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+% \definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+% \newcommand{\new}[1]{\textcolor{red}{\bf #1}}
+% \newcommand{\old}[1]{\sout{\textcolor{airforceblue}{\bf #1}}} % {\textcolor{green!55!blue}{\bf #1}} or  {\textcolor{OliveGreen}{\bf #1}}
+% -----------------------------------------------------------------------
+%
+% ---------------------- Font size emulateapj -------------------
+% \makeatletter
+% \renewcommand\normalsize{\@setfontsize\normalsize\@xpt{11.56}}
+% \renewcommand\normalsize{\@setfontsize\normalsize{10.56}{11.4}}
+% \makeatother
+% ---------------------------------------------------------------
+%
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand{\myemail}{tleung@astro.cornell.edu}
+%
+\newcommand{\um}{\,$\micron$\xspace}
+\newcommand{\uJy}{\ensuremath{{\mu}Jy}}
+\newcommand{\degsq}{\ensuremath{\mathrm{deg}^2}}
+\newcommand{\cmsq}{\ensuremath{\mathrm{cm}^{-2}}}
+%
+\newcommand{\pmOne}{\mbox{$^{-1}$}\xspace}
+\newcommand{\rarr}{$\rightarrow$}
+\newcommand{\sig}{$\sigma$}
+\newcommand{\sigch}{$\sigma_{\rm ch}$}
+% Molecular species
+\newcommand{\aco}{\mbox{CO\,($J$\,=\,1\,\rarr\,0) }}
+\newcommand{\bco}{\mbox{CO\,($J$\,=\,2\,\rarr\,1) }}
+\newcommand{\cco}{\mbox{CO\,($J$\,=\,3\,\rarr\,2) }}
+\newcommand{\dco}{\mbox{CO\,($J$\,=\,4\,\rarr\,3) }}
+\newcommand{\eco}{\mbox{CO\,($J$\,=\,5\,\rarr\,4) }}
+\newcommand{\jco}{\mbox{CO\,($J$\,=\,10\,\rarr\,9) }}
+\newcommand{\rot}[3][CO]{\mbox{#1\,($J$\,=\,#2\,\rarr\,#3)}}
+% Atomic species
+\newcommand{\pci}{\rm CI\,($^3$P$_1$\,\rarr\,$^3$P$_0$)}
+\newcommand{\cii}{[C{\scriptsize II}]\xspace}
+\newcommand{\nii}{[N{\scriptsize II}]\xspace}
+\newcommand{\oiii}{[O{\scriptsize III}]\xspace}
+\newcommand{\oi}{O$\,${\sc i}}
+\newcommand{\ci}{C$\,${\sc i}}
+\newcommand{\feii}{Fe$\,${\sc ii}}
+\newcommand{\hi}{H$\,${\sc i}}
+\newcommand{\hii}{H$\,${\sc ii}}
+\newcommand{\lya}{Ly$\alpha$}
+\newcommand{\mgii}{Mg$\,${\sc ii}}
+% Atomic Lines
+\newcommand{\oiline}{[\oi]$_{63\mu m}$}
+\newcommand{\ciiline}{[C{\scriptsize II}]~($^2$P$_{3/2}$\,\rarr\,$^2$P$_{1/2}$)\xspace}
+% Units
+\newcommand{\mbh}{\mbox{$M_{\rm BH}$}\xspace}
+\newcommand{\mgas}{\mbox{$M_{\rm gas}$}\xspace}
+\newcommand{\mdyn}{\mbox{$M_{\rm dyn}$}\xspace}
+\newcommand{\mbulge}{\mbox{$M_{\rm bulge}$}\xspace}
+\newcommand{\mstar}{\mbox{$M_*$}\xspace}
+\newcommand{\Msun}{\mbox{$M_{\odot}$}\xspace}
+\newcommand{\Rsun}{\mbox{R$_{\odot}$}\xspace}
+\newcommand{\Lsun}{\mbox{$L_{\odot}$}\xspace}
+\newcommand{\LIR}{\mbox{$L_{\rm IR}$}\xspace}
+\newcommand{\LFIR}{\mbox{$L_{\rm FIR}$}\xspace}
+% \newcommand{\LX}{\mbox{$L_X}$}\xspace}
+\newcommand{\kms}{km\,s$^{-1}$\xspace}
+\newcommand{\bmm}{beam$^{-1}$\xspace}
+\newcommand{\LpU}{\mbox{K\,\,km\,\,s$^{-1}$\,\,pc$^2$}\xspace}
+\newcommand{\alphaU}{\mbox{$M_{\odot}~($K\,\,km\,\,pc$^2)^{-1}$}\xspace}
+\newcommand{\sfru}{\Msun yr\pmOne}
+% Expression
+\newcommand{\Lp}{\mbox{$L^{\prime}_\textrm{CO(1-0)}$}\xspace}
+\newcommand{\Lcii}{\mbox{$L_{\rm [CII]}$}\xspace}
+\newcommand{\alphaco}{$\alpha_{\rm CO}$}
+\newcommand{\xco}{$X_{\rm CO}$}
+\newcommand{\Lciifir}{\Lcii/\LFIR}
+% Numerical values
+\newcommand{\E}[1]{$\times10^{#1}$}
+\newcommand{\petm}[2]{$^{+#1}_{-#2}$}
+\newcommand{\eq}{\,=\,}
+\newcommand{\ssim}{\,$\sim$\,}
+\newcommand{\pmm}{\,$\pm$\,}
+%
+\newcommand{\eg}{{e.g.,~}}
+\newcommand{\ie}{{i.e.,~}}
+%
+\newcommand{\Fig}[1]{Figure~\ref{fig:#1}}
+\newcommand{\Eq}[1]{Equation~\ref{eqn:#1}}
+\newcommand{\Tab}[1]{Table~\ref{tab:#1}}
+\newcommand{\Sec}[1]{\S\ref{sec:#1}}
+% tablenotemark
+\newcommand\tna{\,\tablenotemark{a}}
+\newcommand\tnaa{\,\tablenotemark{aa}}
+\newcommand\tnaaa{\,\tablenotemark{aaa}}
+\newcommand\tnaaaa{\,\tablenotemark{aaaa}}
+\newcommand\tnb{\,\tablenotemark{b}}
+\newcommand\tnc{\,\tablenotemark{c}}
+\newcommand\tnd{\,\tablenotemark{d}}
+\newcommand\tne{\,\tablenotemark{e}}
+\newcommand\tnf{\,\tablenotemark{f}}
+\newcommand\tng{\,\tablenotemark{g}}
+\newcommand\tnh{\,\tablenotemark{h}}
+\newcommand\tni{\,\tablenotemark{i}}
+\newcommand\tnj{\,\tablenotemark{j}}
+\newcommand\tnk{\,\tablenotemark{k}}
+\newcommand\tnl{\,\tablenotemark{l}}
+% Instrument
+\def\herschel {{\it Herschel Space Observatory}\xspace}
+\def\hst      {{\it Hubble Space Telescope}\xspace}
+\def\alma     {Atacama Large (sub-)Millimeter Array (ALMA)\xspace}
+\def\spitzer  {{\it Spitzer Space Telescope}\xspace}
+\def\pdbi     {Plateau de Bure Interferometer\xspace}
+\def\carma    {Combined Array for Research in Millimeter-wave Astronomy\xspace}
+\def\cso      {Caltech Sumillimeter Observatory (CSO)\xspace}
+\def\noema    {Northern Extended Millimeter Array (NOEMA)\xspace}
+\def\vla      {{\it Karl G. Jansky} Very Large Array\xspace}
+% Typography
+\newcommand{\ncode}[1]{{\sc #1}}
+% Codes / Softwares
+\newcommand{\uvmcmcfit}{\ncode{uvmcmcfit}\xspace}
+\def\aips {\ncode{aips}\xspace}
+\def\casa {\ncode{casa}\xspace}
+% Long words
+\newcommand{\z}{$z$\xspace}
+\newcommand{\obs}{observations\xspace}
+\newcommand{\lowZ}{low-metallicity\xspace}
+\newcommand{\metal}{metallicity\xspace}
+\newcommand{\lowz}{low-$z$\xspace}
+\newcommand{\highz}{high-$z$\xspace}
+\newcommand{\athighz}{at high redshift\xspace}
+\newcommand{\mulw}{multi-wavelength\xspace}
+\newcommand{\SF}{star formation\xspace}
+\newcommand{\angmom}{angular momentum\xspace}
+\newcommand{\rotcur}{rotation curve\xspace}
+\newcommand{\SB}{starburst\xspace}
+\newcommand{\SBs}{starbursts\xspace}
+\newcommand{\galpop}{galaxy populations\xspace}
+\newcommand{\gl}{gravitationally lensed\xspace}
+\newcommand{\MCMC}{Markov Chain Monte Carlo (MCMC)\xspace}
+\newcommand{\ms}{``main-sequence''\xspace}
+% Wavelength regimes
+\newcommand{\fir}{far-IR\xspace}
+\newcommand{\fuv}{far-UV\xspace}
+\newcommand{\mir}{mid-IR\xspace}
+\newcommand{\nir}{near-IR\xspace}
+% source name
+\newcommand{\ha}{HELMS10\xspace}
+\newcommand{\hb}{HELMS28\xspace}
+\newcommand{\hc}{HELMS59\xspace}
+\newcommand{\hd}{HELMS62\xspace}
+\newcommand{\xa}{HXMM05\xspace}
+\newcommand{\xb}{XMM06\xspace}
+\newcommand{\flower}{Alth{\ae}a\xspace}
