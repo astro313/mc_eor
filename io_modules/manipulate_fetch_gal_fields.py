@@ -140,15 +140,15 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
     for fff in f.iterkeys():
         print fff
         exec(str(fff) + '= f[fff].value')
-        
+
     # print mass.shape, epochMyr.shape, young10.shape, old100.shape
 
     if verbose:
         print 'max and min of Universe age when stars are formed [Gyr] '
-        print epochMyr.max()/1.e3, epochMyr[epochMyr>0].min()/1.e3 
+        print epochMyr.max()/1.e3, epochMyr[epochMyr>0].min()/1.e3
 
     if convert:
-      factor_mass, unit_mass = get_units(ro=ro)['mass']      
+      factor_mass, unit_mass = get_units(ro=ro)['mass']
       mass *= factor_mass
 
       for fff in f.iterkeys():
@@ -189,7 +189,7 @@ def prepare_unigrid(data, regionsize_kpc=7., verbose=False, add_unit= False, deb
     if( add_unit):
       # see http://yt-project.org/doc/examining/generic_array_data.html
       # for reference
-    
+
       from astropy import constants as cc
       mp = cc.m_p.cgs.value
 
@@ -239,7 +239,7 @@ def prepare_unigrid(data, regionsize_kpc=7., verbose=False, add_unit= False, deb
         prj.set_unit('h2density', '1/cm**3')
         prj.save('test_h2density_yt_unit_plot.png')
         print 'dump to ','test_h2density_yt_unit_plot.png'
-        
+
         prj = yt.ProjectionPlot(ds, 0, 'density' ,
                     center='c', weight_field='density')
         #prj.set_unit('density', 'g/cm**3')
@@ -285,12 +285,15 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
     plt.hist(aa, bins=100)
     for ele in th_list:
         x = np.log10(ele)
-        plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
+        # plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
     plt.yscale('log')
+    plt.xlabel(r"$\log~n($H$_2)$ [cm$^{-3}$]")
     if ss is None:
         plt.savefig(outdir + 'hist_test.png')
+        # plt.savefig(outdir + 'hist_test.pdf')
     else:
         plt.savefig(outdir + 'hist_test_' + str(ss) + '.png')
+        # plt.savefig(outdir + 'hist_test_' + str(ss) + '.pdf')
 
 def check_power(data, size_kpc = 7., isnap = 28, outdir = ''):
 

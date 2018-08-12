@@ -37,6 +37,9 @@ import numpy as np
 from clump_modules.clump_wrapper import ytclumpfind_H2, get_phyprop_of_leaf
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, import_fetch_stars, prepare_unigrid, check_hist_h2, check_power
 
+from plot_modules.plot_cloud_prop import setup_plot
+setup_plot()
+
 
 outdir = 'test_brute/'
 
@@ -75,8 +78,8 @@ else:
 # clumpfinder one level at a time...
 
 # for snapshotnum in range(16, 29):
-#for snapshotnum in range(16, 17):
-for snapshotnum in range(28,29):
+for snapshotnum in range(16, 17):
+# for snapshotnum in range(28,29):
 
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
@@ -88,12 +91,13 @@ for snapshotnum in range(28,29):
     if not test:
       starData = import_fetch_stars(isnap=snapshotnum, verbose=False)
 
-    ds, dd = prepare_unigrid(data=data, 
-                             add_unit=read_proper_unit, 
-                             regionsize_kpc=regionsize_kpc, 
+    ds, dd = prepare_unigrid(data=data,
+                             add_unit=read_proper_unit,
+                             regionsize_kpc=regionsize_kpc,
                              debug=False)
 
     check_hist_h2(data, th_list, ss=snapshotnum, outdir=outdir)
+    # import pdb; pdb.set_trace()
 
     #check_power(data=data, size_kpc = 7., isnap=snapshotnum, outdir = outdir)
 
