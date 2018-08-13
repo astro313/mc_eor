@@ -11,15 +11,17 @@ import os
 from plot_modules.plot_cloud_prop import setup_plot
 plt = setup_plot()
 
+here      = os.path.dirname(os.path.abspath(__file__))
+std_pickle= here+'/test_brute/'
 
-def plotting_procedure(minss, maxss, fname):
+def plotting_procedure(minss, maxss, fname ,pickle_base_fold= std_pickle):
     from plot_modules.plot_cloud_prop import unpack_xy, plot_stuff, plot_stuff_3dim
     from io_modules.leaf_pickle import load_in_pickle_SS
 
-    ss = load_in_pickle_SS('/mnt/home/daisyleung/mc_eor/test_brute/leaf_fields_', fname, minss, maxss)
+    ss = load_in_pickle_SS(pickle_base_fold+'leaf_fields_', fname, minss, maxss)
     to_plot = unpack_xy(ss)
 
-    outleafdir = '/mnt/home/daisyleung/mc_eor/test_brute/leaf_fields_ss' + \
+    outleafdir = pickle_base_fold+'leaf_fields_ss' + \
                  str(minss) + '-' + str(maxss) + '/'
     leafdir_out = outleafdir + fname[:fname.find('.p')] + '/'
     if not os.path.isdir(leafdir_out):
