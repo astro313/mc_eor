@@ -40,11 +40,12 @@ def plotting_procedure(minss, maxss, fname ,pickle_base_fold= std_pickle):
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
 
-    from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
+    from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential, CMF
     allmass = get_masses_all_clouds(ss)
     massFuncUnbinnedCDF(allmass, outdir=leafdir_out)
     massFuncPDF(allmass, outdir=leafdir_out)
     massFuncDifferential(allmass, outdir=leafdir_out)
+    CMF(allmass, outdir=leafdir_out)
 
 
 # ---

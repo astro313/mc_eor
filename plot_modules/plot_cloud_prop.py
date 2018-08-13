@@ -842,6 +842,7 @@ def CMF(allmasses, save=True, outdir='./', tag=''):
     F2 = np.linspace(0, len(X2)-1, len(X2))
     F2 = F2[::-1]
 
+    plt.close('all')
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(X2, F2, label='CMF', lw=2, alpha=1, zorder=2)
@@ -869,10 +870,9 @@ def CMF(allmasses, save=True, outdir='./', tag=''):
 
     plt.annotate(s=r'Slope = {:.2f} $\pm$ {:.2f}'.format(p[1],
                  np.sqrt(cov.diagonal())[1]),
-                 xy=[3.e8, 15],
+                 xy=[3.e6, 15],
                  color='k',
                  ha='right')
-
 
     ax.set_xlabel(r"M$_{\rm cl}\, [{\rm M}_{\odot}]$")
     ax.set_ylabel("$n(M^{\prime}>M)$")
