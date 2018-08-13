@@ -199,28 +199,163 @@ into non-overlapping tiles, which are stored in a k-dimentional tree (aka k-d tr
 It then identifies the contours of a variable field (e.g., density field) within a tile and connects them across 
 the tiles. In the customized version used for this study, we modified \ncode{yt} in order for it to actually work.
 
-In the clump-finding process, we employ a set of different density thresholds defined based on the
-molecular hydrogen density of \flower taken at different cosmic times (especially between $z\eq$6\,$-$\,15, {\bf Pallo, check this pls}).
-We note that this is in essence similar to 
-identifying structures based on the noise levels of observational data,
-as commonly adopted in the literature (e.g., identifying 
+In the ``clump-finding'' process, we employ a set of different density thresholds defined based on the
+molecular hydrogen density of \flower taken at different cosmic times (between $z$\eq6\,$-$\,15, {\bf Pallo, check this pls}).
+We note that this process is in essence similar to 
+identifying molecular structures based on the noise levels of surface density maps 
+observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN,
+as commonly adopted in observational studies (e.g., identifying 
 ``clumps'' based on/after applying $\sigma$-clipping, 
-using tools such as e.g., \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, 
-and \ncode{cprops}; \citealt{Willams94a, Rosolowsky06a}).
+using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, 
+and \ncode{cprops}; \citealt{Williams94a, Rosolowsky06a}).
 
-We investigate the possible variations in the molecular structure properties to test 
-the robustness of our results against the choice of density threshold in \Sec{ncut}.
-That is, how sensitive are the structure properties, and thus, the conclusion of our study
-dependent on the choice of density thresholds.
-We note that due to the limited spatial resolution of our simulation ($l_{\rm cell}\simeq$\,30\,pc), we 
-impose an addition condition on the identified structure such that the said structures only survive if they
-span at least 10 cells in 3D position-position-position (PPP) space. 
-We caution that one caveats of such condition is that 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[trim=35 0 10 35, clip, width=0.55\textwidth]{\figpath/hist_test_16.pdf}  
+\caption{
+Volumetric H$_2$ density distribution of \flower taken from a single snapshot.
+\label{fig:h2density}}
+\end{figure}
+
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.32}.png} 
+  \\[-5.5em]
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.53}.png} 
+\caption{
+MC identified by applying 
+volumetric H$_2$ density cuts of 
+$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$.
+Color shows the projected H$_2$ surface density. {\bf this should be H2 density 1/cm$^{-2}$?!}
+% yt.OffAxisProjectionPlot: weight the requested field by the weighting field and integrate along the line of sight.
+\label{fig:MC}}
+\addtocounter{figure}{-1}
+\end{figure*}
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.88}.png}
+    \\[-5.5em]
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_1.47}.png}
+\caption{
+Continued.}
+\addtocounter{figure}{-1}
+\end{figure*}
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_2.45}.png}
+  \\[-5.5em]
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_4.08}.png}
+\caption{
+Continued.}
+\addtocounter{figure}{-1}
+\end{figure*}
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_6.81}.png} 
+  \\[-5.5em] 
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_11.36}.png}
+\caption{
+Continued.}
+\addtocounter{figure}{-1}
+\end{figure*}
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_18.96}.png} 
+  \\[-5.5em]  
+  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_31.62}.png} 
+\caption{
+Continued.}
+\end{figure*}
+
+In \Fig{h2density}, we show an example of the volumetric H$_2$ density distribution of \flower 
+for a given snapshot which includes contributions from its surrounding 7\,kpc.
+In \Fig{MC}, we show an example of
+the molecular structures identified by applying volumetric H$_2$ density cuts of 
+$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{
+Based on 10$^n$, where $n$ represents the 10 elements that are 
+uniformly spaced between [$-0.5, 1.5$] in linear space.
+We also vary the range of 
+$n_{\rm cut}$ adopted and find no significant differences 
+affecting the results and conclusions of this work (see \Sec{ncut}).}
+to the same snapshot as that 
+used to plot \Fig{h2density}.
+Since the molecular structures identified could 
+easily appear as overlapping structures depending on the viewing angle, we 
+also plot them in different three-dimensional projections --- so that one can more 
+easily see that they are collections of disjoint structures.
+We repeat this identification process for 14 snapshots, spaced by $\Delta t$\eq50\,Myr. 
+{\bf TODO: 0.1\,Myr (500 snapshots at $z$\eq9)}
+Limited by the spatial resolution of our simulation ($l_{\rm cell}\simeq$\,30\,pc), we 
+impose an addition constraint such that an identified structure only survives if it
+spans at least 10 cells in 3D position-position-position (PPP) space. 
+We caution that one caveats of such constraint is that 
 we can only examine the parameter space of ``cloud'' scaling
 relations at ``cloud'' size $R\gtrsim100$\,pc. 
 
 
+
 % --------------------
+\section{Star Formation History and Cloud Evolution} \label{sec:sfh}
+
+One of the advantage of studying the dynamical properties of molecular structures at 
+$z$\ssim6 in simulation is the fact that we can examine how their properties evolve 
+as a function of time. 
+Especially at early epochs, where the densest structures are beginning to form; 
+gas is constantly being accreted onto the central galaxy from the cosmic web and 
+satellite galaxies, thereby leading to bursts of \SF.
+Meanwhile, tidal forces resulting from interactions with these surrounding 
+galaxies can disrupt the main disk and arms, likely leading to different dynamical states 
+for the molecular structures (e.g., some may disperse, some may agglomerate into more massive 
+structures). % mainly expecting differences in alpha_vir, sigma, M_cl.
+
+We show the \SF history of \flower in \Fig{SFH}, where 
+the SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne\footnote{
+The SFR plotted in Figure 2 of \citet{Pallottini17b}
+is a factor of two higher than shown here since they also include contributions from 
+massive satellites galaxies within the surrounding xxx\,kpc.}
+as it evolves from an actively accreting phase to 
+a starburst phase after a major merger and then back to a relatively quiescent phase
+over the few hundred Myr simulated in our simulation.
+The SFR of \flower is calculated based on existing young stellar population, which is 
+defined to have an age of $t_{\rm age}<$\,10\,Myr.
+
+Given the stochasticity in the \SF history of \flower, 
+we show the scaling relations found for two particular snapshots as examples in \Sec{singless},
+since they represent the extreme evolutionary stages of \flower (and thus, likely bracket the
+most extreme variations in the cloud dynamics) --- one of which \flower is 
+actively accreting materials from its surrounding (top panel of \Fig{phases}) 
+and another of which \flower is undergoing 
+a starburst phase after a major merger (bottom panel of \Fig{phases}). 
+
+
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 0 0 23, clip, width=0.45\textwidth]{\figpath/snapshot28_SFR_4Myr.png}  
+\caption{
+Star formation history of \flower.
+\label{fig:SFH}}
+\end{figure*}
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[trim=120 0 0 0, clip, width=0.55\textwidth]{\figpath/star_16.png}  
+\\ [-5em]
+\includegraphics[trim=120 0  0 0, clip, width=0.55\textwidth]{\figpath/star_27.png}  
+\caption{
+Projected stellar mass distribution of \flower during one of its accretion phases 
+at an early stage of its evolution (top) and during one of its major starburst phases 
+after a major merger (bottom).
+\label{fig:phases}}
+\end{figure}
+
 \section{Cloud scaling relations} \label{sec:results}
 Upon identified the molecular structures, we extract parameters such as
 the virial parameter ($\alpha_{\rm vir}$), 
@@ -238,58 +373,57 @@ rotation velocity is unlikely to be the dominant source entering the velocity di
 In the subsequent sections, we adopt the root mean square of the velocity field
 as the velocity dispersion (i.e., $\sigma_v$\eq$\sigma_v^{\rm rms}$).
 
-\begin{figure}[htbp]
- \centering
-\includegraphics[width=0.5\textwidth]{\figpath/}  
-\caption{
-Volumetric H$_2$ density distribution of \flower taken from a single snapshot.
-\label{fig:h2density}}
-\end{figure}
+\subsection{Single snapshots}  \label{sec:singless}
+In each snapshot (see \Fig{MC} for example), 
+we identify a set of MCs with consistently high turbulences and surface densities 
+regardless of the H$_2$ density cuts adopted. 
+These are the MCs at the center of the main disk of \flower.
+Their high velocity dispersions and surface densities are expected since 
+they are located in the nuclear regions of the 
+galaxy, where the potential well is also deeper.
 
-
-\begin{figure}[htbp]
- \centering
-\includegraphics[width=0.5\textwidth]{\figpath/}  
-\caption{
-MC identified by applying 
-volumetric H$_2$ density cuts of 
-$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$.
-\label{fig:MC}}
-\end{figure}
-
-In \Fig{h2density}, we show an example of the volumetric H$_2$ density distribution of \flower 
-in a given snapshot, including contributions from its surrounding 7\,kpc.
-In \Fig{MC}, we show an example of
-the molecular structures identified by applying volumetric H$_2$ density cuts of 
-$n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{
-Based on 10 elements spanning between [$-0.5, 1.5$] equally spaced in linear space 
-We also vary the range of 
-$n_{\rm cut}$ adopted but find no appreciated differences in the results.}
-overlaid on a H$_2$ surface density map of a single snapshot.
-The molecular structures identified could appear as overlapping structures depending on projections, we 
-therefore also show them in different three dimensional projections (\Fig{}) --- so that one can more 
-easily see that they are collections of disjoint structures.
-
-We identify a population of molecular structures that are largely similar to those observed 
-in \z\ssim2 spatially resolved \obs of gas-rich SFGs in
+As we increase the density threshold, some of the MC within the main disk break 
+into multiple sub-MCs.
+As such, we effectively identify a population of denser molecular structures. 
+This population of sub-MCs has dynamics largely
+similar to those observed 
+in $z$\ssim2 spatially resolved studies of gas-rich SFGs, in
 terms of their velocity dispersions, sizes, and gas surface densities \citep[e.g.,][]{Swinbank11a}.
-As we increase the density threshold, we effectively select a population of 
-denser molecular structures that have similar to.... 
+
+We also identify MCs in the satellite galaxies of \flower. These MCs 
+tend to have lower virial parameters compared to the (sub-)MCs in the main disk of \flower, 
+with $\alpha_{\rm vir}\simeq$1.
 Given their low $\alpha_{\rm vir}$ parameter,
-these structures are likely the collapsing structures (\Fig{alphavir}). 
-The MCs that remain at high/increasing density thresholds
-are also molecular structures at the center of \flower,
-as they systematically have higher surface densities 
-and enhanced turbulence, which are expected in the nuclear regions of 
-galaxies given the deeper potential wells.
-These more massive molecular structures are indeed also evident in \obs (see e.g., 
-\citealt{Freeman17a}).
+these structures are likely collapsing structures (\Fig{alpha16}). 
 
 
-\subsection{Variation in Properties depending on ncut, single snapshot}	 \label{sec:ncut}
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_alphavir.png}  
+\caption{
+Virial parameter and cloud mass of \flower of a given snapshot (accreting phase).
+\label{fig:alpha16}}
+\end{figure*}
 
-We find no appreciative differences in the cloud scaling relations (relative to the clouds 
-observed in galaxies) by changing the different adopted choice of H$_2$ density cuts. 
+
+
+
+
+
+
+
+
+\subsection{Variation in MC Properties Depending on Choice of Density Cuts}	 \label{sec:ncut}
+% single Snapshot
+We investigate possible variations in the dynamics of the molecular structures of \flower and its satellites 
+to test 
+the robustness of our results against the choice of density threshold in \Sec{ncut}.
+That is, how sensitive are the structure properties, and thus, the conclusion of our study
+dependent on the choice of density thresholds.
+We vary the choice of H$_2$ density for each of the snapshots and 
+find no obvious differences in our results (i.e., inferences on the dynamics of \z$\sim$\,6 
+MCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of 
+cloud scaling relations).
 We interpret this lack of variation a manifestation of ..., and that, at least on the scales studied here, the cloud properties are what we found ... 
 Our results is therefore robust, haha.
 
@@ -299,13 +433,13 @@ Our results is therefore robust, haha.
 %\caption{\label{fig:}}
 %\end{figure*}
 
-\subsubsection{Schmidt-Kennicutt Relation}
+
+
+\subsection{Schmidt-Kennicutt Relation}
 As benchmarking, we check the SK relation using the SFR and gas surface densities of the clouds. {\bf remind Pallo to look into this}.
 
 
-\subsubsection{SFR-Mach Relation}
-
-We calculate the SFR based on the existing young stellar population of age $t_{\rm age}<$\,10\,Myr.
+\subsection{SFR-Mach Relation}
 In \Fig{}, we show the relation between SFR and the Mach number ($\mathcal{M}$) for the molecular 
 complexes identified. 
 We find a positive correlation between the two quantities, with a Pearson-$R$ coefficient of xxx, 
@@ -313,37 +447,23 @@ which is unsurprising given that our simulations include the effect of stellar f
 the high $\mathcal{M}$ can be interpreted as a result of \SF resulting from feedback from 
 massive stars.
 
-\subsection{MC Properties Evolution}
-One of the advantage of studying the dynamical properties of molecular structures at 
-$z$\ssim6 in simulation is the fact that we can examine how their properties evolve 
-as a function of time. 
-Especially at early epochs, where the densest structures are beginning to form; 
-gas is constantly being accreted onto the central galaxy from the cosmic web and 
-satellite galaxies, thereby leading to bursts of \SF.
-Meanwhile, tidal forces resulting interactions with these surrounding 
-galaxies can disrupt the main disk and arms, likely leading to different dynamical states 
-for the molecular structures (e.g., some may disperse, some may agglomerate into more massive 
-structures). % mainly expecting differences in alpha_vir, sigma, M_cl.
-
-To examine the difference in dynamical properties in the molecular structures as they 
-evolve over the few 100\,Myr simulated in our simulation,
-we repeat the analysis for a set of $\sim$14 snapshots, spaced by $\Delta t$\eq50\,Myr. 
-These snapshots include snapshots at different phases, from actively accreting phase 
-to a starburst phase, and relatively quiescent phase (we see that their SFRs vary from 
-$\sim$50\,\Msun\,yr\pmOne 
-to $\sim$100\,\Msun\,yr\pmOne and back to $\sim$30\,\Msun\,yr\pmOne).
-
-TODO: 0.1\,Myr (500 snapshots at $z$\eq$9)
-
-
 
 \subsection{Clump Mass Function}
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/CMF_.png}  
+\caption{
+CMF of MCs in \flower and best-fit power law.
+\label{fig:cmf}}
+\end{figure*}
+
 Noisy due to resolution effect, since we only have one galaxy here. However, 
 we could improve the ``signal-to-noise'' ratio by including clouds identified from different 
 snapshots (valid unless in some snapshots, the galaxy experience a violent event).
-
-We find a shallower slope in the CMF compared to those observed in nearby galaxies (
-based on a sample of $\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds\citealt{Blitz07a}).
+We find a shallower slope in the CMF of \flower (\Fig{cmf}) 
+compared to those observed in nearby galaxies (based on a sample of 
+$\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds; \citealt{Blitz07a}).
 
 While our result, of particular relevance here is the slope of the CMF, is subject 
 to the uncertainties in the analysis method and the resolution of our simulation --- i.e., that is 
@@ -356,7 +476,7 @@ is that our computational boxes are not closed, allowing us to examine how
 the molecular complexes' properties vary under the influence of gas inflow/outflow.
 
 
-\subsection{Mass Scales set by Toomre and Jeans Instabilities}
+\section{Mass Scales set by Toomre and Jeans Instabilities}
 
 In the limit of a thin rotating disk, rotation can help stabilizes self-gravitational contraction for wavelengths greater than the Toomre length:
 \begin{equation}
@@ -446,7 +566,7 @@ We study the dynamical properties of molecular complexes in a \z$\sim$6 lyman-br
 at the end of the epoch of reionization, using state-of-the-art cosmological zoom-in simulation 
 (\ncode{Serra}). We identify molecular cloud complexes in the main galaxy of the 
 simulated 20\,Mpc h\pmOne box (aka \flower; \citealt{Pallottini17a}) using a method analogues 
-to the ``kd-tree'' idea. We decompose the molecular structures into non-overlapping tiles 
+to the kd-tree idea. We decompose the molecular structures into non-overlapping tiles 
 % (stored in a kd-tree)
 by identifying a set of different density contours at different snapshots. 
 Using volumetric H$_2$ is essentially the same as identified molecular structures using
@@ -491,10 +611,9 @@ galaxy evolution and the ISM physics behind their intense star formation in the 
 %-------------------------------------
 \acknowledgements
 
-
 We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data.
 T.K.D.L. acknowledges support by the NSF through award SOSPA4-009
-from the NRAO.
+from the NRAO and support from the Simons Foundation.
 A.F. acknowledges support from the ERC Advanced Grant INTERSTELLAR H2020/740120.
 This work was initiated as a project for the Kavli Summer Program in Astrophysics (KSPA) 
 held at the Center for 
@@ -503,6 +622,7 @@ Foundation and the Simons Foundation.
 We thank the KSPA Scientific and Local Organizing Committees, and the program founder, 
 Pascale Garaud for supporting the genesis of this work. 
 We also thank the New York University CCPP for their hospitality in hosting us, the refugees, after the steam pipe explosion in NYC during the KSPA.
+
 \bibliographystyle{yahapj}
 \bibliography{master_cleanup}
 \end{document}
