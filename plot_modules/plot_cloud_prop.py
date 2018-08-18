@@ -806,6 +806,31 @@ def get_masses_all_clouds(ss):
     return np.array(allmasses)
 
 
+def get_sizes_all_clouds(ss):
+    allsizes = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            allsizes.append(ss[snap][snapleafs].R_pc)
+    return np.array(allsizes)
+
+
+def get_fgas_all_clouds(ss):
+    """
+
+    Returns
+    -------
+    f_gas = M_gas / (M_gas + M*)
+
+    """
+
+    allfgas = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            fgas = np.array(ss[snap][snapleafs].mass_Msun) / (np.array(ss[snap][snapleafs].mass_Msun) + np.array(ss[snap][snapleafs].mstar_Msun_tot))
+            allfgas.append(fgas)
+    return np.array(allfgas)
+
+
 def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
     """ unbinned CDF """
 
