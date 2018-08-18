@@ -38,13 +38,13 @@ def load_pickleTOplot(snapshot_num, pattern=None):
         ss = load_in_pickled_leaf_singleSS(leafdir_out, snapshot_num, pattern=pattern)       # , pattern='2.45_*10*.p')
 
     to_plot = unpack_xy(ss)
-    return to_plot, leafdir_out
+    return ss, to_plot, leafdir_out
 
 
 def plotting_procedure(snapshot_num):
     from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3dim
 
-    to_plot, leafdir_out = load_pickleTOplot(snapshot_num)
+    ss, to_plot, leafdir_out = load_pickleTOplot(snapshot_num)
 
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
     # min MC mass for highest n_cut (for paper)
     # for isnap in [16, 27]:
-    #     _ = load_pickleTOplot(isnap, pattern='*18.96*10*p')
+    #     _, _, _ = load_pickleTOplot(isnap, pattern='*18.96*10*p')
 
     # # plot Larson and local points only (for talk introduction slide)
-    # to_plot, _ = load_pickleTOplot(16)
+    # _, to_plot, _ = load_pickleTOplot(16)
     # plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir='./')
