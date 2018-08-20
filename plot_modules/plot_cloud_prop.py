@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+import os
+here    = os.path.dirname(os.path.abspath(__file__))
+litpath = here[:here.rfind('/')]+'/literature/'
 
 def setup_cmap(cm='gist_rainbow'):
     import matplotlib.pyplot as plt
@@ -181,7 +184,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                 linewidth=2, label="Kennicutt 1998")
 
         # more from high-z literature
-        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
         x0901, y0901 = np.loadtxt(
             litpath + "J0901_KS10_points.txt", unpack=True)  # in log
         x14011, y14011 = np.loadtxt(
@@ -210,8 +212,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     if ystr == "alpha vir" and xstr == "cloud mass":
         # Kauffmann+17 Figure 4
-        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
-
         # read data from old Kauffmann paper
         CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
                                   header=0,
@@ -373,7 +373,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         legend_h.append(h)
 
         # More data from literature
-        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
         xegc, yegc = np.loadtxt(litpath + 'ExtraGalacticGMCs.csv',  # Bolatto08
                                 delimiter=',', unpack=True)
         xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv',
@@ -411,7 +410,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     if xstr == "gas sd cgs" and ystr == "sigmaSq over size":
         # Heyer+09 GRS data
-        litpath = '/mnt/home/daisyleung/mc_eor/literature/'
         xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
         ax.scatter(xxx, yyy, marker='.', color='k', s=7, label='Heyer+09 GRS')
 
