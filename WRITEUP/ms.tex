@@ -307,6 +307,20 @@ Limited by the spatial resolution of our simulation ($l_{\rm cell}\simeq$\,30\,p
 % --------------------
 
 \section{Cloud scaling relations} \label{sec:results}
+
+\AP{I see 2 main possible approaches to the presentation of the results
+%
+(a) focus on a single snapshot, analyze the cloud scaling relation by varing the cuts and then by varing the snapshot; after that one can discuss the stability (toomre analysis) of the clumps (that should help in discussing the origin) and the CMF (more speculative, because of the resolution issues).
+%
+(b) discuss each scaling relation one at a time; probabily in this case an introductionary subsection is needed to explain that different cuts yields no qualitative differences; toomre and CMF as before.
+%
+Note that -- in both cases -- alternatively toomre analysis can be done at the beginning of the result section(s). 
+%
+I think that (b) might be a little bit more appealing, since all the plot with similar quantities (e.g. the larson relation for multiple cuts and snapshots) are in the same place (or, even better, page).
+%
+Of course alternative approaches are possible, but right now these two seem to be the more natural ones.
+}
+
 Upon identified the molecular structures, we extract parameters such as
 the virial parameter ($\alpha_{\rm vir}$), 
 the cloud mass ($M_{\rm cl}$), 
@@ -314,20 +328,17 @@ the Mach number ($\mathcal{M}$),
 the velocity dispersion ($\sigma_v$), and the 
 gas surface density ($\Sigma_{\rm gas}$)
 to describe/characterize their dynamics.
-We find that the thermal sound speed ($c_s$) 
-of all identified molecular complexes are generally much smaller compared to the their
-turbulent velocities.
-We find comparable velocity dispersion derived by taking the root mean square ($\sigma_v^{\rm rms}$) versus
-that derived using thermal and non-thermal pressure ($\sigma_v^{P+P_{\rm nt}}$), indicating that 
-rotation velocity is unlikely to be the dominant source entering the velocity dispersion reported here.
-In the subsequent sections, we adopt the root mean square of the velocity field
-as the velocity dispersion (i.e., $\sigma_v$\eq$\sigma_v^{\rm rms}$).
+%
+\AP{I would move the following when discussing the velocity dispersion; additionally, the large velocity dispersions was also noted in Vallini2018a, we can use some of those results to complement the discussion (e.g. shift for the CO sled at higher J then local galaxies).}
+We find that the thermal sound speed ($c_s$) of all identified molecular complexes are generally much smaller compared to the their
+turbulent velocities. \AP{i would put the following as a footnote or this point might be moved; alternatively these points (see also the emails) can be treated when dealing with the stability analysis} We find comparable velocity dispersion derived by taking the root mean square ($\sigma_v^{\rm rms}$) versus that derived using thermal and non-thermal pressure \AP{i would not introduce additional symbols if they are not used elsewhere} ($\sigma_v^{P+P_{\rm nt}}$), indicating that rotation velocity is unlikely to be the dominant source entering the velocity dispersion reported here. In the subsequent sections, we adopt the root mean square of the velocity field as the velocity dispersion (i.e., $\sigma_v$\eq$\sigma_v^{\rm rms}$).
 
 \subsection{Single snapshots}  \label{sec:singless}
-In each snapshot (see \Fig{MC} for example), 
+In each snapshot (see \Fig{MC} for example),
 we identify a set of MCs with consistently high turbulences and surface densities 
 regardless of the H$_2$ density cuts adopted. 
 These are the MCs at the center of the main disk of \flower.
+\AP{however a plot showing the clump stats has not been show yet at this point}
 Their high velocity dispersions and surface densities are expected since 
 they are located in the nuclear regions of the 
 galaxy, where the potential well is also deeper.
@@ -335,6 +346,7 @@ galaxy, where the potential well is also deeper.
 As we increase the density threshold, some of the MC within the main disk break 
 into multiple sub-MCs.
 As such, we effectively identify a population of denser molecular structures. 
+\AP{the following will be manifest only after the presentation of some results, e.g. \Fig{alpha16}}
 This population of sub-MCs has dynamics largely
 similar to those observed 
 in $z$\ssim2 spatially resolved studies of gas-rich SFGs, in
@@ -446,10 +458,13 @@ Our results is therefore robust, haha.
 
 
 \subsection{Schmidt-Kennicutt Relation}
+\AP{I would merge this sub with Sec. \ref{sec:ncut} (and maybe move this stuff into the appendix)}
 As benchmarking, we check the SK relation using the SFR and gas surface densities of the clouds. {\bf remind Pallo to look into this}.
 
+\AP{i m currently a bit confused on how to re-generate pickle files to be used for the plot; in any case, here I would put a figure with the SK-relation for the clumps in a single snapshot for different cuts, along with the observed points and the global \flower point from the data found in \citet{Pallottini17b}}
 
 \subsection{SFR-Mach Relation}
+\AP{here (or before) we should explain how the sfr is calculated (i.e. integrating over the recent sfr history of star within the clump)}
 In \Fig{}, we show the relation between SFR and the Mach number ($\mathcal{M}$) for the molecular 
 complexes identified. 
 We find a positive correlation between the two quantities, with a Pearson-$R$ coefficient of xxx, 
@@ -467,6 +482,8 @@ massive stars.
 CMF of MCs in \flower and best-fit power law.
 \label{fig:cmf}}
 \end{figure*}
+
+\AP{i think this section should be just before the conclusion/discussion}
 
 Noisy due to resolution effect, since we only have one galaxy here. However, 
 we could improve the ``signal-to-noise'' ratio by including clouds identified from different 
@@ -488,6 +505,8 @@ the molecular complexes' properties vary under the influence of gas inflow/outfl
 
 \section{Mass Scales set by Toomre and Jeans Instabilities}
 
+\AP{i guess that we can either choose to put it at the beginning of the results or at the end (before the CMF), to explain the origin of the clumps; in ancy case, the strategy should be to select a snapshot, put it face on and calculate the toomre parameter map similarly to what done in \citet{Inoue16a}}
+
 In the limit of a thin rotating disk, rotation can help stabilizes self-gravitational contraction for wavelengths greater than the Toomre length:
 \begin{equation}
 \lambda_T = 4\pi^2 G\Sigma/\kappa^2,
@@ -504,6 +523,10 @@ satellite galaxies and stellar feedback).
 %                                Discussion
 %--------------------------------------------------------------------------
 \section{Discussions and Implications}     \label{sec:diss}
+
+
+\AP{This would be something like \quotes{origin of the cloud and implication of the found properties} if we put there toomre and CMF}
+
 Yet.... at the epoch of reionization.... For instance, to resolve the 
 \aco line emission in a $L^*$ prototypical galaxy at \z$\sim$6 on xxx\,pc 
 require .... on-source time even with ALMA. 
@@ -521,6 +544,9 @@ galaxy evolution.
 
 
 \subsection{Virial Parameter}
+
+\AP{I would move it to the previous section; since it is not easy to condense the toomre analysis for different snapshots in a single plot, I would use the virial parameter analysis to discuss the gravitational instability point on more then on evolutionary state of the galaxy}
+
 We quantify how stable a molecular structure is using the virial parameter, which 
 describes the balance between pressure support and gravity. 
 
@@ -548,6 +574,9 @@ and the star formation efficiency ($M_*/M_{\rm cl}$).
 
 
 \subsection{Larson's Relation}
+
+\AP{I would move it to the previous section}
+
 The Larson's relation... empirically-motivated.
 
 
