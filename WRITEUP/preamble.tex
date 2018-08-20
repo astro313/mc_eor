@@ -35,7 +35,8 @@
 %
 \usepackage{apjfonts}
 \usepackage{amssymb, amsmath} % for e.g. \lesssim
-\usepackage{natbibspacing, natbib}
+%\usepackage{natbibspacing, natbib}
+\usepackage{natbib}
 \usepackage{aas_macros} % for understanding Journal in bib
 \usepackage{graphics,graphicx}
 % ---------------- Final Edit Markup emulateapj ------------------------
@@ -90,6 +91,8 @@
 \newcommand{\oiline}{[\oi]$_{63\mu m}$}
 \newcommand{\ciiline}{[C{\scriptsize II}]~($^2$P$_{3/2}$\,\rarr\,$^2$P$_{1/2}$)\xspace}
 % Units
+\def\cc{{\rm cm}^{-3}}
+\def\zsun{{\rm Z}_{\odot}}
 \newcommand{\mbh}{\mbox{$M_{\rm BH}$}\xspace}
 \newcommand{\mgas}{\mbox{$M_{\rm gas}$}\xspace}
 \newcommand{\mdyn}{\mbox{$M_{\rm dyn}$}\xspace}
@@ -154,6 +157,7 @@
 \def\vla      {{\it Karl G. Jansky} Very Large Array\xspace}
 % Typography
 \newcommand{\ncode}[1]{{\sc #1}}
+\newcommand{\quotes}[1]{``#1''}
 % Codes / Softwares
 \newcommand{\uvmcmcfit}{\ncode{uvmcmcfit}\xspace}
 \def\aips {\ncode{aips}\xspace}
@@ -189,3 +193,4 @@
 \newcommand{\xa}{HXMM05\xspace}
 \newcommand{\xb}{XMM06\xspace}
 \newcommand{\flower}{Alth{\ae}a\xspace}
+
