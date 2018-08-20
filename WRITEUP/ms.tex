@@ -50,7 +50,7 @@ We present results from the first study investigating the dynamical properties o
 and their evolution in galaxies at Epoch of Reionization using state-of-the-art cosmological
 zoom-in simulation, which includes a chemical network to determine the formation of molecular
 hydrogen, heating and cooling of the ISM by metals, and stellar feedback via
-kinetic and thermal energies. We..
+kinetic and thermal energies. We find that ..
 \end{abstract}
 %\keywords{infrared: galaxies --
 %          galaxies: high-redshift --
@@ -145,7 +145,7 @@ spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.
 \section{Method: Simulation and ``Clump''-finding} \label{sec:sim}
 
 
-\subsection{\ncode{Serra} Simulation\footnote{\AP{is the footnote really needed?}Serra means greenhouse in Italian which is motivated by the
+\subsection{\ncode{Serra} Simulation\footnote{Serra means greenhouse in Italian which is motivated by the
 fact that our simulation includes a chemical network to calculate the abundance of H$_2$, which in turn
 dictates the formation of CO.
 }}
@@ -168,9 +168,9 @@ Details on the properties of \flower, the main galaxy in our simulation, are dis
 Briefly, by \z$\sim$6, \flower is a LBG hosted in a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{10}$\,\Msun at the center of a cosmic web knot, and accretes mass from the intergalactic medium mainly via three filaments of length $\simeq$\,100\,kpc. At \z$\sim$6, \flower has a stellar mass of $M_*\simeq$\,3\E{10}\,\Msun, metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a globally-integrated SFR of $\simeq$\,100\,\Msun\,yr\pmOne. It is therefore a prototypical galaxy at \z$\sim$6.
 
 
-\subsection{Star Formation History and Cloud Evolution} \label{sec:sfh}
+\subsection{Star Formation History} \label{sec:sfh}
 
-\AP{i moved the section here, as I see it as part of motivation for the workflow; however, at the moment I do not see the stellar mass maps as figure that are needed; if they stay i would label their evolutionary stage in the SFR history plot; additionaly \quotes{cloud evolutiion} is in the sec title but not in the text, I would remove it}
+\AP{i moved the section here, as I see it as part of motivation for the workflow; however, at the moment I do not see the stellar mass maps as figure that are needed; if they stay i would label their evolutionary stage in the SFR history plot.}
 
 One of the advantage of studying the dynamical properties of molecular structures at
 $z$\ssim6 in simulation is the fact that we can examine how their properties evolve
@@ -312,7 +312,8 @@ Continued.}
 
 In \Fig{h2density}, we show an example of the volumetric H$_2$ density distribution of \flower
 for a given snapshot which includes contributions from its surrounding 7\,kpc.
-\AP{I would note that the distribution is almost flat for $n_{H2}>1\,\cc$ and it samples the range where clumps are found with the Minkovsky analysis of \citet{Pallottini17b}.
+We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1\,\cc$ and it samples the range where ``clumps/structures'' are 
+found based on the Minkovsky analysis presented by \citet{Pallottini17b}.
 In \Fig{MC}, we show an example of the molecular structures identified by applying volumetric H$_2$ density cuts of \AP{I would directly use labels in logspace} $n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{Based on 10$^n$, where $n$ represents the 10 elements that are uniformly spaced between [$-0.5, 1.5$] in linear space.
 We also vary the range of
 $n_{\rm cut}$ adopted and find no significant differences
@@ -331,27 +332,9 @@ Limited by the spatial resolution of our simulation ($l_{\rm cell}\simeq$\,30\,p
 
 
 \section{Results}     \label{sec:results}
-\section{Cloud scaling relations} \label{sec:results}
-
-<<<<<<< HEAD
-\begin{figure}[htbp]
-\centering
-\includegraphics[trim=120 0 0 0, clip, width=0.55\textwidth]{\figpath/star_16.png}
-\\ [-5em]
-\includegraphics[trim=120 0  0 0, clip, width=0.55\textwidth]{\figpath/star_27.png}
-\caption{
-Projected stellar mass distribution of \flower during the accretion phase
-in its early stage of evolution (top) and during a major starburst phase
-after a major merger (bottom).
-\label{fig:phases}}
-\end{figure}
 
 
 \subsection{Cloud Scaling Relations}
-Molecular clouds are the natal place for \SF, and thus,
-their structure and dynamics hold important clues to understanding
-the mechanisms and physics of formation and evolution of molecular structures and \SF.
-Upon identifying the molecular structures, we extract parameters such as
 \AP{I see 2 main possible approaches to the presentation of the results
 %
 (a) focus on a single snapshot, analyze the cloud scaling relation by varing the cuts and then by varing the snapshot; after that one can discuss the stability (toomre analysis) of the clumps (that should help in discussing the origin) and the CMF (more speculative, because of the resolution issues).
@@ -364,6 +347,11 @@ I think that (b) might be a little bit more appealing, since all the plot with s
 %
 Of course alternative approaches are possible, but right now these two seem to be the more natural ones.
 }
+
+Molecular clouds are the natal place for \SF, and thus,
+their structure and dynamics hold important clues to understanding
+the mechanisms and physics of formation and evolution of molecular structures and \SF.
+Upon identifying the molecular structures, we extract parameters such as
 the virial parameter ($\alpha_{\rm vir}$),
 the ``cloud'' mass ($M_{\rm cl}$),
 the ``cloud'' size ($R$),
