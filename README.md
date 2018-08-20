@@ -2,16 +2,6 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
-TODO: 
-- plot "cloud mass distribution"
-- make all plots for different n_cut and snapshots: 
-  - ID clouds using surface density cut. (to implement)
-  - ID clouds using different n_H2 based on Euler Characteristic
-  - ID clouds using different N_cell_min
-    + perhaps at least 10 cells. Note 1 cell ~ 30 pc.
-  - ID clouds using total gas density of ~100 cm^-3 as cut (instead of Euler Characteristic of n_H2)?
-- repeat for the satellites as well
-
 July 16th 2018
 - two really problematic bugs in yt clump find module
   1. sometimes annotate_clumps() will plot all clumps, but sometimes it won't even if you explicitly ask it to.. Work around: loop through all the clumps and plot one-by-one
