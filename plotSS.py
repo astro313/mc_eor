@@ -56,6 +56,7 @@ def plotting_procedure(minss, maxss, pattern):
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="ncut: ",
                     to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ",
@@ -85,6 +86,11 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
                                            fname=pattern2 + '_10_fields.p')
 
     fig, ax = plt.subplots(3, 2)
+
+    # separate allmasses into two color scheme
+    med11 = allmass11.median()
+    mask11_low = allmass11 <= med1
+    mask11_high = allmass11 >= med1
 
     allmass11 = get_masses_all_clouds(ss11)
     ax[0, 0].hist(np.log10(allmass11))
@@ -158,10 +164,8 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
 
 if __name__ == '__main__':
 
-    # # for paper
+    # for paper
     plot_dis_allSS()
-
-    import sys; sys.exit()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")

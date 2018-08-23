@@ -67,7 +67,8 @@ def plotting_procedure(snapshot_num):
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
-    plot_stuff_3dim("tff Myr", "size pc", "cloud mass",
+    plot_stuff("size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+        plot_stuff_3dim("tff Myr", "size pc", "cloud mass",
                     leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
 
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential

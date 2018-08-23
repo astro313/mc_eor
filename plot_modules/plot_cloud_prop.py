@@ -183,6 +183,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.plot(x, y, linestyle='-', color='b',
                 linewidth=2, label="Kennicutt 1998")
 
+        # data points from Pallottini+17b Fig. 9 (To add)
+        # ....
+
         # more from high-z literature
         x0901, y0901 = np.loadtxt(
             litpath + "J0901_KS10_points.txt", unpack=True)  # in log
@@ -347,6 +350,34 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                      xy=[1.0E5, 18.],
                      color='blue',
                      ha='center')
+
+
+    if xstr == "size pc" and ystr == "cloud mass":
+        r_pc = np.logspace(0.5, 3, 20)
+
+        # threshold for high-mass stars from Kauffmann & Pillai10
+        k10_Msun = 870. * (r_pc)**1.33
+
+        # corresponds to A_v = 4 mag
+        mag4_Msun = 265. * (r_pc)**2.
+
+        # 10^n mag
+        mag10_Msun = 662. * 10**1.0 * (r_pc)**2
+        mag102_Msun = 662. * 10**2.0 * (r_pc)**2
+
+        ax.plot(r_pc, k10_Msun, linestyle='-.', color='r',
+                linewidth=2,
+                label=r'Kauffmann \& Pillai 2010')
+        ax.plot(r_pc, mag4_Msun, linestyle=':', color='b',
+                linewidth=1.5,
+                label=r'A$_V$ = 4~mag')
+        ax.plot(r_pc, mag10_Msun, linestyle='--', color='k',
+                linewidth=1.5,
+                label=r'A$_V$ = 10~mag')
+        ax.plot(r_pc, mag102_Msun, linestyle=(0, (3, 5, 1, 5, 1, 5)),
+                color='g', linewidth=1.5,
+                label=r'A$_V$ = 100~mag')
+
 
     if xstr == "size pc" and ystr == "sigma kms":
 
