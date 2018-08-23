@@ -353,7 +353,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
 
     if xstr == "size pc" and ystr == "cloud mass":
-        r_pc = np.logspace(0.5, 3, 20)
+        r_pc = np.logspace(0.01, 3, 20)
 
         # threshold for high-mass stars from Kauffmann & Pillai10
         k10_Msun = 870. * (r_pc)**1.33
@@ -365,18 +365,50 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         mag10_Msun = 662. * 10**1.0 * (r_pc)**2
         mag102_Msun = 662. * 10**2.0 * (r_pc)**2
 
-        ax.plot(r_pc, k10_Msun, linestyle='-.', color='r',
+        h, = ax.plot(r_pc, k10_Msun, linestyle='-.', color='r',
                 linewidth=2,
                 label=r'Kauffmann \& Pillai 2010')
-        ax.plot(r_pc, mag4_Msun, linestyle=':', color='b',
+        legend_h.append(h)
+
+        h, = ax.plot(r_pc, mag4_Msun, linestyle=':', color='b',
                 linewidth=1.5,
                 label=r'A$_V$ = 4~mag')
-        ax.plot(r_pc, mag10_Msun, linestyle='--', color='k',
+        legend_h.append(h)
+
+        h, = ax.plot(r_pc, mag10_Msun, linestyle='--', color='k',
                 linewidth=1.5,
                 label=r'A$_V$ = 10~mag')
-        ax.plot(r_pc, mag102_Msun, linestyle=(0, (3, 5, 1, 5, 1, 5)),
+        legend_h.append(h)
+
+        h, = ax.plot(r_pc, mag102_Msun, linestyle=(0, (3, 5, 1, 5, 1, 5)),
                 color='g', linewidth=1.5,
                 label=r'A$_V$ = 100~mag')
+        legend_h.append(h)
+
+        # load in MSF data
+        xh05, yh05 = np.loadtxt(litpath + 'Hill05_MSF_MR.csv',
+                                      delimiter=',', unpack=True)
+        h = ax.scatter(xh05, yh05, label="Hill+05",
+                       color='magenta', marker='o', s=6, facecolors='none')
+        legend_h.append(h)
+
+        xM07, yM07 = np.loadtxt(litpath + 'Motte07_MSF_MR.csv',
+                                      delimiter=',', unpack=True)
+        h = ax.scatter(xM07, yM07, label="Motte+07",
+                       color='green', marker='*', s=8, facecolors='none')
+        legend_h.append(h)
+
+        xB02, yB02 = np.loadtxt(litpath + 'Beuther02_MSF_MR.csv',
+                                      delimiter=',', unpack=True)
+        h = ax.scatter(xB02, yB02, label="Beuther+02",
+                       color='blue', marker='+', s=7) #, facecolors='none')
+        legend_h.append(h)
+
+        xM02, yM02 = np.loadtxt(litpath + 'Mueller02_MSF_MR.csv',
+                                      delimiter=',', unpack=True)
+        h = ax.scatter(xM02, yM02, label="Mueller+02",
+                       color='k', marker='^', s=7, facecolors='none')
+        legend_h.append(h)
 
 
     if xstr == "size pc" and ystr == "sigma kms":
@@ -613,6 +645,10 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.set_ylim(10**-1.5, 10**2.5)
         ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
 
+    if xstr == "size pc" and ystr == "cloud mass":
+        ax.set_xlim(10**-2, 10**2.8)
+        ax.set_ylim(10.0, 10.0**8)
+
     if leglabel is not '':
         if xstr == "size pc" and ystr == "sigma kms":
                 # Shrink current axis by 20%
@@ -623,6 +659,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             ax.legend(handles=legend_h, loc="upper center", ncol=4,
                       fontsize=9,
                       bbox_to_anchor=(0.5, -0.18))
+        elif xstr == "size pc" and ystr == "cloud mass":
+            ax.legend(handles=legend_h, loc="best",
+                      fontsize=10)
         elif xstr == "cloud mass" and ystr == 'alpha vir':
             ax.legend(loc='best', ncol=2, fontsize=10)
         elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
