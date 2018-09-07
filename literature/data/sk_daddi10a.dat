@@ -1,0 +1,10 @@
+#
+# http://adsabs.harvard.edu/abs/2010ApJ...713..686D
+#
+#\colhead{Object\tablenotemark{a}} & \colhead{D/SB\tablenotemark{b}} & \colhead{$\log \Sigma$} & \colhead{$\log \torb$} & \colhead{$\log \Sigma/\torb$} & \colhead{$\log \dot{\Sigma}_*$} & \colhead{$\log \tffgmc$\tablenotemark{c}} & \colhead{$\log \tfft$\tablenotemark{d}} & \colhead{$\log \Sigma/\tff$\tablenotemark{e}} & \colhead{$100\epsff$\tablenotemark{f}}
+#
+#\colhead{} & \colhead{} & \colhead{($\msun/{\rm pc}^2$)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{(Myr)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{}
+#
+ -    D     2.39     2.08      0.31     -0.47      1.68      0.78      1.61      0.82   
+ -    D     2.53     2.08      0.44     -0.36      1.65      0.78      1.75      0.78   
+ -    D     1.75     2.08     -0.33     -1.27      1.84      0.78      0.97      0.57   

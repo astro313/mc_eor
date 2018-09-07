@@ -1,0 +1,22 @@
+#
+# http://iopscience.iop.org/article/10.1088/0004-637X/724/1/687/meta
+#
+#\colhead{Object}  \colhead{$M$}  \colhead{$A$}  \colhead{$\Sigma$}  \colhead{$\dot{M}_*$}  \colhead{$\dot{\Sigma}_*$}  \colhead{$\rho/\mu_{\rm H}$\tablenotemark{a}}  \colhead{$\tff$}  \colhead{$\Sigma/\tff$\tablenotemark{b}}  \colhead{$100\epsff$\tablenotemark{c}} 
+#
+#\colhead{($\msun$)}  \colhead{(pc$^2$)}  \colhead{($\msun/{\rm pc}^2$)}  \colhead{($\msun/{\rm Myr}$)}  \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)}  \colhead{($10^3$ cm$^{-3}$)} \colhead{(Myr)}  \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)}  \colhead{} 
+#
+Pipe     7937    273.7   29.0    5.0  0.02  0.067  5.30   5.5   0.33 
+Lupus-3   2157     74.4   29.0   17.0  0.23  0.129  3.83   7.6   3.02 
+Lupus-4   1379     47.6   29.0    3.0  0.06  0.161  3.42   8.5   0.74 
+Lupus-1    787     27.1   29.0    3.0  0.11  0.213  2.98   9.7   1.13 
+Orion-A  13721   59.14  232.0  238.3    4.0   1.16  1.28  181.4   2.22 
+Orion-B   7261   31.30  232.0   53.0    1.7   1.59  1.09  212.7   0.80 
+California   3199   13.79  232.0   23.3    1.7   2.39  0.89  261.1   0.65 
+Perseus           1880    8.10  232.0   50.0    6.2   3.12  0.78  298.2   2.07 
+Taurus            1766    7.61  232.0   28.0    3.7   3.22  0.77  302.9   1.21 
+Ophiuchus         1296    5.59  232.0   26.3    4.7   3.76  0.71  327.3   1.44 
+RCrA             258    1.11  232.0    8.3    7.5   8.43  0.47  490.0   1.53 
+Pipe            178    0.77  232.0    1.7    2.2  10.15  0.43  537.6   0.40 
+Lupus-3      163    0.70  232.0    5.7    8.1  10.61  0.42  549.6   1.47 
+Lupus-4      124    0.53  232.0    1.0    1.9  12.16  0.39  588.5   0.32 
+Lupus-1         75    0.32  232.0    1.0    3.1  15.64  0.35  667.3   0.46 

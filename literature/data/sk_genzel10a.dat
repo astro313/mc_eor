@@ -1,0 +1,17 @@
+#
+# http://adsabs.harvard.edu/abs/2010MNRAS.407.2091G
+#
+#\colhead{Object\tablenotemark{a}} & \colhead{D/SB\tablenotemark{b}} & \colhead{$\log \Sigma$} & \colhead{$\log \torb$} & \colhead{$\log \Sigma/\torb$} & \colhead{$\log \dot{\Sigma}_*$} & \colhead{$\log \tffgmc$\tablenotemark{c}} & \colhead{$\log \tfft$\tablenotemark{d}} & \colhead{$\log \Sigma/\tff$\tablenotemark{e}} & \colhead{$100\epsff$\tablenotemark{f}}
+#
+#\colhead{} & \colhead{} & \colhead{($\msun/{\rm pc}^2$)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{(Myr)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{}
+#
+Q2343-MD59____    D_    2.74     2.34      0.40     -0.68      1.60      1.04      1.71      0.41   
+SMMJ02399-0136    SB    2.63     1.73      0.90      0.84      1.62      0.28      2.36      3.04   
+SMMJ09431+4700    SB    3.53     1.47      2.06      1.83      1.40      0.02      3.52      2.05   
+SMMJ105141+5719   SB    2.66     1.62      1.04      1.04      1.62      0.17      2.50      3.49   
+SMMJ123549+6215   SB    4.00     1.12      2.88      2.20      1.28     -0.33      4.34      0.73   
+SMMJ123634+6212   SB    2.58     1.87      0.71      0.63      1.64      0.42      2.17      2.90   
+SMMJ123707+6214   SB    2.73     1.74      0.99      1.01      1.60      0.29      2.45      3.65   
+SMMJ131201+4242   SB    2.99     1.63      1.36      1.09      1.53      0.18      2.82      1.87   
+SMMJ131232+4239   SB    3.18     1.56      1.62      1.29      1.49      0.11      3.08      1.63   
+SMMJ163650+4057   SB    3.42     1.46      1.96      1.37      1.43      0.01      3.42      0.90
