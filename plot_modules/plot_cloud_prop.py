@@ -183,6 +183,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.plot(x, y, linestyle='-', color='b',
                 linewidth=2, label="Kennicutt 1998")
 
+        # data points from Pallottini+17b Fig. 9 (To add)
+        # ....
+
         # more from high-z literature
         x0901, y0901 = np.loadtxt(
             litpath + "J0901_KS10_points.txt", unpack=True)  # in log
@@ -347,6 +350,34 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                      xy=[1.0E5, 18.],
                      color='blue',
                      ha='center')
+
+
+    if xstr == "size pc" and ystr == "cloud mass":
+        r_pc = np.logspace(0.5, 3, 20)
+
+        # threshold for high-mass stars from Kauffmann & Pillai10
+        k10_Msun = 870. * (r_pc)**1.33
+
+        # corresponds to A_v = 4 mag
+        mag4_Msun = 265. * (r_pc)**2.
+
+        # 10^n mag
+        mag10_Msun = 662. * 10**1.0 * (r_pc)**2
+        mag102_Msun = 662. * 10**2.0 * (r_pc)**2
+
+        ax.plot(r_pc, k10_Msun, linestyle='-.', color='r',
+                linewidth=2,
+                label=r'Kauffmann \& Pillai 2010')
+        ax.plot(r_pc, mag4_Msun, linestyle=':', color='b',
+                linewidth=1.5,
+                label=r'A$_V$ = 4~mag')
+        ax.plot(r_pc, mag10_Msun, linestyle='--', color='k',
+                linewidth=1.5,
+                label=r'A$_V$ = 10~mag')
+        ax.plot(r_pc, mag102_Msun, linestyle=(0, (3, 5, 1, 5, 1, 5)),
+                color='g', linewidth=1.5,
+                label=r'A$_V$ = 100~mag')
+
 
     if xstr == "size pc" and ystr == "sigma kms":
 
@@ -806,6 +837,31 @@ def get_masses_all_clouds(ss):
     return np.array(allmasses)
 
 
+def get_sizes_all_clouds(ss):
+    allsizes = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            allsizes.append(ss[snap][snapleafs].R_pc)
+    return np.array(allsizes)
+
+
+def get_fgas_all_clouds(ss):
+    """
+
+    Returns
+    -------
+    f_gas = M_gas / (M_gas + M*)
+
+    """
+
+    allfgas = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            fgas = np.array(ss[snap][snapleafs].mass_Msun) / (np.array(ss[snap][snapleafs].mass_Msun) + np.array(ss[snap][snapleafs].mstar_Msun_tot))
+            allfgas.append(fgas)
+    return np.array(allfgas)
+
+
 def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
     """ unbinned CDF """
 
@@ -842,6 +898,7 @@ def CMF(allmasses, save=True, outdir='./', tag=''):
     F2 = np.linspace(0, len(X2)-1, len(X2))
     F2 = F2[::-1]
 
+    plt.close('all')
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.plot(X2, F2, label='CMF', lw=2, alpha=1, zorder=2)
@@ -869,10 +926,9 @@ def CMF(allmasses, save=True, outdir='./', tag=''):
 
     plt.annotate(s=r'Slope = {:.2f} $\pm$ {:.2f}'.format(p[1],
                  np.sqrt(cov.diagonal())[1]),
-                 xy=[3.e8, 15],
+                 xy=[3.e6, 15],
                  color='k',
                  ha='right')
-
 
     ax.set_xlabel(r"M$_{\rm cl}\, [{\rm M}_{\odot}]$")
     ax.set_ylabel("$n(M^{\prime}>M)$")
