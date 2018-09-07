@@ -1,0 +1,13 @@
+#
+# http://adsabs.harvard.edu/abs/2010ApJ...714L.118D
+#
+#\colhead{Object\tablenotemark{a}} & \colhead{D/SB\tablenotemark{b}} & \colhead{$\log \Sigma$} & \colhead{$\log \torb$} & \colhead{$\log \Sigma/\torb$} & \colhead{$\log \dot{\Sigma}_*$} & \colhead{$\log \tffgmc$\tablenotemark{c}} & \colhead{$\log \tfft$\tablenotemark{d}} & \colhead{$\log \Sigma/\tff$\tablenotemark{e}} & \colhead{$100\epsff$\tablenotemark{f}}
+#
+#\colhead{} & \colhead{} & \colhead{($\msun/{\rm pc}^2$)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{(Myr)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{}
+#
+BzK-4171    D     2.95     1.84      1.11      0.08      1.54      0.54      2.41      0.46   
+BzK-21000    D     2.96     1.62      1.34      0.19      1.54      0.32      2.64      0.36   
+BzK-16000    D     2.56     1.83      0.73     -0.03      1.64      0.53      2.03      0.88   
+BzK-17999    D     2.66     2.02      0.64      0.03      1.62      0.72      1.94      1.22   
+BzK-12591    D     2.53     2.15      0.38     -0.04      1.65      0.84      1.68      1.89   
+BzK-25536    D     2.88     2.25      0.63      0.05      1.56      0.95      1.93      1.31

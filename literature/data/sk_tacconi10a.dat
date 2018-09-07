@@ -1,0 +1,23 @@
+#
+# http://adsabs.harvard.edu/abs/2010Natur.463..781T
+#
+#\colhead{Object\tablenotemark{a}} & \colhead{D/SB\tablenotemark{b}} & \colhead{$\log \Sigma$} & \colhead{$\log \torb$} & \colhead{$\log \Sigma/\torb$} & \colhead{$\log \dot{\Sigma}_*$} & \colhead{$\log \tffgmc$\tablenotemark{c}} & \colhead{$\log \tfft$\tablenotemark{d}} & \colhead{$\log \Sigma/\tff$\tablenotemark{e}} & \colhead{$100\epsff$\tablenotemark{f}}
+#
+#\colhead{} & \colhead{} & \colhead{($\msun/{\rm pc}^2$)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{(Myr)} & \colhead{(Myr)} & \colhead{($\msun/{\rm pc}^2/{\rm Myr}$)} & \colhead{}
+#
+EGS13004291    D     2.85     2.02      0.83     -0.28      1.57      0.72      2.13      0.39   
+EGS12007881    D     2.15     2.33     -0.17     -0.72      1.74      1.02      1.13      1.42   
+EGS13017614    D     2.46     2.03      0.43     -0.57      1.67      0.73      1.73      0.50   
+EGS13035123    D     2.30     2.28      0.01     -0.61      1.71      0.98      1.31      1.20   
+EGS13004661    D     1.87     2.21     -0.34     -0.52      1.82      0.90      0.96      3.26   
+EGS13003805    D     2.80     2.12      0.69     -0.25      1.58      0.82      1.99      0.58   
+EGS12011767    D     1.83     2.58     -0.75     -0.82      1.82      1.28      0.55      4.30   
+EGS12012083    D     2.44     2.33      0.11     -0.17      1.67      1.03      1.41      2.62   
+EGS13011439    D     2.07     2.12     -0.05     -0.62      1.76      0.82      1.25      1.35   
+HDF-BX1439    D     3.42     1.67      1.75      0.41      1.43      0.36      3.06      0.23   
+Q1623-BX599    D     2.19     2.28     -0.09     -0.60      1.73      0.98      1.22      1.55   
+Q1623-BX663    D     2.87     2.29      0.59     -0.18      1.56      0.99      1.89      0.86   
+Q1700-MD69    D     3.20     1.82      1.38      0.16      1.48      0.52      2.69      0.30   
+Q1700-MD94    D     2.01     2.09     -0.08     -0.66      1.78      0.79      1.22      1.32   
+Q1700-MD174    D     2.45     2.09      0.36     -0.49      1.67      0.79      1.66      0.71   
+Q1700-BX691    D     3.15     1.79      1.36      0.03      1.49      0.49      2.66      0.23   
