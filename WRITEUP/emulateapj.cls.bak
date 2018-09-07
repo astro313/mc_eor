@@ -72,7 +72,7 @@
 %% For release notes and change log, see at bottom
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\emulapj@ver{09/07/18}
+\def\emulapj@ver{01/23/15}
 
 
 \ProvidesClass{emulateapj}
@@ -243,8 +243,8 @@
 }
 \renewcommand\scriptsize{\@setfontsize\scriptsize\@viipt\@viiipt}
 \renewcommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
-\renewcommand\large{\@setfontsize\large{10.7pt}{10}}
-\renewcommand\Large{\@setfontsize\Large{12.5pt}{13}}
+\renewcommand\large{\@setfontsize\large\@xiipt{14}}
+\renewcommand\Large{\@setfontsize\Large\@xivpt{18}}
 \renewcommand\LARGE{\@setfontsize\LARGE\@xviipt{22}}
 \renewcommand\huge{\@setfontsize\huge\@xxpt{25}}
 \renewcommand\Huge{\@setfontsize\Huge\@xxvpt{30}}
@@ -405,7 +405,7 @@
 \footnotesize
 {\footnotesize\textsc{\@journalinfo}}\par
 {\scriptsize Preprint typeset using \LaTeX\ style emulateapj v.\
-  \emulapj@ver}\par\vspace*{-\baselineskip}\vspace*{0.25in}
+  \emulapj@ver}\par\vspace*{-\baselineskip}\vspace*{0.625in}
 }%
 \def\frontmatter@title@produce{%
  \begingroup
@@ -421,16 +421,15 @@
  \endgroup
 }%
 \renewcommand\title[2][]{%
- \def\@title{\Large\bfseries{#2}}%
+ \def\@title{\uppercase{#2}}%
  \def\@shorttitle{#1}%
  \let\@AF@join\@title@join
 }%
 \def\frontmatter@title@format{\normalsize\centering}
 \def\frontmatter@title@below{\vspace*{-2.63\baselineskip\vspace*{0.25in}}}%
 
-\def\frontmatter@above@affilgroup{\vspace*{0.3in}}
-%  DL: changed from 0.25in to 0.3in for more space
-\def\frontmatter@authorformat{\normalsize\centering}%
+\def\frontmatter@above@affilgroup{\vspace*{0.3in}}%  DL: changed from 0.25in to 0.3in for more space
+\def\frontmatter@authorformat{\small\scshape\centering}%
 \def\frontmatter@affiliationfont{\normalfont\footnotesize}%
 
 \def\frontmatter@finalspace{\vspace*{-\baselineskip}\vspace*{0.375in}}
@@ -508,7 +507,7 @@
 \def\frontmatter@preabstractspace{0.0\baselineskip}
 \def\frontmatter@postabstractspace{0.0\baselineskip}
 
-\def\abstractname{\bfseries{Abstract}}
+\def\abstractname{ABSTRACT}
 \long\def\frontmatter@abstractheading{%
   \vspace*{-\baselineskip}\vspace*{1.5pt}
   \centerline{\itshape\footnotesize\@submitted}
@@ -665,8 +664,7 @@
       \let\footnotemark=\old@foot@note@mark
     \fi
 %    \@startsection{section}{1}{\z@}{9pt plus 2pt minus 1pt}{4pt}{\apjsecfont\center}}
-%    \@startsection{section}{1}{\z@}{9pt plus 2pt minus 1pt}{4pt}{\normalsize\bfseries \center}}
-    \@startsection{section}{1}{\z@}{9pt plus 2pt minus 1pt}{4pt}{\large\bfseries \center}}
+    \@startsection{section}{1}{\z@}{9pt plus 2pt minus 1pt}{4pt}{\normalsize\center}}
 
 \def\subsection{\@startsection{subsection}{2}{\z@}{9pt plus 1pt minus 1pt}{4pt}%
   {\normalsize\itshape \center}}
@@ -691,8 +689,7 @@
 \def\p@subparagraph   {}
 
 
-% \def\sec@upcase#1{\uppercase{#1}}
-\def\sec@upcase#1{\relax{#1}}
+\def\sec@upcase#1{\uppercase{#1}}
 \def\subsec@upcase#1{\relax{#1}}
 
 %
@@ -768,7 +765,7 @@
   %   \fi
   \fi
         \vskip 10pt plus 2pt minus 1pt
-        \noindent\mbox{}\hfill{\large\bfseries{Appendix}}\hfill\mbox{}\par
+        \noindent\mbox{}\hfill{\apjsecfont APPENDIX}\hfill\mbox{}\par
         \nopagebreak\medskip\@nobreaktrue\def\ApjSectionpenalty{\@M}
         \@firstsectionfalse
           \setcounter{section}{0}
@@ -791,8 +788,8 @@
 % Do not use appendix numbers in the titles
           \def\ApjSectionMarkInTitle{\AppendixApjSectionMarkInTitle}
           \def\section{\setcounter{equation}{0}\if@number@appendix@floats\setcounter{figure}{0}\setcounter{table}{0}\fi\@startsection {section}{1}{\z@}
-%             {10pt}{5pt}{\centering\apjsecfont}}
-            {10pt}{5pt}{\centering\normalsize}}%
+            {10pt}{5pt}{\centering\scshape\apjsecfont}}
+%
 %
           }{%
             \if@number@appendix@floats
@@ -811,7 +808,7 @@
   \onecolumngrid
   \par
   \vspace{10pt plus 3pt}
-  \noindent \makebox[\textwidth][c]{\small\bfseries{References}}
+  \noindent \makebox[\textwidth][c]{\small\scshape REFERENCES}
   \par
   \vspace*{4pt plus 3pt}
   \set@column@hsize{2}\twocolumngrid
@@ -841,8 +838,7 @@
  \if@chicago
     \noindent \makebox[\textwidth][c]{\footnotesize REFERENCES}
  \else
-    % \centerline{\normalsize\bfseries{References}}
-    \noindent \makebox[\textwidth][c]{\normalsize\bfseries{References}}
+    \centerline{\normalsize REFERENCES}
  \fi
  \par
  \if@chicago
