@@ -60,7 +60,7 @@ those observed in gas-rich galaxies in the local universe and at the peak epoch 
 The mass scale of the MCs is of the order of $10^{6.5-9}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
 correspond to the arms of the disk of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
 The more massive and bigger MCs in \flower compared to the Milky Way 
-likely results from the higher gas mass fraction, surface density, and velocity dispersion, 
+likely result from the higher gas mass fraction, surface density, and velocity dispersion, 
 which set the scale for fragmentation.
 % consistent with what has been found previously in higher resolution isolated simulation (our zoom-in sim here allows us to examine 
 % the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM).
@@ -98,37 +98,39 @@ light on \SF since the cosmic dark ages.
 %--------------------------------------------------------------------------
 \section{Introduction}    \label{sec:intro}
 
-The growth of galaxies and their subsequent evolution are governed by the baryonic/baryon cycle ---
-galaxies accrete gas from the intergalactic medium to fuel \SF (and feed their supermassive blackholes)
+The growth of galaxies and their subsequent evolution are governed by the baryon cycle ---
+galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive blackholes)
 and subsequent feedback replenishes and enriches the circumgalactic medium with part of this material.
-The general consensus is that the growth of \highz galaxies are triggered/supported by massive
-gas inflows from mergers and/or the cosmic web at early cosmic time, when the intergalactic
-medium and galaxies themselves are more gas-rich in their star-forming molecular
+The general consensus is that the growth of \highz galaxies are triggered and supported by massive
+gas inflows from mergers and/or the cosmic web at early cosmic time, when the IGM and galaxies themselves 
+are more gas-rich in their star-forming molecular
 gas contents compared to present-day galaxies.
 % while at a given snapshot, the gas mass fraction maybe low (esp. at high-z when
 % the gravitational potential is still increasing), but their gas reservoirs
 % are continuously being replenished.
-These massive gas inflows in turn trigger gravitational instability, and thus, lead
-to the formation of clouds/structures that are typically more massive and denser than those
-observed in nearby galaxies, with cloud masses of $M_{\rm cloud}$\eq10$^9$\,\Msun
-and sizes on sub-kpc scales (e.g. \citealt{Gabor13a, Hopkins14a, Inoue16a}).
-%In cosmological context, minor mergers and external gas accretion can
-%significantly impact on disc dynamics and clump formation
-%(e.g. Bird et al. 2012, MNRAS, 420, 913; Kyziropoulos et al. 2016, MNRAS, 463, 2210).
-Some theoretical works argues that it is in fact the
-migration of such giant massive clumps that are responsible for contributing to the
+These massive gas inflows in turn trigger gravitational instability and lead
+to the formation of gas structures that are typically more massive and denser than those
+observed in nearby galaxies, with masses of $M_{\rm cloud}$\eq10$^9$\,\Msun
+and sizes on sub-kpc scales (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
+Some theoretical works argue that the
+migration of such giant massive clumps are responsible for contributing to the
 buildup of the bulges of massive galaxies at \z$\sim$0 \citep[e.g.,][]{Ceverino10a}.
 
 Given that \highz galaxies are the early stages of evolution of present-day galaxies, studying their ISM properties is essential for understanding how \SF proceed under these more extreme conditions, thereby driving the evolution and assembly history of galaxies 
 since the cosmic dark ages.
 Current consensus is that at higher redshifts, galaxies have higher 
-star formation rates (SFR) \citep{Behroozi13b, Sparre15a, Maiolino15a, Dunlop17a} and 
-smaller sizes \citep[e.g.,][]{Bouwens11a, Ono13a} compared to galaxies found in the local Universe, 
-and thus, they are expected to have more \ion{H}{2} regions, ionized gas, and more intense radiation stellar feedbacks. 
+star formation rates \citep[SFR; ][]{Behroozi13b, Sparre15a, Maiolino15a, Dunlop17a} and 
+smaller sizes \citep[e.g.,][]{Bouwens11a, Ono13a} compared to those found in the local Universe.
+The former are thus expected to have more \ion{H}{2} regions, ionized gas, and more intense radiation stellar feedbacks. 
 Since their metallicity and dust content are also expected to be lower as they are assembling, 
-this affects the shielding of UV photons, heating and cooling mechanisms in this early systems. Such differences in turn can have a role in regulating the thermal and chemical structures of their ISM, and thus, their multi-phase ISM differ from nearby galaxies.
-%
-% talk about dynamical states of MCs of different galaxies? Even in the local universe, where the most detailed \obs can be done, we see variations in cloud properties in different galaxy populations (see e.g., Hughes10a, MNRAS, 406, 2065; Hughes+13b, ApJ, 779, 46), maybe also Meidt+13, apj, 779,45?. Thus, obvious to pose the question what are the dynamical states of the MCs of the first galaxies and how do they differ from nearby universe, and analogous to any of the nearby \galpop?
+this affects the shielding of UV photons, heating and cooling mechanisms in these early systems. Such differences in turn 
+affect the regulation of thermal and chemical structures of their ISM. 
+Their multi-phase ISM and the dynamics of the star-forming molecular cloud complexes (MC)
+are therefore expected to differ from nearby galaxies.
+Even in the local Universe, where the most detailed \obs can be attained, variations in cloud properties have been 
+observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).
+It is thus obvious and reasonable to pose the question: what are the dynamical states of the MCs of the first galaxies and 
+how do they differ from the local Universe, and are they analogous to any seen in the local \galpop?
 % 
 
 The FIR fine-structure lines (e.g., \cii, \nii, and \oiii), and CO/[\ci]~lines are the key diagnostics for
@@ -140,29 +142,27 @@ have informed us on their galaxy-wide properties (e.g.,
 gas masses, gas temperature, and radiation field intensity).
 However, spatially resolving their ISM is needed in order to understand their role in galaxy evolution and
 the physics behind their intense \SF (SFR\ssim100$-$3000\,\Msun\,yr\pmOne).
-To date, the ISM properties of \highz galaxies
-have only been studied observationally in a handful of (strongly-lensed)
-galaxies, using spatially resolved tracers such as
-dust continuum, and CO and \cii lines (e.g., \citealt{Swinbank11a, Hodge15a, Ferkinhoff15a, Hodge16a},
+To date, spatially resolved ISM properties of \highz galaxies
+have only been examine observationally in a handful of (strongly-lensed)
+galaxies, using tracers such as
+dust continuum, CO, and \cii lines (e.g., \citealt{Swinbank11a, Hodge15a, Ferkinhoff15a, Hodge16a},
 Leung et al. 2018, submitted).
-These studies find that the ISM of $z$\ssim2 galaxies are more
+These studies find that galaxies at $z$\ssim2 galaxies, close to the peak of cosmic \SF, are more
 molecular gas-rich, turbulent, and clumpy than nearby galaxies.
-On the other hand, the main source of reionization --- the first stars and first galaxies --- 
-are ......
-it is still unclear how \SF proceed in the (sub-)$L^*$ galaxy population at \z$\gtrsim$\,6
-that dominates  \SF at the epoch of reionization which is responsible for producing the
-ionizing photons that reionized the universe.
+That said, it remains unclear how \SF proceed in the (sub-)$L^*$ galaxy population at \z$\gtrsim$\,6 --- 
+at the epoch of reionization  ---
+which is responsible for producing the
+ionizing photons that reionized the Universe.
 
 While ALMA has enabled the detections of
 ISM diagnostic lines e.g., the \cii158\,$\micron$ and CO line emission in
 normal (SFR$<$\,100\,\Msun\,yr\pmOne) galaxies at \z$>$\,6 over the past few years \citep[e.g.,][]{Smit18a},
-we are still far from mapping their molecular ISM.
-In particular, their star-forming gas conditions, due to the stupid stingy ALMA TAC.
+we are still far from mapping their molecular ISM due to the cosmological dimming.
 As such, we have undertaken a study, exploiting
 state-of-the-art cosmological zoom-in hydrodynamic simulation
 \ncode{Serra} (Greenhouse in Italian; \citealt{Pallottini17a, Pallottini17b}), to examine
-the dynamical properties of the molecular cloud complexes in a \z$\sim$6 prototypical (i.e., $L^*$) lyman-break
-galaxy (LBG).
+the dynamical properties of the molecular cloud complexes in a \z$\sim$6 prototypical (i.e., $L^*$) 
+galaxy.
 
 This paper is structured as follows.
 \AP{TBM}
@@ -204,7 +204,7 @@ Of particular importance to our study here is that our simulation includes non-e
 Star formation is modeled using a H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae and OB/AGB stars to account for energy dissipations. To couple the feedback to the gas, we employ sub-grid modeling for blastwaves, e.g., to account for the potential lost of energy inside the cell when supernovae explode. The energy dissipated is then injected into the ISM in the form of kinetic and thermal energy. Radiation pressure on the dust and gas is also included (see \citealt{Pallottini17a} for details).
 
 Details on the properties of \flower\ --- the main galaxy in our simulation --- are discussed in \citet{Pallottini17b}.
-Briefly, by \z$\sim$6, \flower is a LBG hosted in a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{10}$\,\Msun at the center of a cosmic web knot, and accretes mass from the intergalactic medium mainly via three filaments of length $\simeq$\,100\,kpc. At \z$\sim$6, \flower has a stellar mass of $M_*\simeq$\,3\E{10}\,\Msun, metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a globally-integrated SFR of $\simeq$\,100\,\Msun\,yr\pmOne. It is therefore a prototypical galaxy at \z$\sim$6.
+Briefly, by \z$\sim$6, \flower is a Lyman-break galaxy (LBG) hosted in a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{10}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. At \z$\sim$6, \flower has a stellar mass of $M_*\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a globally-integrated SFR of $\simeq$\,100\,\Msun\,yr\pmOne. It is therefore a prototypical galaxy at \z$\sim$6.
 
 The simulation data contain information such as the density ($\rho$) and velocity ($v_x$, $v_y$, and $v_z$) fields, from which we calculate 
 the physical properties of each MC, such as mass and velocity dispersion.
@@ -245,16 +245,16 @@ we show the scaling relations found for two particular snapshots/evolutionary st
 as examples in \Sec{singless} to illustrate the salient points of the discussion,
 since they represent the extreme evolutionary stages of \flower (and thus, likely bracket the
 most extreme variations in the cloud dynamics) --- one of which \flower is
-actively accreting materials from its surrounding (top panel of \Fig{SFH})
+actively accreting materials from its surrounding 
 and another of which \flower is undergoing
-a starburst phase after a major merger (bottom panel of \Fig{SFH}).
+a starburst phase after a major merger (see \Fig{SFH}).
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/daisyleung2.pdf}
+\includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
-	Top right: Star formation history of \flower.
-	Projected stellar mass distribution of \flower during one of its accretion phases
+	Star formation history of \flower (top right) and
+	projected stellar mass distribution of \flower during one of its accretion phases
 	at its early stage of evolution {\it (a)}; during one of its major starburst phases
 	after a major merger {\it (b)}; and in a relatively quiescent phase post-starburst {\it (c)}.
 % f_gas history?
@@ -265,7 +265,7 @@ a starburst phase after a major merger (bottom panel of \Fig{SFH}).
 \subsection{Structure identification} \label{sec:method}
 To identify the molecular complexes, we use a customized version of the clump finder algorithm available in the \ncode{python} package \ncode{yt} \citep{Turk2011a}, which was initially described in \citet{Smith09a}, but this function has been modified since then.
 %
-The latest version of the default \ncode{yt} clump finder decomposes the zones in the simulation into non-overlapping tiles, which are stored in a k-dimensional tree (aka k-d tree). It then identifies the contours of a variable field (e.g., density field) within a tile and connects them across the tiles. 
+The latest version of the default \ncode{yt} clump finder decomposes the zones in the simulation into non-overlapping tiles, which are stored in a k-dimensional tree (aka k-d tree). It then identifies the contours of a variable field (here, the density field) within a tile and connects them across the tiles. 
 In the customized version used for this study, we modify the function to enhance the stability of the code (which essentially means we fixed the bugs in order for it to actually work).
 
 In the ``clump-finding'' process, we employ a set of different density thresholds defined based on the
@@ -278,7 +278,7 @@ as commonly adopted in observational studies (e.g., identifying
 using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind},
 and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a}).
 We note that, owing to the nature of \obs, such structures are identified 
-in position-position-velocity (PPV) space in observational studies, whereas in simulations, one has the 
+in position-position-velocity (PPV) space, whereas in simulations, one has the 
 full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
 % Many concerning the correspondence between  ... , dating back to the work by \citep{Adler92a}.
 Existing studies find a good correspondence in the dynamical properties extracted in
@@ -351,10 +351,12 @@ Continued.}
 Continued.}
 \end{figure*}
 
-In \Fig{h2density}, we show an example of the volumetric H$_2$ density distribution of \flower
-for a given snapshot which includes contributions from its surrounding 7\,kpc.
-We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1\,\cc$ and it samples the range where ``clumps/structures'' are 
-found based on the Euler characteristic, i.e., the fourth Minkowsky functional (see analysis presented by \citealt{Pallottini17b}).
+In \Fig{h2density}, we show an example of the volumetric H$_2$ density ($n_{\rm H2}$) distribution of \flower
+for a given snapshot which includes contributions from its surrounding 7\,kpc (in diameter)\footnote{For reference,
+the half mass radius of \flower is $\sim$0.5\,kpc and the $r_{\rm 200}$ dark matter radius is $\sim$15\,kpc.}.
+We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1\,\cc$ and it samples the range of density 
+where ``clumps/structures'' are 
+found based on the Euler characteristic, i.e., the fourth Minkowsky functional (see calculation presented by \citealt{Pallottini17b}).
 In \Fig{MC}, we show an example of the molecular structures identified by applying volumetric H$_2$ density cuts of 
 $n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{Based on 10$^n$, where $n$ represents the 10 elements that are uniformly spaced between [$-0.5, 1.5$] in linear space.
 We also vary the range of
