@@ -19,13 +19,13 @@
 \newcommand{\DL}[1]{({\bf \color{dlcolor} DL: #1})}
 
 \citestyle{aa}
-\shorttitle{Dynamical Properties of Molecular Gas Complexes in $z$\ssim6 Prototypical Galaxy
+\shorttitle{Dynamical Properties of Molecular Cloud Complexes in $z$\ssim6 Prototypical Galaxy
 }
 \shortauthors{Leung et al.}
 
 \begin{document}
 \title{
-Dynamical Properties of Molecular Gas Complexes in a Redshift 6 Prototypical Galaxy at the Epoch of Reionization
+Dynamical Properties of Molecular Cloud Complexes in a Redshift 6 Prototypical Galaxy at the Epoch of Reionization
 }
 
 
@@ -47,41 +47,47 @@ Dynamical Properties of Molecular Gas Complexes in a Redshift 6 Prototypical Gal
 
 
 \begin{abstract}
-We study the dynamical properties of molecular clouds and their temporal evolution in a prototypical galaxy 
+We study the dynamical properties of molecular clouds complexes and their temporal evolution in a prototypical galaxy 
 at the Epoch of Reionization using state-of-the-art cosmological zoom-in simulation, 
 which includes a chemical network to determine the formation of molecular
-hydrogen, heating and cooling of the ISM by metals, and stellar feedback via
-kinetic and thermal energies. 
+hydrogen, heating and cooling of the ISM by metals, and stellar feedback.
 We use a clump finder algorithm and a set of H$_2$ volumetric densities ($n_{\rm cut}$) 
 to identify molecular complexes (MC) and their sub-structures.
 We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC.
-We find that the MC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) that are comparable to 
-those observed in gas-rich galaxies in the local universe as well as at the peak epoch of cosmic \SF. 
-The mass scale of the MCs is of the order $10^{6.5-8}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
-correspond to the arms of the main disk of \flower and break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
-The more massive and bigger MCs in \flower likely results from the higher gas mass fraction, surface density, and velocity dispersion, 
-which sets the scales for fragmentation.
-We compare the dynamics of MCs in \flower and those observed in the local Universe in the context of the Larson's relation.
-The MCs of \flower are systematically found to have higher $\sigma$ and $\Sigma$ regardless of the $n_{\rm cut}$ adopted.
-The higher velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for the molecular substructures, likely 
-because \flower has experienced more episodes of recent \SF, and thus stronger SNe and stellar feedback.
+We find that the MC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) comparable to 
+those observed in gas-rich galaxies in the local universe and at the peak epoch of cosmic \SF. 
+The mass scale of the MCs is of the order of $10^{6.5-9}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
+correspond to the arms of the disk of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
+The more massive and bigger MCs in \flower compared to the Milky Way 
+likely results from the higher gas mass fraction, surface density, and velocity dispersion, 
+which set the scale for fragmentation.
+% consistent with what has been found previously in higher resolution isolated simulation (our zoom-in sim here allows us to examine 
+% the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM).
+We compare the dynamics of MCs in \flower to those observed in the local Universe in the context of the Larson's relation.
+The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
+The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for the 
+the molecular substructures, likely resulting from 
+the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
 Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
 This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are 
 supported by turbulence and rotation on large scale.
-On the other hand, we find $\alpha_{\rm vir}$\ssim1 for MCs in the satellite galaxies. We interpret this as a result of the weaker stellar feedback as they have
+We also find $\alpha_{\rm vir}$\ssim1 for the MCs in the satellite galaxies, which we interpret as a result of the weaker stellar feedback as they have
 experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
-MCs in the satellites are therefore likely collapsing structures. This paints a picture, where at the EoR, \SF continues as gas is being accretion from the IGM.
+MCs in the satellites are therefore likely collapsing structures. This paints a picture, in which at the EoR, \SF continues 
+as gas is being accreted from the IGM.
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
 Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
 mass distribution, which steepens as we increase $n_{\rm cut}$. 
-Higher resolution cosmological zoom-in simulations will ... shed light into ... , as we .... from observations with ALMA.
+High resolution imaging of the first galaxies with ALMA will be useful to test our findings and the validity of our simulation to shed
+light on \SF since the cosmic dark ages.
 \end{abstract}
-%\keywords{infrared: galaxies --
-%          galaxies: high-redshift --
-%          galaxies: ISM --
-%          galaxies: evolution --
-%          galaxies: starburst --
-%          radio lines: ISM}
+\keywords{methods: data analysis --
+          galaxies: high-redshift --
+          galaxies: ISM --
+          galaxies: evolution --
+          galaxies: formation --
+          galaxies: starburst --
+          stars: formation}
 
 
 \def\figpath{./Fig}
@@ -422,7 +428,7 @@ as the velocity dispersion ($\sigma$).
 
 
 We show in \Fig{dist} the MC distributions in terms of their
-molecular gas masses, radii, gas mass fraction ($sf_{\rm gas}$\eq$M_{\rm gas}$/($M_{\rm gas}$ +
+molecular gas masses, radii, gas mass fraction ($f_{\rm gas}$\eq$M_{\rm gas}$/($M_{\rm gas}$ +
 $M_*$)).
 We note that the distributions vary for different snapshots, depending on the evolutionary stage of \flower.
 The highest surface density threshold of $n_{\rm cut}$ yields a ``minimum'' MC mass on
@@ -446,12 +452,10 @@ at higher $n_{\rm cut}$.
 
 In the following subsections,
 we examine the MC properties in the context of the Larson's relations \citep{Larson81a}, which
-describe interactions between gravity and turbulence and is one of the ``fundamental''/first
-relations for studying star-forming molecular structure formation (linewidth-size,
+describe interactions between gravity and turbulence and is the first set of 
+relations used for studying star-forming molecular structure formation based on observables (linewidth-size,
 density-size, and mass-size relations) and for comparing properties of molecular structures
 in different galactic environments.
-In particular, the Larson's relations attempt to understand the physics behind molecular
-structures via observables (e.g., $\sigma$, $R$, and $M_{\rm cl}$).
 % Inner MW: R=2-8.5 kpc, most of the mass in the molecular ISM is in the form of GMCs with sizes $gtrsim$20\,pc and masses greater than 10$^5$\,\Msun \citep{Sanders85a}.
 Observations of nearby gas-rich galaxies such as M64 and NGC\,253
 show higher velocity dispersions compared
