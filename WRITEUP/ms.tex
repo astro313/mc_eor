@@ -6,7 +6,8 @@
 
 
 \input{preamble}
-\slugcomment{To be Submitted}
+\slugcomment{Paper draft for the project developed at the Kavli Summer Program in Astrophysics 2018. 
+To be Submitted.}
 
 \makeatletter
 \renewcommand\normalsize{\@setfontsize\normalsize\@xpt{12.5}}
@@ -54,17 +55,17 @@ which includes a chemical network to determine the formation of molecular
 hydrogen, heating and cooling of the ISM by metals, and stellar feedback.
 We use a clump finder algorithm and a set of H$_2$ volumetric densities ($n_{\rm cut}$) 
 to identify molecular complexes (MC) and their sub-structures.
-We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC.
+We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
+compare them with those observed in the Milky Way disk, the Galactic center,
+and gas-rich starburst galaxies in the local universe and at the peak epoch of cosmic \SF.
 We find that the MC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) comparable to 
-those observed in gas-rich galaxies in the local universe and at the peak epoch of cosmic \SF. 
+those observed in starburst galaxies.
 The mass scale of the MCs is of the order of $10^{6.5-9}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
 correspond to the arms of the disk of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
 The more massive and bigger MCs in \flower compared to the Milky Way 
 likely result from the higher gas mass fraction, surface density, and velocity dispersion, 
 which set the scale for fragmentation.
-% consistent with what has been found previously in higher resolution isolated simulation (our zoom-in sim here allows us to examine 
-% the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM).
-We compare the dynamics of MCs in \flower to those observed in the local Universe in the context of the Larson's relation.
+We compare the dynamics of MCs in \flower to \obs in the context of the Larson's relation.
 The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
 The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for the 
 the molecular substructures, likely resulting from 
@@ -80,7 +81,7 @@ We find no temporal variations in the MC dynamics over the course of 700\,Myr tr
 Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
 mass distribution, which steepens as we increase $n_{\rm cut}$. 
 High resolution imaging of the first galaxies with ALMA and the ngVLA 
-will be useful to test our findings and the validity of our simulation to shed
+has the potential to provide useful observational data to test our findings and the validity of our simulation to shed
 light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
@@ -901,41 +902,56 @@ by our clump finding algorithm is the mass over 10 cells that exceeds the given 
 %                                Conclusions
 %--------------------------------------------------------------------------
 \section{Summary and Conclusions}      \label{sec:conclusion}
-Looking at correlations between physical parameters such as xx, yy, zz and the CMF
-can provide valuable information for developing models of \SF at EoR and
-galaxy evolution.
 
-We study the dynamical properties of molecular complexes in a \z$\sim$6 lyman-break galaxy,
-at the end of the epoch of reionization using state-of-the-art cosmological zoom-in simulation
-(\ncode{Serra}). We identify molecular cloud complexes in the main galaxy of the
-simulated 20\,Mpc h\pmOne box (aka \flower; \citealt{Pallottini17a}) using a method analogues
-to the kd-tree idea. We decompose the molecular structures into non-overlapping tiles
+We study the dynamical properties of molecular clouds complexes and their temporal evolution in a \z$\sim$\,6 prototypical galaxy 
+at the EoR using state-of-the-art cosmological zoom-in simulation (\ncode{Serra}),
+which includes a chemical network to determine the formation of molecular
+hydrogen, heating and cooling of the ISM by metals, and stellar feedback.
+We use a clump finder algorithm and a set of H$_2$ volumetric densities
+to identify MCs and their sub-structures in the main galaxy --- \flower\ --- of the
+simulated 20\,Mpc h\pmOne box and in its satellites.
+We decompose the molecular structures into non-overlapping tiles
 by identifying a set of different density contours at different snapshots.
 Using volumetric H$_2$ is essentially the same as identified molecular structures using
 different contours in line emission (e.g., CO, CS, NH$_3$)
 % and different molecular line tracers trace different MCs on different scales due to their
 % different critical densities.
 since the line luminosity scales with the molecular gas density.
-Our simulations include the effect of feedback from .... .and ....., which are the main source
-of non-thermal pressure ejected into the ISM.
-We examine the properties of the complexes' at different evolutionary stages and compare
-them with nearby and \highz observations. In particular,
-the scaling relations between velocity dispersion, complex size, gas mass,
-and SFRs.
+% Our choice of density cut is analogues to the .... in \obs. It should be ... that both suffer from problem .... For instance, in \obs.. limited S/N.
+We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
+compare them with those observed in the Milky Way disk, the Galactic center,
+and gas-rich starburst galaxies in the local universe and at the peak epoch of cosmic \SF.
+We also examine their properties at the different evolutionary stages of \flower and compare
+them with observations. 
 
-We find that our results are robust to the various density cuts of choice.
-This stems from the
-fact that ..... Our choice of density cut is analogues to the inherent problem of limited S/N
-in observations.
-However, our results are dependent on the numerical resolution of the simulation.
+We find that the MC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) comparable to 
+those observed in starburst galaxies.
+The mass scale of the MCs is of the order of $10^{6.5-9}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
+correspond to the arms of the disk of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
+The more massive and bigger MCs in \flower compared to the Milky Way 
+likely result from the higher gas mass fraction, surface density, and velocity dispersion, 
+which set the scale for fragmentation.
+This is consistent with what has been found previously in higher resolution isolated simulation.
+Here, our cosmological zoom-in simulation allows us to examine 
+the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM.
 
-Utilizing high-resolution realistic hydrodynamics simulation with
-detailed physics (e.g., feedback and chemical evolution), we
-..... , which will become possible to confirm and ... by tracing
-the molecular gas emission with future .... such as the Next Generation Very Large Array (ngVLA).
-High resolution zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
-statistics, provides a way to examine and postulate the morphology and dynamics of
-the multi-phase ISM structures of the first galaxies and their satellite galaxies.
+We compare the dynamics of MCs in \flower to \obs in the context of the Larson's relation.
+The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
+Our results are thus robust/insensitive to the various density cuts of choice.
+%However, our results are dependent on the numerical resolution of the simulation.
+The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for the 
+the molecular substructures, likely resulting from 
+the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
+Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
+This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are 
+supported by turbulence and rotation on large scale.
+We also find $\alpha_{\rm vir}$\ssim1 for the MCs in the satellite galaxies, which we interpret as a result of the weaker stellar feedback as they have
+experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
+MCs in the satellites are therefore likely collapsing structures. This paints a picture, in which at the EoR, \SF continues 
+as gas is being accreted from the IGM.
+We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
+Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
+mass distribution, which steepens as we increase $n_{\rm cut}$. 
 
 Determining the multi-phase ISM properties of early galaxies
 is a critical piece to understanding the evolution and
@@ -947,7 +963,24 @@ the role of \highz galaxy populations
 (e.g., LBGs, BzKs, and DSFGs) in
 galaxy evolution and the ISM physics behind their intense star formation in the early universe
 (if only the ALMA TAC will give us to the time to do so)...
-ngVLA.
+
+High resolution zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
+statistics and is subject to the input model/sub-grid models adopted, 
+provides a way to examine and postulate the morphology and dynamics of
+the multi-phase ISM structures of the first galaxies and their satellite galaxies.
+High resolution imaging of the first galaxies with ALMA and the ngVLA 
+has the potential to provide useful observational data to test our findings and the validity of our simulation to shed
+light on \SF since the cosmic dark ages.
+
+In this work, we utilize high-resolution realistic hydrodynamics simulation with
+detailed physics (e.g., feedback and chemical evolution), we
+..... , which will become possible to confirm and ... by tracing
+the molecular gas emission with future .... such as the Next Generation Very Large Array (ngVLA), 
+which ....
+% model can guide and interpret observations and provide new testable predictions. 
+% refine models using these new observations and test where models fail.
+% The opposite is true, where can use models to make predictions for the first galaxies, 
+% where future obs w/ ALMA and ngVLA will help discriminate and better understand xxx.
 
 
 %==============================================================================
