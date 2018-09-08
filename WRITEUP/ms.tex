@@ -574,10 +574,13 @@ those observed in nearby and the \z$\sim$2 star-forming galaxy.
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_alphavir.png}
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_PVE.png}
 \caption{
-Top: Virial parameter and cloud mass of \flower of a given snapshot (accreting phase).
-Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of MCs in the same snapshot.
+Top: Virial parameter and cloud mass of \flower in the accreting phase (star symbols) compared to those observed in the Milky Way.
+Literature data are compiled from \citealt{Kauffmann17b} and references therein.
+Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of the MCs (star symbols) 
+compared to those observed in the Milky Way (black dot markers).
 The V-shaped dashed lines show locii along which the given external pressures
 are needed in order for MCs to have linewidth $\sigma$ for a given set of surface densities. (see \Sec{PVE})
+In both panels, the star symbols are color-coded by the $n_{\rm cut}$ adopted to identify the corresponding MCs.
 \label{fig:alpha16}}
 \end{figure*}
 
@@ -587,8 +590,7 @@ are needed in order for MCs to have linewidth $\sigma$ for a given set of surfac
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss27_alphavir.png}
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss27_PVE.png}
 \caption{
-Top: Virial parameter and cloud mass of \flower of a given snapshot (starburst phase).
-Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of MCs in the same snapshot.
+Same as \Fig{alpha16}, but for MCs identified in the starburst phase of \flower.
 \label{fig:alpha27}}
 \end{figure*}
 
@@ -603,8 +605,8 @@ Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of MCs in the same snapshot.
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16-28_alphavir.png}
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16-28_PVE.png}
 \caption{
-Top: Virial parameter and cloud mass of MCs in \flower identified across all snapshots.
-Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of MCs.
+Same as \Fig{alpha16}, but for MCs identified across all snapshots. 
+Star symbols are color-coded by increasing SFR.
 \label{fig:alpha16-28}}
 \end{figure*}
 
@@ -779,14 +781,14 @@ CMF of MCs in \flower and best-fit power law.
 \label{fig:cmf}}
 \end{figure*}
 
-The range of masses of the MCs identified are consistent with the mass range observed in \z$\sim$2 galaxies in $i$-band light (rest-frame visible),
-between $M_{\rm cl}\approx$10$^{7-9}$\,\Msun \citep{Elmegreen07a, Elmegreen09a}.
-
+The range of masses of the MCs identified are consistent with the mass range observed in \z$\sim$2 galaxies in $i$-band 
+(i.e., rest-frame visible) which is between $M_{\rm cl}\approx$10$^{6.5-9}$\,\Msun \citep{Elmegreen07a, Elmegreen09a}.
+Observational studies.. the ... distribution as the cumulative mass function (CMF).
 Noisy due to resolution effect, since we only have one galaxy here. However,
 we could improve the ``signal-to-noise'' ratio by including clouds identified from different
 snapshots\footnote{This approach is valid unless in some snapshots,
 the galaxy experience a violent event, which is relatively rare across the few 100\,Myr studied here.}.
-We fit a power-law to the cumulative mass function (CMF), expressed in the form of 
+We fit a power-law to the CMF, expressed in the form of 
 \begin{equation}
 n\left(M^\prime > M\right) \propto M_{\rm cl}^\alpha,
 \end{equation}
@@ -826,12 +828,12 @@ the molecular complexes' properties vary under the influence of gas inflow/outfl
 
 
 \AP{This would be something like \quotes{origin of the cloud and implication of the found properties} if we put there toomre and CMF}
+\DL{maybe just merge in the previous sections when we present the results?}
 
 Yet.... at the epoch of reionization.... For instance, to resolve the
 \aco line emission in a $L^*$ prototypical galaxy at \z$\sim$6 on xxx\,pc
 require .... on-source time even with ALMA.
-
-Connection to observations
+ngVLA
 
 The largest molecular structure identified is essentially the main disk of \flower, which is ``broken'' down into smaller
 spatial and mass structures that are also denser as we increase $n_{\rm cut}$. In any case,
@@ -850,10 +852,6 @@ from the surrounding, they are probably form from constant cold gas accretion on
 funneling into the center).
 This latter mechanism may also be the dominant mode for forming the highly supersonic massive MCs observed 
 in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{}).
-
-Looking at correlations between physical parameters such as xx, yy, zz and the CMF
-can provide valuable information for developing models of \SF at EoR and
-galaxy evolution.
 
 
 \subsection{Virial Parameter}
@@ -903,13 +901,15 @@ by our clump finding algorithm is the mass over 10 cells that exceeds the given 
 %                                Conclusions
 %--------------------------------------------------------------------------
 \section{Summary and Conclusions}      \label{sec:conclusion}
+Looking at correlations between physical parameters such as xx, yy, zz and the CMF
+can provide valuable information for developing models of \SF at EoR and
+galaxy evolution.
 
 We study the dynamical properties of molecular complexes in a \z$\sim$6 lyman-break galaxy,
 at the end of the epoch of reionization using state-of-the-art cosmological zoom-in simulation
 (\ncode{Serra}). We identify molecular cloud complexes in the main galaxy of the
 simulated 20\,Mpc h\pmOne box (aka \flower; \citealt{Pallottini17a}) using a method analogues
 to the kd-tree idea. We decompose the molecular structures into non-overlapping tiles
-% (stored in a kd-tree)
 by identifying a set of different density contours at different snapshots.
 Using volumetric H$_2$ is essentially the same as identified molecular structures using
 different contours in line emission (e.g., CO, CS, NH$_3$)
@@ -947,6 +947,7 @@ the role of \highz galaxy populations
 (e.g., LBGs, BzKs, and DSFGs) in
 galaxy evolution and the ISM physics behind their intense star formation in the early universe
 (if only the ALMA TAC will give us to the time to do so)...
+ngVLA.
 
 
 %==============================================================================
@@ -976,14 +977,14 @@ We also thank the New York University CCPP for their hospitality in hosting us, 
 
 \appendix
 \section{Schmidt-Kennicutt Relation}
-As benchmarking, we check the SK relation of the MCs identified based on their SFR and gas surface densities.
+As benchmarking, we check the SK relation for the MCs identified based on their SFR and gas surface densities.
 We show in \Fig{sk} the MCs of \flower, identified using different $n_{\rm cut}$ in the ``accreting snapshot'' 
 (see \Sec{sfh} for details) compared to those reported in \obs. 
 
 \AP{i m currently a bit confused on how to re-generate pickle files to be used for the plot}
 \DL{by running test\_brute.py}
 
-\AP{I would put a figure with the SK-relation for the clumps in a single snapshot for different cuts, along with the observed points and the global \flower point from the data found in \citet{Pallottini17b}}
+\AP{I would put a figure with the SK-relation for the clumps in a single snapshot for different cuts, along with the observed points and the global \flower point from the data found in \citet{Pallottini17a}}
 \DL{to do... after getting points from Pallo, then update plot\_cloud\_prop.py and plotsingleSS.py (uncomment plot\_suff(SK) and only plot snapshot 16)}
 
 
@@ -991,9 +992,12 @@ We show in \Fig{sk} the MCs of \flower, identified using different $n_{\rm cut}$
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
 \caption{
-SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (xxx symbol) compared to those 
-observed in 0$\lesssim$\,\z$\lesssim$2 galaxies (xxx symbol). 
-The literature data are compiled from \citealt{Leroy13a, Genzel13a, Sharon13a, Hodge15a}, \citealt{Pallottini17b} and references therein, and Sharon et al. in prep.
+SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (star symbols) compared to those 
+observed in 0\,$\lesssim$\,\z$\lesssim$\,2 galaxies.
+Literature data are compiled from \citealt{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a} and 
+\citealt{Pallottini17b}.
+%The literature data are compiled from \citealt{Leroy13a, Genzel13a, Sharon13a, Hodge15a}, \citealt{Pallottini17b} 
+%and references therein, and Sharon et al. in prep.
 \label{fig:sk}}
 \end{figure*}
 
