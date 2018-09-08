@@ -79,7 +79,8 @@ as gas is being accreted from the IGM.
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
 Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
 mass distribution, which steepens as we increase $n_{\rm cut}$. 
-High resolution imaging of the first galaxies with ALMA will be useful to test our findings and the validity of our simulation to shed
+High resolution imaging of the first galaxies with ALMA and the ngVLA 
+will be useful to test our findings and the validity of our simulation to shed
 light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
@@ -299,61 +300,26 @@ accreting phase shown in \Fig{SFH}.
 
 \begin{figure*}[htbp]
  \centering
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.32}.png}
+  \includegraphics[scale=0.65]{\figpath/{dual_16_ncut_0.53}.png}
   \\[-5.5em]
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.53}.png}
+  \includegraphics[scale=0.65]{\figpath/{dual_16_ncut_6.81}.png}
+  \\[-5.5em]
+  \includegraphics[scale=0.65]{\figpath/{dual_16_ncut_18.96}.png}
 \caption{
 MC identified by applying
 volumetric H$_2$ density cuts of
 $n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$.
-	Color shows the projected H$_2$ surface density. {\bf this should be H2 density 1/cm$^{-2}$?!} \AP{if i recall correctly, this is not the projected h2 density, but the mass averaged h2 density field. in any case, we should compress the information, by having a less figures showing multplie cuts (e.g. 3 of them by using thinner lines should suffice in conveying the overview properly); additionally, we should convince yt to plot a proper label for the colorbar, and remove the trailing right axes labels (that are still there despite our efforts)}
+	Color shows the projected H$_2$ surface density. {\bf this should be H2 density 1/cm$^{-2}$?!} \AP{if i recall correctly, this is not the projected h2 density, but the mass averaged h2 density field; additionally, we should convince yt to plot a proper label for the colorbar, and remove the trailing right axes labels (that are still there despite our efforts)}\DL{I tried more on Sept 7th, errrr, now all the ticks and labels for both panels disappear... hmm.. Not worth my time to fix this for the report.}
 % yt.OffAxisProjectionPlot: weight the requested field by the weighting field and integrate along the line of sight.
 \label{fig:MC}}
-\addtocounter{figure}{-1}
-\end{figure*}
-
-\begin{figure*}[htbp]
- \centering
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_0.88}.png}
-    \\[-5.5em]
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_1.47}.png}
-\caption{
-Continued.}
-\addtocounter{figure}{-1}
-\end{figure*}
-
-\begin{figure*}[htbp]
- \centering
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_2.45}.png}
-  \\[-5.5em]
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_4.08}.png}
-\caption{
-Continued.}
-\addtocounter{figure}{-1}
-\end{figure*}
-
-\begin{figure*}[htbp]
- \centering
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_6.81}.png}
-  \\[-5.5em]
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_11.36}.png}
-\caption{
-Continued.}
-\addtocounter{figure}{-1}
-\end{figure*}
-
-\begin{figure*}[htbp]
- \centering
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_18.96}.png}
-  \\[-5.5em]
-  \includegraphics[scale=0.7]{\figpath/{dual_16_ncut_31.62}.png}
-\caption{
-Continued.}
+% \addtocounter{figure}{-1}
 \end{figure*}
 
 In \Fig{h2density}, we show an example of the volumetric H$_2$ density ($n_{\rm H2}$) distribution of \flower
 for a given snapshot which includes contributions from its surrounding 7\,kpc (in diameter)\footnote{For reference,
-the half mass radius of \flower is $\sim$0.5\,kpc and the $r_{\rm 200}$ dark matter radius is $\sim$15\,kpc.}.
+the half mass radius of \flower is $\sim$0.5\,kpc and the dark matter ``virial radius'' at which the mean enclosed density is 200 times 
+the critical density of the Universe % presumably defined at the redshift of \flower here?
+is $r_{\rm 200}$\ssim15\,kpc.}.
 We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1\,\cc$ and it samples the range of density 
 where ``clumps/structures'' are 
 found based on the Euler characteristic, i.e., the fourth Minkowsky functional (see calculation presented by \citealt{Pallottini17b}).
@@ -402,7 +368,7 @@ the ``cloud'' size ($R$),
 the Mach number ($\mathcal{M}$),
 the velocity dispersion ($\sigma$), and the
 gas surface density ($\Sigma_{\rm gas}$)
-to describe/characterize their dynamics.
+to examine their dynamics.
 
 The mass of an MC is calculated from the uniformly-gridded 3D density field,
 integrating over all zones of the MC, multiplied by its volume. 
@@ -475,9 +441,10 @@ fragmentation occurs near the Jeans length $L_J\propto\sigma^2/\Sigma$
 and Jeans mass $M_J\propto\sigma^4/\Sigma$
 for dispersion-supported structures.
 
+\subsubsection{Formalism: Virial Equilibrium and Larson's Relations}  \label{sec:PVE}
 % Relating Larson's law to stability and pressure (perhaps move this to other section?).
 A spherically symmetric cloud of mass $M$ and radius $R$ embedded within
-a medium of pressure $P$ is described using the virial theorem
+a medium of pressure $P$ is described using the virial theorem:
 \begin{equation}
 \frac{1}{2}\ddot I = 2(T - T_s) + W + B,
 \end{equation}
@@ -490,19 +457,20 @@ In the case where magnetic field is excluded (i.e., $B$\eq0), we can express thi
 \frac{1}{2}\ddot I = 3 M \sigma^2 - \frac{\Gamma GM^2}{R} - 4\pi P_{\rm ext} R,
 \label{eqn:virial}
 \end{equation}
-where the first term on the right hand side (RHS) is the pressure from velocity dispersion, second
+where the first term on the right hand side (RHS) is the pressure term from velocity dispersion, the second
 term is the gravity term, and the third term is the external pressure term.
 For the case of simple virial equilibrium (SVE; i.e., equilibrium state without external pressure),
-the LHS vanishes and the equation becomes:
+the LHS and the last term on the RHS vanish. The equation becomes:
 \begin{equation}
 \alpha_{\rm vir} = \frac{3\sigma^2}{\Gamma GM/R} = \frac{5\sigma^2R}{GM},
 \end{equation}
-where $\Gamma$ is set to 3/5 for a uniform sphere, and we can define
+where $\Gamma$ is set to 3/5 for a uniform sphere.
+We can define
 \begin{equation}
 V_0^2\equiv\frac{\sigma^2}{R},
 \end{equation}
-which is related to the scaling in one of the Larson's relations (linewidth-size),
-and can re-written in the form of:
+which is related to the scaling in one of the Larson's relations (linewidth-size)
+and can be re-written in the form of:
 \begin{equation}
 \sigma^2/R = \pi G \Sigma/5.
 \end{equation}
@@ -519,7 +487,7 @@ this equation using the following:
 \frac{\sigma^2}{R} = \frac{1}{3}\left(\frac{4P_{\rm ext}}{\Sigma} + \Gamma G \Sigma \pi \right).
 \label{eqn:v0}
 \end{equation}
-For a virialized cloud, one expects a one-to-one mapping between $V_0^2$ and $\Sigma$ since
+Therefore, for a virialized cloud, one expects a one-to-one mapping between $V_0^2$ and $\Sigma$ since
 $\sigma^2/R\propto\Sigma$, whereas
 Equation~\ref{eqn:v0} represents the loci along which external pressures $P_{\rm ext}$ are
 needed in order for MCs to have linewidths $\sigma$ for a given set of surface densities.
@@ -529,7 +497,7 @@ varies depending on $P_{\rm ext}$; cf. expectation for SVE
 $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
 
-\subsubsection{Single Snapshots: Larson's Relations and Virial Parameter}  \label{sec:singless}
+\subsubsection{Single Snapshots}  \label{sec:singless}
 
 %
 \AP{I would move the following when discussing the velocity dispersion; additionally, the large velocity dispersions was also noted in Vallini2018a, we can use some of those results to complement the discussion (e.g. shift for the CO sled at higher J then local galaxies).}
@@ -549,8 +517,10 @@ In fact, by $z\simeq$7.2 (i.e., the snapshot corresponding
 to the top panel of \Fig{SFH} and \Fig{larsons_single}), \flower has assembled
 a stellar mass of $M_*$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion
 is due in part to the stronger stellar feedback compared to e.g., MCs in its satellite galaxies.
-The virial parameter of the MC identified in (the densest region of) the main disk of \flower
-indicate that the MC itself is gravitationally unbound.
+Based on the virial parameter, the MC identified in (the densest region of) the main disk of \flower
+would indicate that the MC itself is gravitationally unbound, and is supported/confined 
+by turbulence and rotation on large scales.
+% clouds form in galactic disk typically have virial between 0.2-10 \citep{Dobbs08a, Tasker09a}.
 
 As we increase the density threshold, some of the MC within the main disk break
 into multiple sub-MCs.
@@ -565,8 +535,9 @@ with cloud sizes on the order of $R\simeq$100\,pc and velocity
 dispersions of $\sigma\simeq$\,20$-$\,80\,\kms. Their $\alpha_{\rm vir}$
 are lower than their ``parent'' MCs in the main disk of \flower. This is consistent with
 the conventional wisdom that collapsing structures result from local gravitational
-instability within globally stable structures, which are supported by
-turbulence and rotation on large scales.
+instability within globally non-collapsing structures,
+which are supported by turbulence and rotation.
+These 
 
 We also identify MCs in the satellite galaxies of \flower. These MCs
 tend to have lower velocity dispersions compared to those of \flower which are more comparable
@@ -582,8 +553,7 @@ stellar feedback in the satellite galaxies as they have experienced less episode
 these structures are likely collapsing structures.
 Based on the $\sigma^2/R - \Sigma$ relation and the virial parameter,
 the MCs of the satellite galaxies of
-\flower are close to being in virial equilibrium
-and are not supported against collapse by external pressure. % are bound
+\flower are close to being in virial equilibrium and are unlikely supported against collapse by external pressure. 
 
 
 \begin{figure*}[htbp]
@@ -593,7 +563,7 @@ and are not supported against collapse by external pressure. % are bound
 \caption{
 Larson's (linewidth-size) relation of \flower in
 accreting phase (top) and
-starburst phase(bottom) and
+starburst phase (bottom) compared to
 those observed in nearby and the \z$\sim$2 star-forming galaxy.
 \label{fig:larsons_single}}
 \end{figure*}
@@ -606,6 +576,8 @@ those observed in nearby and the \z$\sim$2 star-forming galaxy.
 \caption{
 Top: Virial parameter and cloud mass of \flower of a given snapshot (accreting phase).
 Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of MCs in the same snapshot.
+The V-shaped dashed lines show locii along which the given external pressures
+are needed in order for MCs to have linewidth $\sigma$ for a given set of surface densities. (see \Sec{PVE})
 \label{fig:alpha16}}
 \end{figure*}
 
@@ -682,11 +654,11 @@ Milky Way data (\citealt{Kauffmann10b, Kauffmann10c} and references therein),
 which we extrapolate to match the mass and size scales of the MCs of \flower.
 By comparing the masses and sizes found in clouds without massive \SF ($<$10\,\Msun) 
 in the solar neighborhood ($\lesssim 500$\,pc; Taurus, Perseus, Ophiuchus, and the 
-Pipe Nebula) and those with massive \SF in the Milky Way, \citet{Kauffmann10c} find a 
+Pipe Nebula) with those with massive \SF in the Milky Way, \citet{Kauffmann10c} report a 
 mass-size relation of $M \gtrsim 870$\,\Msun$\times\,\left(r/{\rm pc}\right)^{1.33}$ as the threshold for massive \SF. 
 That is, cluster-forming cloud fragments are found to be more massive than those that are devoid of clusters 
 at a given radius. As shown in \Fig{MR}, the MCs identified in the accreting phase of \flower lie above this relation, along to the locus 
-with visual extinction of $A_V$\eq4\,mag. This may suggest that xyzxyz.
+with visual extinction of $A_V$\eq4\,mag. {\bf This may suggest ....}
 We also examine the size-mass relation of the MCs identified in other snapshots, finding that they lie in the same 
 parameter space as the accreting phase.
 
@@ -748,9 +720,6 @@ Our results is therefore robust, haha.
 
 
 \section{Origin of the clumps: Mass Scales set by Toomre and Jeans Instabilities}   \label{sec:Q}
-
-\AP{select a snapshot, put it face on and calculate the toomre parameter map similarly to what done in \citet{Inoue16a}}
-
 The onset of gravitational instability is considered to be tightly connected to (the conditions for) \SF \citep[e.g.,][]{Kennicutt89a, Li05b, Li06a}
 and is widely discussed in the context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}.
 For axisymmetric mode ($m$\eq0), the dispersion relation for the growth of density perturbation in a rotating turbulent disk
@@ -791,7 +760,7 @@ self-gravitational contraction for wavelengths greater than the Toomre length:
 \lambda_T = 4\pi^2 G\Sigma/\kappa^2,
 \end{equation}
 yielding a characteristic mass of $M_T$\eq$\frac{\pi}{4}{\lambda_T^2}{\Sigma}$\eq4$\pi^2\frac{G^2\Sigma^3}{\kappa^4}$,
-which is the ``upper limit'' to which MCs can form in a shearing disk.
+which sets the ``upper limit'' to which MCs can form in a shearing disk.
 
 {\bf still yet to make the ``Q''-map}
 
@@ -875,7 +844,7 @@ found throughout the disk. This difference likely stems from the different physi
 to the formation (and thus the nature) of these molecular structures. 
 For instance, in local ULIRGs, they are probably form by shock compression or cloud-cloud 
 collision after the large amount of gas from the progenitor galaxy merger 
-is being funneled toward the central region \citep{Tan00a, Wu18a}, 
+is being funneled toward the central region \citep{Tan00a, Wu18a},  % Tasker09a
 whereas in \flower, which is actively accreting gaseous materials 
 from the surrounding, they are probably form from constant cold gas accretion onto the entire galaxy (without 
 funneling into the center).
