@@ -109,7 +109,7 @@ gas contents compared to present-day galaxies.
 % are continuously being replenished.
 These massive gas inflows in turn trigger gravitational instability and lead
 to the formation of gas structures that are typically more massive and denser than those
-observed in nearby galaxies, with masses of $M_{\rm cloud}$\eq10$^9$\,\Msun
+observed in nearby galaxies, with masses of $M_{\rm cl}$\eq10$^9$\,\Msun
 and sizes on sub-kpc scales (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
 Some theoretical works argue that the
 migration of such giant massive clumps are responsible for contributing to the
@@ -543,7 +543,7 @@ with $\alpha_{\rm vir}\simeq$1 (see top panels of \Fig{alpha16} and \Fig{alpha27
 Differences in their $\alpha_{\rm vir}$ most likely result from the weaker
 stellar feedback in the satellite galaxies as they have experienced less episodes of \SF compared to
 \flower (i.e., lower stellar-to-gas mass ratios of $\sim$0.1). 
-Given the low $\alpha_{\rm vir}$ parameter
+Given the low virial parameter
 and the $\sigma^2/R - \Sigma$ relation found for the MCs of the satellite galaxies, 
 these structures are likely collapsing structures.
 
@@ -557,8 +557,8 @@ Larson's (linewidth-size) relation of \flower in
 accreting phase (top) and
 starburst phase (bottom) compared to
 those observed in nearby and the \z$\sim$2 star-forming galaxy.
-Red lines show the relation obtained from 
-Literature data are compiled from \citet{Larson81a, Heyer04a, Rosolowsky05a, Bolatto08a, Swinbank11a, Leroy15a}.
+% Red lines show the relation obtained from \citet{}.
+Literature data and empirical relations are compiled from \citet{Larson81a, Heyer04a, Rosolowsky05a, Bolatto08a, Swinbank11a, Leroy15a}.
 \label{fig:larsons_single}}
 \end{figure*}
 
@@ -570,11 +570,13 @@ Literature data are compiled from \citet{Larson81a, Heyer04a, Rosolowsky05a, Bol
 \caption{
 Top: Virial parameter and cloud mass of \flower in the accreting phase (star symbols) compared to those observed in the Milky Way.
 Literature data are compiled from \citealt{Kauffmann17b} and references therein.
-Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of the MCs (star symbols) 
+Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of the MCs identified in our simulation (star symbols) 
 compared to those observed in the Milky Way (black dot markers).
-The V-shaped dashed lines show locii along which the given external pressures
-are needed in order for MCs to have linewidth $\sigma$ for a given set of surface densities. (see \Sec{PVE})
-In both panels, the star symbols are color-coded by the $n_{\rm cut}$ adopted to identify the corresponding MCs.
+The V-shaped dashed lines show the locii along which the given external pressures
+are needed for MCs to have linewidth $\sigma$ for a given set of surface densities (see \Sec{PVE}).
+In both panels, the star symbols are color-coded by $n_{\rm cut}$.
+Star symbols lying close to $\alpha_{\rm vir}\approx2$ in the top panel  
+and the locus of $\log{P/\textrm{K cm}^{-3} = 6}$ in the bottom panel correspond to MCs identified in the satellite galaxies.
 \label{fig:alpha16}}
 \end{figure*}
 
@@ -645,15 +647,19 @@ That is, $N_{\rm H2}\propto A_V$, $\Sigma\propto N_{\rm H2}$, and $M$\eq$\int \S
 Therefore, cloud mass is related to $N_{\rm H2}$ and $A_V$.
 
 We show in \Fig{MR} the size-mass relation of the MCs of \flower in the accreting phase (see \Sec{sfh})
-compared to the empirical relation obtained based on 
+compared to the 
+observational data of molecular clouds in the Milky Way associated with massive \SF 
+\citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained based on 
 Milky Way data (\citealt{Kauffmann10b, Kauffmann10c} and references therein),
 which we extrapolate to match the mass and size scales of the MCs of \flower.
 By comparing the masses and sizes found in clouds with and without massive \SF ($<$10\,\Msun) 
 in the Milky Way, \citet{Kauffmann10c} report a 
 mass-size relation of $M \gtrsim 870$\,\Msun$\times\,\left(r/{\rm pc}\right)^{1.33}$ as the threshold for massive \SF. 
 That is, cluster-forming cloud fragments are found to be more massive than those that are devoid of clusters 
-at a given radius. As shown in \Fig{MR}, the MCs identified in the accreting phase of \flower lie above this relation, along to the locus 
-with visual extinction of $A_V$\eq4\,mag. {\bf This may suggest ....}
+at a given radius. As shown in \Fig{MR}, the MCs identified in the accreting phase of \flower lie above this relation, along the locus 
+with a visual extinction of $A_V$\eq4\,mag. {\bf This may suggest ....}
+On the other hand, the MCs of \flower lie below the locus of $A_V$\eq100\,mag that the Milky Way clouds follow.
+{\bf This may suggest ....}
 We also examine the size-mass relation of the MCs identified in other snapshots, finding that they lie in the same 
 parameter space as the accreting phase. 
 {\bf so...}
@@ -662,28 +668,15 @@ parameter space as the accreting phase.
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
 \caption{
-Size-mass relation of MCs in \flower compared to data and empirical established based on Milky Way \obs.
-Star symbols show MCs identified in the accreting phase of \flower in our simulation, color-coded by increasing $n_{\rm cut}$.
-Other symbols show the masses and sizes of molecular clouds with massive \SF observed in the 
-Milky Way \citep{Beuther02a, Mueller02a, Hill05a, Motte07a}.
+Size-mass relation of MCs identified in the accreting phase of \flower in our simulation (star symbols) 
+compared to observational data of molecular clouds in the Milky Way associated with massive \SF 
+(magenta circles, green stars, blue dots, and black triangles) and empirical relations 
+established based on \obs of the Milky Way.
+Star symbols are color-coded by increasing $n_{\rm cut}$.
+Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}.
 Red line shows the threshold for massive \SF reported by \citet{Kauffmann10b}.
 \label{fig:MR}}
 \end{figure*}
-
-
-%\subsubsection{Single Snapshots: SFR-Mach-$\alpha_{\rm vir}$ Relation}
-%%M~ 30 in normal spirals \citep{McKee99a}
-%%M~ 100 in SBs \citep{Downes98a}
-%In the following, SFR of each MC is calculated by integrating over the recent \SF history of stars within each MC. 
-%More specifically, we sum up all the stellar masses with stellar age of $<$10\,Myr and  normalized 
-%the mass over this period of time.
-%In \Fig{}, we show the relation between SFR and the Mach number ($\mathcal{M}$) for the molecular
-%complexes identified.
-%We find a positive correlation between the two quantities, with a Pearson-$R$ coefficient of xxx,
-%which is unsurprising given that our simulations include the effect of stellar feedback. That is,
-%the high $\mathcal{M}$ can be interpreted as a result of \SF resulting from feedback from
-%massive stars.
-
 
 
 \subsection{Variation in MC Properties Depending on the Choice of Density Cuts}	 \label{sec:ncut}
@@ -705,14 +698,6 @@ approximately $\sigma\simeq$200\,\kms (see \Fig{larsons_single}).
 This lack of variation is reassuring, in the sense that at least on the scales studied here,
 the dynamics of the MCs are not artifacts or biased by our choice of $n_{\rm cut}$.
 Our results is therefore robust, haha.
-
-%\begin{figure*}[tbph]
-% \centering
-%\includegraphics[width=\textwidth]{\figpath/.pdf}
-%\caption{\label{fig:}}
-%\end{figure*}
-
-
 
 
 \section{Origin of the clumps: Mass Scales set by Toomre and Jeans Instabilities}   \label{sec:Q}
@@ -775,26 +760,36 @@ CMF of MCs in \flower and best-fit power law.
 \label{fig:cmf}}
 \end{figure*}
 
-The range of masses of the MCs identified are comparable to those observed in \z$\sim$2 galaxies in $i$-band 
-(i.e., rest-frame visible), which is between $M_{\rm cl}\approx$10$^{6.5-9xx}$\,\Msun \citep{Elmegreen07a, Elmegreen09a}.
-Observational studies often report the mass distribution in the form of a cumulative function (CMF).
-While the CMF of the MCs is quite noisy due to resolution effect and since we only have one galaxy here 
-in the cosmological zoom-in simulation, we could improve the ``signal-to-noise ratio'' by including 
-MCs identified from the different snapshots\footnote{This approach is valid unless in some snapshots,
-the galaxy experience a violent event, which is relatively rare across the few 100\,Myr studied here.}.
+The mass range of the MCs identified in our simulation is $M_{\rm cl}\approx$10$^{6.5-9}$\,\Msun,
+consistent with those observed in \z$\sim$2 galaxies in
+rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}.
+Observational studies in the nearby Universe, where 
+spatially resolution are better at revealing molecular (sub-)structures,
+often report the mass distribution of molecular clouds in the form of a cumulative function (CMF).
+While the CMF of the MCs for a given snapshot of our simulation is 
+quite noisy, since we have only one (main) galaxy, 
+we could improve the ``signal-to-noise ratio'' by including 
+MCs identified across all snapshots\footnote{This approach is valid unless in some snapshots,
+the galaxy experience a violent event, which is relatively rare across the 700\,Myr studied here.}.
 We show the resulting CMF in \Fig{cmf}.
+
 Motivated by the observational study by \citealt{Blitz07a}, we fit a power-law to the CMF, which is expressed in the form of:
 \begin{equation}
 n\left(M^\prime > M\right) \propto M_{\rm cl}^\alpha,
 \end{equation}
 where $n$ is the number of MCs with masses exceeding $M_{\rm cl}$ and $\alpha$ is the power-law index.
-The slope varies from $-$0.49\pmm0.01 to $-$1.17\pmm0.06 
-for MCs identified using the lowest and the highest $n_{\rm cut}$ adopted in this study.
-The uncertainties here are the formal fitting uncertainties.
+The slope varies from $-$0.49\pmm0.01 to $-$1.17\pmm0.06 by adopting the lowest and the highest $n_{\rm cut}$ studied here.
+The uncertainties are the formal fitting uncertainties.
 Regardless of the density threshold adopted, the slope of the CMF of \flower (\Fig{cmf})
 is shallower compared to those observed in nearby galaxies (between $-$1.6 and $-$2.5; based on a sample of
 $\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds; \citealt{Blitz07a}). % between -1.6 to -2.5, mostly -1.7, except for M33, which is -2.5
-{\bf This means ....}
+This difference in slopes suggest that mo, albeit speculative due to resolution effects.
+In particular, it is possible that we may identify more substructures/smaller and less massive MCs if our simulation 
+was of higher resolution (but one must acknowledge that ..... is expeneisve to do zoom-in. This is what we have at best at the 
+moment with simulation power).
+That said, simularly massive moleuclar clouds have been reported in simulations of higher resolution (i.e., not zoom-in; \citealt{}).
+It is therefore conceivable that our results are not that far off.
+
 
 % interpretation
 A higher $\sigma$ and $\Sigma_{\rm gas}$ is related to the higher
