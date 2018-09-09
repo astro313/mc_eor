@@ -449,7 +449,8 @@
    \expandafter{\@tempb}%
   }{%
     \def\@thefnmark{\relax}
-    \frontmatter@footnotetext{#1}
+%     \frontmatter@footnotetext{#1}
+    \frontmatter{#1}
   }%
  \endgroup
 }%
