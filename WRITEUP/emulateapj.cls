@@ -430,7 +430,7 @@
 
 \def\frontmatter@above@affilgroup{\vspace*{0.3in}}
 %  DL: changed from 0.25in to 0.3in for more space
-\def\frontmatter@authorformat{\normalsize\centering}%
+\def\frontmatter@authorformat{\large\centering}%
 \def\frontmatter@affiliationfont{\normalfont\footnotesize}%
 
 \def\frontmatter@finalspace{\vspace*{-\baselineskip}\vspace*{0.375in}}
