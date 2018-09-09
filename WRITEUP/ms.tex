@@ -49,28 +49,25 @@ Dynamical Properties of Molecular Cloud Complexes in a Redshift 6 Prototypical G
 
 
 \begin{abstract}
-We study the dynamical properties of molecular clouds complexes and their temporal evolution in a prototypical galaxy 
-at the Epoch of Reionization (EoR) using state-of-the-art cosmological zoom-in simulation, 
-which includes a chemical network to determine the formation of molecular
-hydrogen, heating and cooling of the ISM by metals, and stellar feedback.
+We study the dynamical properties of molecular clouds complexes (MC) and their temporal evolution in \flower, a prototypical galaxy
+at the Epoch of Reionization (EoR) using state-of-the-art cosmological zoom-in simulation.
 We use a clump finder algorithm and a set of H$_2$ volumetric densities ($n_{\rm cut}$) 
-to identify molecular complexes (MC) and their sub-structures.
+to identify MCs and their sub-structures.
 We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
 compare them with those observed in the Milky Way disk, the Galactic center,
-and gas-rich starburst galaxies in the local universe and at the peak epoch of cosmic \SF.
-We find that the MC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) comparable to 
+and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF.
+The high velocity dispersions found in the MCs of \flower ($\sigma\approx$\,200\,\kms) are comparable to 
 those observed in starburst galaxies.
 The mass scale of the MCs is of the order of $10^{6.5-9}$\,\Msun. The $\sim$200\,pc-scale MCs found with a low density threshold 
-correspond to the arms of the disk of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
+correspond to the spiral arms of \flower which break down into smaller $\lesssim$100\,pc-scale MCs at higher density thresholds. 
 The more massive and bigger MCs in \flower compared to the Milky Way 
 likely result from the higher gas mass fraction, surface density, and velocity dispersion, 
 which set the scale for fragmentation.
-We compare the dynamics of MCs in \flower to \obs in the context of the Larson's relation.
 The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
 The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for  
 the molecular substructures, likely resulting from 
 the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
-Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
+Virial analysis indicates that the MC found in the arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
 This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are 
 supported by turbulence and rotation on large scale.
 We also find $\alpha_{\rm vir}$\ssim1 for the MCs in the satellite galaxies, which we interpret as a result of the weaker stellar feedback as they have
@@ -80,7 +77,8 @@ as gas is being accreted from the IGM.
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
 Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
 mass distribution, which steepens as we increase $n_{\rm cut}$. 
-High resolution imaging of the first galaxies with ALMA and the ngVLA 
+High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the 
+Next Generation Very Large Array (ngVLA)
 will provide useful observational data to test our findings and the validity of our simulation to shed
 light on \SF since the cosmic dark ages.
 \end{abstract}
@@ -131,7 +129,7 @@ Their multi-phase ISM and the dynamics of the star-forming molecular cloud compl
 are therefore expected to differ from nearby galaxies.
 Even in the local Universe, where the most detailed \obs can be attained, variations in cloud properties have been 
 observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).
-It is thus obvious and reasonable to pose the question: what are the dynamical states of the MCs of the first galaxies and 
+It is thus intuitive and reasonable to pose the question: what are the dynamical states of the MCs of the first galaxies and 
 how do they differ from the local Universe, and are they analogous to any seen in the local \galpop?
 % 
 
@@ -152,7 +150,7 @@ Leung et al. 2018, submitted).
 These studies find that galaxies at $z$\ssim2 galaxies, close to the peak of cosmic \SF, are more
 molecular gas-rich, turbulent, and clumpy than nearby galaxies.
 That said, it remains unclear how \SF proceed in the (sub-)$L^*$ galaxy population at \z$\gtrsim$\,6 --- 
-at the epoch of reionization  ---
+the epoch of reionization  ---
 which is responsible for producing the
 ionizing photons that reionized the Universe.
 
@@ -230,6 +228,19 @@ for the molecular structures compared to more evolved galaxies found at
 a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive
 ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 
+\begin{figure*}[!hHtbp]
+\centering
+\includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
+\caption{
+	Star formation history of \flower (top right) and
+	projected stellar mass distribution of \flower during one of its accretion phases
+	at its early stage of evolution {\it (a)}; during one of its major starburst phases
+	after a major merger {\it (b)}; and in a relatively quiescent phase post-starburst {\it (c)}.
+% f_gas history?
+\label{fig:SFH}}
+\end{figure*}
+
+
 We show the \SF history of \flower in \Fig{SFH}, where
 the SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne\footnote{
 The SFR plotted in Figure 2 of \citet{Pallottini17b}
@@ -250,18 +261,6 @@ most extreme variations in the cloud dynamics) --- one of which \flower is
 actively accreting materials from its surrounding 
 and another of which \flower is undergoing
 a starburst phase after a major merger (see \Fig{SFH}).
-
-\begin{figure*}[htbp]
-\centering
-\includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
-\caption{
-	Star formation history of \flower (top right) and
-	projected stellar mass distribution of \flower during one of its accretion phases
-	at its early stage of evolution {\it (a)}; during one of its major starburst phases
-	after a major merger {\it (b)}; and in a relatively quiescent phase post-starburst {\it (c)}.
-% f_gas history?
-\label{fig:SFH}}
-\end{figure*}
 
 
 \subsection{Structure identification} \label{sec:method}
@@ -318,12 +317,12 @@ $n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\
 
 In \Fig{h2density}, we show an example of the volumetric H$_2$ density ($n_{\rm H2}$) distribution of \flower
 for a given snapshot which includes contributions from its surrounding 7\,kpc (in diameter)\footnote{For reference,
-the half mass radius of \flower is $\sim$0.5\,kpc and the dark matter ``virial radius'' at which the mean enclosed density is 200 times 
+the half mass radius of \flower is $\sim$0.5\,kpc and the dark matter virial radius at which the mean enclosed density is 200 times 
 the critical density of the Universe % presumably defined at the redshift of \flower here?
 is $r_{\rm 200}$\ssim15\,kpc.}.
 We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1\,\cc$ and it samples the range of density 
 where ``clumps/structures'' are 
-found based on the Euler characteristic, i.e., the fourth Minkowsky functional (see calculation presented by \citealt{Pallottini17b}).
+found based on the Euler characteristic, i.e., the fourth Minkowsky functional (see Appendix of \citealt{Pallottini17b}).
 In \Fig{MC}, we show an example of the molecular structures identified by applying volumetric H$_2$ density cuts of 
 $n_{\rm cut}$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\,cm$^{-3}$\footnote{Based on 10$^n$, where $n$ represents the 10 elements that are uniformly spaced between [$-0.5, 1.5$] in linear space.
 We also vary the range of
@@ -342,10 +341,7 @@ redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq50\,Myr.
 Limited by the spatial resolution of our simulation ($l_{\rm cell}\simeq$\,30\,pc), we impose an addition constraint such that an identified structure only survives if it spans at least 10 cells in PPP space. We caution that one caveats of such constraint is that we can only examine the parameter space of ``cloud'' scaling relations at ``cloud'' size $R\gtrsim100$\,pc.
 
 
-\section{Results}     \label{sec:results}
-
-
-\subsection{Cloud Scaling Relations}
+\section{Results: Cloud Scaling Relations}     \label{sec:results}
 
 \AP{I see 2 main possible approaches to the presentation of the results
 %
@@ -364,10 +360,9 @@ their structure and dynamics hold important clues to understanding
 the mechanisms and physics of formation and evolution of molecular structures and \SF.
 Upon identifying the molecular structures, we extract parameters such as
 the virial parameter ($\alpha_{\rm vir}$),
-the ``cloud'' mass ($M_{\rm cl}$),
-the ``cloud'' size ($R$),
-the Mach number ($\mathcal{M}$),
-the velocity dispersion ($\sigma$), and the
+mass ($M_{\rm cl}$),
+size ($R$),
+Mach number ($\mathcal{M}$), velocity dispersion ($\sigma$), and 
 gas surface density ($\Sigma_{\rm gas}$)
 to examine their dynamics.
 
@@ -387,19 +382,20 @@ The total velocity dispersion includes contributions from the thermal sound spee
 \end{equation}
 The local sound speed ($c_s$)
 of all identified molecular complexes are generally much smaller compared to the their
-turbulent velocities.
-\AP{i would put the following as a footnote or this point might be moved; alternatively these points (see also the emails) can be treated when dealing with the stability analysis}
-We find comparable velocity dispersion derived by taking the root mean square versus
-that derived using thermal and non-thermal pressure, indicating that
-rotation velocity is unlikely to be the dominant source entering the velocity dispersion reported here.
-We quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
+turbulent velocities\footnote{We find comparable velocity dispersion between that derived from 
+taking the root mean square versus that derived from thermal and non-thermal pressure terms, indicating that
+rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.
+We further quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
 In the subsequent sections, we adopt the root mean square of the velocity field
-as the velocity dispersion ($\sigma$).
+as the velocity dispersion ($\sigma$).}.
 
 
 We show in \Fig{dist} the MC distributions in terms of their
-molecular gas masses, radii, gas mass fraction ($f_{\rm gas}$\eq$M_{\rm gas}$/($M_{\rm gas}$ +
-$M_*$)).
+molecular gas masses, radii, and gas mass fractions, which we define as 
+\begin{equation}
+f_{\rm gas} = \frac{M_{\rm H2}} {\left(M_{\rm H2} + M_*\right)},
+\end{equation}
+where $M_*$ is the stellar mass.
 We note that the distributions vary for different snapshots, depending on the evolutionary stage of \flower.
 The highest surface density threshold of $n_{\rm cut}$ yields a ``minimum'' MC mass on
 the order of 10$^{6.5}$\,\Msun for the densest MC identified.
@@ -411,14 +407,11 @@ snapshots for each of the given $n_{\rm cut}$ (see \Sec{method}).
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/minmaxNcut_basicDistributions.png}
 \caption{
 Distributions of masses, sizes, and gas mass fractions of MCs identified using 
-the lowest $n_{\rm cut}$ (left panels) and the highest $n_{\rm ncut}$ (right panels).
-Note the y-axis scales are different between the left and the right panels, as less MCs are identified 
+the lowest $n_{\rm cut}$ (left panels) and $n_{\rm ncut}$\eq18.96\,\cc (right panels).
+Note the scale shown on the y-axes are different between the left and right panels, as less MCs are identified 
 at higher $n_{\rm cut}$.
 \label{fig:dist}}
 \end{figure*}
-
-
-
 
 In the following subsections,
 we examine the MC properties in the context of the Larson's relations \citep{Larson81a}, which
@@ -429,8 +422,8 @@ in different galactic environments.
 % Inner MW: R=2-8.5 kpc, most of the mass in the molecular ISM is in the form of GMCs with sizes $gtrsim$20\,pc and masses greater than 10$^5$\,\Msun \citep{Sanders85a}.
 Observations of nearby gas-rich galaxies such as M64 and NGC\,253
 show higher velocity dispersions compared
-to the disk/mid-plane of the Milky Way which
-are more consistent with those observed in the inner regions of
+to the disk/mid-plane of the Milky Way which are, on the other hand,
+more consistent with those observed in the inner regions of
 Milky Way \citep{Oka01a, Rosolowsky05a, Heyer09a, Leroy15a}.  % also higher $P_{\rm int}$,
 % which is $\propto\rho\sigma^2$
 While the velocity dispersions of the clouds in these nearby gas-rich galaxies are comparable
@@ -442,7 +435,7 @@ fragmentation occurs near the Jeans length $L_J\propto\sigma^2/\Sigma$
 and Jeans mass $M_J\propto\sigma^4/\Sigma$
 for dispersion-supported structures.
 
-\subsubsection{Formalism: Virial Equilibrium and Larson's Relations}  \label{sec:PVE}
+\subsection{Formalism: Virial Equilibrium and Larson's Relations}  \label{sec:PVE}
 % Relating Larson's law to stability and pressure (perhaps move this to other section?).
 A spherically symmetric cloud of mass $M$ and radius $R$ embedded within
 a medium of pressure $P$ is described using the virial theorem:
@@ -464,14 +457,15 @@ For the case of simple virial equilibrium (SVE; i.e., equilibrium state without 
 the LHS and the last term on the RHS vanish. The equation becomes:
 \begin{equation}
 \alpha_{\rm vir} = \frac{3\sigma^2}{\Gamma GM/R} = \frac{5\sigma^2R}{GM},
+\label{eqn:virial}
 \end{equation}
 where $\Gamma$ is set to 3/5 for a uniform sphere.
 We can define
 \begin{equation}
 V_0^2\equiv\frac{\sigma^2}{R},
 \end{equation}
-which is related to the scaling in one of the Larson's relations (linewidth-size)
-and can be re-written in the form of:
+which is related to one of the Larson's relations (linewidth-size relation), 
+which can be recast into the form of:
 \begin{equation}
 \sigma^2/R = \pi G \Sigma/5.
 \end{equation}
@@ -493,12 +487,12 @@ $\sigma^2/R\propto\Sigma$, whereas
 Equation~\ref{eqn:v0} represents the loci along which external pressures $P_{\rm ext}$ are
 needed in order for MCs to have linewidths $\sigma$ for a given set of surface densities.
 In other words, a cloud with $\sigma$ and $\Sigma$ offset from $\sigma^2/R\rightarrowtail\Sigma$
-is in equilibrium with the external pressure (and therefore $V_0^2$ is not constant with $\Sigma$ but
-varies depending on $P_{\rm ext}$; cf. expectation for SVE
+is in equilibrium with the external pressure $P_{\rm ext}$ (and therefore $V_0^2$ is not constant with $\Sigma$ but
+varies depending on $P_{\rm ext}$; cf. expectation for SVE, where
 $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
 
-\subsubsection{Single Snapshots}  \label{sec:singless}
+\subsection{Single Snapshots}  \label{sec:singless}
 
 %
 \AP{I would move the following when discussing the velocity dispersion; additionally, the large velocity dispersions was also noted in Vallini2018a, we can use some of those results to complement the discussion (e.g. shift for the CO sled at higher J then local galaxies).}
@@ -513,13 +507,13 @@ Their high velocity dispersions and surface densities are expected since
 they are located in the nuclear regions of the
 galaxy, where the potential well is also deeper. The higher velocity dispersions
 in these MCs can also be understood as they have experienced more recent episodes
-of \SF as \flower is assembling its stellar mass (they also have higher stellar-to-gas mass ratios of $\sim$60).
+of \SF as \flower is assembling its stellar mass (these MCs also have higher stellar-to-gas mass ratios of $\sim$60).
 In fact, by $z\simeq$7.2 (i.e., the snapshot corresponding
 to the top panel of \Fig{SFH} and \Fig{larsons_single}), \flower has assembled
 a stellar mass of $M_*$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion
-is due in part to the stronger stellar feedback compared to e.g., MCs in its satellite galaxies.
+is due in part to the stronger stellar feedback compared to e.g., MCs in its satellite galaxies ($\sigma\approx$10\,\kms).
 Based on the virial parameter, the MC identified in (the densest region of) the main disk of \flower
-would indicate that the MC itself is gravitationally unbound, and is supported/confined 
+would indicate that the MC itself is gravitationally unbound and is supported/confined 
 by turbulence and rotation on large scales.
 % clouds form in galactic disk typically have virial between 0.2-10 \citep{Dobbs08a, Tasker09a}.
 
@@ -529,16 +523,15 @@ As such, we effectively identify a population of denser molecular structures  (\
 \AP{the following will be manifest only after the presentation of some results, e.g. \Fig{alpha16}}
 This population of sub-MCs has dynamics largely
 similar to those observed
-in $z$\ssim2 spatially resolved studies of gas-rich SFGs, in
+in $z$\ssim2 spatially resolved studies of gas-rich star-forming galaxies, in
 terms of their velocity dispersions, sizes, and gas surface densities (\Fig{larsons_single}; see
 e.g., \citealt{Swinbank11a}),
-with cloud sizes on the order of $R\simeq$100\,pc and velocity
+with sizes of the order of $R\simeq$100\,pc and velocity
 dispersions of $\sigma\simeq$\,20$-$\,80\,\kms. Their $\alpha_{\rm vir}$
 are lower than their ``parent'' MCs in the main disk of \flower. This is consistent with
 the conventional wisdom that collapsing structures result from local gravitational
 instability within globally non-collapsing structures,
 which are supported by turbulence and rotation.
-These 
 
 We also identify MCs in the satellite galaxies of \flower. These MCs
 tend to have lower velocity dispersions compared to those of \flower which are more comparable
@@ -663,7 +656,8 @@ That is, cluster-forming cloud fragments are found to be more massive than those
 at a given radius. As shown in \Fig{MR}, the MCs identified in the accreting phase of \flower lie above this relation, along to the locus 
 with visual extinction of $A_V$\eq4\,mag. {\bf This may suggest ....}
 We also examine the size-mass relation of the MCs identified in other snapshots, finding that they lie in the same 
-parameter space as the accreting phase.
+parameter space as the accreting phase. 
+{\bf so...}
 
 \begin{figure*}[htbp]
 \centering
@@ -693,7 +687,7 @@ Red line shows the threshold for massive \SF reported by \citet{Kauffmann10b}.
 
 
 
-\subsubsection{Variation in MC Properties Depending on the Choice of Density Cuts}	 \label{sec:ncut}
+\subsection{Variation in MC Properties Depending on the Choice of Density Cuts}	 \label{sec:ncut}
 % single Snapshot
 We investigate possible variations in the dynamics of the molecular structures of \flower and its satellites
 to test
@@ -831,11 +825,6 @@ the molecular complexes' properties vary under the influence of gas inflow/outfl
 \AP{This would be something like \quotes{origin of the cloud and implication of the found properties} if we put there toomre and CMF}
 \DL{maybe just merge in the previous sections when we present the results?}
 
-Yet.... at the epoch of reionization.... For instance, to resolve the
-\aco line emission in a $L^*$ prototypical galaxy at \z$\sim$6 on xxx\,pc
-require .... on-source time even with ALMA.
-ngVLA
-
 The largest molecular structure identified is essentially the main disk of \flower, which is ``broken'' down into smaller
 spatial and mass structures that are also denser as we increase $n_{\rm cut}$. In any case,
 the MCs we identified are much bigger in size and mass than nearby GMCs, which is consistent with
@@ -857,12 +846,16 @@ in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{}).
 
 \subsection{Virial Parameter}
 
-\AP{I would move it to the previous section; since it is not easy to condense the toomre analysis for different snapshots in a single plot, I would use the virial parameter analysis to discuss the gravitational instability point on more then on evolutionary state of the galaxy}
+\AP{I would move it to the previous section; I would use the virial parameter analysis to discuss the gravitational instability point more than on evolutionary state of the galaxy}
 
 We quantify how stable a molecular structure is using the virial parameter, which
-describes the balance between pressure support and gravity.
+is defined using \Eqn{virial} and describes the balance between kinetic and gravitational potential energies.
+An $\alpha_{\rm vir}\approx$2 corresponds to approximately equipartition between the two energy terms 
+and is often used to assess the boundedness of a given structure \citep[see e.g., ][]{Kauffmann17b}\footnote{Note that 
+the true virial state/boundedness of a given structure also depends on the surface terms and the magnetic field (see \Eqn{virial} 
+in \Sec{PVE})}.
 
-The high $\alpha_{\rm vir}$ suggest that the majority of the MCs identified are not collapsing.
+The high $\alpha_{\rm vir}$ found in the majority of MCs of \flower suggest that they are not collapsing.
 The largest structures are presumably supported by galactic rotation and turbulence from the feedback of
 multiple episodes of \SF.
 Turbulence in the smaller denser clouds are expected to cascade down over a timescale of $\sim$xxx\,Myr, after which the cloud will collapse
