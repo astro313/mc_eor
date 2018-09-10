@@ -2,13 +2,13 @@
 
 Reproduce Pallottini17b Fig. 9
 
-Last mod: 7 Sept 2018
+Last mod: 10 Sept 2018
 
 '''
 
 import numpy as np
 import matplotlib.pyplot as plt
-from plot_modules.plot_cloud_prop import setup_plot
+from plot_cloud_prop import setup_plot
 
 setup_plot()
 
@@ -18,8 +18,12 @@ path = '../literature/data/'
 plt.close('all')
 plt.figure()
 # Althaea
-tff = 1.0
-plt.plot(np.log10(222.02/tff), np.log10(0.83), marker='*', markersize=15, color='red', label=r'Alth{\ae}a', linestyle='None', zorder=30)
+
+f_in = path + 'simulations.dat'
+x, y = np.loadtxt(f_in, usecols=(1, 2))
+x_althaea, y_althaea = x[0], y[0]
+
+plt.plot(np.log10(x_althaea), np.log10(y_althaea), marker='*', markersize=15, color='red', label=r'Alth{\ae}a', linestyle='None', zorder=30, markeredgecolor='k')
 
 
 file_list = ['sk_kennicutt1998.dat', 'sk_bouche07a.dat',  'sk_daddi10b.dat',
