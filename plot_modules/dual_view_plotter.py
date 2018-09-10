@@ -151,14 +151,14 @@ def plot_face_edge(isnap=28, selected_field='h2density', sizekpc=7., cutLow=1.e-
     #
     grid = AxesGrid(fig, (0.075, 0.075, 0.85, 0.85),
                     nrows_ncols=(1, 2),
-                    axes_pad=0.05,
+                    axes_pad=0.7,
                     #label_mode = "L",
                     label_mode="1",
                     share_all=True,
                     cbar_location="right",
                     cbar_mode="single",
                     cbar_size="3%",
-                    cbar_pad=0.01)
+                    cbar_pad=0.03)
 
     # plot edge on and face on
     #
@@ -203,35 +203,28 @@ def plot_face_edge(isnap=28, selected_field='h2density', sizekpc=7., cutLow=1.e-
                                                       'edgecolor': 'white',
                                                       'alpha': 0.})
 
-        if iplot == 0:
-            prj.set_ylabel('kpc')
-            prj.set_xlabel('kpc')
-            # prj.set_font_size(15)
-            prj.set_font({'family': 'Times',  # 'style': 'italic',
+        prj.set_ylabel('kpc')
+        prj.set_xlabel('kpc')
+        prj.set_font({'family': 'Times',  # 'style': 'italic',
                           # 'weight': 'bold',
-                          'size': 30})
+                          'size': 26})
 
         # set the plot into the grid
         plot = prj.plots[selected_field]
         plot.figure = fig
         plot.axes = grid[iplot].axes
         plot.cax = grid.cbar_axes[iplot]
-        # Finally, this actually redraws the plot.
-        prj._setup_plots()
 
         if iplot == 1:
             plot.axes.set_axis_off()
             # plot.axes.set_label('')
             # plot.axes.set_visible(False)
             plot.axes.set_xlabel('')
-            plot.axes.set_ylabel('')
             plot.axes.set_xticks(())
-            plot.axes.set_yticks(())
-            plot.axes.set_yticklabels('')
             plot.axes.set_xticklabels('')
 
-        if iplot == 0:
-            plot.axes.set_axis_on()
+        # Finally, this actually redraws the plot.
+        prj._setup_plots()
 
     for cax in grid.cbar_axes:
         cax.toggle_label(True)
