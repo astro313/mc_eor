@@ -600,10 +600,10 @@ Literature data and empirical relations are compiled from \citet{Larson81a, Heye
 \end{figure*}
 
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_alphavir.png}
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_PVE.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16_alphavir.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16_PVE.png}
 \caption{
 Top: Virial parameter and cloud mass of \flower in the accretion phase (star symbols) compared to those observed in the Milky Way 
 (other symbols).
@@ -616,17 +616,17 @@ In both panels, the star symbols are color-coded by $n_{\rm cut}$.
 Star symbols lying close to $\alpha_{\rm vir}\approx2$ in the top panel  
 and the locus of $\log{(P/\textrm{K cm}^{-3}) = 6}$ in the bottom panel correspond to MCs identified in the satellite galaxies.
 \label{fig:alpha16}}
-\end{figure*}
+\end{figure}
 
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss27_alphavir.png}
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss27_PVE.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss27_alphavir.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss27_PVE.png}
 \caption{
 Same as \Fig{alpha16}, but for MCs identified in the starburst phase of \flower.
 \label{fig:alpha27}}
-\end{figure*}
+\end{figure}
 
 
 
@@ -634,15 +634,15 @@ Same as \Fig{alpha16}, but for MCs identified in the starburst phase of \flower.
 % -------------- all snapshots -----------
 
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16-28_alphavir.png}
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16-28_PVE.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-28_alphavir.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-28_PVE.png}
 \caption{
 Same as \Fig{alpha16}, but for MCs identified across all snapshots. 
 Star symbols are color-coded by increasing SFR.
 \label{fig:alpha16-28}}
-\end{figure*}
+\end{figure}
 
 \begin{figure*}[htbp]
 \centering
@@ -706,6 +706,9 @@ parameter space as the accretion phase.
 
 Similar MC properties in relation to those observed in the nearby Universe are found for \flower in its starburst phase (see bottom 
 panel of \Fig{larsons_single} and \Fig{alpha27}).
+% 
+% \subsubsection{Temporal Evolution in Cloud Dynamics}
+% What about all snapshots, where should the results for that go... \Fig{alpha16-28}, \Fig{larsons16-28}, \Fig{larsons16-28-highncut} and \Fig{alpha16-28-highncut}.
 
 \begin{figure*}[htbp]
 \centering
@@ -832,12 +835,12 @@ its velocity dispersion remain
 approximately $\sigma\simeq$\,200\,\kms (see \Fig{larsons_single}).
 This lack of variation is reassuring, in the sense that at least on the scales studied here,
 the dynamics of the MCs are not artifacts or biased by our choice of $n_{\rm cut}$.
-Our results are therefore robust.
+Our results are therefore robust to the various density cuts of choice.
 
 
 \subsection{Origin of the MCs} \label{sec:origin}
 The largest molecular structure identified is essentially the main disk of \flower which breaks down into smaller
-substructures that are denser as we increase $n_{\rm cut}$. In any case,
+substructures that are denser as we increase $n_{\rm cut}$ (see e.g., \Fig{larsons16-28} and \Fig{larsons16-28-highncut}). In any case,
 the MCs we identified are much bigger in size and mass than nearby GMCs, which is consistent with
 those observed in $z$\,\ssim2$-$4 galaxies based on spatially resolved imaging \citep{Swinbank11a}.
 
@@ -886,8 +889,6 @@ But just something to keep in mind.
 
 \subsection{MC Dynamics and CMF and IMF at EoR}
 
-Speculatively, the shallower slope found in the CMF for \flower compared to those observed in the nearby Universe (see \Sec{cmf}) may
-suggest that the MCs of \flower are more massive compared to those observed in the nearby Universe.
 % interpretation
 Velocity dispersion and surface density are tightly connected to pressure. 
 That is, the pressure of an MC is expected to increase with its velocity dispersion and surface density (see e.g., \Eq{pext} and 
@@ -899,8 +900,11 @@ In M64, there are a few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun.
 On the other hand, such massive molecular structures are unknown to local group, and are likely the sites 
 from which massive star clusters or OB associations are to be formed.
 % 
-Therefore, speculatively... possible that ... the different CMF may suggest different IMF for \flower. 
-This could be understood as different cooling properties will lead to different xxx, and thus, Jeans mass/thus determines the final properties of the cloud fragmentation....  
+The shallower slope found in the CMF for \flower compared to those observed in the nearby Universe (see \Sec{cmf}) may
+suggest that the MCs of \flower are more massive compared to those observed in the nearby Universe,
+notwithstanding the limited numerical resolution of our simulation.
+Together with the high $P_{\rm ext}$ may suggest different IMF for \flower compared to those observed in nearby galaxies.
+This could be understood in the context of .... different cooling properties will lead to different xxx, and thus, Jeans mass/thus determines the final properties of the cloud fragmentation....  
 % (While the first stars and galaxies are cooled predominated via atomic H and H$_2$ lines.
 %As shown in the $T-n$ phase plot in Fig. 8 of \citealt{Pallottini17b}, 
 %metals also play an important role in the cooling of the first galaxies soon after the first generation of stars have enriched the surrounding.)
@@ -938,15 +942,13 @@ to identify MCs and their sub-structures in the main galaxy --- \flower\ --- of 
 simulated 20\,Mpc h\pmOne box and in its satellites.
 We decompose the molecular structures into non-overlapping tiles
 by identifying a set of different density contours at different snapshots.
-Using volumetric H$_2$ is essentially the same as identified molecular structures using
-different contours in line emission (e.g., CO, CS, NH$_3$)
-% and different molecular line tracers trace different MCs on different scales due to their
-% different critical densities.
+Using volumetric H$_2$ is essentially similar to identifying molecular structures using
+different contour levels on a surface brightness map of a molecular line tracer (e.g., CO, CS, NH$_3$),
 since the line luminosity scales with the molecular gas density (modulo optical depth effects).
 % Our choice of density cut is analogues to the .... in \obs. It should be ... that both suffer from problem .... For instance, in \obs.. limited S/N.
 We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
 compare them with those observed in the Milky Way disk, the Galactic center,
-and gas-rich starburst galaxies in the local universe and at the peak epoch of cosmic \SF.
+and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF.
 We also examine their properties at the different evolutionary stages of \flower and compare
 them with observations. 
 
@@ -963,15 +965,17 @@ the influence on the dynamics of MCs due to continuous gas accretion from the su
 
 We compare the dynamics of MCs in \flower to \obs in the context of the Larson's relation.
 The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
-Our results are thus robust/insensitive to the various density cuts of choice.
+Our results are thus insensitive to the various density cuts of choice.
 %However, our results are dependent on the numerical resolution of the simulation.
 The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for  
-the molecular substructures, likely resulting from 
+the molecular substructures.
+Such a high velocity dispersion likely results from 
 the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
 Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
 This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are 
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\approx$2 for the MCs in the satellite galaxies, which we interpret as a result of the weaker stellar feedback as they have
+We also find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as 
+result of the weaker stellar feedback as they have
 experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
 MCs in the satellites are therefore likely collapsing structures. This paints a picture, in which at the EoR, \SF continues 
 as gas is being accreted from the IGM.
