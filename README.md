@@ -4,13 +4,16 @@ See github commit and code doc for other progres.. lazy to update this README fi
 
 Sept 10th 2018
 - for paper... 
-  1. finish analysis for Sec. 4, and update paper correspondingly
+  1. finish analysis for Sec. 4, and update paper correspondingly (e.g., sec 5.2 - origin of MCs)
   2. fix cosmetics of plots (e.g., Fig 3; ranges shown in Fig 7,8,10)
     + add annotation of n_cut directly on Fig 3  
     + bigger axes label fonts in Fig 1.
     + add annotation of disk/satelites/sub-MCs directly on Fig 5-11
+    + bigger text for Fig 13
   3. re-arrange sections/text as warranted, based on comments from co-authors
   4. discussion of turbulence relating to observables (e.g., shift of SLED to higher J for higher \sigma and Mach number, but note the shift is not unique to just \sigma, will need dispersion map too, but then the latter is affected by LOS and inclination effects..)
+  5. expand sec 5.3 a bit more, now it's not totally conherent.. I still need to flesh out some ideas and texts
+  6. currently fig. 8 not used anywhere.. --> need to somehow, somewhere talk about temporal evolution in the main text (maybe in Discussions section?)
 
 July 16th 2018
 - two really problematic bugs in yt clump find module
