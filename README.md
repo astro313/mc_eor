@@ -7,6 +7,8 @@ Sept 10th 2018
   1. finish analysis for Sec. 4, and update paper correspondingly
   2. fix cosmetics of plots (e.g., Fig 3; ranges shown in Fig 7,8,10)
     + add annotation of n_cut directly on Fig 3  
+    + bigger axes label fonts in Fig 1.
+    + add annotation of disk/satelites/sub-MCs directly on Fig 5-11
   3. re-arrange sections/text as warranted, based on comments from co-authors
   4. discussion of turbulence relating to observables (e.g., shift of SLED to higher J for higher \sigma and Mach number, but note the shift is not unique to just \sigma, will need dispersion map too, but then the latter is affected by LOS and inclination effects..)
 
