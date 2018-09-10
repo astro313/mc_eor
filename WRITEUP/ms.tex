@@ -321,7 +321,7 @@ $n_{\rm cut}$\eq[0.53, 6.81,19.00]\,cm$^{-3}$, which is only a subset of all the
 \end{figure*}
 
 In \Fig{h2density}, we show an example of the volumetric H$_2$ density ($n_{\rm H2}$) distribution of \flower
-for a given snapshot which includes contributions within $R\sim$3.5\,kpc from the galaxy center\footnote{For reference,
+for a given snapshot which includes contributions within $R\sim$\,3.5\,kpc from the galaxy center\footnote{For reference,
 the half mass radius of \flower is $\sim$0.5\,kpc and the dark matter virial radius at which the mean enclosed density is 200 times 
 the critical density of the Universe % presumably defined at the redshift of \flower here?
 is $r_{\rm 200}$\ssim15\,kpc.}.
@@ -332,21 +332,23 @@ We identify MCs by applying 10 equally-spaced volumetric H$_2$ density cuts of
 $\log{(n_{\rm cut}/{\rm cm^{-3})}}\in[-0.5, 1.5]$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 19.00, 31.62]\footnote{We also vary the range of
 $n_{\rm cut}$ adopted and find no qualitative differences
 affecting the results and conclusions of this work except in the slope of the CMF (see \Sec{ncut} and \Sec{cmf}).}
-to the same snapshot as that
+to the same snapshot 
 used to plot \Fig{h2density}.
 
-In \Fig{MC}, we over-plotted the molecular structures identified using
-a subset of the $n_{\rm cut}$ (0.53, 6.81, and 19.00\,\cc) on the H$_2$ density maps as an example.
+For visualization, we overplot the molecular structures identified using
+a subset of the $n_{\rm cut}$ (0.53, 6.81, and 19.00\,\cc) on the H$_2$ density maps 
+in \Fig{MC} as an example.
 The plots shown in \Fig{MC} are weighted by the total gas density; that is, 
 \begin{equation}
 {\rm pixel} = \frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}, 
 \label{eqn:integrate}
 \end{equation} 
-where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
+where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt 
+to be the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
 
 Since the molecular structures identified could
 easily appear as overlapping structures depending on the viewing angle, we
-also plot them in different three-dimensional projections --- so that one can more
+also plot them in different three-dimensional projections (right panels of \Fig{MC}) --- so that one can more
 easily see that they are collections of disjoint structures.
 We repeat this identification process for 14 snapshots between
 redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq50\,Myr.
@@ -452,7 +454,7 @@ and Jeans mass $M_J\propto\sigma^4/\Sigma$
 for dispersion-supported structures.
 
 \subsection{Formalism: Virial Equilibrium and Larson's Relations}  \label{sec:PVE}
-{\AP I fear that putting this subsection here breaks a bit the flow of the analysis of the results. Maybe we can put it as an appendix and keep only eq. 10 in the main text (a put it at when analysing the relevant plot)? }
+% \AP{I fear that putting this subsection here breaks a bit the flow of the analysis of the results. Maybe we can put it as an appendix and keep only eq. 10 in the main text (a put it at when analysing the relevant plot)? }
 
 % Relating Larson's law to stability and pressure (perhaps move this to other section?).
 A spherically symmetric cloud of mass $M$ and radius $R$ embedded within
@@ -560,7 +562,7 @@ are lower than their ``parent'' MCs found in the main disk of \flower ($\alpha_{
 % PVE
 We also compare the MCs identified in our simulations to 
 those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panel of 
-\Fig{alpha16}). The V-shaped dashed lines in the figure show the locii along which the given external pressures are needed for 
+\Fig{alpha16}). The V-shaped dashed lines in the figure show the loci along which the given external pressures are needed for 
 MCs to have linewidth for a given set of surface densities (see \Sec{PVE}). 
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
 
@@ -610,7 +612,7 @@ Top: Virial parameter and cloud mass of \flower in the accreting phase (star sym
 Literature data are compiled from \citealt{Kauffmann17b} and references therein.
 Bottom: $\sigma^2/R - \Sigma_{\rm gas}$ relation of the MCs identified in our simulation (star symbols) 
 compared to those observed in the Milky Way (black dot markers).
-The V-shaped dashed lines show the locii along which the given external pressures
+The V-shaped dashed lines show the loci along which the given external pressures
 are needed for MCs to have linewidth $\sigma$ for a given set of surface densities (see \Sec{PVE}).
 In both panels, the star symbols are color-coded by $n_{\rm cut}$.
 Star symbols lying close to $\alpha_{\rm vir}\approx2$ in the top panel  
@@ -718,6 +720,7 @@ established based on \obs of the Milky Way.
 Star symbols are color-coded by increasing $n_{\rm cut}$.
 Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}.
 Red line shows the threshold for massive \SF reported by \citet{Kauffmann10b}.
+% \citep{Lombardi10a}.
 \label{fig:MR}}
 \end{figure*}
 
@@ -847,12 +850,14 @@ One should, however, keep in mind that
 the slope of the CMF reported here is subject
 to the uncertainties in the analysis method and the resolution of our simulation. 
 That is, we are likely biased to finding more massive clouds due to resolution effects; 
-it is possible that we may identify more and less massive MCs if our simulation 
+it is possible that we may identify more less massive MCs if our simulation 
 was done at a higher resolution. 
-That said, one must acknowledge that such a zoom-in simulation is currently too expensive to perform with 
+That said, one must acknowledge that such a zoom-in simulation is currently quite expensive to perform with 
 existing computational power.
-In any case, similarly massive molecular clouds have been reported in simulations done at higher resolution (i.e., 
-in closed box simulations; \citealt{Behrendt16a}). 
+In any case, similarly massive molecular clouds have been reported in idealized closed-box isolated galaxy 
+simulations done at higher resolution (e.g., \citealt{Behrendt16a}). 
+Note, however, that the IGM and merger and accretion histories are not properly modeled in such simulations 
+since they adopt non-cosmological initial conditions. 
 It is therefore conceivable that our results are not that far off in spite of the limited resolution ($l\approx$30\,pc).
 Future higher resolution zoom-in simulations would certainly be useful to understand
 the evolving dynamical properties of the lower-mass molecular structures in
