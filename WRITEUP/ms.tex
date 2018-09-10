@@ -1,11 +1,9 @@
 % --------------------------------------------
-% \documentclass[twocolumn]{aastex6}
-% \documentclass[apj]{emulateapj}
-%\documentclass[iop]{emulateapj_old} 
-\documentclass[iop]{emulateapj} 
+
+% AP: I have some compatibility issues with the new style (i.e. \section does not work)
+\IfFileExists{emulateapjlegacy.cls}{\documentclass[iop]{emulateapjlegacy}}{\documentclass[iop]{emulateapj}}
+
 \usepackage{amsmath}
-
-
 \input{preamble}
 \slugcomment{Paper draft for the project developed at the Kavli Summer Program in Astrophysics 2018. 
 To be Submitted.}
@@ -93,7 +91,9 @@ light on \SF since the cosmic dark ages.
           galaxies: starburst --
           stars: formation}
 
-
+% it can be instead included as
+% \graphicspath{{Fig/}}
+% so that plots are automatically searched for in the given path
 \def\figpath{./Fig}
 
 %--------------------------------------------------------------------------
@@ -1056,8 +1056,10 @@ We show in \Fig{sk} the MCs of \flower, identified using different $n_{\rm cut}$
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
+%\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
+\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/CMF_.png}
 \caption{
+\AP{figure not found in the path}
 SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (star symbols) compared to those 
 observed in 0\,$\lesssim$\,\z$\lesssim$\,2 galaxies.
 Literature data are compiled from \citealt{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a} and 
