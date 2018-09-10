@@ -51,10 +51,11 @@ Dynamical Properties of Molecular Cloud Complexes in a Redshift 6 Prototypical G
 
 \begin{abstract}
 We study the dynamical properties of molecular clouds complexes (MC) and their temporal evolution in \flower, a prototypical galaxy
-at the Epoch of Reionization (EoR) using state-of-the-art cosmological zoom-in simulation.
+at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
 We use a clump finder algorithm and a set of H$_2$ volumetric densities ($n_{\rm cut}$) 
 to identify MCs and their sub-structures.
-We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
+We extract properties such as mass, size, velocity dispersion, gas surface density, and virial parameter ($\alpha_{\rm vir}$) 
+for each MC and 
 compare them with those observed in the Milky Way disk, the Galactic center,
 and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF.
 The high velocity dispersions found in the MCs of \flower ($\sigma\approx$\,200\,\kms) are comparable to 
@@ -68,16 +69,16 @@ The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically
 The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the $n_{\rm cut}$ and even for  
 the molecular substructures, likely resulting from 
 the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
-Virial analysis indicates that the MC found in the arms of the main disk of \flower are unbound, but the substructures have lower virial parameter. 
+Virial analysis indicates that the MCs found in the main disk of \flower are unbound, but its substructures have lower virial parameters. 
 This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are 
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\approx$2 for the MCs in the satellite galaxies, which we interpret as a result of the weaker stellar feedback as they have
-experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result of the weaker stellar feedback 
+due to the less frequency \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the former).
 MCs in the satellites are therefore likely collapsing structures. This paints a picture, in which at the EoR, \SF continues 
-as gas is being accreted from the IGM.
+as gas is being accreted from the intergalactic medium.
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
-Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
-mass distribution, which steepens as we increase $n_{\rm cut}$. 
+Our results are insensitive to the choice of $n_{\rm cut}$, except for the slope of the cumulative 
+mass distribution, which steepens with $n_{\rm cut}$. 
 High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the 
 Next Generation Very Large Array (ngVLA)
 will provide useful observational data to test our findings and the validity of our simulation to shed
@@ -117,9 +118,10 @@ observed in nearby galaxies, with masses of $M_{\rm cl}$\eq10$^9$\,\Msun
 and sizes on sub-kpc scales (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
 Some theoretical works argue that the
 migration of such giant massive clumps are responsible for contributing to the
-buildup of the bulges of massive galaxies at \z$\sim$0 \citep[e.g.,][]{Ceverino10a}.
+buildup of the bulges of massive galaxies at \z$\sim$\,0 \citep[e.g.,][]{Ceverino10a}.
 
-Given that \highz galaxies are the early stages of evolution of present-day galaxies, studying their ISM properties is essential for understanding how \SF proceed under these more extreme conditions, thereby driving the evolution and assembly history of galaxies 
+Given that \highz galaxies are the early stages of evolution of present-day galaxies, studying their ISM properties is essential for understanding how \SF proceed under these relatively more extreme conditions, thereby driving the evolution and assembly 
+of galaxies 
 since the cosmic dark ages.
 Current consensus is that at higher redshifts, galaxies have higher 
 star formation rates \citep[SFR; ][]{Behroozi13b, Sparre15a, Maiolino15a, Dunlop17a} and 
@@ -143,7 +145,7 @@ atomic, molecular; e.g., \citealt{Scoville74a, Rubin85a, Malhotra01a}).
 Global measurements of these diagnostics in \highz galaxies
 have informed us on their galaxy-wide properties (e.g.,
 gas masses, gas temperature, and radiation field intensity).
-However, spatially resolving their ISM is needed in order to understand their role in galaxy evolution and
+However, spatially resolving their ISM is necessary to understand their roles in galaxy evolution and
 the physics behind their intense \SF (SFR\ssim100$-$3000\,\Msun\,yr\pmOne).
 To date, spatially resolved ISM properties of \highz galaxies
 have only been examine observationally in a handful of (strongly-lensed)
@@ -158,7 +160,7 @@ which is responsible for producing the
 ionizing photons that reionized the Universe.
 
 While ALMA has enabled the detections of
-ISM diagnostic lines e.g., the \cii158\,$\micron$ and CO line emission inr
+ISM diagnostic lines e.g., the \cii158\,$\micron$ and CO line emission in
 normal (SFR$<$\,100\,\Msun\,yr\pmOne) galaxies at \z$>$\,6 over the past few years \citep[e.g.,][]{Odorico18a, Carniani18b},
 we are still far from mapping their molecular ISM due to the cosmological dimming.
 As such, we have undertaken a study, exploiting
@@ -169,8 +171,8 @@ galaxy.
 
 This paper is structured as follows.
 \AP{TBM}
-In \Sec{sim}, we describe the setup of our simulation and the properties of our galaxy (\flower),
-and describe the method used to identify its molecular gas complexes (MC).
+In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower),
+and describe the method used to identify its molecular gas complexes.
 In \Sec{results}, we present scaling relations based on
 the MC identified and compare them with observations of molecular
 (sub-)structures seen in nearby and \z$>$\,0 galaxies.
@@ -800,13 +802,13 @@ We overplot the MCs on the Toomre-Q map.
 
 \section{Cumulative Mass Distribution}   \label{sec:cmf}
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/CMF_.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/CMF_.png}
 \caption{
 CMF of MCs in \flower and best-fit power law.
 \label{fig:cmf}}
-\end{figure*}
+\end{figure}
 
 The mass range of the MCs identified in our simulation is $M_{\rm cl}\approx$10$^{6.5-9}$\,\Msun,
 consistent with those observed in \z$\sim$2 galaxies in
@@ -858,7 +860,7 @@ In any case, similarly massive molecular clouds have been reported in idealized 
 simulations done at higher resolution (e.g., \citealt{Behrendt16a}). 
 Note, however, that the IGM and merger and accretion histories are not properly modeled in such simulations 
 since they adopt non-cosmological initial conditions. 
-It is therefore conceivable that our results are not that far off in spite of the limited resolution ($l\approx$30\,pc).
+It is therefore conceivable that our results are not that far off in spite of the limited resolution ($l\approx$\,30\,pc).
 Future higher resolution zoom-in simulations would certainly be useful to understand
 the evolving dynamical properties of the lower-mass molecular structures in
 galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
@@ -894,7 +896,7 @@ whereas in \flower, which is actively accreting gaseous materials
 from the surrounding, they are probably form from constant cold gas accretion onto the entire galaxy (without 
 requiring gas to be funneled into the central region).
 This latter mechanism may also be the dominant mode for forming the highly supersonic massive MCs observed 
-in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{}).
+in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}).
 The constant inter-cloud collision as gas is being accreted onto the main galaxy would also render 
 the MCs to be gravitationally unbound (see e.g., \citealt{Dobbs11a}), which would be consistent with/explain the 
 high $\alpha_{\rm vir}$ found for the MCs in the main disk of \flower.
@@ -975,7 +977,7 @@ correspond to the arms of the disk of \flower which break down into smaller $\le
 The more massive and bigger MCs in \flower compared to the Milky Way 
 likely result from the higher gas mass fraction, surface density, and velocity dispersion, 
 which set the scale for fragmentation.
-This is consistent with what has been found previously in higher resolution simulation of isolated galaxies \citep{}.
+This is consistent with what has been found previously in higher resolution idealized simulation of isolated galaxies.
 That said, our cosmological zoom-in simulation here allows us to examine 
 the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM (see e.g., \citealt{Klessen10a, Goldbaum11a}).
 
@@ -1048,22 +1050,14 @@ We also thank the New York University CCPP for their hospitality in hosting us, 
 \appendix
 \section{Schmidt-Kennicutt Relation}
 As benchmarking, we check the SK relation for the MCs identified based on their SFR and gas surface densities.
-We show in \Fig{sk} the MCs of \flower, identified using different $n_{\rm cut}$ in the ``accreting snapshot'' 
-(see \Sec{sfh} for details) compared to those reported in \obs. 
-
-\AP{i m currently a bit confused on how to re-generate pickle files to be used for the plot}
-\DL{by running test\_brute.py}
-
-\AP{I would put a figure with the SK-relation for the clumps in a single snapshot for different cuts, along with the observed points and the global \flower point from the data found in \citet{Pallottini17a}}
-\DL{to do... after getting points from Pallo, then update plot\_cloud\_prop.py and plotsingleSS.py (uncomment plot\_suff(SK) and only plot snapshot 16)}
+We show in \Fig{sk} the MCs of \flower identified in the accreting phase using different $n_{\rm cut}$
+(see \Sec{sfh} for details) and those reported in nearby and \highz \obs \citep{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a}. 
 
 
 \begin{figure*}[htbp]
 \centering
-%\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/CMF_.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
 \caption{
-\AP{figure not found in the path}
 SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (star symbols) compared to those 
 observed in 0\,$\lesssim$\,\z$\lesssim$\,2 galaxies.
 Literature data are compiled from \citealt{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a} and 
