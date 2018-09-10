@@ -1,6 +1,7 @@
 % --------------------------------------------
 % \documentclass[twocolumn]{aastex6}
 % \documentclass[apj]{emulateapj}
+%\documentclass[iop]{emulateapj_old} 
 \documentclass[iop]{emulateapj} 
 \usepackage{amsmath}
 
@@ -34,7 +35,10 @@ Dynamical Properties of Molecular Cloud Complexes in a Redshift 6 Prototypical G
 \author{T. K. Daisy Leung\altaffilmark{1, 2}}
 \author{Andrea Pallottini\altaffilmark{3, 4}}
 \author{Andrea Ferrara\altaffilmark{4, 5}}
-\author{Mordecai-Mark Mac Low\altaffilmark{2, 6, 7, 8}}
+\author{Mordecai-Mark Mac Low\altaffilmark{2, 6, 7
+%mm, 8   [I only use the Drexel affiliation when working with folks
+%from there...]
+}}
 
 \affil{\textsuperscript{1} Department of Astronomy, Space Sciences Building, Cornell University, Ithaca, NY 14853, USA; }
 \email{tleung@astro.cornell.edu}
@@ -44,7 +48,7 @@ Dynamical Properties of Molecular Cloud Complexes in a Redshift 6 Prototypical G
 \altaffiltext{5}{Kavli Institute for the Physics and Mathematics of the Universe (IPMU), The University of Tokyo, 5-1-5 Kashiwanoha, Kashiwa 277-8583, Japan}
 \altaffiltext{6}{Institut f{\"u}r Theoretische Astrophysik, Zentrum f{\"u}r Astronomie der Universit{\"a}t Heidelberg, 69120 Heidelberg, Germany}
 \altaffiltext{7}{American Museum of Natural History, 79th St.~at Central Park West, New York, NY 10024, USA}
-\altaffiltext{8}{Department of Physics, Disque Hall, Drexel University, Philadelphia, PA 19104, USA}
+%mm \altaffiltext{8}{Department of Physics, Disque Hall, Drexel University, Philadelphia, PA 19104, USA}
 
 
 \begin{abstract}
@@ -371,9 +375,9 @@ the size is parameterized via the radius of a sphere, which has a volume corresp
 Since in \obs, dense gas contributes more to the observed linewidths than the more diffuse gas. We therefore calculate 
 the one-dimensional non-thermal component of the velocity dispersion ($\sigma_{\rm NT}$) of each MC as a density-weighted quantity:
 \begin{equation}
-\sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{xyz} \sum_{i}^N \rho_i \left(\mathbf{v} - \mathbf{\bar v}\right)_{xyz}^2}{\sum_i^N \rho_i},
+\sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
 \end{equation}
-where $N$ is the number of zones of each MC.
+where the sum is done over the cells composing each MC.
 The total velocity dispersion includes contributions from the thermal sound speed ($c_s$):
 \begin{equation}
 \sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
@@ -1031,18 +1035,18 @@ We show in \Fig{sk} the MCs of \flower, identified using different $n_{\rm cut}$
 \DL{to do... after getting points from Pallo, then update plot\_cloud\_prop.py and plotsingleSS.py (uncomment plot\_suff(SK) and only plot snapshot 16)}
 
 
-\begin{figure*}[htbp]
-\centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
-\caption{
-SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (star symbols) compared to those 
-observed in 0\,$\lesssim$\,\z$\lesssim$\,2 galaxies.
-Literature data are compiled from \citealt{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a} and 
-\citealt{Pallottini17b}.
-%The literature data are compiled from \citealt{Leroy13a, Genzel13a, Sharon13a, Hodge15a}, \citealt{Pallottini17b} 
-%and references therein, and Sharon et al. in prep.
-\label{fig:sk}}
-\end{figure*}
+%\begin{figure*}[htbp]
+%\centering
+%\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/}
+%\caption{
+%SFR and gas surface densities of MCs identified in \flower in \ncode{serra} (star symbols) compared to those 
+%observed in 0\,$\lesssim$\,\z$\lesssim$\,2 galaxies.
+%Literature data are compiled from \citealt{Kennicutt98a, Bouche07a, Daddi10a, Daddi10b, Genzel10a, Tacconi10a} and 
+%\citealt{Pallottini17b}.
+%%The literature data are compiled from \citealt{Leroy13a, Genzel13a, Sharon13a, Hodge15a}, \citealt{Pallottini17b} 
+%%and references therein, and Sharon et al. in prep.
+%\label{fig:sk}}
+%\end{figure*}
 
 
 
