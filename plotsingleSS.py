@@ -46,6 +46,7 @@ def plotting_procedure(snapshot_num):
 
     ss, to_plot, leafdir_out = load_pickleTOplot(snapshot_num)
 
+    plot_stuff("gas sd per ff", "sfr sd", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)    # SK
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ",
@@ -62,7 +63,6 @@ def plotting_procedure(snapshot_num):
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
-#     plot_stuff("gas sd", "sfr sd", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("gas sd", "sigma kms", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",

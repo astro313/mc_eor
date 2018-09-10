@@ -12,6 +12,7 @@ def setup_cmap(cm='gist_rainbow'):
 
 def setup_plot():
     import matplotlib
+    from cycler import cycler
     # print(matplotlib.matplotlib_fname())
 
     matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
@@ -19,6 +20,7 @@ def setup_plot():
                                 , 'legend.fontsize': 10      # points
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
+                                , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
                                 , 'text.usetex': True    # Use LaTeX to layout text
                                 , 'font.family': "serif"  # Use serifed fonts
                                 , 'xtick.major.size': 10     # length, points
@@ -88,6 +90,7 @@ def unpack_xy(ss):
         _tffMyr = []
         _mSD_cgs = []
         _sigma2oR = []
+        _mSD_per_ff = []   # Msun/pc^2/Myr
 
         for kkk in ss[ks].iterkeys():
             # print ss[ks][kkk]
@@ -112,6 +115,7 @@ def unpack_xy(ss):
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
             _sigma2oR.append(ss[ks][kkk].sigmaSq / (1.e5)**2 /
                              (ss[ks][kkk].R_pc * 2.0))
+            _mSD_per_ff.append(ss[ks][kkk].massSD / (ss[ks][kkk].R_pc)**2 / ss[ks][kkk].tff_Myr)
 
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
@@ -131,6 +135,7 @@ def unpack_xy(ss):
         to_plot[ks]['tff Myr'] = _tffMyr
         to_plot[ks]['gas sd cgs'] = _mSD_cgs
         to_plot[ks]['sigmaSq over size'] = _sigma2oR
+        to_plot[ks]['gas sd per ff'] = _mSD_per_ff
 
     return to_plot
 
@@ -174,6 +179,47 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     legend_h = []
 
+    if xstr == "gas sd per ff" and ystr == "sfr sd":
+        # data points from Pallottini+17b Fig. 9
+        path = 'literature/data/'
+
+        file_list = ['sk_kennicutt1998.dat', 'sk_bouche07a.dat',  'sk_daddi10b.dat',
+             'sk_daddi10a.dat', 'sk_tacconi10a.dat', 'sk_genzel10a.dat']
+        label_list = ['Kennicutt+98', r"Bouch\'e+07",
+                      r'Daddi+10a', r'Daddi+10b', 'Tacconi+10', 'Genzel+10']
+        list_2 = ['sk_Heiderman10.dat', 'sk_Lada10.dat']
+        label_list_2 = ['Heiderman+10', 'Lada+10']
+
+        colors = ('k', 'g', 'darkred', 'c', 'blue', 'orange')
+        markers = ('.', 's', 'D', 'v', 'h', '8', '1')
+        morecolors = ('darkolivegreen', 'brown')
+        moremarkers = ('x', '+')
+
+        for i in xrange(len(file_list)):
+
+            f_in = path + file_list[i]
+            ss = np.loadtxt(f_in, usecols=(2, 3, 4, 5, 6, 7, 8, 9))
+            x = ss[:, 6]
+            y = ss[:, 3]
+
+            ax.plot(x, y, label=label_list[i], marker=markers[i], linestyle='None', color=colors[i], markersize=5)
+
+        for i in xrange(len(list_2)):
+            f_in = path + list_2[i]
+            ss = np.loadtxt(f_in, usecols=(5, 8))
+
+            x = np.log10(ss[:, 1])
+            y = np.log10(ss[:, 0])
+            ax.plot(x, y, marker=moremarkers[i], linestyle='None', label=label_list_2[i], color=morecolors[i], markersize=5)
+
+        # Althaea
+        f_in = path + 'simulations.dat'
+        x, y = np.loadtxt(f_in, usecols=(1, 2))
+        x_althaea, y_althaea = x[0], y[0]
+
+        ax.plot(np.log10(x_althaea), np.log10(y_althaea), marker='*', markersize=15, color='red', label=r'Alth{\ae}a', linestyle='None', zorder=30, markeredgecolor='k')
+
+
     if xstr == "gas sd" and ystr == "sfr sd":
         _, Heinerman_SigmaGas, _, Heinerman_SigmaSFR = load_Heiderman10()
         ax.plot(Heinerman_SigmaGas, Heinerman_SigmaSFR, marker='.', markersize=7, linestyle='',
@@ -182,9 +228,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         x, y = [10**0.50, 10**4.0], [10**(-2.85), 10**2.1]
         ax.plot(x, y, linestyle='-', color='b',
                 linewidth=2, label="Kennicutt 1998")
-
-        # data points from Pallottini+17b Fig. 9 (To add)
-        # ....
 
         # more from high-z literature
         x0901, y0901 = np.loadtxt(
@@ -543,6 +586,10 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         _x = to_plot[ks][xstr]
         _y = to_plot[ks][ystr]
         if sfrlabel:
+            if xstr == "gas sd per ff" and ystr == "sfr sd":
+                _x = np.log10(_x)
+                _y = np.log10(_y)
+
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
                          label="SFR: " + "{0:d}".format(int(sfr[ks])),
@@ -551,12 +598,21 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             legend_h.append(h)
 
         else:
+            if xstr == "gas sd per ff" and ystr == "sfr sd":
+                _x = np.log10(_x)
+                _y = np.log10(_y)
+
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker, label=leglabel + ks,
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
             legend_h.append(h)
+
+    # name_out = ystr.replace(' ', '-') + '_' + \
+    #     xstr.replace(' ', '-')
+    # fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
+    # import sys; sys.exit()
 
     if(xstr == 'cloud mass'):
         ax.set_xscale("log")
@@ -613,7 +669,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
     if(ystr == "gas sd"):
         ax.set_ylim(1.0, 1.e4)
 
-    if ystr == "sfr sd":
+    if ystr == "sfr sd" and xstr != "gas sd per ff":
         ax.set_yscale("log")
         ax.set_ylabel(
             r"$\Sigma_{\rm SFR}$ [M$_{\odot}$ yr$^{-1}$ kpc$^2$]")
@@ -649,6 +705,13 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.set_xlim(10**-2, 10**2.8)
         ax.set_ylim(10.0, 10.0**8)
 
+    if xstr == "gas sd per ff" and ystr == "sfr sd":
+        ax.set_ylabel(r"$\log {\left(\Sigma_{\rm SFR}\right)}$ [$M_{\odot}$ Myr$^{-1}$ pc$^{-2}$]")
+        ax.set_xlabel(r"$\log {\left(\Sigma_{\rm gas}/t_{\rm ff}\right)}$ [$M_{\odot}$  pc$^{-2}$ Myr$^{-1}$]")
+        ax.set_ylim(-4, 4)
+#       ax.set_xlim(-2.2, 5)
+        ax.minorticks_on()
+
     if leglabel is not '':
         if xstr == "size pc" and ystr == "sigma kms":
                 # Shrink current axis by 20%
@@ -663,6 +726,8 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             ax.legend(handles=legend_h, loc="best",
                       fontsize=10)
         elif xstr == "cloud mass" and ystr == 'alpha vir':
+            ax.legend(loc='best', ncol=2, fontsize=10)
+        elif xstr == "gas sd per ff" and ystr == "sfr sd":
             ax.legend(loc='best', ncol=2, fontsize=10)
         elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
             ax.legend(loc='best', ncol=2, fontsize=10)
