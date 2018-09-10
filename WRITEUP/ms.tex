@@ -194,7 +194,7 @@ The simulation used in this work is described by \citealt{Pallottini17a} and is 
 adaptive mesh refinement (AMR) technique to achieve high spatial resolution in the region of interest (i.e., regions of high baryonic density).
 In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier2002a} as the AMR backend.
 %\ncode{Serra} uses sub-grid models that simultaneously account for the radiative transfer, clumpy structure, and photoevaporation feedback in the neutral diffuse and molecular gas.
-Our simulation covers a co-moving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of 30\,pc (at \z$\sim$\,6) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun in the finest level. Such a physical scale is close to the size scale of molecular cloud complexes and giant molecular clouds (GMCs), as seen in nearby galaxies \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
+Our simulation covers a co-moving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l\approx$\,30\,pc (at \z$\sim$\,6) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun in the finest level. Such a physical scale is close to the size scale of molecular cloud complexes and giant molecular clouds (GMCs), as seen in nearby galaxies \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
 % (Giant molecular clouds: L>22pc, m>10^5 Msun) in MW.
 We include chemical network in the simulation to trace $\rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}.
 Of particular importance to our study here is that our simulation includes non-equilibrium formation of molecular hydrogen (done on-the-fly) to determine the H$_2$ abundance (see \citealt{Pallottini17b} for effects of chemistry affected by non-equilibrium versus equilibrium H$_2$ formation).
@@ -227,7 +227,7 @@ for the molecular structures compared to more evolved galaxies found at
 a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive
 ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 
-\begin{figure*}[!hHtbp]
+\begin{figure*}[!htbp]
 \centering
 \includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
@@ -484,7 +484,8 @@ this equation using the following:
 Therefore, for a virialized cloud, one expects a one-to-one mapping between $V_0^2$ and $\Sigma$ since
 $\sigma^2/R\propto\Sigma$, whereas
 Equation~\ref{eqn:v0} represents the loci along which external pressures $P_{\rm ext}$ are
-needed in order for MCs to have linewidths $\sigma$ for a given set of surface densities.
+needed in order for MCs to have linewidths $\sigma$ for a given set of surface densities (see bottom panels of \Fig{alpha16} and 
+\Fig{alpha27}).
 In other words, a cloud with $\sigma$ and $\Sigma$ offset from $\sigma^2/R\rightarrowtail\Sigma$
 is in equilibrium with the external pressure $P_{\rm ext}$ (and therefore $V_0^2$ is not constant with $\Sigma$ but
 varies depending on $P_{\rm ext}$; cf. expectation for SVE, where
@@ -510,8 +511,8 @@ they are located in the nuclear regions of the
 galaxy, where the potential well is also deeper. The higher velocity dispersions
 in these MCs can also be understood as they have experienced more recent episodes
 of \SF as \flower is assembling its stellar mass (these MCs also have higher stellar-to-gas mass ratios of $\sim$60).
-In fact, by $z\simeq$7.2 (i.e., the snapshot corresponding
-to the top panel of \Fig{SFH} and \Fig{larsons_single}), \flower has assembled
+In fact, by $z\simeq$\,7.2 (i.e., the snapshot corresponding
+to the top panels of \Fig{SFH} and \Fig{larsons_single}), \flower has assembled
 a stellar mass of $M_*$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion
 is due in part to the stronger stellar feedback compared to e.g., MCs in its satellite galaxies ($\sigma\approx$10\,\kms).
 
@@ -523,30 +524,40 @@ similar to those observed
 in $z$\ssim2 spatially resolved studies of gas-rich star-forming galaxies, in
 terms of their velocity dispersions, sizes, and gas surface densities (\Fig{larsons_single}; see
 e.g., \citealt{Swinbank11a}),
-with sizes of the order of $R\simeq$100\,pc and velocity
-dispersions of $\sigma\simeq$\,20$-$\,80\,\kms. 
-As shown in \Fig{alpha16}, their virial parameter ($\alpha_{\rm vir}\gtrsim10$)
+with sizes of the order of $R\simeq$\,100\,pc and velocity
+dispersions of $\sigma\simeq$\,20$-$80\,\kms. 
+As shown in the top panel of \Fig{alpha16}, their virial parameter ($\alpha_{\rm vir}\gtrsim10$)
 are lower than their ``parent'' MCs found in the main disk of \flower ($\alpha_{\rm vir}\gtrsim100$). 
 %We note that previous studies by 
 %\citealt{Dobbs08a} and \citealt{Tasker09a} report that
 %clouds form in galactic disk typically have virial parameters between $\alpha_{\rm vir}$\eq0.2$-$10.
-This is consistent with
+
+% PVE
+We also compare the MCs identified in our simulations to 
+those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panel of 
+\Fig{alpha16}). The V-shaped dashed lines in the figure show the locii along which the given external pressures are needed for 
+MCs to have linewidth for a given set of surface densities (see \Sec{PVE}). 
+
+The lower $\alpha_{\rm vir}$ and $P_{\rm ext}$ compared to their parent MCs are consistent with
 the conventional wisdom that collapsing structures result from local gravitational
 instability within globally non-collapsing structures,
-which are supported by turbulence and rotation.
-In fact, based on the virial parameter, the MC identified in (the densest region of) the main disk of \flower
-would indicate that the MC itself is gravitationally unbound and is supported/confined 
-by turbulence and rotation on large scales.
-On the other hand, the MCs in the satellite galaxies are found to have
+which are supported by turbulence and rotation. 
+In fact, based on the virial parameter, velocity dispersion, and pressure of the MC identified in the main disk of \flower, 
+the MC itself is gravitationally unbound and is supported/confined 
+by turbulence and rotation on large scales (occupying the high pressure region shown in the bottom panel of \Fig{alpha16}).
+% Turbulence in these substructures further dissipates in % e.g., shocks on even smaller scales, allowing sub-MCs to be bound and collapse.
+
+The MCs in the satellite galaxies are found to have
 lower virial parameters compared to the (sub-)MCs in the main disk of \flower,
-with $\alpha_{\rm vir}\simeq$1 (see top panels of \Fig{alpha16} and \Fig{alpha27}).
+with $\alpha_{\rm vir}\simeq$1.
 Differences in their $\alpha_{\rm vir}$ most likely result from the weaker
 stellar feedback in the satellite galaxies as they have experienced less episodes of \SF compared to
 \flower (i.e., lower stellar-to-gas mass ratios of $\sim$0.1). 
-Given the low virial parameter
-and the $\sigma^2/R - \Sigma$ relation found for the MCs of the satellite galaxies, 
+In addition, the MCs in the satellite galaxies follow the locus of 
+$\log{(P/\textrm{K cm}^{-3})}$\eq6 (see bottom panel of \Fig{alpha16}). 
+Given the low virial parameter and the $\sigma^2/R - \Sigma$ relation found for these MCs in the satellite galaxies, 
 these structures are likely collapsing structures.
-
+This paints a picture, in which \SF continues as gas from the satellite galaxies are being accreted onto the main galaxies during the EoR.
 
 \begin{figure*}[htbp]
 \centering
@@ -576,7 +587,7 @@ The V-shaped dashed lines show the locii along which the given external pressure
 are needed for MCs to have linewidth $\sigma$ for a given set of surface densities (see \Sec{PVE}).
 In both panels, the star symbols are color-coded by $n_{\rm cut}$.
 Star symbols lying close to $\alpha_{\rm vir}\approx2$ in the top panel  
-and the locus of $\log{P/\textrm{K cm}^{-3} = 6}$ in the bottom panel correspond to MCs identified in the satellite galaxies.
+and the locus of $\log{(P/\textrm{K cm}^{-3}) = 6}$ in the bottom panel correspond to MCs identified in the satellite galaxies.
 \label{fig:alpha16}}
 \end{figure*}
 
@@ -664,6 +675,9 @@ We also examine the size-mass relation of the MCs identified in other snapshots,
 parameter space as the accreting phase. 
 {\bf so...}
 
+Similar MC properties in relation to those observed in the nearby Universe are found for \flower in its starburst phase (see bottom 
+panel of \Fig{larsons_single} and \Fig{alpha27}).
+
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
@@ -694,7 +708,7 @@ cloud scaling relations).
 In addition, for the densest MC in the main disk of \flower, we find that while
 its size decreases as we increase $n_{\rm cut}$ --- as one would intuitively expect,
 its velocity dispersion remain
-approximately $\sigma\simeq$200\,\kms (see \Fig{larsons_single}).
+approximately $\sigma\simeq$\,200\,\kms (see \Fig{larsons_single}).
 This lack of variation is reassuring, in the sense that at least on the scales studied here,
 the dynamics of the MCs are not artifacts or biased by our choice of $n_{\rm cut}$.
 Our results is therefore robust, haha.
@@ -783,32 +797,39 @@ The uncertainties are the formal fitting uncertainties.
 Regardless of the density threshold adopted, the slope of the CMF of \flower (\Fig{cmf})
 is shallower compared to those observed in nearby galaxies (between $-$1.6 and $-$2.5; based on a sample of
 $\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds; \citealt{Blitz07a}). % between -1.6 to -2.5, mostly -1.7, except for M33, which is -2.5
-This difference in slopes suggest that mo, albeit speculative due to resolution effects.
-In particular, it is possible that we may identify more substructures/smaller and less massive MCs if our simulation 
-was of higher resolution (but one must acknowledge that ..... is expeneisve to do zoom-in. This is what we have at best at the 
-moment with simulation power).
-That said, simularly massive moleuclar clouds have been reported in simulations of higher resolution (i.e., not zoom-in; \citealt{}).
-It is therefore conceivable that our results are not that far off.
-
+This suggests that the MCs of \flower are more massive compared to those observed in the nearby Universe.
 
 % interpretation
-A higher $\sigma$ and $\Sigma_{\rm gas}$ is related to the higher
-pressure. The higher $\Sigma_{\rm gas}$ is also related to more massive clouds being formed.
-In M64, there are few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun, such massive molecular
-structures are unknown to local group, and are likely the ... from which massive clusters or OB associations are to be formed.
-In CMZ, we have seen molecular clouds with high pressures $P/k_B > $10$^7$\,K\,cm$^{-3}$. % also, seen in massive star-forming regions, such as 30 Doradus.
+Velocity dispersion and surface density are tightly connected to pressure. 
+That is, the pressure of an MC is expected to increase with its velocity dispersion and surface density (see e.g., \Eq{pext} and 
+since $P\propto\Sigma^2$).
+In the central molecular zone of the Milky Way (CMZ), we have seen molecular clouds with high pressures of 
+$P/k_B > $10$^7$\,K\,cm$^{-3}$. Such high pressures are also seen in massive star-forming regions such as 30 Doradus.
+The higher $\Sigma_{\rm gas}$ in turn is related to more massive clouds being formed.
+In M64, there are a few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun. 
+On the other hand, such massive molecular structures are unknown to local group, and are likely the sites 
+from which massive star clusters or OB associations are to be formed.
+
 
 % a bit on caveat
-While our result, of particular relevance here is the slope of the CMF, is subject
-to the uncertainties in the analysis method and the resolution of our simulation --- i.e., that is
-we are likely biased to finding more massive clouds.
-High resolution simulations will be useful to shed light on
+One should, however, keep in mind that 
+the slope of the CMF reported here is subject
+to the uncertainties in the analysis method and the resolution of our simulation. 
+That is, we are likely biased to finding more massive clouds due to resolution effects; 
+it is possible that we may identify more and less massive MCs if our simulation 
+was done at a higher resolution. 
+That said, one must acknowledge that such a zoom-in simulation is currently too expensive to perform with 
+existing computational power.
+In any case, similarly massive molecular clouds have been reported in simulations done at higher resolution (i.e., 
+in closed box simulations; \citealt{}).
+It is therefore conceivable that our results are not that far off in spite of the limited resolution ($l\approx$30\,pc).
+Future higher resolution zoom-in simulations would certainly be useful to gunderstand
 the evolving dynamical properties of the lower-mass molecular structures in
-galaxies at EoR; however, they are more expensive to run.
-On the contrary, an advantage of using cosmological zoom-in simulations for this study
-is that our computational boxes are not closed, allowing us to examine how
-the molecular complexes' properties vary under the influence of gas inflow/outflow 
-(see e.g., \citealt{Klessen10a, Goldaum11a}). % turbulence when disk still accreting gas
+galaxies at EoR under the influence of gas inflow/outflow.
+%On the contrary, an advantage of using cosmological zoom-in simulations for this study
+%is that our computational boxes are not closed, allowing us to examine how
+%the molecular complexes' properties vary under the influence of gas inflow/outflow 
+%(see e.g., \citealt{Klessen10a, Goldbaum11a}). % turbulence when disk still accreting gas
 
 
 
@@ -846,10 +867,10 @@ in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{}).
 \AP{I would move it to the previous section; I would use the virial parameter analysis to discuss the gravitational instability point more than on evolutionary state of the galaxy}
 
 We quantify how stable a molecular structure is using the virial parameter, which
-is defined using \Eqn{virial} and describes the balance between kinetic and gravitational potential energies.
+is defined using \Eq{virial} and describes the balance between kinetic and gravitational potential energies.
 An $\alpha_{\rm vir}\approx$2 corresponds to approximately equipartition between the two energy terms 
 and is often used to assess the boundedness of a given structure \citep[see e.g., ][]{Kauffmann17b}\footnote{Note that 
-the true virial state/boundedness of a given structure also depends on the surface terms and the magnetic field (see \Eqn{virial} 
+the true virial state/boundedness of a given structure also depends on the surface terms and the magnetic field (see \Eq{virial} 
 in \Sec{PVE})}.
 
 The high $\alpha_{\rm vir}$ found in the majority of MCs of \flower suggest that they are not collapsing.
@@ -923,7 +944,7 @@ likely result from the higher gas mass fraction, surface density, and velocity d
 which set the scale for fragmentation.
 This is consistent with what has been found previously in higher resolution simulation of isolated galaxies \citep{}.
 That said, our cosmological zoom-in simulation here allows us to examine 
-the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM (see e.g., \citealt{Klessen10a, Goldaum11a}).
+the influence on the dynamics of MCs due to continuous gas accretion from the surrounding IGM (see e.g., \citealt{Klessen10a, Goldbaum11a}).
 
 We compare the dynamics of MCs in \flower to \obs in the context of the Larson's relation.
 The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the $n_{\rm cut}$ adopted.
