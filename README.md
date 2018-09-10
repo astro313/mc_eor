@@ -2,6 +2,14 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
+Sept 10th 2018
+- for paper... 
+  1. finish analysis for Sec. 4, and update paper correspondingly
+  2. fix cosmetics of plots (e.g., Fig 3; ranges shown in Fig 7,8,10)
+    + add annotation of n_cut directly on Fig 3  
+  3. re-arrange sections/text as warranted, based on comments from co-authors
+  4. discussion of turbulence relating to observables (e.g., shift of SLED to higher J for higher \sigma and Mach number, but note the shift is not unique to just \sigma, will need dispersion map too, but then the latter is affected by LOS and inclination effects..)
+
 July 16th 2018
 - two really problematic bugs in yt clump find module
   1. sometimes annotate_clumps() will plot all clumps, but sometimes it won't even if you explicitly ask it to.. Work around: loop through all the clumps and plot one-by-one
