@@ -340,11 +340,11 @@ a subset of the $n_{\rm cut}$ (0.53, 6.81, and 19.00\,\cc) on the H$_2$ density 
 in \Fig{MC} as an example.
 The plots shown in \Fig{MC} are weighted by the total gas density; that is, 
 \begin{equation}
-{\rm pixel} = \frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}, 
+{\rm voxel_i} = \frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}, 
 \label{eqn:integrate}
 \end{equation} 
-where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt 
-to be the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
+where $\rho_{\rm H2, i}$ is the H$_2$ density of voxel $i$, $w_i$ is the weighted quantity in voxel $i$ which we adopt 
+to be the total gas density, and $\Delta z_i$ is the path length of voxel $i$ along the line-of-sight over which the quantities are integrated along.
 
 Since the molecular structures identified could
 easily appear as overlapping structures depending on the viewing angle, we
@@ -442,8 +442,9 @@ Observations of nearby gas-rich galaxies such as M64 and NGC\,253
 show higher velocity dispersions compared
 to the disk/mid-plane of the Milky Way which are, on the other hand,
 more consistent with those observed in the inner regions of
-Milky Way \citep{Oka01a, Rosolowsky05a, Heyer09a, Leroy15a}.  % also higher $P_{\rm int}$,
+Milky Way and M51 \citep{Oka01a, Rosolowsky05a, Heyer09a, Hughes13b, Leroy15a, Rice16a}.  % also higher $P_{\rm int}$,
 % which is $\propto\rho\sigma^2$
+% M51: Colombo+14
 While the velocity dispersions of the clouds in these nearby gas-rich galaxies are comparable
 to the inner regions of Milky Way, they are found to be bigger in size (approximately
 an order of magnitude) and mass (approximately two orders of magnitude).
@@ -870,11 +871,14 @@ That is, if most of the molecular gas in \flower has high $\alpha_{\rm vir}$, wh
 This discrepancy can be explained in two ways.
 First, our results are limited by the resolution of the simulation, such that, in each MC, there
 likely exist multiple smaller-scales molecular structures (e.g., clumps and cores),
-as in the classical MC hierarchy. These smaller structures are 
-no longer supported by large-scale gravitational potential and differential rotation,
-as turbulence has dissipated rapidly on these smaller scales to enable collapse \citep{Clark04a}.
-In addition, non-axisymmetric perturbations (e.g., arms) to the gravitational potential
-can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation.
+as in the classical MC hierarchy. 
+Second, due to 
+turbulence dissipation on small-scales, such (sub-)structures are no longer supported by 
+large-scale gravitational potential and differential rotation. 
+This in turn enables subregions of the MCs to collapse and potentially form OB associations out of these unbound
+MCs \citep{Clark04a, Clark05a}.
+Additional mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
+can also induce orbit crossing, shocks and dissipation in gas, further promoting turbulence dissipation.
 
 We note that in a recent study by \citet{Pettitt18a}, the authors report that the virial parameter could be a poor indicator
 for the star-forming capacity of the massive (10$^{5-6}$\,\Msun) ``clouds'' in their simulation. 
@@ -887,6 +891,7 @@ comparing the clouds dynamics with observational studies, and thus,
 part of the discussion presented in this paper is based on virial analysis.
 But just something to keep in mind.
 
+
 \subsection{MC Dynamics and CMF and IMF at EoR}
 
 % interpretation
@@ -896,8 +901,8 @@ since $P\propto\Sigma^2$).
 In the central molecular zone of the Milky Way (CMZ), we have seen molecular clouds with high pressures of 
 $P/k_B > $10$^7$\,K\,cm$^{-3}$. Such high pressures are also seen in massive star-forming regions such as 30 Doradus.
 The higher $\Sigma_{\rm gas}$ in turn is related to more massive clouds being formed.
-In M64, there are a few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun. 
-On the other hand, such massive molecular structures are unknown to local group, and are likely the sites 
+In M64 and M51, there are a few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun \citep{Rosolowsky05a, Koda09a, Colombo14a}. 
+On the other hand, such massive molecular structures are unknown to Local Group \citep[e.g.,][]{Rice16a}, and are likely the sites 
 from which massive star clusters or OB associations are to be formed.
 % 
 The shallower slope found in the CMF for \flower compared to those observed in the nearby Universe (see \Sec{cmf}) may
@@ -943,7 +948,7 @@ simulated 20\,Mpc h\pmOne box and in its satellites.
 We decompose the molecular structures into non-overlapping tiles
 by identifying a set of different density contours at different snapshots.
 Using volumetric H$_2$ is essentially similar to identifying molecular structures using
-different contour levels on a surface brightness map of a molecular line tracer (e.g., CO, CS, NH$_3$),
+different contour levels/surfaces on a surface brightness map/cube of a molecular line tracer (e.g., CO, CS, NH$_3$),
 since the line luminosity scales with the molecular gas density (modulo optical depth effects).
 % Our choice of density cut is analogues to the .... in \obs. It should be ... that both suffer from problem .... For instance, in \obs.. limited S/N.
 We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MC and 
@@ -979,6 +984,7 @@ result of the weaker stellar feedback as they have
 experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
 MCs in the satellites are therefore likely collapsing structures. This paints a picture, in which at the EoR, \SF continues 
 as gas is being accreted from the IGM.
+
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, at least in terms of the scaling relations examined. 
 Our results are independent of the volume density threshold adopted, except for the slope of the cumulative 
 mass distribution, which steepens as we increase $n_{\rm cut}$. 
@@ -987,11 +993,10 @@ Determining the multi-phase ISM properties of early galaxies
 is a critical piece to understanding the evolution and
 assembly history of galaxies, since they set the pace
 for chemical reactions and excitation rates for the coolants in the ISM (and subsequent star formation).
-Observations leveraging the combination of spatio-spectral imaging of
+Observations leveraging the combination of spatial-spectral imaging of
 multi-band continuum and spectral line emission are crucial for better understanding
 the role of \highz galaxy populations
 in the context of galaxy evolution and the ISM physics behind their intense star formation in the early Universe.
-
 High resolution zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
 statistics and is subject to the input model/sub-grid models adopted, 
 provide an avenue to examine and postulate/make testable predictions on the morphology and dynamics of
@@ -999,11 +1004,6 @@ the multi-phase ISM structures of the first galaxies and their satellite galaxie
 High resolution imaging of the molecular gas content in the first galaxies with ALMA and the ngVLA, on the other hand,
 have the potential to provide useful observational data to test our findings and the validity of our simulation to shed
 light on \SF since the cosmic dark ages.
-
-% model can guide and interpret observations and provide new testable predictions. 
-% refine models using these new observations and test where models fail.
-% The opposite is true, where can use models to make predictions for the first galaxies, 
-% where future obs w/ ALMA and ngVLA will help discriminate and better understand xxx.
 
 
 %==============================================================================
@@ -1017,13 +1017,17 @@ We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their da
 T.K.D.L. acknowledges support by the NSF through award SOSPA4-009
 from the NRAO and support from the Simons Foundation.
 A.F. acknowledges support from the ERC Advanced Grant INTERSTELLAR H2020/740120.
-This work was initiated as a project for the Kavli Summer Program in Astrophysics (KSPA)
+This work is based on a project developed at the Kavli Summer Program in Astrophysics (KSPA)
 held at the Center for
 Computational Astrophysics of the Flatiron Institute in 2018. The program was co-funded by the Kavli
 Foundation and the Simons Foundation.
 We thank the KSPA Scientific and Local Organizing Committees, and the program founder,
-Pascale Garaud for supporting the genesis of this work.
-We also thank the New York University CCPP for their hospitality in hosting us, the refugees, after the steam pipe explosion in NYC during the KSPA.
+Pascale Garaud, for supporting the genesis of this work.
+We also thank the Center for Cosmology and Particle Physics (CCPP) 
+at the New York University
+for their hospitality in hosting us after the steam pipe explosion in NYC during the KSPA.
+This research has made use of NASA's Astrophysics Data System Bibliographic Services
+and \ncode{yt}, a community-developed Python package for analyzing simulation data in Astronomy.
 
 
 \bibliographystyle{yahapj}
