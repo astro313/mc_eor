@@ -4,7 +4,7 @@ See github commit and code doc for other progres.. lazy to update this README fi
 
 Sept 10th 2018
 - for paper... 
-  1. finish analysis for Sec. 4, and update paper correspondingly (e.g., sec 5.2 - origin of MCs)
+  1. finish analysis for Sec. 4, and update paper correspondingly (e.g., sec 5.2 - origin of MCs and sec 5.3 on origin of CMF stuff)
   2. fix cosmetics of plots (e.g., Fig 3; ranges shown in Fig 7,8,10)
     + add annotation of n_cut directly on Fig 3  
     + bigger axes label fonts in Fig 1.
