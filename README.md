@@ -2,6 +2,17 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
+Sept 12th 2018
+- more for paper, Mordecai's quick comments to be addressed
+Reading the abstract, I see two claims that I think need better support:
+
+1. "The more massive and bigger MCs in Althæa compared to the Milky Way likely result from the higher gas mass fraction, surface density, and velocity dispersion, which set the scale for fragmentation.”  It seems to me that the question of whether this actually occurs because of the effects of numerical resolution and the feedback approximation needs to be better investigated. For the resolution question, even though we don’t have a resolution study available, we can still ask the question of what the smallest objects that you are measuring are.  If they are already larger than the largest Milky Way MCs, then it is pretty clear that the simulation cannot address the question of whether there is a difference between Milky Way and simulated MC masses and radii.  The other issue here is the nature of the feedback, which likely cannot resolve the detailed interaction of the feedback with the high density regions, which could also result in fragmentation of clouds.
+
+2. "The velocity dispersion remains 100 km s−1 even when we increase the ncut and even for the molecular substructures, likely resulting from the strong supernova and stellar feedback Althæa experienced over the multiple episodes of bursty star formation.”  Although you included external pressure in the analytical virial analysis of section 3.1, you did not include rotation, which must play some role in determining the apparent velocity dispersion. Demonstrating that it is or isn’t important seems necessary for this paper to be complete.  The idea that the supernovae could be responsible for the observed velocity dispersion seems to conflict somewhat with the fast decay of supersonic turbulence.  Perhaps we could do an analysis like that of Tamburro et al. 2009 to determine the expected equilibrium velocity dispersion for a given SN rate, and compare that to the values you are finding.
+
+Another issue that comes up in the virial analysis is the suggestion that confinement by external pressure could be more effective than rotation in confining the MCs with very high virial number.  Since you have direct access to the turbulent and thermal pressure fields, you ought to be able to directly demonstrate or disprove the existence of such enormous confining pressures, which would place this idea on substantially stronger ground.
+
+
 Sept 10th 2018
 - for paper... 
   1. finish analysis for Sec. 4, and update paper correspondingly (e.g., sec 5.2 - origin of MCs and sec 5.3 on origin of CMF stuff)
