@@ -177,7 +177,7 @@ and describe the method used to identify its molecular gas complexes.
 In \Sec{results}, we present scaling relations based on
 the MC identified and compare them with observations of molecular clouds
 and structures seen in nearby and \z$>$\,0 galaxies.
-We present Toomre stability analysis in \Sec{Q}.
+% We present Toomre stability analysis in \Sec{Q}.
 We discuss the results % , robustness of our analysis, caveats, 
 and implications of our findings in \Sec{diss},
 and present our conclusions in \Sec{conclusion}.
@@ -315,7 +315,7 @@ accretion phase shown in \Fig{SFH}.
 \caption{
 Examples showing the MCs identified in our simulation by applying volumetric H$_2$ density cuts of
 $n_{\rm cut}$\eq[0.53, 6.81,19.00]\,cm$^{-3}$, which is only a subset of all the $n_{\rm cut}$ adopted (see text).
-	Color shows the H$_2$ surface density, weighted by the column density. Specifically, this is calculated using \Eq{integrate}.
+	Color shows the H$_2$ surface density, weighted by the column density. 
 % 	\AP{plot a proper label for the colorbar, and remove the trailing right axes labels (that are still there despite our efforts)}\DL{I tried more on Sept 7th, errrr, now all the ticks and labels for both panels disappear... hmm.. Not worth my time to fix this for the report.}
 \label{fig:MC}}
 % \addtocounter{figure}{-1}
@@ -339,13 +339,11 @@ used to plot \Fig{h2density}.
 For visualization, we overplot the molecular structures identified using
 a subset of the $n_{\rm cut}$ (0.53, 6.81, and 19.00\,\cc) on the H$_2$ density maps 
 in \Fig{MC} as an example.
-The plots shown in \Fig{MC} are weighted by the total gas density; that is, 
-\begin{equation}
-{\rm pixel_i} = \frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}, 
-\label{eqn:integrate}
-\end{equation} 
-where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt 
-to be the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
+The plots shown in \Fig{MC} are weighted by the column density of the total gas content.
+% equation below for bookkeeping: 
+% ${\rm pixel_i}$\eq$\frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}$,
+% where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt 
+% to be the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
 
 Since the molecular structures identified could
 easily appear as overlapping structures depending on the viewing angle, we
@@ -402,7 +400,7 @@ of all identified molecular complexes are generally much smaller compared to the
 turbulent velocities\footnote{We find comparable velocity dispersion between that derived from 
 taking the root mean square versus that derived from thermal and non-thermal pressure terms, indicating that
 rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.
-We further quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
+% We further quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
 In the subsequent sections, we adopt the root mean square of the velocity field
 as the velocity dispersion ($\sigma$).}.
 On average, the Mach number of the MCs corresponds to about $\mathcal{M}\approx50$.
@@ -567,7 +565,7 @@ MCs to have linewidth for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
 
 The lower $\alpha_{\rm vir}$ and $P_{\rm ext}$ compared to their parent MCs are consistent with
-the conventional wisdom that collapsing structures result from local gravitational
+the notion that collapsing structures result from local gravitational
 instability within globally non-collapsing structures \citep[see e.g.,][]{Ballesteros-Paredes11a},
 which are supported by turbulence and rotation. 
 In fact, based on the virial parameter, velocity dispersion, and pressure of the MC identified in the main disk of \flower, 
@@ -770,52 +768,52 @@ $\sim$70 resolved GMCs in M31, M33, IC10 and the Magellanic Clouds; \citealt{Bli
 This suggests that the MCs of \flower are more massive compared to those observed in the nearby Universe.
 
 
-
-\section{Origin of the clumps: Mass Scales set by Toomre and Jeans Instabilities}   \label{sec:Q}
-The onset of gravitational instability is considered to be tightly connected to (the conditions for) \SF \citep[e.g.,][]{Kennicutt89a, Li05b, Li06a}
-and is widely discussed in the context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}.
-For axisymmetric mode, the dispersion relation for the growth of density perturbation in a rotating turbulent disk
-of finite thickness $h$
-is described by:
-\begin{equation}
-\omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma^2 k^2,
-\label{eqn:3Ddisp}
-\end{equation}
-where $k$ is the wavenumber in the disk and $\kappa$ is the epicyclic frequency.
-The first term on the RHS describes rotation support, second term describes self-gravity, and
-the third term describes pressure support.
-The epicyclic frequency is defined as:
-\begin{equation}
-\kappa^2\equiv\frac{2\Omega}{R}\frac{d}{dR}\left(R^2\Omega\right).
-\label{eqn:kappa}
-\end{equation}
-% \kappa\propto\Omega
-One can then define the so-called Toomre-Q parameter/criterion for stability as
-\begin{equation}
-Q\equiv\frac{\sigma\kappa}{\pi G \Sigma}.
-\label{eqn:Q}
-\end{equation}
-We can then rewrite Equation~\ref{eqn:3Ddisp} in terms of
-\begin{equation}
-\omega^2 = Q^2 k^2 \left(\frac{\pi G \Sigma}{\kappa}\right)^2 - 2\pi G \Sigma |k| + \kappa^2.
-\end{equation}
-Thus, for $Q\lesssim$1, disk is unstable for some $k$ ($\omega^2 < 0$)
-and fragmentation can happen
-(e.g., instability impose by angular momentum from gas accretion from the cosmic web and
-satellite galaxies and stellar feedback).
-That is, local fragmentation takes place when gravity overcomes pressure support
-from turbulence (thermal is small here) and shearing of differential rotation.
-
-In the limit of a thin rotating disk, rotation can help stabilizes
-self-gravitational contraction for wavelengths greater than the Toomre length:
-\begin{equation}
-\lambda_T = 4\pi^2 G\Sigma/\kappa^2,
-\end{equation}
-yielding a characteristic mass of $M_T$\eq$\frac{\pi}{4}{\lambda_T^2}{\Sigma}$\eq4$\pi^2\frac{G^2\Sigma^3}{\kappa^4}$,
-which sets the ``upper limit'' to which MCs can form in a shearing disk.
-\DL{still yet to make the ``Q''-map}
-
-We overplot the MCs on the Toomre-Q map. 
+%
+%\section{Origin of the clumps: Mass Scales set by Toomre and Jeans Instabilities}   \label{sec:Q}
+%The onset of gravitational instability is considered to be tightly connected to (the conditions for) \SF \citep[e.g.,][]{Kennicutt89a, Li05b, Li06a}
+%and is widely discussed in the context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}.
+%For axisymmetric mode, the dispersion relation for the growth of density perturbation in a rotating turbulent disk
+%of finite thickness $h$
+%is described by:
+%\begin{equation}
+%\omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma^2 k^2,
+%\label{eqn:3Ddisp}
+%\end{equation}
+%where $k$ is the wavenumber in the disk and $\kappa$ is the epicyclic frequency.
+%The first term on the RHS describes rotation support, second term describes self-gravity, and
+%the third term describes pressure support.
+%The epicyclic frequency is defined as:
+%\begin{equation}
+%\kappa^2\equiv\frac{2\Omega}{R}\frac{d}{dR}\left(R^2\Omega\right).
+%\label{eqn:kappa}
+%\end{equation}
+%% \kappa\propto\Omega
+%One can then define the so-called Toomre-Q parameter/criterion for stability as
+%\begin{equation}
+%Q\equiv\frac{\sigma\kappa}{\pi G \Sigma}.
+%\label{eqn:Q}
+%\end{equation}
+%We can then rewrite Equation~\ref{eqn:3Ddisp} in terms of
+%\begin{equation}
+%\omega^2 = Q^2 k^2 \left(\frac{\pi G \Sigma}{\kappa}\right)^2 - 2\pi G \Sigma |k| + \kappa^2.
+%\end{equation}
+%Thus, for $Q\lesssim$1, disk is unstable for some $k$ ($\omega^2 < 0$)
+%and fragmentation can happen
+%(e.g., instability impose by angular momentum from gas accretion from the cosmic web and
+%satellite galaxies and stellar feedback).
+%That is, local fragmentation takes place when gravity overcomes pressure support
+%from turbulence (thermal is small here) and shearing of differential rotation.
+%
+%In the limit of a thin rotating disk, rotation can help stabilizes
+%self-gravitational contraction for wavelengths greater than the Toomre length:
+%\begin{equation}
+%\lambda_T = 4\pi^2 G\Sigma/\kappa^2,
+%\end{equation}
+%yielding a characteristic mass of $M_T$\eq$\frac{\pi}{4}{\lambda_T^2}{\Sigma}$\eq4$\pi^2\frac{G^2\Sigma^3}{\kappa^4}$,
+%which sets the ``upper limit'' to which MCs can form in a shearing disk.
+%\DL{still yet to make the ``Q''-map}
+%
+%We overplot the MCs on the Toomre-Q map. 
 
 
 
