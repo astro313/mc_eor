@@ -10,7 +10,7 @@ import cPickle as pickle
 import pymses
 from plot_modules.plot_cloud_prop import setup_plot
 setup_plot()
-from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, get_units
+from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, prepare_star_unigrid, get_units, import_fetch_stars
 
 # load camera stuff
 folder = 'precomputed_data/'
@@ -81,9 +81,9 @@ for kk, vv in axes.iteritems():
     # p.save('123.pdf')
 
     if kk is '2':
-        vel[kk] = np.c_[velx_projected, vely_projected] # , velz_projected]
+        vel[kk] = np.c_[velx_projected, vely_projected]  # , velz_projected]
     elif kk is '0':
-        vel[kk] = np.c_[vely_projected, velz_projected] # , velx_projected]
+        vel[kk] = np.c_[vely_projected, velz_projected]  # , velx_projected]
     elif kk is '1':
         vel[kk] = np.c_[velx_projected, velz_projected]  # , vely_projected]
 
@@ -92,7 +92,8 @@ for kk, vv in axes.iteritems():
     projected_SD = proj['density']  # 1D-array
     # Does the unit here make sense? or do we need to multiply by some factor?
 
-    projected_totalGasSurfaceDensity[kk] = projected_SD.reshape((-1, int(np.sqrt(projected_SD.shape[0]))))
+    projected_totalGasSurfaceDensity[kk] = projected_SD.reshape(
+        (-1, int(np.sqrt(projected_SD.shape[0]))))
     # proj.save_as_dataset(filename='123_proj.h5')
     # proj_ds = yt.load("123_proj.h5")
     # p = yt.ProjectionPlot(proj_ds, "x", "density",
@@ -135,7 +136,7 @@ vi = vel_plane[:, 0]
 vj = vel_plane[:, 1]
 print vi
 # vk = vel_plane[:, 2]
-radial_vel = (vi*i_hat + vj*j_hat)   # + vk*k_hat)
+radial_vel = (vi * i_hat + vj * j_hat)   # + vk*k_hat)
 radial_veloDisp = np.std(radial_vel)
 print radial_vel
 print radial_veloDisp
@@ -159,11 +160,53 @@ G = 6.67259e-8  # cgs
 
 radial_veloDisp_cgs = radial_veloDisp * 1.e5
 Q_gas = radial_veloDisp_cgs * np.sqrt(kappa_sq) / (A_gas * G * SD)
+print Q_gas.shape
 
+import matplotlib.pyplot as plt
+plt.imshow(Q_gas.reshape((-1, 224)))
+plt.savefig('123.pdf')
 
 # stars
-# read in particles, saved in call_resample_fields.py
-stardir = "snapshot" + str(isnap) + "_center_stars_resampled.h5"
+# read in particles
+# read from resampled.h5
+starData = import_fetch_stars(isnap=isnap, verbose=True, convert=True)   # default, convert=True
+print starData.keys()
 
-#
+# max vel
+# 2421836.4106407226 774885.1301048293 857806.5594254179 km/s, huhhh?! something wrong when regridding the velocities in cython_helper.pyx?!
+ds, dd = prepare_star_unigrid(data=starData,
+                              add_unit=True,     # since convert=True
+                              regionsize_kpc=region_size_kpc,
+                              debug=False)
 
+# sigma, Kappa, Sigma
+
+
+# Q_star =
+
+
+
+
+# stars and gas effective Q, Romeo & Wiegert 2011
+w = 2. * sigma_star * sigma_gas / (sigma_star**2 + sigma_gas**2)
+
+WoverQstars = w / Q_star
+WoverQgas = w / Q_gas
+
+Q_twoComp_inv = np.empty((Q_star.shape[0], Q_star.shape[1]))
+
+condition_1 = Q_star > Q_gas
+condition_2 = Q_star < Q_gas
+
+Q_twoComp_inv[condition_1] = WoverQstars + 1./Q_gas
+Q_twoComp_inv[condition_2] = 1./Q_star + WoverQgas
+
+Q_twoComp = 1./Q_twoComp_inv
+
+print Q_twoComp.shape
+plt.imshow(Q_twoComp.reshape((-1, 224)))
+plt.savefig('789.pdf')
+
+
+
+# Overplot clumps?
