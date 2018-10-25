@@ -79,7 +79,7 @@ for ssnum in snapshotToLoad:
     if os.path.exists(outname):
         os.system('rm ' + outname)
 
-    camera = {'center': center,  
+    camera = {'center': center,
               'region_size': originalSize}
 
     loc_vec = ds['loc_vector']
@@ -87,13 +87,13 @@ for ssnum in snapshotToLoad:
     epoch_vec = ds['epoch']
     id_vec = ds['id']
     mass_vec = ds['mass']
+    vel_vec = ds['vel']
 
     import pymses
     ro = pymses.RamsesOutput("output", ssnum)
 
-    # resample star particle mass and compute mass-weighted avg epoch correspondingly                       
-    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, \
-                           old_dt_myr=100., young_dt_myr=10., ro_in=ro, Nrefined=N, debug=False)
+    # resample star particle mass and compute mass-weighted avg epoch correspondingly
+    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, vel_vec, outname, camera, old_dt_myr=100., young_dt_myr=10., ro_in=ro, Nrefined=N, debug=False)
 
     # ------ sanity check -- still in code units..
     f = h5py.File(outname, "r")
@@ -113,4 +113,4 @@ for ssnum in snapshotToLoad:
     assert mass.shape == H2density.shape
     assert mass.shape[0] == H2density.shape[0] == N
 
-    
+

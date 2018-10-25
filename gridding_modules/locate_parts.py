@@ -12,8 +12,9 @@ import sys
 sys.path.append('../')
 
 
-def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
-                           outname, camera, old_dt_myr=100., young_dt_myr=10., ro_in=None, Nrefined=None, debug=True):
+def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector,                       vel_vec, outname, camera, old_dt_myr=100.,
+                           young_dt_myr=10., ro_in=None, Nrefined=None,
+                           debug=True):
 
     """
 
@@ -47,7 +48,7 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
         default: 10 Myr
 
     Nrefined: int
-       1D size of the resampled unigrid of the AMR stuff 
+       1D size of the resampled unigrid of the AMR stuff
 
     ro_in: pymses.RamsesOutput object
 
@@ -81,14 +82,14 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     bound_right  = center + originalSize/2.
 
     if Nrefined is None:
-        dx_vector = np.array(1/(np.e * levels_vec))        
+        dx_vector = np.array(1/(np.e * levels_vec))
         levels_uni  = np.unique(levels_vec)
 
         highestRes = 2.**(-levels_uni.max())
         N = int(originalSize / highestRes)
     else:
         N = int(Nrefined)
-    
+
     mass_cube = np.zeros((N, N, N))
     epoch_cube = np.zeros((N, N, N))
 
@@ -118,9 +119,9 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     #xx = np.array(xx, dtype=int)
 
     epoch_vec_universeAge = calculate_age_stars(ro_in=ro_in, dset_in={'epoch': epoch_vector})
-    mass_cube, epoch_universeAgeMyr_cube, young_cube, old_cube = grid_particle_mass(N, young_dt_myr, old_dt_myr, xx, mass_vector, epoch_vec_universeAge)
+    mass_cube, epoch_universeAgeMyr_cube, young_cube, old_cube, velx, vely, velz = grid_particle_mass(N, young_dt_myr, old_dt_myr, xx, mass_vector, epoch_vec_universeAge, vel_vec)
 
-    if debug: 
+    if debug:
         print 'Max mass cube in 10^8 Msun: ', mass_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun)
         print 'Max young cube (SF in past %d Myr) mass in 10^8 Msun: %.2f ' %(young_dt_myr, young_cube.max()/1.e8 * ro_in.info['unit_mass'].express(C.Msun))
         print 'Young cube (SF in past %d Myr) SFR [Msun/yr]: %.2f ' %(young_dt_myr, young_cube.sum()/1.e6/young_dt_myr * ro_in.info['unit_mass'].express(C.Msun))
@@ -164,7 +165,10 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector, \
     f.create_dataset("/mass", data=mass_cube)
     f.create_dataset("/epochMyr", data=epoch_universeAgeMyr_cube)
     f.create_dataset("/young" + str(int(young_dt_myr)), data=young_cube)
-    f.create_dataset("/old" + str(int(old_dt_myr)) , data=old_cube)
+    f.create_dataset("/old" + str(int(old_dt_myr)), data=old_cube)
+    f.create_dataset("/velx", data=velx)
+    f.create_dataset("/vely", data=vely)
+    f.create_dataset("/velz", data=velz)
     f.close()
 
     if debug:
@@ -204,6 +208,7 @@ if __name__ == '__main__':
     epoch_vec = ds['epoch']
     id_vec = ds['id']
     mass_vec = ds['mass']
+    vel_vec = ds['vel']
 
     # hard-coded for testing
     amrfile = '../snapshot' + str(ssnum) + '_center_fields0123456-15_resampled.h5'
@@ -213,9 +218,9 @@ if __name__ == '__main__':
 
     import pymses
     ro = pymses.RamsesOutput("../output", ssnum)
-                 
+
     # resample star particle mass and compute mass-weighted avg epoch correspondingly
-    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, outname, camera, old_dt_myr=100., \
+    resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, vel_vec, outname, camera, old_dt_myr=100., \
                            young_dt_myr=10., ro_in=ro, Nrefined=N, debug=True)
 
 # ------
