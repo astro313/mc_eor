@@ -1,6 +1,6 @@
 '''
 
-Last mod: 24 July 2018
+Last mod: 25 Oct 2018
 
 
 '''
@@ -91,7 +91,6 @@ for ssnum in snapshotToLoad:
     ro = pymses.RamsesOutput("output", ssnum)
 
     # resample star particle mass and compute mass-weighted avg epoch correspondingly
-    N = 224
     resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, vel_vec, outname, camera, old_dt_myr=100., young_dt_myr=10., ro_in=ro, Nrefined=N, debug=False)
 
     # ------ sanity check -- still in code units..
