@@ -270,6 +270,40 @@ def prepare_unigrid(data, regionsize_kpc=7., verbose=False, add_unit=False, debu
     return ds, dd
 
 
+def prepare_star_unigrid(data, regionsize_kpc=7., verbose=False, add_unit=False, debug=False):
+
+    import yt
+    # prepare unigrid for stars
+    bbox_lim = regionsize_kpc / 2.
+    bbox = np.array([[-bbox_lim, bbox_lim],
+                     [-bbox_lim, bbox_lim],
+                     [-bbox_lim, bbox_lim]])
+
+    shape_data = data['velx'].shape
+
+    if add_unit:
+        data = dict(mass=(data['mass'], "Msun"),
+                    age=(data['epochMyr'], "Myr"),
+                    velx=(data['velx'], "km/s"),
+                    vely=(data['vely'], "km/s"),
+                    velz=(data['velz'], "km/s")
+                    )
+
+        ds = yt.load_uniform_grid(
+            data, shape_data, length_unit='kpc', bbox=bbox)
+    else:
+
+        ds = yt.load_uniform_grid(data, shape_data)
+
+    dd = ds.all_data()
+
+    if verbose:
+        print dd['velx'].max(), dd['velx'].min()
+        print dd['mass'].max(), dd['mass'].min()
+        print dd['epoch'].max(), dd['epoch'].min()
+    return ds, dd
+
+
 def check_hist_h2(data, th_list, ss=None, outdir='./'):
     """
 
