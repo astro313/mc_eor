@@ -9,7 +9,6 @@ import os
 import numpy as np
 from gridding_modules.resample_fields import resam_each_field
 from gridding_modules.locate_parts import resample_star_mass_age
-import pickle
 import h5py
 import matplotlib.pyplot as plt
 
@@ -70,7 +69,6 @@ for ssnum in snapshotToLoad:
     plt.tight_layout()
     plt.savefig(plotdir + str(ssnum) + "_h2densityHist.png")
 
-
     # --- star particles ----
     # saved in call_fetch_gal_fields.py
     ds = np.load('snapshot' + str(ssnum) + '_center_stars.npz')
@@ -93,11 +91,20 @@ for ssnum in snapshotToLoad:
     ro = pymses.RamsesOutput("output", ssnum)
 
     # resample star particle mass and compute mass-weighted avg epoch correspondingly
+    N = 224
     resample_star_mass_age(loc_vec, level_vec, epoch_vec, mass_vec, vel_vec, outname, camera, old_dt_myr=100., young_dt_myr=10., ro_in=ro, Nrefined=N, debug=False)
 
     # ------ sanity check -- still in code units..
     f = h5py.File(outname, "r")
     mass = f['mass'].value
+
+    from io_modules.manipulate_fetch_gal_fields import get_units
+    ro = pymses.RamsesOutput("output", ssnum)
+    factor_vel = get_units(ro=ro)['vel'][0]
+    velx = f['velx'].value * factor_vel
+    vely = f['vely'].value * factor_vel
+    velz = f['velz'].value * factor_vel
+
     plt.figure()
     plt.imshow(np.log10(mass[:, :, :].sum(axis=0)))
     plt.tight_layout()
@@ -107,7 +114,6 @@ for ssnum in snapshotToLoad:
     plt.hist(np.log10(mass[mass > 1.e-23].flatten()), bins=100)
     plt.tight_layout()
     plt.savefig(plotdir + str(ssnum) + "_massCollapsedHist.png")
-
 
     # final sanity check of AMR and stellar field shapes
     assert mass.shape == H2density.shape
