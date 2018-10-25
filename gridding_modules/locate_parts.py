@@ -66,8 +66,6 @@ def resample_star_mass_age(loc_vector, levels_vec, epoch_vector, mass_vector,   
     from io_modules.pymses_helper import calculate_age_stars
     from pymses.utils import constants as C
 
-    outfieldnames = ['mass', 'epoch']
-
     # get the subregion
     center       = np.array(camera['center'])
     originalSize = np.array(camera['region_size'])
