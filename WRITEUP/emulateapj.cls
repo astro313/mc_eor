@@ -1212,6 +1212,7 @@
 \newcommand\araa{\ref@jnl{ARA\&A}}%  % Annual Review of Astron and Astrophys
 \renewcommand\apj{\ref@jnl{ApJ}}%    % Astrophysical Journal
 \newcommand\apjl{\ref@jnl{\@eapj@ApJLetters}}%     % Astrophysical Journal, Letters
+\newcommand\aas{\ref@jnl{AAS}}%     % Astrophysical Journal, Letters
 \newcommand\apjs{\ref@jnl{ApJS}}%    % Astrophysical Journal, Supplement
 \renewcommand\ao{\ref@jnl{Appl.~Opt.}}%   % Applied Optics
 \newcommand\apss{\ref@jnl{Ap\&SS}}%  % Astrophysics and Space Science
