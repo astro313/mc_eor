@@ -88,11 +88,12 @@ cpdef grid_particle_mass(
         i              = long(pos_id[id_part,0])
         j              = long(pos_id[id_part,1])
         k              = long(pos_id[id_part,2])
-        mass_cube[i,j,k] = mass_cube[i,j,k] + mass[id_part]
-        epoch_cube[i,j,k] = epoch_cube[i,j,k] + (mass[id_part] * epoch[id_part])
-        velx_cube[i,j,k] = velx_cube[i,j,k] + vel[id_part, 0]
-        vely_cube[i,j,k] = vely_cube[i,j,k] + vel[id_part, 1]
-        velz_cube[i,j,k] = velz_cube[i,j,k] + vel[id_part, 2]
+        mass_cube[i,j,k]  = mass_cube[i,j,k]  + mass[id_part]
+        # intensive quantities in the cubes are mass weighted
+        epoch_cube[i,j,k] = epoch_cube[i,j,k] + mass[id_part] * epoch[id_part]
+        velx_cube[i,j,k]  = velx_cube[i,j,k]  + mass[id_part] * vel[id_part, 0]
+        vely_cube[i,j,k]  = vely_cube[i,j,k]  + mass[id_part] * vel[id_part, 1]
+        velz_cube[i,j,k]  = velz_cube[i,j,k]  + mass[id_part] * vel[id_part, 2]
 
         if epoch[id_part] > 0:
             if maxAge - epoch[id_part] <= young_dt_Myr:
@@ -106,6 +107,9 @@ cpdef grid_particle_mass(
             for i in range(Nsize):
                 if(mass_cube[i,j,k] > 0 ):
                     epoch_cube[i,j,k] = epoch_cube[i,j,k]/mass_cube[i,j,k]
+                    velx_cube[i,j,k]  = velx_cube[i,j,k] /mass_cube[i,j,k]
+                    vely_cube[i,j,k]  = vely_cube[i,j,k] /mass_cube[i,j,k]
+                    velz_cube[i,j,k]  = velz_cube[i,j,k] /mass_cube[i,j,k]
 
     return N.array(mass_cube,dtype=DTYPEf),N.array(epoch_cube,dtype=DTYPEf),N.array(young_cube,dtype=DTYPEf),N.array(old_cube,dtype=DTYPEf),N.array(velx_cube,dtype=DTYPEf),N.array(vely_cube,dtype=DTYPEf),N.array(velz_cube,dtype=DTYPEf)
 
