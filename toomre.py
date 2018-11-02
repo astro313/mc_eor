@@ -42,8 +42,6 @@ ds, dd = prepare_unigrid(data=data,
                          debug=False)
 # ds: yt StreamDataset
 # dd: TYRegion
-print dd['density'].shape
-print dd['velx'].shape
 
 # def _vel(field, data):
 #     vel = np.c_[data['velx'], data['vely'], data['velz']]  # km/s
@@ -62,96 +60,84 @@ projected_totalGasSurfaceDensity = {}
 coords = {}
 center_plane = {}
 
-xxx = dd["x"].reshape((224, 224, 224))
-yyy = dd["y"].reshape((224, 224, 224))
-zzz = dd["z"].reshape((224, 224, 224))
+n_bins = int(np.ceil(len(dd['density'])**(1./3)))
+xxx = dd["x"].reshape((n_bins,n_bins ,n_bins ))
+yyy = dd["y"].reshape((n_bins,n_bins ,n_bins ))
+zzz = dd["z"].reshape((n_bins,n_bins ,n_bins ))
 center = dd.get_field_parameter('center')
 
 for kk, vv in axes.iteritems():
 
     proj = ds.proj('velx', int(kk), weight_field='h2density')
     velx_projected = proj['velx']
+    velx_projected = velx_projected.reshape((-1, int(np.sqrt(velx_projected.shape[0]))))
     proj = ds.proj('vely', int(kk), weight_field='h2density')
     vely_projected = proj['vely']
+    vely_projected = vely_projected.reshape((-1, int(np.sqrt(vely_projected.shape[0]))))
     proj = ds.proj('velz', int(kk), weight_field='h2density')
     velz_projected = proj['velz']
-    # proj.save_as_dataset(filename='123_proj.h5')
-    # proj_ds = yt.load("123_proj.h5")
-    # p = yt.ProjectionPlot(proj_ds, int(kk), "velx")
-    # p.save('123.pdf')
-
-    if kk is '2':
-        vel[kk] = np.c_[velx_projected, vely_projected]  # , velz_projected]
-    elif kk is '0':
-        vel[kk] = np.c_[vely_projected, velz_projected]  # , velx_projected]
-    elif kk is '1':
-        vel[kk] = np.c_[velx_projected, velz_projected]  # , vely_projected]
+    velz_projected = velz_projected.reshape((-1, int(np.sqrt(velz_projected.shape[0]))))
 
     # project total gas surface density
-    proj = ds.proj("density", int(kk), method='integrate')
-    projected_SD = proj['density']  # 1D-array
-    # Does the unit here make sense? or do we need to multiply by some factor?
-
-    projected_totalGasSurfaceDensity[kk] = projected_SD.reshape(
-        (-1, int(np.sqrt(projected_SD.shape[0]))))
-    # proj.save_as_dataset(filename='123_proj.h5')
-    # proj_ds = yt.load("123_proj.h5")
-    # p = yt.ProjectionPlot(proj_ds, "x", "density",
-    #                       weight_field="density")
-    # p.save('123.pdf')
+    proj         = ds.proj("density", int(kk), method='integrate')
+    projected_totalGasSurfaceDensity[kk] = proj['density'].reshape((-1, int(np.sqrt(proj['density'].shape[0]))))
 
     # project plane, coordinates.
     if kk is '2':
-        x_slice = xxx[:, :, 0]
-        y_slice = yyy[:, :, 0]
-        coords[kk] = np.c_[x_slice.flatten(), y_slice.flatten()]
-        center_plane[kk] = [center[0], center[1]]
+        vel[kk]          = [velx_projected, vely_projected]
+        coords[kk]       = [xxx[:,:,0]  , yyy[:,:,0]  ]
+        center_plane[kk] = [center[0]   , center[1]]
     elif kk is '1':
-        x_slice = xxx[:, 0, :]
-        z_slice = zzz[:, 0, :]
-        coords[kk] = np.c_[x_slice.flatten(), z_slice.flatten()]
+        vel[kk]          = [velx_projected, velz_projected]
+        coords[kk]       = [xxx[:, 0, :], zzz[:, 0, :]]
         center_plane[kk] = [center[0], center[2]]
     elif kk is '0':
-        y_slice = yyy[0, :, :]
-        z_slice = zzz[0, :, :]
-        coords[kk] = np.c_[y_slice.flatten(), z_slice.flatten()]
+        vel[kk]          = [vely_projected, velz_projected]
+        coords[kk]       = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
 
 
-plane = '2'
-vel_plane = vel[plane]
+plane                                  = '1'
+
+
+vel_plane                              = vel[plane]
+coords_plane                           = coords[plane]
 projected_totalGasSurfaceDensity_plane = projected_totalGasSurfaceDensity[plane]
-SD = projected_totalGasSurfaceDensity_plane.flatten()
-print SD.max()
-coords_plane = coords[plane]
+SD                                     = projected_totalGasSurfaceDensity_plane
+
+print 'max/min SD',np.max(SD),np.min(SD)
 
 # radial velocity
-i_hat = coords_plane[:, 0] - center_plane[plane][0]
-j_hat = coords_plane[:, 1] - center_plane[plane][1]
-R = np.sqrt(i_hat**2 + j_hat**2)    # + k_hat**2)
+i_hat  = coords_plane[0] - center_plane[plane][0]
+j_hat  = coords_plane[1] - center_plane[plane][1]
+R      = np.sqrt(i_hat**2 + j_hat**2)    # + k_hat**2)
 i_hat /= R
 j_hat /= R
-# k_hat /= R
-vi = vel_plane[:, 0]
-vj = vel_plane[:, 1]
-print vi
-# vk = vel_plane[:, 2]
-radial_vel = (vi * i_hat + vj * j_hat)   # + vk*k_hat)
+#
+vi     = vel_plane[0]
+vj     = vel_plane[1]
+radial_vel      = (vi * i_hat + vj * j_hat)
 radial_veloDisp = np.std(radial_vel)
-print radial_vel
-print radial_veloDisp
+print 'radial velocity           ',np.max(radial_vel),np.min(radial_vel)
+print 'radial velocity dispersion',radial_veloDisp
 
 # v_phi
 theta = np.arctan2(j_hat, i_hat)
-_v_r = np.cos(theta) * vi + np.sin(theta) * vj
+_v_r  = np.cos(theta) * vi + np.sin(theta) * vj
 v_phi = (-np.sin(theta) * vi + np.cos(theta) * vi)
-print v_phi
-print np.std(v_phi)    # km/s
+print 'maxmin v_phi    ',np.max(v_phi),np.min(v_phi)
+print 'std v_phi',np.std(v_phi)    # km/s
 
 # kappa
 # R is between 0 to 1
-dv_phi_dr = np.gradient(v_phi, R)
-kappa_sq = 2. * v_phi / R * (dv_phi_dr + v_phi / R)
+# dv_phi_dr = np.gradient(v_phi, R)
+# I had problem with numpy here, i prefer to write it in cartesian using dr = (dr/dx) dx +  (dr/dy) dy
+
+dr_dx, dr_dy         = np.gradient(R)
+dv_phi_dx, dv_phi_dy = np.gradient(v_phi)
+dv_phi_dr            = dv_phi_dx/dr_dx + dv_phi_dy/dr_dy 
+
+kappa_sq  = 2. * v_phi / R * (dv_phi_dr + v_phi / R)
 
 # calculate Q_gas
 A_gas = np.pi
@@ -160,11 +146,18 @@ G = 6.67259e-8  # cgs
 
 radial_veloDisp_cgs = radial_veloDisp * 1.e5
 Q_gas = radial_veloDisp_cgs * np.sqrt(kappa_sq) / (A_gas * G * SD)
-print Q_gas.shape
 
 import matplotlib.pyplot as plt
-plt.imshow(Q_gas.reshape((-1, 224)))
-plt.savefig('123.pdf')
+
+for to_plot,lab in zip([Q_gas,SD,vi,vj,radial_vel,v_phi],['Q','SD','vx','vy','vr','vphi']):
+
+  fig = plt.figure()
+  ax  = fig.add_subplot(111)
+  im  = ax.imshow(to_plot)
+  cb  = fig.colorbar(im)
+  plt.tight_layout()
+  plt.savefig('toomre_'+lab+'_proj_'+plane+'.png')
+  plt.close()
 
 # stars
 # read in particles
