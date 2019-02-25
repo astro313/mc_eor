@@ -11,6 +11,9 @@ import pymses
 from plot_modules.plot_cloud_prop import setup_plot
 setup_plot()
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, prepare_star_unigrid, get_units, import_fetch_stars
+import matplotlib.pyplot as plt
+from scipy.ndimage.filters import gaussian_filter
+
 
 # load camera stuff
 folder = 'precomputed_data/'
@@ -20,7 +23,7 @@ with open(f_camera, 'rb') as f:
     cameraDat = pickle.load(f)
 
 # prepare input data, if not already passed as arguments
-isnap = 28
+isnap = 16
 read_proper_unit = True
 
 if read_proper_unit:
@@ -60,146 +63,301 @@ projected_totalGasSurfaceDensity = {}
 coords = {}
 center_plane = {}
 
-n_bins = int(np.ceil(len(dd['density'])**(1./3)))
-xxx = dd["x"].reshape((n_bins,n_bins ,n_bins ))
-yyy = dd["y"].reshape((n_bins,n_bins ,n_bins ))
-zzz = dd["z"].reshape((n_bins,n_bins ,n_bins ))
+n_bins = int(np.ceil(len(dd['density'])**(1. / 3)))
+xxx = dd["x"].reshape((n_bins, n_bins, n_bins))
+yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
+zzz = dd["z"].reshape((n_bins, n_bins, n_bins))
 center = dd.get_field_parameter('center')
 
 for kk, vv in axes.iteritems():
 
     proj = ds.proj('velx', int(kk), weight_field='h2density')
     velx_projected = proj['velx']
-    velx_projected = velx_projected.reshape((-1, int(np.sqrt(velx_projected.shape[0]))))
+    velx_projected = velx_projected.reshape(
+        (-1, int(np.sqrt(velx_projected.shape[0]))))
     proj = ds.proj('vely', int(kk), weight_field='h2density')
     vely_projected = proj['vely']
-    vely_projected = vely_projected.reshape((-1, int(np.sqrt(vely_projected.shape[0]))))
+    vely_projected = vely_projected.reshape(
+        (-1, int(np.sqrt(vely_projected.shape[0]))))
     proj = ds.proj('velz', int(kk), weight_field='h2density')
     velz_projected = proj['velz']
-    velz_projected = velz_projected.reshape((-1, int(np.sqrt(velz_projected.shape[0]))))
+    velz_projected = velz_projected.reshape(
+        (-1, int(np.sqrt(velz_projected.shape[0]))))
 
     # project total gas surface density
-    proj         = ds.proj("density", int(kk), method='integrate')
-    projected_totalGasSurfaceDensity[kk] = proj['density'].reshape((-1, int(np.sqrt(proj['density'].shape[0]))))
+    proj = ds.proj("density", int(kk), method='integrate')
+    projected_totalGasSurfaceDensity[kk] = proj['density'].reshape(
+        (-1, int(np.sqrt(proj['density'].shape[0]))))
 
     # project plane, coordinates.
     if kk is '2':
-        vel[kk]          = [velx_projected, vely_projected]
-        coords[kk]       = [xxx[:,:,0]  , yyy[:,:,0]  ]
-        center_plane[kk] = [center[0]   , center[1]]
+        vel[kk] = [velx_projected, vely_projected]
+        coords[kk] = [xxx[:, :, 0], yyy[:, :, 0]]
+        center_plane[kk] = [center[0], center[1]]
     elif kk is '1':
-        vel[kk]          = [velx_projected, velz_projected]
-        coords[kk]       = [xxx[:, 0, :], zzz[:, 0, :]]
+        vel[kk] = [velx_projected, velz_projected]
+        coords[kk] = [xxx[:, 0, :], zzz[:, 0, :]]
         center_plane[kk] = [center[0], center[2]]
     elif kk is '0':
-        vel[kk]          = [vely_projected, velz_projected]
-        coords[kk]       = [yyy[0, :, :], zzz[0, :, :]]
+        vel[kk] = [vely_projected, velz_projected]
+        coords[kk] = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
 
 
-plane                                  = '1'
+plane = '0'
 
-
-vel_plane                              = vel[plane]
-coords_plane                           = coords[plane]
+vel_plane = vel[plane]
+coords_plane = coords[plane]
 projected_totalGasSurfaceDensity_plane = projected_totalGasSurfaceDensity[plane]
-SD                                     = projected_totalGasSurfaceDensity_plane
+SD = projected_totalGasSurfaceDensity_plane
 
-print 'max/min SD',np.max(SD),np.min(SD)
+print 'max/min SD', np.max(SD), np.min(SD)
 
 # radial velocity
-i_hat  = coords_plane[0] - center_plane[plane][0]
-j_hat  = coords_plane[1] - center_plane[plane][1]
-R      = np.sqrt(i_hat**2 + j_hat**2)    # + k_hat**2)
+i_hat = coords_plane[0] - center_plane[plane][0]
+j_hat = coords_plane[1] - center_plane[plane][1]
+R = np.sqrt(i_hat**2 + j_hat**2)    # + k_hat**2)
+print R.min()
 i_hat /= R
 j_hat /= R
 #
-vi     = vel_plane[0]
-vj     = vel_plane[1]
-radial_vel      = (vi * i_hat + vj * j_hat)
+vi = vel_plane[0]
+vj = vel_plane[1]
+radial_vel = (vi * i_hat + vj * j_hat)
 radial_veloDisp = np.std(radial_vel)
-print 'radial velocity           ',np.max(radial_vel),np.min(radial_vel)
-print 'radial velocity dispersion',radial_veloDisp
+print 'radial velocity           ', np.max(radial_vel), np.min(radial_vel)
+print 'radial velocity dispersion', radial_veloDisp
 
 # v_phi
 theta = np.arctan2(j_hat, i_hat)
-_v_r  = np.cos(theta) * vi + np.sin(theta) * vj
-v_phi = (-np.sin(theta) * vi + np.cos(theta) * vi)
-print 'maxmin v_phi    ',np.max(v_phi),np.min(v_phi)
-print 'std v_phi',np.std(v_phi)    # km/s
+_v_r = np.cos(theta) * vi + np.sin(theta) * vj
+v_phi = (-np.sin(theta) * vi + np.cos(theta) * vj)
+print 'maxmin v_phi    ', np.max(v_phi), np.min(v_phi)
+print 'std v_phi', np.std(v_phi)    # km/s
 
 # kappa
-# R is between 0 to 1
-# dv_phi_dr = np.gradient(v_phi, R)
-# I had problem with numpy here, i prefer to write it in cartesian using dr = (dr/dx) dx +  (dr/dy) dy
+pc2cm = 3.086e18
+R_cm = R.value * 1.e3 * pc2cm
+R = R_cm
+v_phi = v_phi.value * 1.e5         # cm/s
 
-dr_dx, dr_dy         = np.gradient(R)
-dv_phi_dx, dv_phi_dy = np.gradient(v_phi)
-dv_phi_dr            = dv_phi_dx/dr_dx + dv_phi_dy/dr_dy 
+cost = i_hat
+sint = j_hat
+x_slice = (coords_plane[0] - center_plane[plane][0]) * 1.e3 * pc2cm
+x_slice = x_slice.value
+y_slice = (coords_plane[1] - center_plane[plane][1]) * 1.e3 * pc2cm
+y_slice = y_slice.value
+r_slice = np.sqrt(x_slice**2 + y_slice**2)    # cm
 
-kappa_sq  = 2. * v_phi / R * (dv_phi_dr + v_phi / R)
+
+omega_measured = v_phi / r_slice
+omega_measured_standard_unit = v_phi / 1.e5 / (r_slice / pc2cm / 1.e3)
+print(omega_measured_standard_unit).mean()      # km/s/kpc
+omega_mw_kms_kpc = 220. / 8
+print omega_mw_kms_kpc
+# ok, unit comparable to MW value
+
+plt.figure()
+plt.imshow(omega_measured)
+plt.colorbar()
+plt.show(block=False)
+
+
+nbins = 100
+# Annular bin edges and centers
+bins = np.linspace(0, 1, nbins) * r_slice.max()
+bin_centers = bins[:-1] + (bins[1:] - bins[:-1]) / 2.
+
+# Count how many pixels fall into each radial bin
+hist, _ = np.histogram(r_slice, bins)
+hist[hist == 0] = 1
+print hist
+
+# Get flat 1D indices into r_slice for each bin.
+inds = np.digitize(r_slice.flat, bins) - 1
+
+# Calculate mean omega at each radius.
+# Need to append [:-1] to get rid of counts outside bin range.
+omega_of_r = np.bincount(inds, weights=omega_measured.flat)[:-1] / hist
+
+# Calculate standard deviation of the mean omega for each bin.
+omega2_of_r = np.bincount(inds, weights=omega_measured.flat[:]**2)[:-1] / hist
+omega_of_r_std = np.sqrt(omega2_of_r - omega_of_r**2)
+
+# Calculate radial derivative of the rotation frequency using a spline
+# interpolator
+omega = np.zeros(r_slice.shape)
+omega_deriv = np.zeros(r_slice.shape)
+
+from scipy import interpolate
+omega_interpolator = interpolate.splrep(
+    bin_centers, omega_of_r, k=5, w=1 / omega_of_r_std)
+
+omega.flat[:] = interpolate.splev(
+    r_slice.flat, omega_interpolator)
+rotation_frequency = omega       # should be 1/s
+
+omega_deriv.flat[:] = interpolate.splev(
+    r_slice.flat, omega_interpolator, der=1)
+rotation_frequency_derivative = omega_deriv
+
+domega_dr = np.zeros(r_slice.shape)
+domega_dr.flat[:] = interpolate.splev(
+    r_slice.flat, omega_interpolator, der=1)
+
+# Finally, calculate epicyclic frequency.
+plt.figure()
+plt.imshow(domega_dr)
+plt.colorbar()
+plt.show(block=False)
+
+
+rotation_frequency = omega_measured
+kappa_sq = 2 * rotation_frequency / r_slice * (
+    2 * r_slice * rotation_frequency + r_slice**2 * domega_dr)
+kappa_sq[kappa_sq < 0] = np.min(kappa_sq[kappa_sq > 0])
+kappa = np.sqrt(kappa_sq)
+print kappa      # in the MW, kappa ~ omega, which is also true here
+
+plt.figure()
+plt.imshow(np.log10(kappa))
+plt.colorbar()
+plt.show(block=False)
 
 # calculate Q_gas
 A_gas = np.pi
 A_stellar = 3.36
 G = 6.67259e-8  # cgs
 
-radial_veloDisp_cgs = radial_veloDisp * 1.e5
-Q_gas = radial_veloDisp_cgs * np.sqrt(kappa_sq) / (A_gas * G * SD)
+radial_veloDisp_cgs = radial_veloDisp.value * 1.e5
+whnzero = np.where(SD.value != 0)
+Q_gas = np.zeros(SD.shape) * np.nan
+Q_gas[whnzero] = radial_veloDisp_cgs * kappa[whnzero] / \
+    (A_gas * G * SD[whnzero].value)
 
-import matplotlib.pyplot as plt
+print "Q_gas: ", Q_gas
+print(np.isnan(Q_gas) == True).any()
+# qq = Q_gas[~np.isnan(Q_gas)]
+# print qq[qq > 0].min()
 
-for to_plot,lab in zip([Q_gas,SD,vi,vj,radial_vel,v_phi],['Q','SD','vx','vy','vr','vphi']):
+# plt.figure()
+# plt.imshow(np.log10(kappa/SD.value))
+# plt.colorbar()
+# plt.show(block=False)
 
-  fig = plt.figure()
-  ax  = fig.add_subplot(111)
-  im  = ax.imshow(to_plot)
-  cb  = fig.colorbar(im)
-  plt.tight_layout()
-  plt.savefig('toomre_'+lab+'_proj_'+plane+'.png')
-  plt.close()
+# define plot boundary kpc
+_xmin =  (coords_plane[0] - center_plane[plane][0]).min()
+_xmax =  (coords_plane[0] - center_plane[plane][0]).max()
+_ymin =  (coords_plane[1] - center_plane[plane][1]).min()
+_ymax =  (coords_plane[1] - center_plane[plane][1]).max()
 
-# stars
-# read in particles
-# read from resampled.h5
-starData = import_fetch_stars(isnap=isnap, verbose=True, convert=True)   # default, convert=True
-print starData.keys()
+plt.figure()
+plt.imshow(np.log10(Q_gas), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title('Log Qgas without blanking')
+cbar = plt.colorbar()
+cbar.set_label(r"$\log{Q_{\rm gas}}$")
+plt.show(block=False)
 
-# max vel
-# 2421836.4106407226 774885.1301048293 857806.5594254179 km/s, huhhh?! something wrong when regridding the velocities in cython_helper.pyx?!
-ds, dd = prepare_star_unigrid(data=starData,
-                              add_unit=True,     # since convert=True
-                              regionsize_kpc=region_size_kpc,
-                              debug=False)
+# flag all Q_gas > 10;
+# In paper: Values of Q > 10.0 are blanked
+import copy
+Q_gas_blanked = copy.deepcopy(Q_gas)
+Q_gas_blanked[Q_gas >= 10] = np.nan
+plt.figure()
+plt.imshow(np.log10(Q_gas_blanked), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title('Log Qgas (where Qgas gtreq 10 is blanked)')
+plt.colorbar()
+cbar.set_label(r"$\log{Q_{\rm gas}}$")
+plt.show(block=False)
 
-# sigma, Kappa, Sigma
-
-
-# Q_star =
-
-
-
-
-# stars and gas effective Q, Romeo & Wiegert 2011
-w = 2. * sigma_star * sigma_gas / (sigma_star**2 + sigma_gas**2)
-
-WoverQstars = w / Q_star
-WoverQgas = w / Q_gas
-
-Q_twoComp_inv = np.empty((Q_star.shape[0], Q_star.shape[1]))
-
-condition_1 = Q_star > Q_gas
-condition_2 = Q_star < Q_gas
-
-Q_twoComp_inv[condition_1] = WoverQstars + 1./Q_gas
-Q_twoComp_inv[condition_2] = 1./Q_star + WoverQgas
-
-Q_twoComp = 1./Q_twoComp_inv
-
-print Q_twoComp.shape
-plt.imshow(Q_twoComp.reshape((-1, 224)))
-plt.savefig('789.pdf')
+plt.figure()
+plt.imshow(Q_gas_blanked, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title('Qgas (where Qgas gtreq 10 is blanked)')
+cbar = plt.colorbar()
+cbar.set_label(r"$Q_{\rm gas}$")
+plt.show(block=False)
 
 
+Q_gas_blanked[Q_gas >= 3.5] = np.nan
+plt.figure()
+plt.imshow(Q_gas_blanked, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title('Qgas (where Qgas gtreq 3.5 is blanked)')
+cbar = plt.colorbar()
+cbar.set_label(r"$Q_{\rm gas}$")
+plt.show(block=False)
 
-# Overplot clumps?
+
+g2Msun = 1 / 1.989e33
+cm2pc = 1 / pc2cm
+plt.figure()
+plt.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title(r'$\Sigma_{\rm gas}$')
+cbar = plt.colorbar()
+cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
+plt.show(block=False)
+
+
+plt.figure()
+plt.imshow(np.log10(some velocity dispersions), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+cbar = plt.cbar()
+cbar.set_label(r"$\log{\sigma}$ [km\,s$^{-1}$]")
+plt.show(block=False)
+
+plt.figure()
+plt.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.title(r'$\log{\kappa}$')
+cbar = plt.colorbar()
+cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
+plt.show(block=False)
+
+
+# show all quantities in one figure
+fig = plt.figure(figsize=(8, 8))
+fig.subplots_adjust(left=0.10, right=0.90, hspace=0.1, wspace=0.25)
+ax = plt.subplot(221)
+im = ax.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+cbar = plt.colorbar(im)
+cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
+
+ax = plt.subplot(223)
+im = ax.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+cbar = plt.colorbar(im)
+cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
+
+ax = plt.subplot(224)
+im = ax.imshow(np.log10(Q_gas), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+cbar = plt.colorbar(im)
+cbar.set_label(r"$\log{Q_{\rm gas}}$")
+
+# plt.tight_layout()
+plt.show(block=False)
+
+
+# only show central region of the plot (i.e., on the main galaxy)
+# from -1 kpc to 1 kpc
+xspacing = (_xmax - _xmin)/len(Q_gas)
+xruler = np.arange(_xmin, _xmax, xspacing)
+rightBound = np.argmin(abs(xruler - 1.0))
+leftBound = np.argmin(abs(xruler + 1.0))
+
+yspacing = (_ymax - _ymin)/len(Q_gas)
+yruler = np.arange(_ymin, _ymax, yspacing)
+topBound = np.argmin(abs(yruler - 1.0))
+bottomBound = np.argmin(abs(yruler + 1.0))
+
+# zoom-in
+for to_plot, lab in zip([np.log10(Q_gas), np.log10(SD.value), vi.value, vj.value, radial_vel.value, v_phi], ['Q', 'SD', 'vx', 'vy', 'vr', 'vphi']):
+    print to_plot, lab
+    to_plot = gaussian_filter(to_plot, sigma=0.8)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    im = ax.imshow(to_plot[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
+    plt.xlabel('kpc')
+    plt.ylabel('kpc')
+    cb = fig.colorbar(im)
+    plt.title(lab)
+    plt.tight_layout()
+    plt.savefig('ss_' + str(isnap) + '_toomre_' + lab + '_proj_' + plane + '.png')
+    plt.show(block=False)
+    plt.close()
+
