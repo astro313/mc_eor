@@ -46,6 +46,12 @@ ds, dd = prepare_unigrid(data=data,
 # ds: yt StreamDataset
 # dd: TYRegion
 
+n_bins = int(np.ceil(len(dd['density'])**(1. / 3)))
+xxx = dd["x"].reshape((n_bins, n_bins, n_bins))
+yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
+zzz = dd["z"].reshape((n_bins, n_bins, n_bins))
+center = dd.get_field_parameter('center')
+
 # def _vel(field, data):
 #     vel = np.c_[data['velx'], data['vely'], data['velz']]  # km/s
 #     return vel
@@ -53,6 +59,46 @@ ds, dd = prepare_unigrid(data=data,
 # ds.add_field(("velocity"), function=_vel)
 # # _dd = ds.all_data()
 # # print _dd['velocity']     # km/s
+
+# dispersion from P_nt
+kg2Msun = 1. / 1.989E30
+kg2g = 1.E+03
+pc2cm = 3.086e18
+J2erg   = 1.E+07
+import astropy.constants as C
+k_B_erg = C.k_B.value * J2erg
+dx_kpc =(yyy[0][1:] - yyy[0][:-1]).min()
+vol_cc = (dx_kpc * 1.e3 * pc2cm)**3
+Mass = dd['density'] * vol_cc
+print np.sqrt(dd['P_nt'] * k_B_erg /(dd['density']))
+print np.sqrt(dd['P_nt'] * k_B_erg /(dd['density'])).shape
+vdisp = np.sqrt(dd['P_nt'] * k_B_erg /(dd['density'])).reshape((n_bins, n_bins, n_bins))
+vdisp_kms = vdisp.value / 1.e5
+from yt.units import dimensions
+
+
+def _vdisp(field, data):
+    vel = np.sqrt(data['P_nt'] * k_B_erg /(data['density']))/1.e5
+    return vel
+
+ds.add_field(("vdisp"), function=_vdisp, units='sqrt(K)/sqrt(g)',
+  dimensions=dimensions.velocity)
+_dd = ds.all_data()
+print _dd['vdisp']     # km/s
+
+# project disp
+projected_vdisp = {}
+proj = ds.proj("vdisp", int(0), weight_field='h2density')
+projected_vdisp[0] = proj['vdisp'].reshape(
+    (-1, int(np.sqrt(proj['vdisp'].shape[0]))))
+
+plt.figure()
+im = plt.imshow(projected_vdisp[0].value, origin='lower')
+plt.title('vdisp from Pnt')
+cbar = plt.colorbar(im)
+cbar.set_label(r"$\sigma_v$ [km s$^{-1}$]")
+plt.show(block=False)
+
 
 # project velocity by mass-weighting, project surface density
 # axis : corresponding to the axis to slice along
@@ -62,12 +108,6 @@ vel = {}
 projected_totalGasSurfaceDensity = {}
 coords = {}
 center_plane = {}
-
-n_bins = int(np.ceil(len(dd['density'])**(1. / 3)))
-xxx = dd["x"].reshape((n_bins, n_bins, n_bins))
-yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
-zzz = dd["z"].reshape((n_bins, n_bins, n_bins))
-center = dd.get_field_parameter('center')
 
 for kk, vv in axes.iteritems():
 
@@ -128,6 +168,7 @@ radial_veloDisp = np.std(radial_vel)
 print 'radial velocity           ', np.max(radial_vel), np.min(radial_vel)
 print 'radial velocity dispersion', radial_veloDisp
 
+
 # v_phi
 theta = np.arctan2(j_hat, i_hat)
 _v_r = np.cos(theta) * vi + np.sin(theta) * vj
@@ -136,7 +177,6 @@ print 'maxmin v_phi    ', np.max(v_phi), np.min(v_phi)
 print 'std v_phi', np.std(v_phi)    # km/s
 
 # kappa
-pc2cm = 3.086e18
 R_cm = R.value * 1.e3 * pc2cm
 R = R_cm
 v_phi = v_phi.value * 1.e5         # cm/s
@@ -232,7 +272,8 @@ G = 6.67259e-8  # cgs
 radial_veloDisp_cgs = radial_veloDisp.value * 1.e5
 whnzero = np.where(SD.value != 0)
 Q_gas = np.zeros(SD.shape) * np.nan
-Q_gas[whnzero] = radial_veloDisp_cgs * kappa[whnzero] / \
+radial_veloDisp_cgs = projected_vdisp[0].value * 1.e5
+Q_gas[whnzero] = radial_veloDisp_cgs[whnzero] * kappa[whnzero] / \
     (A_gas * G * SD[whnzero].value)
 
 print "Q_gas: ", Q_gas
