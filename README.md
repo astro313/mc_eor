@@ -2,6 +2,14 @@
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
+Dec 2018 (comments Re ionization rate coefficient)
+- Daisy: One of the questions I got from the talk was, if we were to adopt a higher coefficient for the ionization rate for the simulation (instead of 3x10^-17 in Pallottini+17), how do I expect our results to change. 
+
+- Mordecai: Is the Pallottini +17 rate just the metagalactic background?  Including local ionization will have zeroth order effects on cloud properties as it is likely one of the primary stellar feedback mechanisms terminating cloud lifetimes and limiting their growth.  (see eg Rahner + 17b)
+ 
+- Pallottini: we have very little knowledge of the ionzation rate in these high-z systems
+
+
 Sept 12th 2018
 - more for paper, Mordecai's quick comments to be addressed
 Reading the abstract, I see two claims that I think need better support:
