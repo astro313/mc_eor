@@ -13,6 +13,10 @@ setup_plot()
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, prepare_star_unigrid, get_units, import_fetch_stars
 import matplotlib.pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
+
+from matplotlib import cm
+cmap = cm.get_cmap('viridis')
+
 import astropy.constants as C
 kg2Msun = 1. / 1.989E30
 kg2g = 1.E+03
@@ -57,13 +61,15 @@ yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
 zzz = dd["z"].reshape((n_bins, n_bins, n_bins))
 center = dd.get_field_parameter('center')
 
-# vdisp from P_nt
+# vdisp from P_nt + P_T
 def _vdisp(field, data):
-    vel = np.sqrt(data['P_nt'] * k_B_erg /(data['density']))/1.e5
+    veldisp_sq_nt = data['P_nt'] * k_B_erg /(data['density'])
+    veldisp_sq_t = data['P'] * k_B_erg / data['density']
+    veldisp_sq_total = veldisp_sq_nt + veldisp_sq_t
+    vel = np.sqrt(veldisp_sq_total) / 1.e5
     return vel
 
-ds.add_field(("vdisp"), function=_vdisp, units='sqrt(K)/sqrt(g)',
-  dimensions=dimensions.velocity)
+ds.add_field(("vdisp"), function=_vdisp, units='sqrt(K)/sqrt(g)')
 _dd = ds.all_data()
 print _dd['vdisp']     # km/s
 
@@ -131,7 +137,7 @@ print 'max/min vdisp in km/s', np.max(projected_disp_plane), np.min(projected_di
 
 plt.figure()
 im = plt.imshow(projected_disp_plane.value, origin='lower')
-plt.title('vdisp from Pnt')
+plt.title('vdisp from Pressure')
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma_v$ [km s$^{-1}$]")
 plt.show(block=False)
@@ -323,7 +329,7 @@ plt.show(block=False)
 plt.figure()
 plt.imshow(projected_disp_plane.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
 cbar = plt.colorbar()
-cbar.set_label(r"$\log{\sigma}$ [km\,s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
 
 plt.figure()
@@ -338,24 +344,32 @@ plt.show(block=False)
 fig = plt.figure(figsize=(8, 8))
 fig.subplots_adjust(left=0.10, right=0.90, hspace=0.1, wspace=0.25)
 ax = plt.subplot(221)
-im = ax.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+im = ax.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(projected_disp_plane.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+im = ax.imshow(projected_disp_plane.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\sigma}$ [km\,s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
 
 ax = plt.subplot(223)
-im = ax.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+im = ax.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
 
 ax = plt.subplot(224)
-im = ax.imshow(np.log10(Q_gas), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-cbar = plt.colorbar(im)
+import matplotlib as mpl
+cmap_div = cm.get_cmap('RdBu')         # divergent cmap
+im = ax.imshow(np.log10(Q_gas), origin='lower', \
+               extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap_div)
+cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                    ticks=[-1, 0, 1],
+                    norm=mpl.colors.Normalize(vmin=-1, vmax=1)
+                    )
+cbar.set_clim(-1, 1)                      # set color max min range
+cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
 cbar.set_label(r"$\log{Q_{\rm gas}}$")
 
 # plt.tight_layout()
@@ -385,7 +399,7 @@ cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 ax = plt.subplot(222)
 im = ax.imshow(gaussian_filter(projected_disp_plane.value, sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\sigma}$ [km\,s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
 
 ax = plt.subplot(223)
