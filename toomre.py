@@ -310,12 +310,15 @@ ax = plt.subplot(224)
 import matplotlib as mpl
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 im = ax.imshow(np.log10(Q_gas), origin='lower', \
-               extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap_div)
+               extent=(_xmin, _xmax, _ymin, _ymax),
+               cmap=cmap_div,
+               vmin=-1,
+               vmax=1
+               )
 cbar = plt.colorbar(im, extend='both',    # arrows in both direction
-                    ticks=[-1, 0, 1],
-                    norm=mpl.colors.Normalize(vmin=-1, vmax=1)
+                     ticks=[-1, 0, 1]
                     )
-cbar.set_clim(-1, 1)                      # set color max min range
+# cbar.set_clim(-1, 1)                      # set color max min range
 cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
 cbar.set_label(r"$\log{Q_{\rm gas}}$")
 
@@ -325,40 +328,73 @@ plt.show(block=False)
 
 # zoomin and smooth
 # only show central region of the plot (i.e., on the main galaxy)
-# from -1 kpc to 1 kpc
+# from -1.5 kpc to 1.5 kpc
 xspacing = (_xmax - _xmin)/len(Q_gas)
 xruler = np.arange(_xmin, _xmax, xspacing)
-rightBound = np.argmin(abs(xruler - 1.0))
-leftBound = np.argmin(abs(xruler + 1.0))
+rightBound = np.argmin(abs(xruler - 1.5))
+leftBound = np.argmin(abs(xruler + 1.5))
 
 yspacing = (_ymax - _ymin)/len(Q_gas)
 yruler = np.arange(_ymin, _ymax, yspacing)
-topBound = np.argmin(abs(yruler - 1.0))
-bottomBound = np.argmin(abs(yruler + 1.0))
+topBound = np.argmin(abs(yruler - 1.5))
+bottomBound = np.argmin(abs(yruler + 1.5))
 
 fig = plt.figure(figsize=(8, 8))
-fig.subplots_adjust(left=0.10, right=0.90, hspace=0.1, wspace=0.25)
+fig.subplots_adjust(left=0.10, right=0.90, hspace=0.25, wspace=0.25)
 ax = plt.subplot(221)
-im = ax.imshow(gaussian_filter(np.log10(SD.value / cm2pc**2 * g2Msun), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
+im = ax.imshow(gaussian_filter(np.log10(SD.value / cm2pc**2 * g2Msun),
+                                  sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+              origin='lower',
+              extent=(xruler[leftBound],
+                      xruler[rightBound],
+                      yruler[bottomBound],
+                      yruler[topBound]),
+              cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(gaussian_filter(projected_disp_plane.value, sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
+im = ax.imshow(gaussian_filter(projected_disp_plane.value,
+                                  sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+               origin='lower',
+               extent=(xruler[leftBound],
+                       xruler[rightBound],
+                       yruler[bottomBound],
+                       yruler[topBound]),
+               cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
 
 ax = plt.subplot(223)
-im = ax.imshow(gaussian_filter(np.log10(kappa * 3.086e+16), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
+im = ax.imshow(gaussian_filter(np.log10(kappa * 3.086e+16),
+                                sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+               origin='lower',
+               extent=(xruler[leftBound],
+                       xruler[rightBound],
+                       yruler[bottomBound],
+                       yruler[topBound]),
+               cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
 plt.xlabel('kpc')
 plt.ylabel('kpc')
 
 ax = plt.subplot(224)
-im = ax.imshow(gaussian_filter(np.log10(Q_gas), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]))
-cbar = plt.colorbar(im)
+im = ax.imshow(gaussian_filter(np.log10(Q_gas),
+                                sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+               origin='lower',
+               extent=(xruler[leftBound],
+                       xruler[rightBound],
+                       yruler[bottomBound],
+                       yruler[topBound]),
+               cmap=cmap_div,
+               vmin=-1, vmax=1     # clip at -1 < log10(Q_gas) < 1
+               )
+cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                     ticks=[-1, 0, 1]
+                    )
+cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
 cbar.set_label(r"$\log{Q_{\rm gas}}$")
 
 # plt.tight_layout()
