@@ -23,6 +23,9 @@ kg2g = 1.E+03
 pc2cm = 3.086e18
 J2erg   = 1.E+07
 k_B_erg = C.k_B.value * J2erg
+g2Msun = 1 / 1.989e33
+cm2pc = 1 / pc2cm
+
 
 # load camera stuff
 folder = 'precomputed_data/'
@@ -270,11 +273,6 @@ print(np.isnan(Q_gas) == True).any()
 # qq = Q_gas[~np.isnan(Q_gas)]
 # print qq[qq > 0].min()
 
-# plt.figure()
-# plt.imshow(np.log10(kappa/SD.value))
-# plt.colorbar()
-# plt.show(block=False)
-
 # define plot boundary kpc
 _xmin =  (coords_plane[0] - center_plane[plane][0]).min()
 _xmax =  (coords_plane[0] - center_plane[plane][0]).max()
@@ -286,57 +284,6 @@ plt.imshow(np.log10(Q_gas), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
 plt.title('Log Qgas without blanking')
 cbar = plt.colorbar()
 cbar.set_label(r"$\log{Q_{\rm gas}}$")
-plt.show(block=False)
-
-# flag all Q_gas > 10;
-# In paper: Values of Q > 10.0 are blanked
-import copy
-Q_gas_blanked = copy.deepcopy(Q_gas)
-Q_gas_blanked[Q_gas >= 10] = np.nan
-plt.figure()
-plt.imshow(np.log10(Q_gas_blanked), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-plt.title('Log Qgas (where Qgas gtreq 10 is blanked)')
-plt.colorbar()
-cbar.set_label(r"$\log{Q_{\rm gas}}$")
-plt.show(block=False)
-
-plt.figure()
-plt.imshow(Q_gas_blanked, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-plt.title('Qgas (where Qgas gtreq 10 is blanked)')
-cbar = plt.colorbar()
-cbar.set_label(r"$Q_{\rm gas}$")
-plt.show(block=False)
-
-
-Q_gas_blanked[Q_gas >= 3.5] = np.nan
-plt.figure()
-plt.imshow(Q_gas_blanked, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-plt.title('Qgas (where Qgas gtreq 3.5 is blanked)')
-cbar = plt.colorbar()
-cbar.set_label(r"$Q_{\rm gas}$")
-plt.show(block=False)
-
-
-g2Msun = 1 / 1.989e33
-cm2pc = 1 / pc2cm
-plt.figure()
-plt.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-plt.title(r'$\Sigma_{\rm gas}$')
-cbar = plt.colorbar()
-cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
-plt.show(block=False)
-
-plt.figure()
-plt.imshow(projected_disp_plane.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-cbar = plt.colorbar()
-cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
-plt.show(block=False)
-
-plt.figure()
-plt.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
-plt.title(r'$\log{\kappa}$')
-cbar = plt.colorbar()
-cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
 plt.show(block=False)
 
 
