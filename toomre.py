@@ -82,6 +82,8 @@ print _dd['vdisp']     # km/s
 
 axes = {'0': 'x', '1': 'y', '2': 'z'}
 vel = {}
+veldisp = {}
+veldisp_vertical = {}
 projected_totalGasSurfaceDensity = {}
 coords = {}
 center_plane = {}
@@ -89,6 +91,10 @@ projected_vdisp = {}          # project vdisp
 
 
 for kk, vv in axes.iteritems():
+
+    velocityx = dd['velx'].reshape((n_bins, n_bins, n_bins))
+    velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
+    velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
 
     proj = ds.proj('velx', int(kk), weight_field='h2density')
     velx_projected = proj['velx']
@@ -103,9 +109,11 @@ for kk, vv in axes.iteritems():
     velz_projected = velz_projected.reshape(
         (-1, int(np.sqrt(velz_projected.shape[0]))))
 
+    # from pressure
     proj = ds.proj("vdisp", int(kk), weight_field='h2density')
     projected_vdisp[kk] = proj['vdisp'].reshape(
         (-1, int(np.sqrt(proj['vdisp'].shape[0]))))
+
 
     # project total gas surface density
     proj = ds.proj("density", int(kk), method='integrate')
@@ -115,14 +123,20 @@ for kk, vv in axes.iteritems():
     # project plane, coordinates.
     if kk is '2':
         vel[kk] = [velx_projected, vely_projected]
+        veldisp[kk] = [velocityx, velocityy]
+        veldisp_vertical[kk] = np.std(velocityz, axis=2)
         coords[kk] = [xxx[:, :, 0], yyy[:, :, 0]]
         center_plane[kk] = [center[0], center[1]]
     elif kk is '1':
         vel[kk] = [velx_projected, velz_projected]
+        veldisp[kk] = [velocityx, velocityz]
+        veldisp_vertical[kk] = np.std(velocityy, axis=1)
         coords[kk] = [xxx[:, 0, :], zzz[:, 0, :]]
         center_plane[kk] = [center[0], center[2]]
     elif kk is '0':
         vel[kk] = [vely_projected, velz_projected]
+        veldisp[kk] = [velocityy, velocityz]
+        veldisp_vertical[kk] = np.std(velocityx, axis=0)
         coords[kk] = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
 
@@ -130,19 +144,29 @@ for kk, vv in axes.iteritems():
 plane = '0'
 
 vel_plane = vel[plane]
+veldisp_plane = veldisp[plane]
+veldisp_vertical_plane = veldisp_vertical[plane]
 coords_plane = coords[plane]
 projected_totalGasSurfaceDensity_plane = projected_totalGasSurfaceDensity[plane]
 SD = projected_totalGasSurfaceDensity_plane
 projected_disp_plane = projected_vdisp[plane]
 
 print 'max/min SD', np.max(SD), np.min(SD)
-print 'max/min vdisp in km/s', np.max(projected_disp_plane), np.min(projected_disp_plane)
+print 'max/min vdisp in km/s (from pressure)', np.max(projected_disp_plane), np.min(projected_disp_plane)
 
 plt.figure()
-im = plt.imshow(projected_disp_plane.value, origin='lower')
+im = plt.imshow(projected_disp_plane.value, origin='lower', cmap=cmap)
 plt.title('vdisp from Pressure')
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\sigma_v$ [km s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km s$^{-1}$]")
+plt.show(block=False)
+
+
+plt.figure()
+im = plt.imshow(veldisp_vertical_plane.value, origin='lower', cmap=cmap)
+plt.title('vdisp vertical')
+cbar = plt.colorbar(im)
+cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]")
 plt.show(block=False)
 
 
@@ -160,6 +184,29 @@ radial_vel = (vi * i_hat + vj * j_hat)
 radial_veloDisp = np.std(radial_vel)
 print 'radial velocity           ', np.max(radial_vel), np.min(radial_vel)
 print 'radial velocity dispersion', radial_veloDisp
+
+
+sigma_r = np.std(veldisp_plane[0], axis=2) + \
+          np.std(veldisp_plane[1], axis=2)
+plt.figure()
+plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
+plt.colorbar()
+plt.show(block=False)
+
+# sigma_r = np.std(veldisp_plane[0], axis=2) * i_hat + \
+#           np.std(veldisp_plane[1], axis=2) * j_hat    # no
+# plt.figure()
+# plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
+# plt.colorbar()
+# plt.show(block=False)
+
+sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
+plt.figure()
+plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
+plt.colorbar()
+plt.show(block=False)
+print 'max/min radial vdisp in km/s (from velocity)', np.max(sigma_r), np.min(sigma_r)
+
 
 # v_phi
 theta = np.arctan2(j_hat, i_hat)
@@ -261,8 +308,8 @@ A_gas = np.pi
 A_stellar = 3.36
 G = 6.67259e-8  # cgs
 
-# radial_veloDisp_cgs = radial_veloDisp.value * 1.e5         # single value
-radial_veloDisp_cgs = projected_disp_plane.value * 1.e5
+# radial_veloDisp_cgs = projected_disp_plane.value * 1.e5   # from pressure
+radial_veloDisp_cgs = sigma_r.value * 1.e5
 whnzero = np.where(SD.value != 0)
 Q_gas = np.zeros(SD.shape) * np.nan
 Q_gas[whnzero] = radial_veloDisp_cgs[whnzero] * kappa[whnzero] / \
@@ -280,12 +327,14 @@ _ymin =  (coords_plane[1] - center_plane[plane][1]).min()
 _ymax =  (coords_plane[1] - center_plane[plane][1]).max()
 
 plt.figure()
-plt.imshow(np.log10(Q_gas), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax))
+plt.imshow(np.log10(Q_gas), origin='lower',
+            extent=(_xmin, _xmax, _ymin, _ymax)
+            #, cmap=cmap
+            )
 plt.title('Log Qgas without blanking')
 cbar = plt.colorbar()
 cbar.set_label(r"$\log{Q_{\rm gas}}$")
 plt.show(block=False)
-
 
 # show all quantities in one figure
 fig = plt.figure(figsize=(8, 8))
