@@ -200,7 +200,16 @@ print 'std v_phi', np.std(v_phi)    # km/s
 # kappa
 R_cm = R.value * 1.e3 * pc2cm
 R = R_cm
-v_phi = v_phi.value * 1.e5         # cm/s
+
+# smooth map to regularized the derivates
+sigma_r = gaussian_filter(sigma_r, 0.15)
+v_phi = gaussian_filter(v_phi, 0.15)
+SD = gaussian_filter(SD, 0.15)
+
+try:
+  v_phi = v_phi.value * 1.e5         # cm/s
+except AttributeError:
+  v_phi = v_phi * 1.e5
 
 cost = i_hat
 sint = j_hat
@@ -218,10 +227,10 @@ omega_mw_kms_kpc = 220. / 8
 print omega_mw_kms_kpc
 # ok, unit comparable to MW value
 
-plt.figure()
-plt.imshow(omega_measured)
-plt.colorbar()
-plt.show(block=False)
+# plt.figure()
+# plt.imshow(omega_measured)
+# plt.colorbar()
+# plt.show(block=False)
 
 
 nbins = 100
@@ -267,10 +276,10 @@ domega_dr.flat[:] = interpolate.splev(
     r_slice.flat, omega_interpolator, der=1)
 
 # Finally, calculate epicyclic frequency.
-plt.figure()
-plt.imshow(domega_dr)
-plt.colorbar()
-plt.show(block=False)
+# plt.figure()
+# plt.imshow(domega_dr)
+# plt.colorbar()
+# plt.show(block=False)
 
 
 rotation_frequency = omega_measured
@@ -281,7 +290,7 @@ kappa = np.sqrt(kappa_sq)
 print kappa      # in the MW, kappa ~ omega, which is also true here
 
 plt.figure()
-plt.imshow(np.log10(kappa))
+plt.imshow(np.log10(kappa), cmap=cmap, origin='lower')
 plt.colorbar()
 plt.show(block=False)
 
@@ -290,11 +299,11 @@ A_gas = np.pi
 A_stellar = 3.36
 G = 6.67259e-8  # cgs
 
-radial_veloDisp_cgs = sigma_r.value * 1.e5
-whnzero = np.where(SD.value != 0)
+radial_veloDisp_cgs = sigma_r * 1.e5
+whnzero = np.where(SD != 0)
 Q_gas = np.zeros(SD.shape) * np.nan
 Q_gas[whnzero] = radial_veloDisp_cgs[whnzero] * kappa[whnzero] / \
-    (A_gas * G * SD[whnzero].value)
+    (A_gas * G * SD[whnzero])
 
 print "Q_gas: ", Q_gas
 print(np.isnan(Q_gas) == True).any()
@@ -321,12 +330,12 @@ plt.show(block=False)
 fig = plt.figure(figsize=(8, 8))
 fig.subplots_adjust(left=0.10, right=0.90, hspace=0.1, wspace=0.25)
 ax = plt.subplot(221)
-im = ax.imshow(np.log10(SD.value / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
+im = ax.imshow(np.log10(SD / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(sigma_r.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
+im = ax.imshow(sigma_r, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
@@ -356,7 +365,7 @@ cbar.set_label(r"$\log{Q_{\rm gas}}$")
 plt.show(block=False)
 
 
-# zoomin and smooth
+# zoomin
 # only show central region of the plot (i.e., on the main galaxy)
 # from -1.5 kpc to 1.5 kpc
 xspacing = (_xmax - _xmin)/len(Q_gas)
@@ -372,8 +381,7 @@ bottomBound = np.argmin(abs(yruler + 1.5))
 fig = plt.figure(figsize=(8, 8))
 fig.subplots_adjust(left=0.10, right=0.90, hspace=0.25, wspace=0.25)
 ax = plt.subplot(221)
-im = ax.imshow(gaussian_filter(np.log10(SD.value / cm2pc**2 * g2Msun),
-                                  sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(np.log10(SD / cm2pc**2 * g2Msun)[bottomBound: topBound, leftBound:rightBound],
               origin='lower',
               extent=(xruler[leftBound],
                       xruler[rightBound],
@@ -384,8 +392,7 @@ cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(gaussian_filter(sigma_r.value,
-                                  sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(sigma_r[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
                        xruler[rightBound],
@@ -397,8 +404,7 @@ cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
 
 ax = plt.subplot(223)
-im = ax.imshow(gaussian_filter(np.log10(kappa * 3.086e+16),
-                                sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(np.log10(kappa * 3.086e+16)[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
                        xruler[rightBound],
@@ -411,14 +417,13 @@ plt.xlabel('kpc')
 plt.ylabel('kpc')
 
 ax = plt.subplot(224)
-im = ax.imshow(gaussian_filter(np.log10(Q_gas),
-                                sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(np.log10(Q_gas)[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
                        xruler[rightBound],
                        yruler[bottomBound],
                        yruler[topBound]),
-               cmap=cmap_div,
+               cmap=cmap,
                vmin=-1, vmax=1     # clip at -1 < log10(Q_gas) < 1
                )
 cbar = plt.colorbar(im, extend='both',    # arrows in both direction
