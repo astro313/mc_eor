@@ -141,7 +141,7 @@ plt.figure()
 im = plt.imshow(veldisp_vertical_plane.value, origin='lower', cmap=cmap)
 plt.title('vdisp vertical')
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]")
+cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]", fontsize=16)
 plt.show(block=False)
 
 
@@ -181,13 +181,13 @@ plt.show(block=False)
 print 'max/min radial vdisp in km/s (from velocity)', np.max(sigma_r), np.min(sigma_r)
 
 
-_sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
-plt.figure()
-plt.imshow(_sigma_r.value, cmap=cmap, origin='lower')
-plt.title(r'$\sigma_r$ not weighted')
-plt.colorbar()
-plt.show(block=False)
-print 'max/min radial vdisp in km/s (from velocity)', np.max(_sigma_r), np.min(_sigma_r)
+# _sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
+# plt.figure()
+# plt.imshow(_sigma_r.value, cmap=cmap, origin='lower')
+# plt.title(r'$\sigma_r$ not weighted')
+# plt.colorbar()
+# plt.show(block=False)
+# print 'max/min radial vdisp in km/s (from velocity)', np.max(_sigma_r), np.min(_sigma_r)
 
 
 # v_phi
@@ -202,9 +202,35 @@ R_cm = R.value * 1.e3 * pc2cm
 R = R_cm
 
 # smooth map to regularized the derivates
-sigma_r = gaussian_filter(sigma_r, 0.15)
-v_phi = gaussian_filter(v_phi, 0.15)
-SD = gaussian_filter(SD, 0.15)
+bin_size_in_log10 = 1.0
+fig = plt.figure()
+ax = plt.subplot(121)
+ax.imshow(sigma_r.value, cmap=cmap, origin='lower')
+ax = plt.subplot(122)
+_sigma_r = 10.**gaussian_filter(np.log10(sigma_r), bin_size_in_log10)
+ax = plt.subplot(133)
+ax.imshow(_sigma_r, cmap=cmap, origin='lower')
+plt.show(block=False)
+sigma_r = _sigma_r
+
+fig = plt.figure()
+ax = plt.subplot(121)
+ax.imshow(v_phi.value, cmap=cmap, origin='lower')
+neg_ind = v_phi < 0.0
+ax = plt.subplot(122)
+_v_phi = 10.**gaussian_filter(np.log10(abs(v_phi)), bin_size_in_log10)
+_v_phi[neg_ind] = - _v_phi[neg_ind]
+ax.imshow(_v_phi, cmap=cmap, origin='lower')
+plt.show(block=False)
+
+fig = plt.figure()
+ax = plt.subplot(131)
+ax.imshow(np.log10(SD), cmap=cmap, origin='lower')
+ax = plt.subplot(132)
+_SD = 10.**gaussian_filter(np.log10(SD), bin_size_in_log10)
+ax.imshow(np.log10(_SD), cmap=cmap, origin='lower')
+plt.show(block=False)
+SD = _SD
 
 try:
   v_phi = v_phi.value * 1.e5         # cm/s
@@ -323,7 +349,7 @@ plt.imshow(np.log10(Q_gas), origin='lower',
             )
 plt.title('Log Qgas without blanking')
 cbar = plt.colorbar()
-cbar.set_label(r"$\log{Q_{\rm gas}}$")
+cbar.set_label(r"$\log{Q_{\rm gas}}$", fontsize=16)
 plt.show(block=False)
 
 # show all quantities in one figure
@@ -332,18 +358,18 @@ fig.subplots_adjust(left=0.10, right=0.90, hspace=0.1, wspace=0.25)
 ax = plt.subplot(221)
 im = ax.imshow(np.log10(SD / cm2pc**2 * g2Msun), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
+cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
 
 ax = plt.subplot(222)
 im = ax.imshow(sigma_r, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]", fontsize=16)
 plt.show(block=False)
 
 ax = plt.subplot(223)
 im = ax.imshow(np.log10(kappa * 3.086e+16), origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
+cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]", fontsize=16)
 
 ax = plt.subplot(224)
 import matplotlib as mpl
@@ -359,7 +385,7 @@ cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                     )
 # cbar.set_clim(-1, 1)                      # set color max min range
 cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
-cbar.set_label(r"$\log{Q_{\rm gas}}$")
+cbar.set_label(r"$\log{Q_{\rm gas}}$", fontsize=16)
 
 # plt.tight_layout()
 plt.show(block=False)
@@ -378,8 +404,8 @@ yruler = np.arange(_ymin, _ymax, yspacing)
 topBound = np.argmin(abs(yruler - 1.5))
 bottomBound = np.argmin(abs(yruler + 1.5))
 
-fig = plt.figure(figsize=(8, 8))
-fig.subplots_adjust(left=0.10, right=0.90, hspace=0.25, wspace=0.25)
+fig = plt.figure(figsize=(9, 8))
+fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
 ax = plt.subplot(221)
 im = ax.imshow(np.log10(SD / cm2pc**2 * g2Msun)[bottomBound: topBound, leftBound:rightBound],
               origin='lower',
@@ -389,7 +415,7 @@ im = ax.imshow(np.log10(SD / cm2pc**2 * g2Msun)[bottomBound: topBound, leftBound
                       yruler[topBound]),
               cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
+cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
 
 ax = plt.subplot(222)
 im = ax.imshow(sigma_r[bottomBound: topBound, leftBound:rightBound],
@@ -400,7 +426,7 @@ im = ax.imshow(sigma_r[bottomBound: topBound, leftBound:rightBound],
                        yruler[topBound]),
                cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
+cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]", fontsize=16)
 plt.show(block=False)
 
 ax = plt.subplot(223)
@@ -412,28 +438,27 @@ im = ax.imshow(np.log10(kappa * 3.086e+16)[bottomBound: topBound, leftBound:righ
                        yruler[topBound]),
                cmap=cmap)
 cbar = plt.colorbar(im)
-cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]")
-plt.xlabel('kpc')
-plt.ylabel('kpc')
+cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]", fontsize=16)
+plt.xlabel('kpc', fontsize=16)
+plt.ylabel('kpc', fontsize=16)
 
 ax = plt.subplot(224)
-im = ax.imshow(np.log10(Q_gas)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(gaussian_filter(np.log10(Q_gas), sigma=0.55)[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
                        xruler[rightBound],
                        yruler[bottomBound],
                        yruler[topBound]),
-               cmap=cmap,
+               cmap=cmap_div,
                vmin=-1, vmax=1     # clip at -1 < log10(Q_gas) < 1
                )
 cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                      ticks=[-1, 0, 1]
                     )
 cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
-cbar.set_label(r"$\log{Q_{\rm gas}}$")
+cbar.set_label(r"$\log{Q_{\rm gas}}$", fontsize=16)
 
 # plt.tight_layout()
 plt.show(block=False)
-# plt.savefig('ss_' + str(isnap) + '_toomre_proj_' + plane + '.png')
-
+plt.savefig('ss_' + str(isnap) + '_toomre_proj_' + plane + '.png')
 
