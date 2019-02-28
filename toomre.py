@@ -64,19 +64,6 @@ yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
 zzz = dd["z"].reshape((n_bins, n_bins, n_bins))
 center = dd.get_field_parameter('center')
 
-# vdisp from P_nt + P_T
-def _vdisp(field, data):
-    veldisp_sq_nt = data['P_nt'] * k_B_erg /(data['density'])
-    veldisp_sq_t = data['P'] * k_B_erg / data['density']
-    veldisp_sq_total = veldisp_sq_nt + veldisp_sq_t
-    vel = np.sqrt(veldisp_sq_total) / 1.e5
-    return vel
-
-ds.add_field(("vdisp"), function=_vdisp, units='sqrt(K)/sqrt(g)')
-_dd = ds.all_data()
-print _dd['vdisp']     # km/s
-
-
 # project velocity by mass-weighting, project surface density
 # axis : corresponding to the axis to slice along
 
@@ -86,8 +73,8 @@ veldisp = {}
 veldisp_vertical = {}
 projected_totalGasSurfaceDensity = {}
 coords = {}
+coords3d = {}
 center_plane = {}
-projected_vdisp = {}          # project vdisp
 
 
 for kk, vv in axes.iteritems():
@@ -109,12 +96,6 @@ for kk, vv in axes.iteritems():
     velz_projected = velz_projected.reshape(
         (-1, int(np.sqrt(velz_projected.shape[0]))))
 
-    # from pressure
-    proj = ds.proj("vdisp", int(kk), weight_field='h2density')
-    projected_vdisp[kk] = proj['vdisp'].reshape(
-        (-1, int(np.sqrt(proj['vdisp'].shape[0]))))
-
-
     # project total gas surface density
     proj = ds.proj("density", int(kk), method='integrate')
     projected_totalGasSurfaceDensity[kk] = proj['density'].reshape(
@@ -126,17 +107,20 @@ for kk, vv in axes.iteritems():
         veldisp[kk] = [velocityx, velocityy]
         veldisp_vertical[kk] = np.std(velocityz, axis=2)
         coords[kk] = [xxx[:, :, 0], yyy[:, :, 0]]
+        coords3d[kk] = [xxx, yyy]
         center_plane[kk] = [center[0], center[1]]
     elif kk is '1':
         vel[kk] = [velx_projected, velz_projected]
         veldisp[kk] = [velocityx, velocityz]
         veldisp_vertical[kk] = np.std(velocityy, axis=1)
         coords[kk] = [xxx[:, 0, :], zzz[:, 0, :]]
+        coords3d[kk] = [xxx, zzz]
         center_plane[kk] = [center[0], center[2]]
     elif kk is '0':
         vel[kk] = [vely_projected, velz_projected]
         veldisp[kk] = [velocityy, velocityz]
         veldisp_vertical[kk] = np.std(velocityx, axis=0)
+        coords3d[kk] = [yyy, zzz]
         coords[kk] = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
 
@@ -147,19 +131,10 @@ vel_plane = vel[plane]
 veldisp_plane = veldisp[plane]
 veldisp_vertical_plane = veldisp_vertical[plane]
 coords_plane = coords[plane]
+coords3d_plane = coords3d[plane]
 projected_totalGasSurfaceDensity_plane = projected_totalGasSurfaceDensity[plane]
 SD = projected_totalGasSurfaceDensity_plane
-projected_disp_plane = projected_vdisp[plane]
-
 print 'max/min SD', np.max(SD), np.min(SD)
-print 'max/min vdisp in km/s (from pressure)', np.max(projected_disp_plane), np.min(projected_disp_plane)
-
-plt.figure()
-im = plt.imshow(projected_disp_plane.value, origin='lower', cmap=cmap)
-plt.title('vdisp from Pressure')
-cbar = plt.colorbar(im)
-cbar.set_label(r"$\sigma$ [km s$^{-1}$]")
-plt.show(block=False)
 
 
 plt.figure()
@@ -185,27 +160,34 @@ radial_veloDisp = np.std(radial_vel)
 print 'radial velocity           ', np.max(radial_vel), np.min(radial_vel)
 print 'radial velocity dispersion', radial_veloDisp
 
+# P_nt and P contribute to the velocity field in any case, as their divergence are sources in the Euler eq.
+i_hat_3d = coords3d_plane[0] - center_plane[plane][0]
+j_hat_3d = coords3d_plane[1] - center_plane[plane][1]
+R_3d = np.sqrt(i_hat_3d**2 + j_hat_3d**2)
+print R_3d.min()
+i_hat_3d /= R_3d
+j_hat_3d /= R_3d
 
-sigma_r = np.std(veldisp_plane[0], axis=2) + \
-          np.std(veldisp_plane[1], axis=2)
+# weigh by mass
+wg = dd['h2density'].reshape((n_bins, n_bins, n_bins))
+v_r = veldisp_plane[0] * i_hat_3d + veldisp_plane[1] * j_hat_3d
+mean_v_r = np.sum(wg * v_r, axis=2)/np.sum(wg, axis=2)
+sigma_r = np.sqrt(np.sum(wg * (v_r - mean_v_r[:,:,np.newaxis])**2, axis=2)/np.sum(wg, axis=2))
 plt.figure()
 plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
-plt.colorbar()
-plt.show(block=False)
-
-# sigma_r = np.std(veldisp_plane[0], axis=2) * i_hat + \
-#           np.std(veldisp_plane[1], axis=2) * j_hat    # no
-# plt.figure()
-# plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
-# plt.colorbar()
-# plt.show(block=False)
-
-sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
-plt.figure()
-plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
+plt.title(r'$\sigma_r$ weighted by h2 density')
 plt.colorbar()
 plt.show(block=False)
 print 'max/min radial vdisp in km/s (from velocity)', np.max(sigma_r), np.min(sigma_r)
+
+
+_sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
+plt.figure()
+plt.imshow(_sigma_r.value, cmap=cmap, origin='lower')
+plt.title(r'$\sigma_r$ not weighted')
+plt.colorbar()
+plt.show(block=False)
+print 'max/min radial vdisp in km/s (from velocity)', np.max(_sigma_r), np.min(_sigma_r)
 
 
 # v_phi
@@ -308,7 +290,6 @@ A_gas = np.pi
 A_stellar = 3.36
 G = 6.67259e-8  # cgs
 
-# radial_veloDisp_cgs = projected_disp_plane.value * 1.e5   # from pressure
 radial_veloDisp_cgs = sigma_r.value * 1.e5
 whnzero = np.where(SD.value != 0)
 Q_gas = np.zeros(SD.shape) * np.nan
@@ -345,7 +326,7 @@ cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(projected_disp_plane.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
+im = ax.imshow(sigma_r.value, origin='lower', extent=(_xmin, _xmax, _ymin, _ymax), cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]")
 plt.show(block=False)
@@ -403,7 +384,7 @@ cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(gaussian_filter(projected_disp_plane.value,
+im = ax.imshow(gaussian_filter(sigma_r.value,
                                   sigma=0.1)[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
