@@ -35,8 +35,11 @@ with open(f_camera, 'rb') as f:
     cameraDat = pickle.load(f)
 
 # prepare input data, if not already passed as arguments
-isnap = 16
+isnap = 28
 read_proper_unit = True
+
+
+wg_var = 'density'
 
 if read_proper_unit:
     import pymses
@@ -57,6 +60,9 @@ ds, dd = prepare_unigrid(data=data,
                          debug=False)
 # ds: yt StreamDataset
 # dd: TYRegion
+
+print 'available fields'
+print dd.keys()
 
 n_bins = int(np.ceil(len(dd['density'])**(1. / 3)))
 xxx = dd["x"].reshape((n_bins, n_bins, n_bins))
@@ -83,15 +89,15 @@ for kk, vv in axes.iteritems():
     velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
     velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
 
-    proj = ds.proj('velx', int(kk), weight_field='h2density')
+    proj = ds.proj('velx', int(kk), weight_field=wg_var)
     velx_projected = proj['velx']
     velx_projected = velx_projected.reshape(
         (-1, int(np.sqrt(velx_projected.shape[0]))))
-    proj = ds.proj('vely', int(kk), weight_field='h2density')
+    proj = ds.proj('vely', int(kk), weight_field=wg_var)
     vely_projected = proj['vely']
     vely_projected = vely_projected.reshape(
         (-1, int(np.sqrt(vely_projected.shape[0]))))
-    proj = ds.proj('velz', int(kk), weight_field='h2density')
+    proj = ds.proj('velz', int(kk), weight_field=wg_var)
     velz_projected = proj['velz']
     velz_projected = velz_projected.reshape(
         (-1, int(np.sqrt(velz_projected.shape[0]))))
@@ -137,13 +143,13 @@ SD = projected_totalGasSurfaceDensity_plane
 print 'max/min SD', np.max(SD), np.min(SD)
 
 
+
 plt.figure()
 im = plt.imshow(veldisp_vertical_plane.value, origin='lower', cmap=cmap)
 plt.title('vdisp vertical')
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]", fontsize=16)
 plt.show(block=False)
-
 
 # radial velocity
 i_hat = coords_plane[0] - center_plane[plane][0]
@@ -168,11 +174,18 @@ print R_3d.min()
 i_hat_3d /= R_3d
 j_hat_3d /= R_3d
 
+
 # weigh by mass
-wg = dd['h2density'].reshape((n_bins, n_bins, n_bins))
-v_r = veldisp_plane[0] * i_hat_3d + veldisp_plane[1] * j_hat_3d
-mean_v_r = np.sum(wg * v_r, axis=2)/np.sum(wg, axis=2)
-sigma_r = np.sqrt(np.sum(wg * (v_r - mean_v_r[:,:,np.newaxis])**2, axis=2)/np.sum(wg, axis=2))
+wg       = dd[wg_var].reshape((n_bins, n_bins, n_bins))
+v_r      = veldisp_plane[0] * i_hat_3d + veldisp_plane[1] * j_hat_3d
+mean_v_r = np.sum(wg * v_r, axis=int(plane))/np.sum(wg, axis=int(plane))
+if plane == '0':
+  tmp = mean_v_r[np.newaxis,:,:]
+if plane == '1':
+  tmp = mean_v_r[:,np.newaxis,:]
+if plane == '2':
+  tmp = mean_v_r[:,:,np.newaxis]
+sigma_r  = np.sqrt(np.sum(wg * (v_r - tmp)**2, axis=int(plane))/np.sum(wg, axis=int(plane)))
 plt.figure()
 plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
 plt.title(r'$\sigma_r$ weighted by h2 density')
@@ -461,4 +474,6 @@ cbar.set_label(r"$\log{Q_{\rm gas}}$", fontsize=16)
 # plt.tight_layout()
 plt.show(block=False)
 plt.savefig('ss_' + str(isnap) + '_toomre_proj_' + plane + '.png')
+
+plt.show()
 
