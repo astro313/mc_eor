@@ -17,14 +17,17 @@ from scipy.ndimage.filters import gaussian_filter
 from matplotlib import cm
 cmap = cm.get_cmap('viridis')
 
-import astropy.constants as C
-kg2Msun = 1. / 1.989E30
-kg2g = 1.E+03
-pc2cm = 3.086e18
-J2erg   = 1.E+07
-k_B_erg = C.k_B.value * J2erg
-g2Msun = 1 / 1.989e33
-cm2pc = 1 / pc2cm
+from pymses.utils import constants as C_py
+from yt import units as C_yt
+import astropy.constants as C_ap
+import astropy.units as U
+kg2Msun  = 1. / 1.989E30
+kg2g     = 1.E+03
+pc2cm    = 3.086e18
+J2erg    = 1.E+07
+k_B_erg  = C_ap.k_B.value * J2erg
+g2Msun   = 1 / 1.989e33
+cm2pc    = 1 / pc2cm
 
 
 # load camera stuff
@@ -61,9 +64,6 @@ ds, dd = prepare_unigrid(data=data,
 # ds: yt StreamDataset
 # dd: TYRegion
 
-print 'available fields'
-print dd.keys()
-
 n_bins = int(np.ceil(len(dd['density'])**(1. / 3)))
 xxx = dd["x"].reshape((n_bins, n_bins, n_bins))
 yyy = dd["y"].reshape((n_bins, n_bins, n_bins))
@@ -77,6 +77,7 @@ axes = {'0': 'x', '1': 'y', '2': 'z'}
 vel = {}
 veldisp = {}
 veldisp_vertical = {}
+c_s_eff_proj = {}
 projected_totalGasSurfaceDensity = {}
 coords = {}
 coords3d = {}
@@ -88,7 +89,11 @@ for kk, vv in axes.iteritems():
     velocityx = dd['velx'].reshape((n_bins, n_bins, n_bins))
     velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
     velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
+    
+    c_s_eff   = np.sqrt(C_yt.kb*(dd['P']+dd['P_nt'])/dd['density']).reshape((n_bins, n_bins, n_bins))
+    c_s_eff   = c_s_eff.to('km/s')
 
+    tmp       = dd[wg_var].reshape((n_bins, n_bins, n_bins))
     proj = ds.proj('velx', int(kk), weight_field=wg_var)
     velx_projected = proj['velx']
     velx_projected = velx_projected.reshape(
@@ -115,6 +120,7 @@ for kk, vv in axes.iteritems():
         coords[kk] = [xxx[:, :, 0], yyy[:, :, 0]]
         coords3d[kk] = [xxx, yyy]
         center_plane[kk] = [center[0], center[1]]
+        c_s_eff_proj[kk] = np.sum(c_s_eff * tmp, axis = 2)/np.sum(tmp, axis = 2)
     elif kk is '1':
         vel[kk] = [velx_projected, velz_projected]
         veldisp[kk] = [velocityx, velocityz]
@@ -122,6 +128,7 @@ for kk, vv in axes.iteritems():
         coords[kk] = [xxx[:, 0, :], zzz[:, 0, :]]
         coords3d[kk] = [xxx, zzz]
         center_plane[kk] = [center[0], center[2]]
+        c_s_eff_proj[kk] = np.sum(c_s_eff * tmp, axis = 1)/np.sum(tmp, axis = 1)
     elif kk is '0':
         vel[kk] = [vely_projected, velz_projected]
         veldisp[kk] = [velocityy, velocityz]
@@ -129,6 +136,7 @@ for kk, vv in axes.iteritems():
         coords3d[kk] = [yyy, zzz]
         coords[kk] = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
+        c_s_eff_proj[kk] = np.sum(c_s_eff * tmp, axis = 0)/np.sum(tmp, axis = 0)
 
 
 plane = '0'
@@ -140,6 +148,7 @@ coords_plane = coords[plane]
 coords3d_plane = coords3d[plane]
 projected_totalGasSurfaceDensity_plane = projected_totalGasSurfaceDensity[plane]
 SD = projected_totalGasSurfaceDensity_plane
+c_s_eff_plane = c_s_eff_proj[plane]
 print 'max/min SD', np.max(SD), np.min(SD)
 
 
@@ -150,6 +159,7 @@ plt.title('vdisp vertical')
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]", fontsize=16)
 plt.show(block=False)
+
 
 # radial velocity
 i_hat = coords_plane[0] - center_plane[plane][0]
@@ -188,10 +198,21 @@ if plane == '2':
 sigma_r  = np.sqrt(np.sum(wg * (v_r - tmp)**2, axis=int(plane))/np.sum(wg, axis=int(plane)))
 plt.figure()
 plt.imshow(sigma_r.value, cmap=cmap, origin='lower')
-plt.title(r'$\sigma_r$ weighted by h2 density')
+plt.title(r'$\sigma_r$ weighted by '+wg_var)
 plt.colorbar()
 plt.show(block=False)
 print 'max/min radial vdisp in km/s (from velocity)', np.max(sigma_r), np.min(sigma_r)
+
+plt.figure()
+plt.imshow(c_s_eff_plane.value, cmap=cmap, origin='lower')
+plt.title(r'$c_{s, {\rm eff}}$ weighted by '+wg_var)
+plt.colorbar()
+plt.show(block=False)
+print 'max/min radial vdisp in km/s (from velocity)', np.max(c_s_eff_plane), np.min(c_s_eff_plane)
+
+
+# apparently Inoue+16 define sigma = sigma_r + pressure contribution (see the text close to eq. 1 in http://adsabs.harvard.edu/abs/2016MNRAS.456.2052I)
+sigma_r = np.sqrt(sigma_r**2 + c_s_eff_plane**2)
 
 
 # _sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
@@ -391,7 +412,7 @@ im = ax.imshow(np.log10(Q_gas), origin='lower', \
                extent=(_xmin, _xmax, _ymin, _ymax),
                cmap=cmap_div,
                vmin=-1,
-               vmax=1
+               vmax= 1
                )
 cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                      ticks=[-1, 0, 1]
@@ -475,5 +496,4 @@ cbar.set_label(r"$\log{Q_{\rm gas}}$", fontsize=16)
 plt.show(block=False)
 plt.savefig('ss_' + str(isnap) + '_toomre_proj_' + plane + '.png')
 
-plt.show()
 
