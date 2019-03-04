@@ -38,7 +38,7 @@ with open(f_camera, 'rb') as f:
     cameraDat = pickle.load(f)
 
 # prepare input data, if not already passed as arguments
-isnap = 28
+isnap = 16
 read_proper_unit = True
 
 
@@ -89,7 +89,7 @@ for kk, vv in axes.iteritems():
     velocityx = dd['velx'].reshape((n_bins, n_bins, n_bins))
     velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
     velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
-    
+
     c_s_eff   = np.sqrt(C_yt.kb*(dd['P']+dd['P_nt'])/dd['density']).reshape((n_bins, n_bins, n_bins))
     c_s_eff   = c_s_eff.to('km/s')
 
@@ -139,7 +139,7 @@ for kk, vv in axes.iteritems():
         c_s_eff_proj[kk] = np.sum(c_s_eff * tmp, axis = 0)/np.sum(tmp, axis = 0)
 
 
-plane = '0'
+plane = '2'
 
 vel_plane = vel[plane]
 veldisp_plane = veldisp[plane]
@@ -208,20 +208,11 @@ plt.imshow(c_s_eff_plane.value, cmap=cmap, origin='lower')
 plt.title(r'$c_{s, {\rm eff}}$ weighted by '+wg_var)
 plt.colorbar()
 plt.show(block=False)
-print 'max/min radial vdisp in km/s (from velocity)', np.max(c_s_eff_plane), np.min(c_s_eff_plane)
+print r'max/min $c_s$ in km/s (from velocity)', np.max(c_s_eff_plane), np.min(c_s_eff_plane)
 
 
 # apparently Inoue+16 define sigma = sigma_r + pressure contribution (see the text close to eq. 1 in http://adsabs.harvard.edu/abs/2016MNRAS.456.2052I)
 sigma_r = np.sqrt(sigma_r**2 + c_s_eff_plane**2)
-
-
-# _sigma_r = np.std(veldisp_plane[0] * i_hat + veldisp_plane[1] * j_hat, axis=2)
-# plt.figure()
-# plt.imshow(_sigma_r.value, cmap=cmap, origin='lower')
-# plt.title(r'$\sigma_r$ not weighted')
-# plt.colorbar()
-# plt.show(block=False)
-# print 'max/min radial vdisp in km/s (from velocity)', np.max(_sigma_r), np.min(_sigma_r)
 
 
 # v_phi
