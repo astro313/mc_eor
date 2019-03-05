@@ -53,20 +53,23 @@ with those observed in nearby and \z$\sim$\,2 galaxies.
 The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are 
 systematically higher than those observed in nearby galaxies but comparable to 
 starburst galaxies, with $\sigma\gtrsim$\,100\,\kms.
-This likely results from the strong supernova and stellar feedback \flower experienced over multiple episodes of
-bursty \SF and cosmic gas inflows.
+% Toomre Q
+We compute the effective two-component Toomre Q parameter (gas and stars) to examine 
+regions that are unstable to local axisymmetric perturbations. 
+We further perform virial analysis, which is observable, to examine collapsing regions.
+Virial analysis indicates that the MCs in the main disk of \flower are unbound, but its 
+substructures have lower virial parameters,
+consistent with the notion that collapsing structures result from gravitational instability within globally stable structures.
+% , which are supported by turbulence and rotation on large scale.
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, 
+which we interpret as result from the weaker stellar feedback
+due to the less frequent \SF compared to \flower.
 Our results suggest that the more massive and bigger MCs of \flower compared to the Milky Way
 manifest from the higher gas mass fraction, surface density, and velocity dispersion.
 % , which together sets the scale for fragmentation.
-Virial analysis indicates that the MCs in the main disk of \flower are unbound, but its substructures have lower virial parameters,
-consistent with the notion that collapsing structures result from gravitational instability within globally stable structures.
-% , which are supported by turbulence and rotation on large scale.
-We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result from the weaker stellar feedback
-due to the less frequent \SF compared to \flower.
 High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the
 Next Generation Very Large Array (ngVLA)
-will furnish useful data to test our findings and simulation to shed
-light on \SF since the cosmic dark ages.
+will furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -433,7 +436,7 @@ One can then define the so-called Toomre-Q parameter as:
 Q\equiv\frac{\sigma\kappa}{\pi G \Sigma}.
 \label{eqn:Q}
 \end{equation}
-For a thin disk, where $kh\ll1$, Equation~\ref{eqn:3Ddisp} reduces to the thin disk approximation, which 
+For $kh\ll1$, Equation~\ref{eqn:3Ddisp} reduces to the thin disk approximation, which 
 becomes unstable % perturbation grows exponentially in time
 for some $k$ when $\omega^2 < 0$ (or equivalently, $Q < 1$; \citealt{Toomre64a}).
 Under this condition (i.e., when local gravitational instability 
@@ -451,8 +454,8 @@ To account for stabilizing effect of both gas and stars and the non-negligible d
 % since thickness of a disk weakens the gravitational forces within the disk plane and lower the values for $Q$
 % Romeo:  The effect of thickness is to increase the stability parameter of each 
 % component by a factor T, which depends on the ratio of vertical to radial velocity dispersion, following eqn 8 of their paper.
-we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} which is 
-expressed as follows:
+we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a, Inoue16a}
+which is expressed as follows:
 \begin{equation}
 Q^{-1}_{\rm eff} = \[ \left\{
 				\begin{array}{lccr}
@@ -466,12 +469,17 @@ where $w$ is defined as:
 \begin{equation}
 w\equiv\frac{2 \sigma_{\rm star} \sigma_{\rm gas}}{\sigma_{\rm star}^2 + \sigma_{\rm gas}^2},
 \end{equation}
-and $T$ is defined as:
+and $T$ is approximated as:
 \begin{equation}
-T\approx
-0.8+0.7\left(\frac{\sigma_{z}}{\sigma_{R}}\right)\,.
+T = \[ \left\{
+		\begin{array}{lccr}
+			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [0.75em]
+			{\dispalystyle 1 + 0.6 \left(\frac{\sigma_z}{\sigam_r}\right)}             & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
+\\
+		\end{array}
+		\right.
+		\]
 \end{equation}
-
 
 
 \subsection{Key Properties of Clouds}  
