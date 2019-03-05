@@ -52,7 +52,7 @@ and compare their masses, sizes, velocity dispersions, gas surface densities, an
 with those observed in nearby and \z$\sim$\,2 galaxies.
 The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are 
 systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
-We compute the effective two-component Toomre Q parameter (gas and stars) to examine 
+We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine 
 regions that are unstable to local axisymmetric perturbations. 
 We further perform virial analysis, which is accessible from observations, to examine regions likely to be undergo collapse.
 Our analysis indicates that the MCs in the main disk of \flower are unbound, but its 
@@ -216,9 +216,12 @@ ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 \includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
     Star formation history of \flower (top right) and
-    projected stellar mass distribution of \flower during one of its accretion phases
-    at its early stage of evolution {\it (a)}; during one of its major starburst phases
-    after a major merger {\it (b)}; and in a relatively quiescent phase post-starburst {\it (c)}.
+    projected stellar mass distribution of \flower during 
+    {\it (a)} one of its accretion phases
+    at its early stage of evolution; 
+    {\it (b)} one of its major starburst phases
+    after a major merger; and
+    {\it (c)} a relatively quiescent phase post-starburst.
 % f_gas history?
 \label{fig:SFH}}
 \end{figure*}
@@ -390,7 +393,7 @@ is in equilibrium with the external pressure $P_{\rm ext}$ (and therefore $V_0^2
 varies depending on $P_{\rm ext}$; cf. expectation for SVE, where
 $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
-We use the virial parameter, which is defined using \Eq{alpha} and describes
+We use the virial parameter, which is defined by \Eq{alpha} and describes
 the balance between kinetic and gravitational potential energies,
 to quantify how stable an MC is.
 An $\alpha_{\rm vir}\approx$\,2 corresponds to approximately equipartition between the two energy terms
@@ -399,16 +402,17 @@ the true virial state/boundedness of a given structure also depends on the surfa
 
 \subsection{Gravitational Instabilities}   \label{sec:Q}
 The onset of gravitational instability is considered to be tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}.
-From virial theorem, the Jeans 
+From virial theorem, Jeans 
 instability sets the scales at which gravitational potential overcomes kinetic energy. Namely, gravitational instabilities 
 dominates at scales $L > L_J$, where $L_J$ is the Jeans length. 
 However, in a differentially rotating system, centrifugal force resulting from differential rotation can 
-inhibit collapse even on these scales. Thus, a disk is unstable in the regime of $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
+inhibit collapse even on these scales. Thus, a disk is thought to be 
+unstable on scales of $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
 % \propto \Sigma/B^2
 by the surface density of the disk and the angular velocity of the rotation. 
 
 In theoretical and observational works, gravitational instability has been widely discussed in the 
-context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}, or the Toomre Q parameter 
+context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}, or the Toomre $Q$ parameter 
 (or the proxy, circular velocity to dispersion ratio; $v_{\rm circ}/\sigma$; e.g., \citealt{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}).
 % https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
@@ -441,7 +445,7 @@ overcomes support from pressure and rotation), fragmentation {\it can} happen.
 % but further evolution depends on their EOS.
 %(e.g., instability impose by angular momentum from gas accretion from the cosmic web and
 %satellite galaxies and stellar feedback).
-Similarly, for a collisionless fluid, the Toomre Q parameter is defined by:
+Similarly, for a collisionless fluid, the Toomre $Q$ parameter is defined by:
 \begin{equation}
 Q\equiv\frac{\sigma\kappa}{3.36 G \Sigma}
 \end{equation}
@@ -451,8 +455,8 @@ To account for stabilizing effect of both gas and stars and the non-negligible d
 % since thickness of a disk weakens the gravitational forces within the disk plane and lower the values for $Q$
 % Romeo:  The effect of thickness is to increase the stability parameter of each 
 % component by a factor T, which depends on the ratio of vertical to radial velocity dispersion, following eqn 8 of their paper.
-we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a, Inoue16a}
-which is expressed as follows:
+we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} and
+\citet{Inoue16a} which is expressed as follows:
 \begin{equation}
 Q^{-1}_{\rm eff} = \[ \left\{
 				\begin{array}{lccr}
@@ -470,24 +474,31 @@ and $T$ is approximated as:
 \begin{equation}
 T = \[ \left\{
 		\begin{array}{lccr}
-			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [0.75em]
-			{\dispalystyle 1 + 0.6 \left(\frac{\sigma_z}{\sigam_r}\right)}             & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
+			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [1.25em]
+			{\displaystyle 1 + 0.6\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}        & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
 \\
 		\end{array}
-		\right.
-		\]
+	\right \rlap{.}
+	\]
 \end{equation}
+
+For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the importance of support against axisymmetric perturbations from galactic rotation and shear in the extracted velocity dispersions of the MCs in \Sec{origin}.
+\DL{so does the extracted velocity disp. has a contribution from shear or is it just pressure? I thought we have concluded 
+that it is just high pressure leading to the high velocity disp, but not because of diff. rotation. It's not clear to me how 
+the Toomre $Q$ map is helpful to inform us on how much of the extracted velo. disp. is coming from diff. rotation.}
 
 
 \subsection{Key Properties of Clouds}  
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
-In next section, we examine the MC properties in the context of the Larson's relations \citep{Larson81a}, which
-describe interactions between gravity and turbulence and is the first set of
-relations used for studying star-forming molecular structure formation based on observables (linewidth-size,
-density-size, and mass-size relations) and for comparing properties of molecular structures
-in different galactic environments.
+In next section, we examine and compare properties of the MCs with
+observations in the context of the Larson's relations \citep{Larson81a}. 
+Namely, the linewidth-size, density-size, and mass-size relations.
+Larson's relations are adopted for the discussion in this work as they 
+describe the interactions between gravity and turbulence, and is the first set of
+relations used for studying star-forming molecular structure formation based on observables
+which has been routinely used for comparing properties of molecular structures in different galactic environments.
 % Inner MW: R=2-8.5 kpc, most of the mass in the molecular ISM is in the form of GMCs with sizes $gtrsim$20\,pc and masses greater than 10$^5$\,\Msun \citep{Sanders85a}.
 
 Upon identifying the molecular structures, we extract properties such as
@@ -512,8 +523,7 @@ The total velocity dispersion includes contributions from the thermal sound spee
 \begin{equation}
 \sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
 \end{equation}
-The local sound speed ($c_s$)
-of all identified molecular complexes are generally much smaller compared to the their
+The local sound speed of all identified molecular complexes are much smaller compared to the their
 turbulent velocities\footnote{We find comparable velocity dispersion between that derived from
 taking the root mean square versus that derived from thermal and non-thermal pressure terms, indicating that
 rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.
@@ -665,8 +675,8 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the Toomre Q parameter of the gas component are shown in \Fig{Q} for 
-different projection angles during the accretion phase of \flower (see \Fig{h2density} for examples of clumps identified). 
+Maps of the gas Toomre $Q$ parameter and the effective two-component $Q_{\rm eff}$ parameter along different projection angles during the accretion phase of \flower are shown in \Fig{Q} and \Fig{Q_eff}, respectively (see \Fig{h2density} for examples of clumps identified 
+in this snapshot). 
 
 \begin{figure*}[htbp]
 \centering
@@ -675,8 +685,8 @@ different projection angles during the accretion phase of \flower (see \Fig{h2de
 Maps of the total gas surface density (top left), 
 velocity dispersion (top right),
 epicyclic frequency (bottom left), 
-and Toomre Q parameter (bottom right) in the $xy$-plane.
-Modest smoothing has been applied to the maps. A divergent colormap is used for the Toomre Q map to facilitate 
+and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
+Modest smoothing has been applied to the maps. A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
 \label{fig:Q}}
 \addtocounter{figure}{-1}
@@ -751,7 +761,8 @@ For MCs in the satellite galaxies, we find low virial parameters and pressures, 
 that these structures are likely collapsing structures. 
 Their virial parameters are comparable with those found in clouds that are formed in the galactic disks 
 ($\alpha_{\rm vir}$\eq0.2$-$10; \citealt{Dobbs08a, Tasker09a}).
-Thus, \SF continues as gas from the satellite galaxies is being accreted onto the main galaxies during the EoR.
+Thus, this would suggest 
+\SF continues as gas from the satellite galaxies is being accreted onto the main galaxies during the EoR.
 
 % mass-size relation
 In terms of the mass-size relation (\Fig{MR}), the MCs of \flower are found to lie above the \citet{Kauffmann10c} relation, 
@@ -779,7 +790,7 @@ are separated by $\seq$300\,Myr.
 
  
 \subsection{Origin of the MCs} \label{sec:origin} 
-\DL{discuss stuff on Toomre Q maps with clumps identified.}
+\DL{discuss stuff on Toomre $Q$ maps with clumps identified.}
 
 The largest molecular structure identified is essentially the main disk of \flower and breaks down into smaller
 substructures that are denser as we increase $n_{\rm cut}$ (see e.g., \Fig{larsons16-28}). In any case,
