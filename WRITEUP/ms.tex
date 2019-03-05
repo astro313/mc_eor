@@ -54,7 +54,8 @@ The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and
 systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
 We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine 
 regions that are unstable to local axisymmetric perturbations. 
-We further perform virial analysis, which is accessible from observations, to examine regions likely to be undergo collapse.
+We further perform virial analysis, which is accessible from observations, to examine regions likely 
+to undergo collapse.
 Our analysis indicates that the MCs in the main disk of \flower are unbound, but its 
 substructures have lower virial parameters, which is
 consistent with the notion that collapsing structures result from gravitational instability within globally stable structures.
@@ -405,9 +406,9 @@ The onset of gravitational instability is considered to be tightly connected to 
 From virial theorem, Jeans 
 instability sets the scales at which gravitational potential overcomes kinetic energy. Namely, gravitational instabilities 
 dominates at scales $L > L_J$, where $L_J$ is the Jeans length. 
-However, in a differentially rotating system, centrifugal force resulting from differential rotation can 
-inhibit collapse even on these scales. Thus, a disk is thought to be 
-unstable on scales of $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
+However, centrifugal force resulting from differential rotation in disk galaxies can 
+inhibit collapse even on these scales. As a result, a disk is thought to be 
+unstable on scales between $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
 % \propto \Sigma/B^2
 by the surface density of the disk and the angular velocity of the rotation. 
 
@@ -445,6 +446,11 @@ overcomes support from pressure and rotation), fragmentation {\it can} happen.
 % but further evolution depends on their EOS.
 %(e.g., instability impose by angular momentum from gas accretion from the cosmic web and
 %satellite galaxies and stellar feedback).
+% Note that fragmentation is expected to happen at critical scale length 
+% $\lambda_{\rm crit} < 2 \pi^2 G \Sigma / \kappa^2$, which is greater than the typical size of 
+% GMCs. It should be clear that the instability sets the scales for fragmentation, but 
+% star-forming GMCs are the collapsing, denser, and cooler molecular structures on even smaller scales.
+% The fragmented structures thus correspond to regions where $Q\lesssim1.
 Similarly, for a collisionless fluid, the Toomre $Q$ parameter is defined by:
 \begin{equation}
 Q\equiv\frac{\sigma\kappa}{3.36 G \Sigma}
@@ -482,10 +488,10 @@ T = \[ \left\{
 	\]
 \end{equation}
 
-For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the importance of support against axisymmetric perturbations from galactic rotation and shear in the extracted velocity dispersions of the MCs in \Sec{origin}.
-\DL{so does the extracted velocity disp. has a contribution from shear or is it just pressure? I thought we have concluded 
-that it is just high pressure leading to the high velocity disp, but not because of diff. rotation. It's not clear to me how 
-the Toomre $Q$ map is helpful to inform us on how much of the extracted velo. disp. is coming from diff. rotation.}
+For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the 
+importance of support from galactic rotation and shear against axisymmetric perturbations in \Sec{origin}.
+
+
 
 
 \subsection{Key Properties of Clouds}  
@@ -529,7 +535,7 @@ taking the root mean square versus that derived from thermal and non-thermal pre
 rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.
 % We further quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
 In the subsequent sections, we adopt the root mean square of the velocity field
-as the velocity dispersion ($\sigma$).}.
+as the velocity dispersion ($\sigma$). \label{ftn:veldisp}}.
 On average, the Mach number of the MCs corresponds to about $\mathcal{M}\approx50$.
 This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
@@ -676,7 +682,9 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \end{figure*}
 
 Maps of the gas Toomre $Q$ parameter and the effective two-component $Q_{\rm eff}$ parameter along different projection angles during the accretion phase of \flower are shown in \Fig{Q} and \Fig{Q_eff}, respectively (see \Fig{h2density} for examples of clumps identified 
-in this snapshot). 
+in this snapshot). Fragmentation are expected in regions of low-$Q$. 
+Further interpretation and implication of this is discussed in \Sec{origin}.
+
 
 \begin{figure*}[htbp]
 \centering
@@ -686,7 +694,8 @@ Maps of the total gas surface density (top left),
 velocity dispersion (top right),
 epicyclic frequency (bottom left), 
 and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
-Modest smoothing has been applied to the maps. A divergent colormap is used for the Toomre $Q$ map to facilitate 
+Modest smoothing has been applied to the maps. 
+A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
 \label{fig:Q}}
 \addtocounter{figure}{-1}
@@ -722,13 +731,14 @@ terms of their velocity dispersions, sizes, and gas surface densities (\Fig{lars
 e.g., \citealt{Swinbank11a}), with sizes of the order of $R\simeq$\,100\,pc and velocity
 dispersions of $\sigma\simeq$\,20$-$80\,\kms.
 % velocity dispersion, larsons
-Their velocity dispersions are also comparable those observed in the inner Milky way and
+Their velocity dispersions are also comparable to those observed in the inner Milky way and
 nearby gas-rich galaxies (e.g., M64; \citealt{Oka01a, Rosolowsky05a, Heyer09a}), which lies
 along the locus of $\sigma\propto R^{0.56}$.
 Such high velocity dispersions and surface densities are expected since
 they are located in the nuclear regions of the
-galaxy, where the potential well is also deeper. The higher velocity dispersions
-in these MCs can also be understood as they have experienced more recent episodes
+galaxy, where the potential well is also deeper. The higher velocity dispersions (see also 
+footnote~\ref{ftn:veldisp} on page \pageref{ftn:veldisp})
+of these MCs can also be understood as they have experienced more recent episodes
 of \SF as \flower is assembling its stellar mass (these MCs also have higher stellar-to-gas mass ratios of $\sim$60).
 In fact, by $z\simeq$\,7.2 (i.e., the snapshot corresponding to an early phase of accretion as
 shown in \Fig{SFH}a), \flower has assembled
