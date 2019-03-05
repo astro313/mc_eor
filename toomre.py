@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
 
 from matplotlib import cm
-cmap = cm.get_cmap('viridis')
+cmap = cm.get_cmap('viridis')          # 'magma'
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 
 from pymses.utils import constants as C_py
@@ -670,6 +670,185 @@ class ToomreAnalyze(object):
     return self.Q
 
 
+
+class ToomreAnalyze_2comp(object):
+  """
+
+  Toomre for gas + star in thick disk
+
+  """
+  def __init__(self, Q_gas, Q_star):
+
+    """
+
+    Calculates the combined Toomre Q parameter
+
+    Take into account the finite thickness of the disk
+    and that the gas and stars independently contribute to the gravitational
+    potential.
+
+    See Romeo & Wiegert (2011) [2011MNRAS.416.1191R] for details
+    http://adsabs.harvard.edu/abs/2011MNRAS.416.1191R
+
+    Parameters
+    ----------
+    Q_gas and Q_star are objects
+
+
+    """
+
+    self.debug = Q_gas.debug or Q_star.debug
+    self.Q_star_val = Q_star.Q
+
+    self.Q_gas = Q_gas
+    self.Q_star = Q_star
+
+    assert self.Q_gas.plane == self.Q_star.plane
+    self.plane = self.Q_gas.plane
+
+    assert self.Q_gas.isnap == self.Q_star.isnap
+    self.isnap = self.Q_gas.isnap
+
+    self.interpolate_gas_onto_star_grid()
+
+
+  def interpolate_gas_onto_star_grid(self):
+    from scipy import interpolate
+
+    xx = np.linspace(self.Q_gas.coords[self.plane][0].value.min(), self.Q_gas.coords[self.plane][0].value.max(), len(self.Q_gas.coords[self.plane][0]))
+    yy = np.linspace(self.Q_gas.coords[self.plane][1].value.min(), self.Q_gas.coords[self.plane][1].value.max(), len(self.Q_gas.coords[self.plane][1]))
+
+    f = interpolate.interp2d(xx,
+                             yy,
+                             self.Q_gas.Q,
+                             kind='cubic')
+    Q_gas_resampled = f(xx, yy)
+    assert self.Q_star_val.shape == Q_gas_resampled.shape
+
+    if self.debug:
+      plt.figure()
+      plt.subplot(121)
+      plt.imshow(np.log10(self.Q_gas.Q))
+      plt.colorbar()
+      plt.title('original Qgas')
+      plt.subplot(122)
+      plt.imshow(np.log10(Q_gas_resampled))
+      plt.colorbar()
+      plt.title('resmapled Qgas')
+      plt.show(block=False)
+
+    self.Q_gas_val = Q_gas_resampled
+
+
+  def compute_T(self, veldisp_vert, veldisp_r):
+    """ see Eqn of Inoue+16"""
+
+    print "vel disp ratio (sigma_z/sigma_r): ", veldisp_vert / veldisp_r
+
+    res1 = 1. + 0.6 * (veldisp_vert / veldisp_r)**2
+    res2 = 0.8 * 0.7 * (veldisp_vert / veldisp_r)
+    res = np.where(veldisp_vert < 0.5 * veldisp_r, res1, res2)
+    return res
+
+  def compute_T_s(self):
+    self.T_s = self.compute_T(self.Q_star.veldisp_vertical_plane.value, self.Q_star.sigma_r)
+
+
+  def compute_T_g(self):
+    self.T_g = self.compute_T(self.Q_gas.veldisp_vertical_plane.value, self.Q_gas.sigma_r)
+
+
+  def calc_Q_eff(self):
+
+    # The effect of thickness is to increase the stability parameter of each
+    # component by a factor T, which depends on the ratio of vertical to
+    # radial velocity dispersion.
+
+    w = 2. * self.Q_star.sigma_r * self.Q_gas.sigma_r / (self.Q_star.sigma_r**2 + self.Q_gas.sigma_r**2)
+
+    # 2D array
+    res1 = w / (self.Q_star_val * self.T_s) + 1 / (self.Q_gas_val * self.T_g)
+    res2 = 1 / (self.Q_star_val * self.T_s) + w / (self.Q_gas_val * self.T_g)
+
+    Q_twoComp_inv = np.where(self.T_s * self.Q_star_val >= self.T_g * self.Q_gas_val, res1, res2)
+
+    self.Q_twoComp = 1. / Q_twoComp_inv
+    print(np.isnan(self.Q_twoComp) == True).any()
+
+    return self.Q_twoComp
+
+
+  def plot_Q_eff(self):
+    plt.figure()
+    im = plt.imshow(np.log10(self.Q_twoComp),
+                    extent=(self.Q_gas._xmin, self.Q_gas._xmax, self.Q_gas._ymin, self.Q_gas._ymax),
+                    cmap=cmap_div,
+                    origin='lower',
+                    vmin=-1, vmax=1)     # clip at -1 < log10(Q) < 1
+
+    cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                         ticks=[-1, 0, 1]
+                        )
+    cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
+    cbar.set_label(r"$\log{Q_{\rm eff}}$", fontsize=16)
+    plt.title(r'$Q_{\rm eff}$')
+    plt.xlabel('kpc', fontsize=16)
+    plt.ylabel('kpc', fontsize=16)
+
+    plt.show(block=False)
+    plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png')
+
+
+  def plot_Q_eff_zoom(self, central_kpc_one_side=None):
+
+    if not central_kpc_one_side:
+      central_kpc_one_side = 1.5
+
+    xspacing = (self.Q_gas._xmax - self.Q_gas._xmin)/len(self.Q_twoComp)
+    xruler = np.arange(self.Q_gas._xmin, self.Q_gas._xmax, xspacing)
+    rightBound = np.argmin(abs(xruler - central_kpc_one_side))
+    leftBound = np.argmin(abs(xruler + central_kpc_one_side))
+
+    yspacing = (self.Q_gas._ymax - self.Q_gas._ymin)/len(self.Q_twoComp)
+    yruler = np.arange(self.Q_gas._ymin, self.Q_gas._ymax, yspacing)
+    topBound = np.argmin(abs(yruler - central_kpc_one_side))
+    bottomBound = np.argmin(abs(yruler + central_kpc_one_side))
+
+    plt.figure()
+    # fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+    im = plt.imshow(np.log10(self.Q_twoComp)[bottomBound: topBound,
+                                             leftBound:rightBound],
+                    origin='lower',
+                    extent=(xruler[leftBound],
+                            xruler[rightBound],
+                            yruler[bottomBound],
+                            yruler[topBound]),
+                    cmap=cmap_div,
+                    vmin=-1, vmax=1)     # clip at -1 < log10(Q) < 1
+
+    cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                         ticks=[-1, 0, 1]
+                        )
+    cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
+    cbar.set_label(r"$\log{Q_{\rm eff}}$", fontsize=16)
+    plt.title(r'$Q_{\rm eff}$')
+    plt.xlabel('kpc', fontsize=16)
+    plt.ylabel('kpc', fontsize=16)
+
+    plt.show(block=False)
+    plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + 'zoomed.png')
+
+
+  def run(self):
+
+    self.compute_T_g()
+    self.compute_T_s()
+    self.calc_Q_eff()
+
+    self.plot_Q_eff()
+    self.plot_Q_eff_zoom()
+
+
 if __name__ == '__main__':
   Q_gas_obj = ToomreAnalyze(isnap=16, wg_var='density',
                       field_type='gas', plane='0',
@@ -677,6 +856,12 @@ if __name__ == '__main__':
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5)
   # Q_gas_obj.plot_all_quant_zoom(1.0)
 
+  Q_star_obj = ToomreAnalyze(isnap=16, wg_var='mass',
+                        field_type='star', plane='0', bin_size_in_log10=0.1)
+  Q_star_val = Q_star_obj.run()
+
+  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
+  Q_tot_val = Q_tot_obj.run()
 
 
 
