@@ -51,22 +51,22 @@ We identify MCs using H$_2$ density,
 and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$)
 with those observed in nearby and \z$\sim$\,2 galaxies.
 The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are 
-systematically higher than those observed in nearby galaxies but comparable to 
-starburst galaxies, with $\sigma\gtrsim$\,100\,\kms.
-This likely results from the strong supernova and stellar feedback \flower experienced over multiple episodes of
-bursty \SF and cosmic gas inflows.
-Our results suggest that the more massive and bigger MCs of \flower compared to the Milky Way
+systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
+We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine 
+regions that are unstable to local axisymmetric perturbations. 
+We further perform virial analysis, which is accessible from observations, to examine regions likely 
+to undergo collapse.
+Our analysis indicates that the MCs in the main disk of \flower are unbound, but its 
+substructures have lower virial parameters and Toomre $Q$, which is
+consistent with the notion that collapsing structures occur within globally stable structures.
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies,
+which we interpret as result of the weaker stellar feedback and less frequent \SF compared to \flower.
+Our results suggest that the more massive and bigger MCs compared to the Milky Way
 manifest from the higher gas mass fraction, surface density, and velocity dispersion.
 % , which together sets the scale for fragmentation.
-Virial analysis indicates that the MCs in the main disk of \flower are unbound, but its substructures have lower virial parameters,
-consistent with the notion that collapsing structures result from gravitational instability within globally stable structures.
-% , which are supported by turbulence and rotation on large scale.
-We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result from the weaker stellar feedback
-due to the less frequent \SF compared to \flower.
 High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the
 Next Generation Very Large Array (ngVLA)
-will furnish useful data to test our findings and simulation to shed
-light on \SF since the cosmic dark ages.
+can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -216,9 +216,12 @@ ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 \includegraphics[trim=10 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
     Star formation history of \flower (top right) and
-    projected stellar mass distribution of \flower during one of its accretion phases
-    at its early stage of evolution {\it (a)}; during one of its major starburst phases
-    after a major merger {\it (b)}; and in a relatively quiescent phase post-starburst {\it (c)}.
+    projected stellar mass distribution of \flower during 
+    {\it (a)} one of its accretion phases
+    at its early stage of evolution; 
+    {\it (b)} one of its major starburst phases
+    after a major merger; and
+    {\it (c)} a relatively quiescent phase post-starburst.
 % f_gas history?
 \label{fig:SFH}}
 \end{figure*}
@@ -390,7 +393,7 @@ is in equilibrium with the external pressure $P_{\rm ext}$ (and therefore $V_0^2
 varies depending on $P_{\rm ext}$; cf. expectation for SVE, where
 $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
-We use the virial parameter, which is defined using \Eq{alpha} and describes
+We use the virial parameter, which is defined by \Eq{alpha} and describes
 the balance between kinetic and gravitational potential energies,
 to quantify how stable an MC is.
 An $\alpha_{\rm vir}\approx$\,2 corresponds to approximately equipartition between the two energy terms
@@ -399,16 +402,17 @@ the true virial state/boundedness of a given structure also depends on the surfa
 
 \subsection{Gravitational Instabilities}   \label{sec:Q}
 The onset of gravitational instability is considered to be tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}.
-From virial theorem, the Jeans 
+From virial theorem, Jeans 
 instability sets the scales at which gravitational potential overcomes kinetic energy. Namely, gravitational instabilities 
 dominates at scales $L > L_J$, where $L_J$ is the Jeans length. 
-However, in a differentially rotating system, centrifugal force resulting from differential rotation can 
-inhibit collapse even on these scales. Thus, a disk is unstable in the regime of $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
+However, centrifugal force resulting from differential rotation in disk galaxies can 
+inhibit collapse even on these scales. As a result, a disk is thought to be 
+unstable on scales between $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set 
 % \propto \Sigma/B^2
 by the surface density of the disk and the angular velocity of the rotation. 
 
 In theoretical and observational works, gravitational instability has been widely discussed in the 
-context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}, or the Toomre Q parameter 
+context of the Toomre stability criterion \citep{Toomre64a, Goldreich65b}, or the Toomre $Q$ parameter 
 (or the proxy, circular velocity to dispersion ratio; $v_{\rm circ}/\sigma$; e.g., \citealt{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}).
 % https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
@@ -433,7 +437,7 @@ One can then define the so-called Toomre-Q parameter as:
 Q\equiv\frac{\sigma\kappa}{\pi G \Sigma}.
 \label{eqn:Q}
 \end{equation}
-For a thin disk, where $kh\ll1$, Equation~\ref{eqn:3Ddisp} reduces to the thin disk approximation, which 
+For $kh\ll1$, Equation~\ref{eqn:3Ddisp} reduces to the thin disk approximation, which 
 becomes unstable % perturbation grows exponentially in time
 for some $k$ when $\omega^2 < 0$ (or equivalently, $Q < 1$; \citealt{Toomre64a}).
 Under this condition (i.e., when local gravitational instability 
@@ -441,7 +445,12 @@ overcomes support from pressure and rotation), fragmentation {\it can} happen.
 % but further evolution depends on their EOS.
 %(e.g., instability impose by angular momentum from gas accretion from the cosmic web and
 %satellite galaxies and stellar feedback).
-Similarly, for a collisionless fluid, the Toomre Q parameter is defined by:
+% Note that fragmentation is expected to happen at critical scale length 
+% $\lambda_{\rm crit} < 2 \pi^2 G \Sigma / \kappa^2$, which is greater than the typical size of 
+% GMCs. It should be clear that the instability sets the scales for fragmentation, but 
+% star-forming GMCs are the collapsing, denser, and cooler molecular structures on even smaller scales.
+% The fragmented structures thus correspond to regions where $Q\lesssim1.
+Similarly, for a collisionless fluid, the Toomre $Q$ parameter is defined by:
 \begin{equation}
 Q\equiv\frac{\sigma\kappa}{3.36 G \Sigma}
 \end{equation}
@@ -451,8 +460,8 @@ To account for stabilizing effect of both gas and stars and the non-negligible d
 % since thickness of a disk weakens the gravitational forces within the disk plane and lower the values for $Q$
 % Romeo:  The effect of thickness is to increase the stability parameter of each 
 % component by a factor T, which depends on the ratio of vertical to radial velocity dispersion, following eqn 8 of their paper.
-we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} which is 
-expressed as follows:
+we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} and
+\citet{Inoue16a} which is expressed as follows:
 \begin{equation}
 Q^{-1}_{\rm eff} = \[ \left\{
 				\begin{array}{lccr}
@@ -466,11 +475,21 @@ where $w$ is defined as:
 \begin{equation}
 w\equiv\frac{2 \sigma_{\rm star} \sigma_{\rm gas}}{\sigma_{\rm star}^2 + \sigma_{\rm gas}^2},
 \end{equation}
-and $T$ is defined as:
+and $T$ is approximated as:
 \begin{equation}
-T\approx
-0.8+0.7\left(\frac{\sigma_{z}}{\sigma_{R}}\right)\,.
+T = \[ \left\{
+		\begin{array}{lccr}
+			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [1.25em]
+			{\displaystyle 1 + 0.6\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}        & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
+\\
+		\end{array}
+	\right \rlap{.}
+	\]
 \end{equation}
+
+For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the 
+importance of support from galactic rotation and shear against axisymmetric perturbations in \Sec{origin}.
+
 
 
 
@@ -478,11 +497,13 @@ T\approx
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
-In next section, we examine the MC properties in the context of the Larson's relations \citep{Larson81a}, which
-describe interactions between gravity and turbulence and is the first set of
-relations used for studying star-forming molecular structure formation based on observables (linewidth-size,
-density-size, and mass-size relations) and for comparing properties of molecular structures
-in different galactic environments.
+In next section, we examine and compare properties of the MCs with
+observations in the context of the Larson's relations \citep{Larson81a}. 
+Namely, the linewidth-size, density-size, and mass-size relations.
+Larson's relations are adopted for the discussion in this work as they 
+describe the interactions between gravity and turbulence, and is the first set of
+relations used for studying star-forming molecular structure formation based on observables
+which has been routinely used for comparing properties of molecular structures in different galactic environments.
 % Inner MW: R=2-8.5 kpc, most of the mass in the molecular ISM is in the form of GMCs with sizes $gtrsim$20\,pc and masses greater than 10$^5$\,\Msun \citep{Sanders85a}.
 
 Upon identifying the molecular structures, we extract properties such as
@@ -507,14 +528,13 @@ The total velocity dispersion includes contributions from the thermal sound spee
 \begin{equation}
 \sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
 \end{equation}
-The local sound speed ($c_s$)
-of all identified molecular complexes are generally much smaller compared to the their
+The local sound speed of all identified molecular complexes are much smaller compared to the their
 turbulent velocities\footnote{We find comparable velocity dispersion between that derived from
 taking the root mean square versus that derived from thermal and non-thermal pressure terms, indicating that
 rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.
 % We further quantify the contributions arising from galactic rotation and shear to the extracted velocity dispersions of the MCs in \Sec{Q}.
 In the subsequent sections, we adopt the root mean square of the velocity field
-as the velocity dispersion ($\sigma$).}.
+as the velocity dispersion ($\sigma$). \label{ftn:veldisp}}.
 On average, the Mach number of the MCs corresponds to about $\mathcal{M}\approx50$.
 This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
@@ -660,8 +680,10 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the Toomre Q parameter of the gas component are shown in \Fig{Q} for 
-different projection angles during the accretion phase of \flower (see \Fig{h2density} for examples of clumps identified). 
+Maps of the gas Toomre $Q$ parameter and the effective two-component $Q_{\rm eff}$ parameter along different projection angles during the accretion phase of \flower are shown in \Fig{Q} and \Fig{Qeff}, respectively (see \Fig{h2density} for examples of clumps identified 
+in this snapshot). Fragmentation are expected in regions of low Toomre Q values.
+Further interpretation and implication of this is discussed in \Sec{origin}.
+
 
 \begin{figure*}[htbp]
 \centering
@@ -670,8 +692,9 @@ different projection angles during the accretion phase of \flower (see \Fig{h2de
 Maps of the total gas surface density (top left), 
 velocity dispersion (top right),
 epicyclic frequency (bottom left), 
-and Toomre Q parameter (bottom right) in the $xy$-plane.
-Modest smoothing has been applied to the maps. A divergent colormap is used for the Toomre Q map to facilitate 
+and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
+Modest smoothing has been applied to the maps. 
+A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
 \label{fig:Q}}
 \addtocounter{figure}{-1}
@@ -680,14 +703,14 @@ identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/ss_16_toomre_proj_1}
-\caption{Continued. Maps showing the various quantities projected in the $xz$-plane.}
+\caption{Continued. Maps showing the various quantities projected on the $xz$-plane.}
 \addtocounter{figure}{-1}
 \end{figure*}
 
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/ss_16_toomre_proj_2}
-\caption{Continued. Maps show the various quantities projected in the $yz$-plane.}
+\caption{Continued. Maps show the various quantities projected on the $yz$-plane.}
 \end{figure*}
 
 
@@ -700,6 +723,7 @@ identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
 \section{Discussions and Implications}     \label{sec:diss}
 
 \subsection{Placing Results in the Context of Existing Observations} \label{sec:diss1}
+
 The population of sub-MCs has dynamics largely
 similar to those observed
 in $z$\ssim2 spatially resolved studies of gas-rich star-forming galaxies, in
@@ -707,46 +731,40 @@ terms of their velocity dispersions, sizes, and gas surface densities (\Fig{lars
 e.g., \citealt{Swinbank11a}), with sizes of the order of $R\simeq$\,100\,pc and velocity
 dispersions of $\sigma\simeq$\,20$-$80\,\kms.
 % velocity dispersion, larsons
-Their velocity dispersions are also comparable those observed in the inner Milky way and
+Their velocity dispersions are also comparable to those observed in the inner Milky way and
 nearby gas-rich galaxies (e.g., M64; \citealt{Oka01a, Rosolowsky05a, Heyer09a}), which lies
 along the locus of $\sigma\propto R^{0.56}$.
 Such high velocity dispersions and surface densities are expected since
 they are located in the nuclear regions of the
-galaxy, where the potential well is also deeper. The higher velocity dispersions
-in these MCs can also be understood as they have experienced more recent episodes
+galaxy, where the potential well is also deeper. The higher velocity dispersions (see also 
+footnote~\ref{ftn:veldisp} on page \pageref{ftn:veldisp})
+of these MCs can also be understood as they have experienced more recent episodes
 of \SF as \flower is assembling its stellar mass (these MCs also have higher stellar-to-gas mass ratios of $\sim$60).
 In fact, by $z\simeq$\,7.2 (i.e., the snapshot corresponding to an early phase of accretion as
 shown in \Fig{SFH}a), \flower has assembled
 a stellar mass of $M_*$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion
 is due in part to the stronger stellar feedback compared to e.g., MCs in its satellite galaxies ($\sigma\approx$10\,\kms).
 
-% alpha parameters
-As shown in \Fig{alpha16}, the virial parameter of the sub-MCs is about $\alpha_{\rm vir}\gtrsim10$, which 
-is considerably lower than their ``parent'' MCs found in the main disk of \flower ($\alpha_{\rm vir}\gtrsim100$).
-For the MCs in the satellite galaxies, a lower virial parameter is found 
-compared to the (sub-)MCs in the main disk of \flower, with $\alpha_{\rm vir}\approx$\,2.
-Differences in their $\alpha_{\rm vir}$ most likely result from the weaker
-stellar feedback in the satellite galaxies as they have experienced less episodes of \SF compared to
-\flower (i.e., lower stellar-to-gas mass ratios of $\sim$0.1).
-% pext
-As shown in \Fig{alpha27}, MCs in the main disk of \flower have higher pressure than the sub-MCs.
-The lower $\alpha_{\rm vir}$ and $P_{\rm ext}$ of the sub-MCs
-compared to their parent MCs are consistent with
-the notion that collapsing structures result from local gravitational
-instability within globally non-collapsing structures \citep[see e.g.,][]{Ballesteros-Paredes11a},
-which are supported by turbulence and rotation on large scales.
-%Based on the virial parameter, velocity dispersion, and pressure of the MC identified in the main disk of \flower,
-%the MC itself is gravitationally unbound and supported by turbulence (from the feedback of multiple episodes of \SF)
-%and galactic rotation on large scales. 
-%% Turbulence in these substructures further dissipates in % e.g., shocks on even smaller scales, allowing sub-MCs to be bound and collapse.
-%Observationally, virial parameters of clouds form in the galactic disk
-%are found to have $\alpha_{\rm vir}$\eq0.2$-$10 \citep{Dobbs08a, Tasker09a}.
-
-For MCs in the satellite galaxies, we find low virial parameters and pressures, suggesting 
-that these structures are likely collapsing structures. 
-Their virial parameters are comparable with those found in clouds that are formed in the galactic disks 
-($\alpha_{\rm vir}$\eq0.2$-$10; \citealt{Dobbs08a, Tasker09a}).
-Thus, \SF continues as gas from the satellite galaxies is being accreted onto the main galaxies during the EoR.
+The high pressure observed in \flower is comparable to what has been 
+observed in local ultra-luminous IR galaxies (ULIRGs); however, the
+molecular clouds in the latter are concentrated within their 
+central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun
+\citep{Downes98a, Sakamoto08a}. In our simulation, the high pressure MCs of \flower are
+found throughout the disk. This difference likely stems from the different physical mechanisms giving rise
+to the formation (and thus the nature) of these molecular structures.
+For instance, in local ULIRGs, they are likely form by shock compression and cloud-cloud
+collision after large amount of gas from the pair of progenitor galaxies
+are being funneled toward the central region \citep{Tan00a, Wu18a}.  % Tasker09a
+On the other hand, the highly turbulent structures of \flower likely result from 
+constant cold gas accretion onto the entire galaxy (without
+requiring gas to be funneled into the central region).
+This latter mechanism may also be the dominant mode for forming the highly supersonic massive MCs observed
+in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}) --- but the observed 
+size scales could also result from resolution limit where the true physical scales of MCs in
+$z$\,\ssim2 galaxies could be smaller in reality.
+The constant inter-cloud collision as gas is being accreted onto the main galaxy would also render
+the MCs to be gravitationally unbound (see e.g., \citealt{Dobbs11a}), which is 
+consistent with the high $\alpha_{\rm vir}$ found for the MCs in the main disk of \flower.
 
 % mass-size relation
 In terms of the mass-size relation (\Fig{MR}), the MCs of \flower are found to lie above the \citet{Kauffmann10c} relation, 
@@ -770,78 +788,14 @@ In the scaling relations examined, we find similar MC properties
 in relation to those observed in the nearby Universe between the accretion phase and the starburst phase of
 \flower (see \Fig{larsons_single}, \Fig{alpha16}, and \Fig{alpha27}).
 That is, we do not find any quantitative major differences in the MC properties between the accretion and the starburst phase, which
-are separated by $\seq$300\,Myr.
+are separated by $\simeq$300\,Myr.
 
  
-\subsection{Origin of the MCs} \label{sec:origin} 
-\DL{discuss stuff on Toomre Q maps with clumps identified.}
-
+\subsection{Origin and Physical Scales of the MCs} \label{sec:origin} 
 The largest molecular structure identified is essentially the main disk of \flower and breaks down into smaller
-substructures that are denser as we increase $n_{\rm cut}$ (see e.g., \Fig{larsons16-28}). In any case,
-the MCs we identified are much bigger in size and mass than nearby GMCs, which is consistent with
-those observed in $z$\,\ssim2$-$4 galaxies based on spatially resolved imaging \citep{Swinbank11a}.
-
-The high pressure observed in \flower is comparable to what has been observed in local ULIRGs; however, the
-molecular clouds in the latter are concentrated within their 
-central regions and have typical sizes of $\sim$70$-$100\,pc and masses on the order of $\sim$10$^9$\,\Msun
-\citep{Downes98a, Sakamoto08a}. In our simulation, the high pressure MCs of \flower are
-found throughout the disk. This difference likely stems from the different physical mechanisms giving rise
-to the formation (and thus the nature) of these molecular structures.
-For instance, in local ULIRGs, they are probably form by shock compression or cloud-cloud
-collision after the large amount of gas from the progenitor galaxy merger
-is being funneled toward the central region \citep{Tan00a, Wu18a},  % Tasker09a
-whereas in \flower, which is actively accreting gaseous materials
-from the surrounding, they are probably form from constant cold gas accretion onto the entire galaxy (without
-requiring gas to be funneled into the central region).
-This latter mechanism may also be the dominant mode for forming the highly supersonic massive MCs observed
-in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}).
-The constant inter-cloud collision as gas is being accreted onto the main galaxy would also render
-the MCs to be gravitationally unbound (see e.g., \citealt{Dobbs11a}), which would be consistent with/explain the
-high $\alpha_{\rm vir}$ found for the MCs in the main disk of \flower.
-
-
-\subsection{Virial Parameter, Collapse, and high SFR at high-\z} \label{sec:diss2}
-
-It may appear that there is an inconsistency between the high $\alpha_{\rm vir}$
-nature of the majority of the molecular gas in \flower and its SFR.
-That is, if most of the molecular gas in \flower has high $\alpha_{\rm vir}$, why does it sustain its high SFR of $\sim$100\,\Msun\,yr\pmOne?
-This discrepancy can be explained in two ways.
-First, our results are limited by the resolution of the simulation, such that, in each MC, there
-likely exist multiple smaller-scales molecular structures (e.g., clumps and cores),
-as in the classical MC hierarchy.
-Second, due to
-turbulence dissipation on small-scales, such (sub-)structures are no longer supported by
-large-scale gravitational potential and differential rotation.
-This in turn enables subregions of the MCs to collapse and potentially form OB associations out of these unbound
-MCs \citep{Clark04a, Clark05a}.
-Additional mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
-can also induce orbit crossing, shocks and dissipation in gas, further promoting turbulence dissipation.
-
-We note that in a recent study by \citet{Pettitt18a}, the authors report that the virial parameter could be a poor indicator
-for the star-forming capacity of the massive (10$^{5-6}$\,\Msun) ``clouds'' in their simulation.
-In particular, these authors do not find any significant correlations between the virial parameter, cloud mass,
-and star formation efficiency ($M_*/M_{\rm cl}$).
-Identifying a new diagnostic tool
-% would be interesting for the future, but is outside the aim of the present work
-is beyond the scope of this paper. Here, we are more interested in
-comparing the clouds dynamics with observational studies, and thus,
-part of the discussion of this paper is based on virial analysis.
-
-
-\subsection{MC Dynamics Setting the Mass Scale at EoR} \label{sec:diss3}
-
-%% pressure
-%The pressure of an MC is expected to increase with its velocity dispersion and surface density (see e.g., \Eq{pext} and
-%since $P\propto\Sigma^2$).
-%In the central molecular zone of the Milky Way (CMZ), we have seen molecular clouds with high pressures of
-%$P/k_B > $10$^7$\,K\,cm$^{-3}$. Such high pressures are also seen in massive star-forming regions such as 30 Doradus.
-%The higher $\Sigma_{\rm gas}$ is in turn relates to more massive clouds being formed.
-%In fact, a few clouds with masses $M_{\rm cl}>$10$^7$\,\Msun 
-%are found in nearby gas-rich galaxies such as M64 and M51 \citep{Rosolowsky05a, Koda09a, Colombo14a}.
-%%On the other hand, such massive molecular structures are unknown to Local Group galaxies
-%%\citep[e.g.,][]{Rice16a}, and are likely the sites
-%%from which massive star clusters or OB associations are to be formed.
-%{\bf So?}
+substructures that are denser as we increase $n_{\rm cut}$ (see e.g., \Fig{larsons16-28}). Overall,
+the MCs we identified are much bigger in size and mass than nearby GMCs, 
+but comparable to those observed in $z$\,\ssim2$-$4 galaxies based on spatially resolved imaging \citep{Swinbank11a}.
 
 % mass scale
 Observations of nearby gas-rich galaxies such as M64 and NGC\,253
@@ -863,19 +817,77 @@ Based on the scaling of $M_J$\eq$\sigma^4/(G^2\Sigma)$ for the Jeans mass,
 a velocity dispersion of $\sigma\approx50$\,\kms and a gas mass surface density of
 $\Sigma_{\rm gas}\approx450$\,\Msun\,pc$^{-2}$
 yield $M_J\sim$\,8\E{8}\,\Msun, which is in good agreement with the mass range found in the MCs identified (see \Fig{dist}).
-The enhanced MCs size-scale compared to local GMCs
-is therefore likely a manifestation of gravitational instabilities (resulting from the higher $f_{\rm gas}$), which drives
-supersonic turbulence in the ISM.
-
 Similarly massive molecular clouds have been reported in idealized closed-box isolated galaxy
 simulations done at higher resolution (e.g., \citealt{Behrendt16a}).
 Note, however, that the IGM and merger and accretion histories are not properly modeled in such simulations
 since they adopt non-cosmological initial conditions.
-It is therefore conceivable that our results are not that far off in spite of the limited resolution ($l\approx$\,30\,pc).
-Future higher resolution zoom-in simulations would certainly be useful to understand
-the evolving dynamical properties of the lower-mass molecular structures in
-galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
+That said, this is reassuring --- our results are not far off in spite of the resolution ($l\approx$\,30\,pc).
 
+%Note that regions of $Q\lesssim1$ is actually somewhat 
+%less than the number of MCs we have identified based on density threshold --- 
+%but this has something to do with the dependence on 
+%$n_{\rm cut}$. The number of MCs and regions of low $Q$ are comparable if we only look at 
+%MCs identified at the highest $n_{\rm cut}$. \DL{do they overlap?}
+
+% alpha parameters
+As shown in \Fig{alpha16}, the virial parameter of the sub-MCs is about $\alpha_{\rm vir}\gtrsim10$, which 
+is considerably lower than their ``parent'' MCs found in the main disk of \flower ($\alpha_{\rm vir}\gtrsim100$).
+For the MCs in the satellite galaxies, a lower virial parameter is found 
+compared to the (sub-)MCs in the main disk of \flower, with $\alpha_{\rm vir}\approx$\,2.
+Differences in their $\alpha_{\rm vir}$ most likely result from the weaker
+stellar feedback in the satellite galaxies as they have experienced less episodes of \SF compared to
+\flower (i.e., lower stellar-to-gas mass ratios of $\sim$0.1).
+% pext
+As shown in \Fig{alpha27}, MCs in the main disk of \flower have higher pressure than the sub-MCs.
+The lower virial parameter and external pressure of the sub-MCs
+compared to their parent MCs are consistent with
+the notion that collapsing structures result from local gravitational
+instability within globally non-collapsing structures \citep[see e.g.,][]{Ballesteros-Paredes11a},
+which are supported by turbulence and rotation on large scales.
+%Based on the virial parameter, velocity dispersion, and pressure of the MC identified in the main disk of \flower,
+%the MC itself is gravitationally unbound and supported by turbulence (from the feedback of multiple episodes of \SF)
+%and galactic rotation on large scales. 
+%% Turbulence in these substructures further dissipates in % e.g., shocks on even smaller scales, allowing sub-MCs to be bound and collapse.
+
+For MCs in the satellite galaxies, we find low pressures and virial parameters 
+which are comparable to those found in clouds formed in the galactic disks 
+($\alpha_{\rm vir}$\eq0.2$-$10; \citealt{Dobbs08a, Tasker09a}).
+This suggests that MCs identified in the satellite galaxies are likely to be collapsing structures,
+and thus, \SF is expected to continue 
+as gas from satellite galaxies is being accreted onto the main galaxies during the EoR.
+
+The apparently large virial parameters seen in the MCs of \flower can be understood using the 
+Toomre $Q$ parameter (\Fig{Q} and \Fig{Qeff}). 
+We first note that fragmentation {\it can} happen in regions of low $Q$ (if we only consider 
+instability against axisymmetric perturbations), but  
+further evolution/collapse depends on the dynamics or equation of state of the gas. 
+Such fragmentation is expected to take place at the
+critical scale length $\lambda_{\rm crit} < 2 \pi^2 G \Sigma / \kappa^2$.
+Second, this fragmentation scale is greater than the typical size of GMCs. This could be interpreted as a result of instability setting the scales for fragmentation, but the star-forming GMCs
+correspond to the collapsing, denser, and cooler molecular structures that are on smaller scales. 
+Thus, the high virial parameter found 
+for most MCs in \flower, which is the ratio between the velocity dispersion (accounts for effect of pressure 
+and rotation) and surface density, indicate that most of them are not collapsing structures. 
+As such, some MCs lie in regions of $Q>1$. 
+Only in (the denser) regions with a low Toomre $Q$ parameter and 
+when energy can be dissipated on a timescale 
+that is shorter than the timescale over which it gains energy (e.g., heating) 
+correspond to star-forming {\it clumps} and {\it cores} with low virial parameters.
+This would also (at least partially) explain the seemingly inconsistency between the high $\alpha_{\rm vir}$
+nature of most MCs of \flower and its relatively high SFR.
+That is, if most of the molecular gas in \flower are stable against collapse, 
+how does it sustain its high SFR of $\sim$100\,\Msun\,yr\pmOne?
+The discrepancy can be explained in two ways.
+First, our results are limited by the resolution of the simulation, such that, in each MC, there
+likely exist multiple smaller-scales molecular structures (e.g., clumps and cores),
+as in the classical molecular cloud hierarchy. This re-iterates the statement about low $Q$ above.
+Second, due to turbulence dissipation on small-scales, such (sub-)structures are no longer supported by
+large-scale gravitational potential and differential rotation.
+This in turn enables subregions of the MCs to collapse and potentially form OB associations out of these unbound
+MCs \citep{Clark04a, Clark05a}.
+Additional mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
+can also induce orbit crossing, shocks and dissipation in gas, further promoting turbulence dissipation
+and collapse on smaller scales to trigger \SF.
 
 %--------------------------------------------------------------------------
 %                                Conclusions
@@ -907,7 +919,8 @@ correspond to the arms of the disk of \flower which break down into smaller $\le
 The more massive and bigger MCs in \flower compared to the Milky Way
 likely result from the higher gas mass fraction, surface density, and velocity dispersion,
 which set the scale for fragmentation.
-This is consistent with what has been found previously in higher resolution idealized simulation of isolated galaxies.
+This physical scale is 
+consistent with what has been found in higher resolution idealized simulation of isolated galaxies.
 Our simulation here confirms these results at EoR and under
 the influence of continuous gas accretion from the surrounding IGM (see e.g., \citealt{Klessen10a, Goldbaum11a}).
 
@@ -915,7 +928,6 @@ We compare the dynamics of MCs in \flower to \obs in the context of the Larson's
 The MCs of \flower are found to have higher $\sigma$ and $\Sigma$ systematically regardless of the 
 density threshold $n_{\rm cut}$ adopted in identifying the structures.
 Our results are thus insensitive to the various density cuts of choice.
-%However, our results are dependent on the numerical resolution of the simulation.
 The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the 
 density threshold and even for the molecular substructures.
 Such a high velocity dispersion likely results from
@@ -926,7 +938,8 @@ This is consistent with the notion that collapsing structures result from gravit
 supported by turbulence and rotation on large scale.
 We also find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as
 result of the weaker stellar feedback as they have
-experienced less episodes of \SF compared to \flower (also supported by the lower stellar-to-gas mass ratio of the latter).
+experienced less episodes of \SF compared to \flower 
+(also supported by the lower stellar-to-gas mass ratio of the latter).
 MCs in the satellites are therefore likely collapsing structures.
 
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, 
@@ -944,9 +957,12 @@ in the context of galaxy evolution and the ISM physics behind their intense star
 Cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
 statistics and is subject to the sub-grid models adopted, 
 serve as an useful avenue/tool for examining and making predictions on the morphology and dynamics of
-the multi-phase ISM structures of the first galaxies.
+the multi-phase ISM of the first galaxies.
+%Future higher resolution zoom-in simulations would certainly be useful to understand
+%the evolving dynamical properties of the lower-mass molecular structures in
+%galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
 These predictions can in turn be
-tested with high resolution imaging of the gas content in the first galaxies with telescopes such as ALMA and the ngVLA,
+tested with high resolution imaging of the gas content in the first galaxies with telescopes such as ALMA and the ngVLA, thereby 
 enabling us to test our findings and refine future simulations to shed light on the physical processes behind 
 \SF since the cosmic dark ages.
 
@@ -959,9 +975,9 @@ enabling us to test our findings and refine future simulations to shed light on 
 \acknowledgements
 
 We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data.
-T.K.D.L. acknowledges support by the NSF through award SOSPA4-009
+TKDL acknowledges support by the NSF through award SOSPA4-009
 from the NRAO and support from the Simons Foundation.
-A.F. acknowledges support from the ERC Advanced Grant INTERSTELLAR H2020/740120.
+AF acknowledges support from the ERC Advanced Grant INTERSTELLAR H2020/740120.
 This work is based on a project developed at the Kavli Summer Program in Astrophysics (KSPA)
 held at the Center for
 Computational Astrophysics of the Flatiron Institute in 2018. The program was co-funded by the Kavli
