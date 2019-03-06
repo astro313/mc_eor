@@ -29,7 +29,7 @@ class ToomreAnalyze(object):
   Single Toomre Q object
 
   """
-  def __init__(self, isnap, wg_var, field_type, plane, bin_size_in_log10=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True):
+  def __init__(self, isnap, wg_var, field_type, plane, bin_size_in_log10=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False):
 
 
     self.isnap = isnap
@@ -37,6 +37,7 @@ class ToomreAnalyze(object):
     self.wg_var = wg_var         # density for gas, mass for stars
     self.debug = debug
     self.verbose = verbose
+    self.megaverbose = megaverbose
     self.convertPart = convertPart
     self.plane = plane
     self.field_type = field_type
@@ -95,7 +96,8 @@ class ToomreAnalyze(object):
 
     if self.field_type == 'gas':
       self.data = import_fetch_gal(isnap=self.isnap)
-      print self.data.keys()
+      if self.megaverbose: 
+        print self.data.keys()
       self.ds, self.dd = prepare_unigrid(data=self.data,
                                add_unit=True,
                                regionsize_kpc=self.region_size_kpc,
@@ -106,7 +108,8 @@ class ToomreAnalyze(object):
       self.starData = import_fetch_stars(isnap=self.isnap,
                                          verbose=self.verbose,
                                          convert=self.convertPart)
-      print self.starData.keys()
+      if self.megaverbose: 
+        print self.starData.keys()
       self.ds, self.dd = prepare_star_unigrid(data=self.starData,
                                     add_unit=True,     # since convert=True
                                     regionsize_kpc=self.region_size_kpc,
@@ -196,7 +199,8 @@ class ToomreAnalyze(object):
         self.ds.add_field(("rho_star"), function=_rho_star,
               units='g/cm**3')
         _dd = self.ds.all_data()
-        print _dd['rho_star']
+        if self.megaverbose: 
+          print _dd['rho_star']
         del _dd
 
         # mass to surface density
@@ -235,7 +239,8 @@ class ToomreAnalyze(object):
     if self.field_type == 'gas':
       self.c_s_eff_plane = self.c_s_eff_proj[self.plane]
 
-    print 'max/min SD', np.max(self.SD), np.min(self.SD)
+    if self.verbose: 
+      print 'max/min SD', np.max(self.SD), np.min(self.SD)
 
 
   def plot_SD(self):
@@ -266,7 +271,8 @@ class ToomreAnalyze(object):
     i_hat_3d = self.coords3d_plane[0] - self.center_plane[self.plane][0]
     j_hat_3d = self.coords3d_plane[1] - self.center_plane[self.plane][1]
     R_3d = np.sqrt(i_hat_3d**2 + j_hat_3d**2)
-    print R_3d.min()
+    if self.megaverbose: 
+      print R_3d.min()
     i_hat_3d /= R_3d
     j_hat_3d /= R_3d
 
@@ -283,7 +289,8 @@ class ToomreAnalyze(object):
 
     self.sigma_r  = np.sqrt(np.sum(wg * (v_r - tmp)**2, axis=int(self.plane))/np.sum(wg, axis=int(self.plane)))
 
-    print 'max/min radial vdisp in km/s (from velocity)', np.max(self.sigma_r), np.min(self.sigma_r)
+    if self.verbose: 
+      print 'max/min radial vdisp in km/s (from velocity)', np.max(self.sigma_r), np.min(self.sigma_r)
 
   def plot_radial_veldisp(self):
     plt.figure()
@@ -302,7 +309,8 @@ class ToomreAnalyze(object):
     plt.title(r'$c_{s, {\rm eff}}$ weighted by '+self.wg_var)
     plt.colorbar()
     plt.show(block=False)
-    print r'max/min $c_s$ in km/s (from velocity)', np.max(self.c_s_eff_plane), np.min(self.c_s_eff_plane)
+    if self.verbose: 
+      print r'max/min $c_s$ in km/s (from velocity)', np.max(self.c_s_eff_plane), np.min(self.c_s_eff_plane)
 
 
   def calc_tot_sigma_r(self):
@@ -336,7 +344,8 @@ class ToomreAnalyze(object):
     i_hat = self.coords_plane[0] - self.center_plane[self.plane][0]
     j_hat = self.coords_plane[1] - self.center_plane[self.plane][1]
     self.R = np.sqrt(i_hat**2 + j_hat**2)    # + k_hat**2)
-    print self.R.min()
+    if self.megaverbose: 
+      print self.R.min()
     self.i_hat = i_hat / self.R
     self.j_hat = j_hat / self.R
 
@@ -350,8 +359,9 @@ class ToomreAnalyze(object):
     theta = np.arctan2(self.j_hat, self.i_hat)
     _v_r = np.cos(theta) * vi + np.sin(theta) * vj
     self.v_phi = (-np.sin(theta) * vi + np.cos(theta) * vj)
-    print 'maxmin v_phi    ', np.max(self.v_phi), np.min(self.v_phi)
-    print 'std v_phi', np.std(self.v_phi)    # km/s
+    if self.verbose: 
+      print 'maxmin v_phi    ', np.max(self.v_phi), np.min(self.v_phi)
+      print 'std v_phi', np.std(self.v_phi)    # km/s
 
 
   def smooth_v_phi(self, plot=True):
@@ -415,9 +425,11 @@ class ToomreAnalyze(object):
 
     self.omega_measured = self.v_phi / self.r_slice
     omega_measured_standard_unit = self.v_phi / 1.e5 / (self.r_slice / self.pc2cm / 1.e3)
-    print(omega_measured_standard_unit).mean()      # km/s/kpc
+    if self.verbose: 
+      print 'mean omega', (omega_measured_standard_unit).mean(), 'km/s/kpc'      # km/s/kpc
     omega_mw_kms_kpc = 220. / 8
-    print omega_mw_kms_kpc               # ok, unit comparable to MW value
+    if self.verbose:
+      print 'omega_MW',omega_mw_kms_kpc, 'km/s/kpc'               # ok, unit comparable to MW value
 
   def plot_omega(self):
     plt.figure()
@@ -428,6 +440,8 @@ class ToomreAnalyze(object):
 
   def calc_kappa(self, radial_nbins):
 
+    if self.megaverbose: 
+      print 'calc_kappa()'
     if not radial_nbins:
       radial_nbins = 100
 
@@ -438,7 +452,8 @@ class ToomreAnalyze(object):
     # Count how many pixels fall into each radial bin
     hist, _ = np.histogram(self.r_slice, bins)
     hist[hist == 0] = 1
-    print hist
+    if self.megaverbose: 
+      print hist
 
     # Get flat 1D indices into r_slice for each bin.
     inds = np.digitize(self.r_slice.flat, bins) - 1
@@ -482,7 +497,8 @@ class ToomreAnalyze(object):
         2 * self.r_slice * rotation_frequency + self.r_slice**2 * domega_dr)
     kappa_sq[kappa_sq < 0] = np.min(kappa_sq[kappa_sq > 0])
     self.kappa = np.sqrt(kappa_sq)
-    print self.kappa      # in the MW, kappa ~ omega, which is also true here
+    if self.megaverbose: 
+      print self.kappa      # in the MW, kappa ~ omega, which is also true here
 
 
   def smooth_kappa(self, plot=True):
@@ -519,7 +535,8 @@ class ToomreAnalyze(object):
       self.Q[whnzero] = radial_veloDisp_cgs * self.kappa[whnzero] / \
                         (self.A_star * self.G * self.SD[whnzero])
 
-    print "Q of field {0:s}: {1:}".format(self.field_type, self.Q)
+    if self.megaverbose: 
+      print "Q of field {0:s}: {1:}".format(self.field_type, self.Q)
     # print(np.isnan(self.Q) == True).any()
 
     return self.Q
@@ -679,7 +696,13 @@ class ToomreAnalyze(object):
 
     # plt.tight_layout()
     plt.show(block=False)
-    plt.savefig('ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane + '.png')
+    out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane +\
+            'zoom_'+str(central_kpc_one_side)+'_kpc'+\
+            '.png'
+    if self.verbose: 
+      print 'save to'
+      print '  ',out_f
+    plt.savefig(out_f)
 
 
   def run(self, radial_nbins=None, central_kpc_one_side=None,
@@ -707,7 +730,6 @@ class ToomreAnalyze(object):
     self.calc_Q()
 
     self.plot_range_set_by_camera()
-    self.plot_all_quant()
     self.plot_all_quant_zoom(central_kpc_one_side, annotate_clump,
                              clump_list_filename)
 
@@ -798,7 +820,8 @@ class ToomreAnalyze_2comp(object):
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see Eqn of Inoue+16"""
 
-    print "vel disp ratio (sigma_z/sigma_r): ", veldisp_vert / veldisp_r
+    if self.verbose: 
+      print "vel disp ratio (sigma_z/sigma_r): ", veldisp_vert / veldisp_r
 
     res1 = 1. + 0.6 * (veldisp_vert / veldisp_r)**2
     res2 = 0.8 * 0.7 * (veldisp_vert / veldisp_r)
@@ -828,7 +851,8 @@ class ToomreAnalyze_2comp(object):
     Q_twoComp_inv = np.where(self.T_s * self.Q_star_val >= self.T_g * self.Q_gas_val, res1, res2)
 
     self.Q_twoComp = 1. / Q_twoComp_inv
-    print(np.isnan(self.Q_twoComp) == True).any()
+    if self.megaverbose: 
+      print(np.isnan(self.Q_twoComp) == True).any()
 
     return self.Q_twoComp
 
@@ -851,7 +875,11 @@ class ToomreAnalyze_2comp(object):
     plt.ylabel('kpc', fontsize=16)
 
     plt.show(block=False)
-    plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png')
+    out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png'
+    if self.verbose: 
+      print 'save to'
+      print '  ',out_f
+    plt.savefig(out_f)
 
 
   def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
@@ -904,7 +932,11 @@ class ToomreAnalyze_2comp(object):
     plt.ylabel('kpc', fontsize=16)
 
     plt.show(block=False)
-    plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + 'zoomed.png')
+    out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + 'zoomed.png'
+    if self.verbose: 
+      print 'save to'
+      print '  ',out_f
+    plt.savefig(out_f)
 
 
   def run(self, central_kpc_one_side, annotate_clump, clump_list_filename):
@@ -913,25 +945,27 @@ class ToomreAnalyze_2comp(object):
     self.compute_T_s()
     self.calc_Q_eff()
 
-    self.plot_Q_eff()
     self.plot_Q_eff_zoom(central_kpc_one_side, annotate_clump, clump_list_filename)
 
 
 if __name__ == '__main__':
 
-  plane = '0'
-  testfile = 'ss16_h2density_clumppos_ncut_0.32_Ncellmin_10.txt'
+  plane     = '0'
+  isnap     = 28
+  annotate  = False
 
-  Q_gas_obj = ToomreAnalyze(isnap=16, wg_var='density',
+  testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_0.32_Ncellmin_10.txt'
+
+  Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',
                       field_type='gas', plane=plane,
                       bin_size_in_log10=0.35, debug=False)
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
-                             annotate_clump=True,
+                             annotate_clump=annotate,
                              clump_list_filename=testfile)
-  # Q_gas_obj.plot_all_quant_zoom(1.0)
+  Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate)
 
   # # something about calc_kappa doesn't work for stellar component...
-  # Q_star_obj = ToomreAnalyze(isnap=16, wg_var='mass',
+  # Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',
   #                       field_type='star', plane=plane,
   #                       bin_size_in_log10=0.35, debug=True)
   # Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
