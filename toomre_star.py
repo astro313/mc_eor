@@ -58,7 +58,8 @@ else:
 starData = import_fetch_stars(
     isnap=isnap, verbose=verbose, convert=True)   # default, convert=True
 if verbose:
-  print starData.keys()
+  print 'stellar keys:'
+  print '  ',starData.keys()
 
 ds, dd = prepare_star_unigrid(data=starData,
                               add_unit=True,     # since convert=True
@@ -114,11 +115,18 @@ _dd = ds.all_data()
 if megaverbose:
   print _dd['rho_star']
 
-for kk, vv in axes.iteritems():
+velocityx = dd['velx'].reshape((n_bins, n_bins, n_bins))
+velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
+velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
 
-    velocityx = dd['velx'].reshape((n_bins, n_bins, n_bins))
-    velocityy = dd['vely'].reshape((n_bins, n_bins, n_bins))
-    velocityz = dd['velz'].reshape((n_bins, n_bins, n_bins))
+if verbose:
+  print 'Velocities'
+  for kk,vec in zip(['x','y','z'],[velocityx,velocityy,velocityz]):
+    print '  ',kk,':'
+    print '     max/min ',np.max(vec),np.min(vec)
+    print '     mean/std',np.mean(vec),np.std(vec)
+
+for kk, vv in axes.iteritems():
 
     # velocity weight by stellar mass intsead of H2 density here
     proj = ds.proj('velx', int(kk), weight_field=wg_var)
@@ -162,7 +170,8 @@ for kk, vv in axes.iteritems():
         coords[kk] = [yyy[0, :, :], zzz[0, :, :]]
         center_plane[kk] = [center[1], center[2]]
 
-plane = '2'
+#plane = '2'
+plane = '0'
 
 vel_plane = vel[plane]
 veldisp_plane = veldisp[plane]
@@ -232,7 +241,6 @@ plt.colorbar()
 plt.show(block=False)
 if verbose:
   print 'max/min radial vdisp in km/s (from velocity)', np.max(sigma_r), np.min(sigma_r)
-
 
 # v_phi
 theta = np.arctan2(j_hat, i_hat)
@@ -448,28 +456,42 @@ yruler = np.arange(_ymin, _ymax, yspacing)
 topBound = np.argmin(abs(yruler - 1.5))
 bottomBound = np.argmin(abs(yruler + 1.5))
 
+
+gauss_sigma_smooth = 0.55
+map_SD       = np.log10(gaussian_filter(SD.value/ cm2pc**2 * g2Msun, sigma=gauss_sigma_smooth))
+map_sigma_r  = np.log10(gaussian_filter(sigma_r.value              , sigma=gauss_sigma_smooth) )
+map_kappa    = np.log10(gaussian_filter(kappa * 3.086e+16          , sigma=gauss_sigma_smooth) )
+map_Q_star   = np.log10(gaussian_filter(Q_star                     , sigma=gauss_sigma_smooth))
+
+
 fig = plt.figure(figsize=(9, 8))
 fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
 ax = plt.subplot(221)
-im = ax.imshow(gaussian_filter(np.log10(SD.value/ cm2pc**2 * g2Msun), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]), cmap=cmap)
+im = ax.imshow(map_SD[bottomBound: topBound, leftBound:rightBound],
+      origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]),
+      cmap=cmap
+      )
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]")
 
 ax = plt.subplot(222)
-im = ax.imshow(gaussian_filter(np.log10(sigma_r.value), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]), cmap=cmap)
+im = ax.imshow(map_sigma_r[bottomBound: topBound, leftBound:rightBound],
+    origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]),
+    cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\sigma}$ [km\,s$^{-1}$]")
-plt.show(block=False)
 
 ax = plt.subplot(223)
-im = ax.imshow(gaussian_filter(np.log10(kappa * 3.086e+16), sigma=0.8)[bottomBound: topBound, leftBound:rightBound], origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]), cmap=cmap)
+im = ax.imshow(map_kappa[bottomBound: topBound, leftBound:rightBound],
+    origin='lower', extent=(xruler[leftBound], xruler[rightBound], yruler[bottomBound], yruler[topBound]),
+    cmap=cmap)
 cbar = plt.colorbar(im)
 cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]", fontsize=16)
 plt.xlabel('kpc', fontsize=16)
 plt.ylabel('kpc', fontsize=16)
 
 ax = plt.subplot(224)
-im = ax.imshow(gaussian_filter(np.log10(Q_star), sigma=0.55)[bottomBound: topBound, leftBound:rightBound],
+im = ax.imshow(map_Q_star[bottomBound: topBound, leftBound:rightBound],
                origin='lower',
                extent=(xruler[leftBound],
                        xruler[rightBound],
@@ -485,9 +507,9 @@ cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
 cbar.set_label(r"$\log{Q_{\rm star}}$", fontsize=16)
 
 # plt.tight_layout()
-plt.show(block=False)
+#plt.show(block=False)
 
-f_out = 'ss_' + str(isnap) + 'stars_toomre_proj_' + plane + '.png'
+f_out = 'ss' + str(isnap) + '_stars_toomre_proj_' + plane + '.png'
 if verbose:
   print 'out to'
   print '  ',f_out

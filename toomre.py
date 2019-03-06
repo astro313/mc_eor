@@ -41,7 +41,9 @@ class ToomreAnalyze(object):
     self.convertPart = convertPart
     self.plane = plane
     self.field_type = field_type
+    #
     self.bin_size_in_log10 = bin_size_in_log10     # bin to smooth in log10 space
+    self.smooth_log = False # i do think we should smooth in linear space
 
     assert self.plane in ['0', '1', '2']
     assert self.field_type in ['star', 'gas']
@@ -325,7 +327,10 @@ class ToomreAnalyze(object):
   def smooth_sigma_r(self, plot=True):
 
     # smooth map to regularized the derivates
-    _sigma_r = 10.**gaussian_filter(np.log10(self.sigma_r), self.bin_size_in_log10)
+    if self.smooth_log:
+      _sigma_r = 10.**gaussian_filter(np.log10(self.sigma_r), self.bin_size_in_log10)
+    else:
+      _sigma_r = gaussian_filter(self.sigma_r, self.bin_size_in_log10)
 
     if plot:
       fig = plt.figure()
@@ -366,9 +371,12 @@ class ToomreAnalyze(object):
 
   def smooth_v_phi(self, plot=True):
 
-    neg_ind = self.v_phi < 0.0
-    _v_phi = 10.**gaussian_filter(np.log10(abs(self.v_phi)), self.bin_size_in_log10)
-    _v_phi[neg_ind] = - _v_phi[neg_ind]
+    if self.smooth_log:
+      neg_ind = self.v_phi < 0.0
+      _v_phi = 10.**gaussian_filter(np.log10(abs(self.v_phi)), self.bin_size_in_log10)
+      _v_phi[neg_ind] = - _v_phi[neg_ind]
+    else:
+      _v_phi = gaussian_filter(self.v_phi, self.bin_size_in_log10)
 
     if plot:
       fig = plt.figure()
@@ -393,7 +401,10 @@ class ToomreAnalyze(object):
 
 
   def smooth_SD(self, plot=True):
-    _SD = 10.**gaussian_filter(np.log10(self.SD), self.bin_size_in_log10)
+    if self.smooth_log:
+      _SD = 10.**gaussian_filter(np.log10(self.SD), self.bin_size_in_log10)
+    else:
+      _SD = gaussian_filter(self.SD, self.bin_size_in_log10)
 
     if plot:
       fig = plt.figure()
@@ -502,7 +513,10 @@ class ToomreAnalyze(object):
 
 
   def smooth_kappa(self, plot=True):
-    _kappa = 10.**gaussian_filter(np.log10(self.kappa), self.bin_size_in_log10)
+    if self.smooth_log:
+      _kappa = 10.**gaussian_filter(np.log10(self.kappa), self.bin_size_in_log10)
+    else:
+      _kappa = gaussian_filter(self.kappa, self.bin_size_in_log10)
 
     if plot:
       fig = plt.figure()
@@ -668,7 +682,10 @@ class ToomreAnalyze(object):
     plt.ylabel('kpc', fontsize=16)
 
     ax = plt.subplot(224)
-    im = ax.imshow(gaussian_filter(np.log10(self.Q), sigma=0.55)[bottomBound: topBound, leftBound:rightBound],
+
+    map_Q = np.log10(gaussian_filter(self.Q, sigma=0.55))
+
+    im = ax.imshow(map_Q[bottomBound: topBound, leftBound:rightBound],
                    origin='lower',
                    extent=(xruler[leftBound],
                            xruler[rightBound],
@@ -697,7 +714,7 @@ class ToomreAnalyze(object):
     # plt.tight_layout()
     plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane +\
-            'zoom_'+str(central_kpc_one_side)+'_kpc'+\
+            '_zoom_'+str(central_kpc_one_side)+'_kpc'+\
             '.png'
     if self.verbose: 
       print 'save to'
