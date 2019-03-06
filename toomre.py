@@ -546,7 +546,7 @@ class ToomreAnalyze(object):
       self.Q[whnzero] = radial_veloDisp_cgs[whnzero] * self.kappa[whnzero] / (self.A_gas * self.G * self.SD[whnzero])
 
     elif self.field_type == 'star':
-      self.Q[whnzero] = radial_veloDisp_cgs * self.kappa[whnzero] / \
+      self.Q[whnzero] = radial_veloDisp_cgs[whnzero] * self.kappa[whnzero] / \
                         (self.A_star * self.G * self.SD[whnzero])
 
     if self.megaverbose:
@@ -800,6 +800,8 @@ class ToomreAnalyze_2comp(object):
     """
 
     self.debug = Q_gas.debug or Q_star.debug
+    self.verbose = Q_gas.verbose or Q_star.verbose
+    self.megaverbose = Q_gas.megaverbose or Q_star.megaverbose
     self.Q_star_val = Q_star.Q
 
     self.Q_gas = Q_gas
@@ -957,7 +959,8 @@ class ToomreAnalyze_2comp(object):
     plt.ylabel('kpc', fontsize=16)
 
     plt.show(block=False)
-    out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + 'zoomed.png'
+    out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + \
+            '_zoom_'+ str(central_kpc_one_side) + '_kpc.png'
     if self.verbose:
       print 'save to'
       print '  ',out_f
@@ -977,30 +980,30 @@ if __name__ == '__main__':
 
   plane     = '0'
   isnap     = 28
-  annotate  = True
+  annotate  = False
 
   clump_cut   = 0.32
+  bin_size = 0.55
 
   testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
 
   Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',
                       field_type='gas', plane=plane,
-                      bin_size_in_log10=0.55, debug=False)
+                      bin_size_in_log10=bin_size, debug=False)
 
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5,annotate_clump=annotate,clump_list_filename=testfile)
   Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
 
-  # # something about calc_kappa doesn't work for stellar component...
-  # Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',
-  #                       field_type='star', plane=plane,
-  #                       bin_size_in_log10=0.55, debug=True)
-  # Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
-                             #   annotate_clump=True,
-                             # clump_list_filename=testfile)
+  Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',
+                        field_type='star', plane=plane,
+                        bin_size_in_log10=bin_size, debug=False)
+  Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
+                               annotate_clump=annotate,
+                             clump_list_filename=testfile)
 
-  # Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
-  # Q_tot_val = Q_tot_obj.run(annotate_clump=True,
-#                             clump_list_filename=testfile)
+  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
+  Q_tot_val = Q_tot_obj.run(central_kpc_one_side=1.5, annotate_clump=annotate,
+                            clump_list_filename=testfile)
 
 
 
