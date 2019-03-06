@@ -105,7 +105,7 @@ for snapshotnum in range(16, 17):
     for incut in th_list:
 
         f_out = outdir + "ss_" + str(snapshotnum) + \
-          "_ncut_" + "{:.2f}.png".format(incut)
+          "_ncut_" + "{:.2f}.pdf".format(incut)
 
         prj = yt.ProjectionPlot(ds, 0, field_select,
                                 center='c', weight_field='h2density')
@@ -119,10 +119,12 @@ for snapshotnum in range(16, 17):
         from plot_modules.dual_view_plotter import plot_face_edge
 
         # plot face on and edgeon view of the galaxy and overplot clumps
-        __ppj, __paxes = plot_face_edge(data=data, ds=ds, dd=dd, leaf_clumps=leaf_clumps,incut=incut,\
-                                        selected_field='h2density',                                  \
-                                        f_out=f_out.replace("ss", "dual"))
-
+        __ppj, __paxes = plot_face_edge(isnap=snapshotnum,
+                                              data=data, ds=ds, dd=dd,
+                                              leaf_clumps=leaf_clumps,
+                                              incut=incut,
+                                              selected_field='h2density',
+                                              f_out=f_out.replace("ss", "dual"))
         # stupid yt does not check N_cell_min criterion if no children survived!
         if len(leaf_clumps) == 1:
             if (len(leaf_clumps[0]["h2density"]) < n_cell_min) or (len(leaf_clumps[0]["h2density"] > 100**3)):
@@ -142,9 +144,21 @@ for snapshotnum in range(16, 17):
         prj.annotate_contour(field="h2density", ncont=1, factor=1,
                              clim=(incut, largeNum))  # to deal w/ stupid yt annotate_clump() bug
 
+        # save clump positions
+        outname = 'ss' + str(snapshotnum) + '_' + field_select + \
+                  '_clumppos_ncut_' + '{:.2f}'.format(incut) + \
+                  '_Ncellmin_' + str(int(n_cell_min)) + '.txt'
+        X = []
+
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
 
+            X.append([ileaf, _fc[0], _fc[1], _fc[2]])
+
+        np.savetxt(outname, X, fmt='%d %.5f %.5f %.5f', header='Coordinates of clumps\nClumpID x, y, z')
+
+        for ileaf in id_sorted:
+            _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
             prj.annotate_marker(_fc,
                                 coord_system='data',
                                 plot_args={'color': 'red', 's': 500})

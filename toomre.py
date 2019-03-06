@@ -52,6 +52,7 @@ class ToomreAnalyze(object):
     self.k_B_erg  = C_ap.k_B.value * self.J2erg
     self.g2Msun   = 1 / 1.989e33
     self.cm2pc    = 1 / self.pc2cm
+    self.kpc2cm = 1.e3 * self.pc2cm
 
     self.A_gas = np.pi
     self.A_star = 3.36
@@ -182,7 +183,26 @@ class ToomreAnalyze(object):
             (-1, int(np.sqrt(proj['density'].shape[0]))))
 
       elif self.field_type == 'star':
-        raise NotImplementedError("To be implemented...")
+
+        # rho of star from mass
+        def _rho_star(field, data):
+            dx = abs(self.xxx[0][1:] - self.xxx[1][:-1]).min().convert_to_units('pc')
+            dy = abs(self.yyy[0][1:] - self.yyy[1][:-1]).min().convert_to_units('pc')
+            dz = np.diff(self.zzz[0][0]).min().convert_to_units('pc')
+
+            rho = (data['mass'].convert_to_units('g')) / dx.convert_to_units('cm') / dy.convert_to_units('cm') / dz.convert_to_units('cm')
+            return rho
+
+        self.ds.add_field(("rho_star"), function=_rho_star,
+              units='g/cm**3')
+        _dd = self.ds.all_data()
+        print _dd['rho_star']
+        del _dd
+
+        # mass to surface density
+        proj = self.ds.proj('rho_star', int(kk), method='integrate')
+        self.projected_SurfaceDensity[kk] = proj['rho_star'].reshape(
+            (-1, int(np.sqrt(proj['rho_star'].shape[0]))))
 
 
   def project_coords_along_axes(self):
@@ -214,7 +234,19 @@ class ToomreAnalyze(object):
 
     if self.field_type == 'gas':
       self.c_s_eff_plane = self.c_s_eff_proj[self.plane]
+
     print 'max/min SD', np.max(self.SD), np.min(self.SD)
+
+
+  def plot_SD(self):
+
+    plt.figure()
+    im = plt.imshow(self.SD.value, origin='lower',
+                    cmap=cmap)
+    plt.title(r'$\Sigma$')
+    cbar = plt.colorbar(im)
+    cbar.set_label(r"$\Sigma$ [cgs]", fontsize=16)
+    plt.show(block=False)
 
 
   def plot_veldisp_vert(self):
@@ -255,7 +287,10 @@ class ToomreAnalyze(object):
 
   def plot_radial_veldisp(self):
     plt.figure()
-    plt.imshow(self.sigma_r, cmap=cmap, origin='lower')
+    if self.field_type == 'gas':
+      plt.imshow(self.sigma_r, cmap=cmap, origin='lower')
+    elif self.field_type == 'star':
+      plt.imshow(np.log10(self.sigma_r), cmap=cmap, origin='lower')
     plt.title(r'$\sigma_r$ weighted by '+self.wg_var)
     plt.colorbar()
     plt.show(block=False)
@@ -276,7 +311,7 @@ class ToomreAnalyze(object):
     if self.field_type == 'gas':
       self.sigma_r = np.sqrt(self.sigma_r**2 + self.c_s_eff_plane**2)
     elif self.field_type == 'star':
-      pass
+      pass      # no changes
 
 
   def smooth_sigma_r(self, plot=True):
@@ -337,8 +372,11 @@ class ToomreAnalyze(object):
 
 
   def plot_v_phi(self):
-    fig = plt.figure()
-    ax.imshow(self.v_phi, cmap=cmap, origin='lower')
+    plt.figure()
+    if self.field_type == 'gas':
+      plt.imshow(self.v_phi, cmap=cmap, origin='lower')
+    elif self.field_type == 'star':
+      plt.imshow(np.log10(self.v_phi), cmap=cmap, origin='lower')
     plt.colorbar()
     plt.title('vphi')
     plt.show(block=False)
@@ -419,8 +457,7 @@ class ToomreAnalyze(object):
     omega_deriv = np.zeros(self.r_slice.shape)
 
     from scipy import interpolate
-    omega_interpolator = interpolate.splrep(
-        bin_centers, omega_of_r, k=5, w=1 / omega_of_r_std)
+    omega_interpolator = interpolate.splrep(bin_centers, omega_of_r, k=5, w=1 / omega_of_r_std)
 
     omega.flat[:] = interpolate.splev(
         self.r_slice.flat, omega_interpolator)
@@ -551,7 +588,8 @@ class ToomreAnalyze(object):
     plt.show(block=False)
 
 
-  def plot_all_quant_zoom(self, central_kpc_one_side):
+  def plot_all_quant_zoom(self, central_kpc_one_side=None, annotate_clump=True,
+                          clump_list_filename=None):
     """
       show all quantities in one figure, but only show central region of the plot
       (i.e., on the main galaxy)
@@ -560,6 +598,9 @@ class ToomreAnalyze(object):
 
     if not central_kpc_one_side:
       central_kpc_one_side = 1.5
+
+    if annotate_clump:
+      assert clump_list_filename is not None
 
     xspacing = (self._xmax - self._xmin)/len(self.Q)
     xruler = np.arange(self._xmin, self._xmax, xspacing)
@@ -619,6 +660,17 @@ class ToomreAnalyze(object):
                    cmap=cmap_div,
                    vmin=-1, vmax=1     # clip at -1 < log10(Q) < 1
                    )
+    if annotate_clump:
+      _, clx, cly, clz = np.loadtxt(clump_list_filename, unpack=True)
+      # pos2 = pos * self.factor_R
+
+      if self.plane == '0':
+        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+      elif self.plane == '1':
+        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+      elif self.plane == '2':
+        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
+
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
                         )
@@ -630,7 +682,8 @@ class ToomreAnalyze(object):
     plt.savefig('ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane + '.png')
 
 
-  def run(self, radial_nbins=None, central_kpc_one_side=1.5):
+  def run(self, radial_nbins=None, central_kpc_one_side=None,
+          annotate_clump=False, clump_list_filename=None):
     self.load_cam_stuff()
     self.load_data()
     self.setup_config()
@@ -655,9 +708,11 @@ class ToomreAnalyze(object):
 
     self.plot_range_set_by_camera()
     self.plot_all_quant()
-    self.plot_all_quant_zoom(central_kpc_one_side)
+    self.plot_all_quant_zoom(central_kpc_one_side, annotate_clump,
+                             clump_list_filename)
 
     if self.debug:
+      self.plot_SD()
       self.plot_veldisp_vert()
       self.plot_radial_veldisp()
       if self.field_type == 'gas':
@@ -799,10 +854,13 @@ class ToomreAnalyze_2comp(object):
     plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png')
 
 
-  def plot_Q_eff_zoom(self, central_kpc_one_side=None):
+  def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
 
     if not central_kpc_one_side:
       central_kpc_one_side = 1.5
+
+    if annotate_clump:
+      assert clump_list_filename is not None
 
     xspacing = (self.Q_gas._xmax - self.Q_gas._xmin)/len(self.Q_twoComp)
     xruler = np.arange(self.Q_gas._xmin, self.Q_gas._xmax, xspacing)
@@ -825,6 +883,16 @@ class ToomreAnalyze_2comp(object):
                             yruler[topBound]),
                     cmap=cmap_div,
                     vmin=-1, vmax=1)     # clip at -1 < log10(Q) < 1
+    if annotate_clump:
+      _, clx, cly, clz = np.loadtxt(clump_list_filename, unpack=True)
+      # pos2 = pos * self.factor_R
+
+      if self.plane == '0':
+        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+      elif self.plane == '1':
+        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+      elif self.plane == '2':
+        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
 
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
@@ -839,29 +907,40 @@ class ToomreAnalyze_2comp(object):
     plt.savefig('ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + 'zoomed.png')
 
 
-  def run(self):
+  def run(self, central_kpc_one_side, annotate_clump, clump_list_filename):
 
     self.compute_T_g()
     self.compute_T_s()
     self.calc_Q_eff()
 
     self.plot_Q_eff()
-    self.plot_Q_eff_zoom()
+    self.plot_Q_eff_zoom(central_kpc_one_side, annotate_clump, clump_list_filename)
 
 
 if __name__ == '__main__':
+
+  plane = '0'
+  testfile = 'ss16_h2density_clumppos_ncut_0.32_Ncellmin_10.txt'
+
   Q_gas_obj = ToomreAnalyze(isnap=16, wg_var='density',
-                      field_type='gas', plane='0',
+                      field_type='gas', plane=plane,
                       bin_size_in_log10=0.35, debug=False)
-  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5)
+  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
+                             annotate_clump=True,
+                             clump_list_filename=testfile)
   # Q_gas_obj.plot_all_quant_zoom(1.0)
 
-  Q_star_obj = ToomreAnalyze(isnap=16, wg_var='mass',
-                        field_type='star', plane='0', bin_size_in_log10=0.1)
-  Q_star_val = Q_star_obj.run()
+  # # something about calc_kappa doesn't work for stellar component...
+  # Q_star_obj = ToomreAnalyze(isnap=16, wg_var='mass',
+  #                       field_type='star', plane=plane,
+  #                       bin_size_in_log10=0.35, debug=True)
+  # Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
+                             #   annotate_clump=True,
+                             # clump_list_filename=testfile)
 
-  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
-  Q_tot_val = Q_tot_obj.run()
+  # Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
+  # Q_tot_val = Q_tot_obj.run(annotate_clump=True,
+#                             clump_list_filename=testfile)
 
 
 
