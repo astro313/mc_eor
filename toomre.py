@@ -803,6 +803,7 @@ class ToomreAnalyze_2comp(object):
     self.verbose = Q_gas.verbose or Q_star.verbose
     self.megaverbose = Q_gas.megaverbose or Q_star.megaverbose
     self.Q_star_val = Q_star.Q
+    self.Q_gas_val = Q_gas.Q
 
     self.Q_gas = Q_gas
     self.Q_star = Q_star
@@ -812,36 +813,6 @@ class ToomreAnalyze_2comp(object):
 
     assert self.Q_gas.isnap == self.Q_star.isnap
     self.isnap = self.Q_gas.isnap
-
-    self.interpolate_gas_onto_star_grid()
-
-
-  def interpolate_gas_onto_star_grid(self):
-    from scipy import interpolate
-
-    xx = np.linspace(self.Q_gas.coords[self.plane][0].value.min(), self.Q_gas.coords[self.plane][0].value.max(), len(self.Q_gas.coords[self.plane][0]))
-    yy = np.linspace(self.Q_gas.coords[self.plane][1].value.min(), self.Q_gas.coords[self.plane][1].value.max(), len(self.Q_gas.coords[self.plane][1]))
-
-    f = interpolate.interp2d(xx,
-                             yy,
-                             self.Q_gas.Q,
-                             kind='cubic')
-    Q_gas_resampled = f(xx, yy)
-    assert self.Q_star_val.shape == Q_gas_resampled.shape
-
-    if self.debug:
-      plt.figure()
-      plt.subplot(121)
-      plt.imshow(np.log10(self.Q_gas.Q))
-      plt.colorbar()
-      plt.title('original Qgas')
-      plt.subplot(122)
-      plt.imshow(np.log10(Q_gas_resampled))
-      plt.colorbar()
-      plt.title('resmapled Qgas')
-      plt.show(block=False)
-
-    self.Q_gas_val = Q_gas_resampled
 
 
   def compute_T(self, veldisp_vert, veldisp_r):
@@ -979,7 +950,7 @@ class ToomreAnalyze_2comp(object):
 if __name__ == '__main__':
 
   plane     = '0'
-  isnap     = 28
+  isnap     = 17
   annotate  = False
 
   clump_cut   = 0.32
