@@ -56,7 +56,11 @@ else:
 # read in particles
 # read from resampled.h5
 starData = import_fetch_stars(
-    isnap=isnap, verbose=verbose, convert=True)   # default, convert=True
+                              isnap=isnap,
+                              verbose=verbose,
+                              convert=True,  clipping  = 1.0
+                             )
+
 if verbose:
   print 'stellar keys:'
   print '  ',starData.keys()

@@ -113,7 +113,7 @@ def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_f
 
 
 def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center_stars_resampled.h5",
-                       verbose=True, convert=True):
+                       verbose=True, convert=True, clipping = 'min'):
     """
 
     In the input .h5 file, epochMyr is converted into Myr (Universe Age).
@@ -177,13 +177,17 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
     for fff in f.iterkeys():
         dataDict[fff] = eval(fff)
 
-    if True:
-        if verbose:
-            print 'Clipping variables'
-        dataDict["mass"][dataDict["mass"] <= 0] = np.min(
-            dataDict["mass"][dataDict["mass"] > 0])
+    if clipping is not None:
+      if clipping == 'min':
+          clip_val = np.min(dataDict["mass"][dataDict["mass"] > 0])
+      else:
+          clip_val = clipping
+      if verbose:
+        print 'Clipping variables at',clip_val
 
-    if verbose:
+      dataDict["mass"][dataDict["mass"] <= clip_val] = clip_val
+
+      if verbose:
         for var in ['mass']:
             print ' Mass range in log10, after clipping: ', var, np.log10(np.max(dataDict[var])), np.log10(np.min(dataDict[var]))
 
