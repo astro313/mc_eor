@@ -643,6 +643,9 @@ class ToomreAnalyze(object):
     topBound = np.argmin(abs(yruler - central_kpc_one_side))
     bottomBound = np.argmin(abs(yruler + central_kpc_one_side))
 
+    x1, x2 = xruler[leftBound],  xruler[rightBound]
+    y1, y2 = yruler[bottomBound],yruler[topBound]
+
     fig = plt.figure(figsize=(9, 8))
     fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
     ax = plt.subplot(221)
@@ -655,6 +658,8 @@ class ToomreAnalyze(object):
               cmap=cmap)
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
+    ax.set_xlim(x1,x2)
+    ax.set_ylim(y1,y2)
 
     ax = plt.subplot(222)
     im = ax.imshow(self.sigma_r[bottomBound: topBound, leftBound:rightBound],
@@ -666,7 +671,8 @@ class ToomreAnalyze(object):
                    cmap=cmap)
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]", fontsize=16)
-    plt.show(block=False)
+    ax.set_xlim(x1,x2)
+    ax.set_ylim(y1,y2)
 
     ax = plt.subplot(223)
     im = ax.imshow(np.log10(self.kappa * 3.086e+16)[bottomBound: topBound, leftBound:rightBound],
@@ -680,11 +686,11 @@ class ToomreAnalyze(object):
     cbar.set_label(r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]", fontsize=16)
     plt.xlabel('kpc', fontsize=16)
     plt.ylabel('kpc', fontsize=16)
+    ax.set_xlim(x1,x2)
+    ax.set_ylim(y1,y2)
 
     ax = plt.subplot(224)
-
     map_Q = np.log10(gaussian_filter(self.Q, sigma=0.55))
-
     im = ax.imshow(map_Q[bottomBound: topBound, leftBound:rightBound],
                    origin='lower',
                    extent=(xruler[leftBound],
@@ -705,6 +711,8 @@ class ToomreAnalyze(object):
       elif self.plane == '2':
         plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
 
+    ax.set_xlim(x1,x2)
+    ax.set_ylim(y1,y2)
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
                         )
@@ -969,17 +977,18 @@ if __name__ == '__main__':
 
   plane     = '0'
   isnap     = 28
-  annotate  = False
+  annotate  = True
 
-  testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_0.32_Ncellmin_10.txt'
+  clump_cut   = 0.32
+
+  testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
 
   Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',
                       field_type='gas', plane=plane,
                       bin_size_in_log10=0.35, debug=False)
-  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5,
-                             annotate_clump=annotate,
-                             clump_list_filename=testfile)
-  Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate)
+
+  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=1.5,annotate_clump=annotate,clump_list_filename=testfile)
+  Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
 
   # # something about calc_kappa doesn't work for stellar component...
   # Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',

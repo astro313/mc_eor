@@ -49,7 +49,7 @@ if not os.path.isdir(outdir):
 field_select = "h2density"
 
 th_list = 10**np.linspace(-0.5, 1.5, 10)
-# th_list = [31.62]
+#th_list = [31.62]
 
 n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
@@ -78,8 +78,8 @@ else:
 # clumpfinder one level at a time...
 
 # for snapshotnum in range(16, 29):
-for snapshotnum in range(16, 17):
-# for snapshotnum in range(28,29):
+#for snapshotnum in range(16, 17):
+for snapshotnum in range(28,29):
 
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
@@ -150,12 +150,14 @@ for snapshotnum in range(16, 17):
                   '_Ncellmin_' + str(int(n_cell_min)) + '.txt'
         X = []
 
+        head = 'Coordinates of clumps\nClumpID x, y, z'
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
 
             X.append([ileaf, _fc[0], _fc[1], _fc[2]])
-
-        np.savetxt(outname, X, fmt='%d %.5f %.5f %.5f', header='Coordinates of clumps\nClumpID x, y, z')
+        print 'save to'
+        print '  ',outname
+        np.savetxt(outname, X, fmt='%d %.5f %.5f %.5f', header=head)
 
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
