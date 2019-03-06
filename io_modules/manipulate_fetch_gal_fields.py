@@ -154,9 +154,9 @@ def import_fetch_stars(isnap=28, folder_ramsesdata='output', tag_h5file="_center
         factor_mass, unit_mass = get_units(ro=ro)['mass']
         factor_vel, unit_vel = get_units(ro=ro)['vel']
         mass *= factor_mass
-        # velx *= factor_vel
-        # vely *= factor_vel
-        # velx *= factor_vel
+        velx *= factor_vel
+        vely *= factor_vel
+        velz *= factor_vel
 
         if(verbose):
             print 'max vel'
