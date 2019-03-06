@@ -17,7 +17,11 @@ from pymses.utils import constants as C
 folder = 'precomputed_data/'
 f_camera = folder + 'camera_settings.log'
 
-snapshotsToLoad = range(16, 29)
+istart = 28
+istop  = 29
+
+snapshotToLoad = range(istart,istop)
+
 fieldsToLoad = ['rho', 'vel', 'P_nt', 'P', 'H2', 'Z']
 fields_stars = ['id', 'vel', 'epoch', 'mass', 'level']
 
@@ -36,9 +40,9 @@ for ssnum in snapshotsToLoad:
     camera_in = {'center': center,
                  'region_size': region_size}
     # # AMR
-    # getpoints4fields(ro, 'snapshot' + str(ssnum) + '_center_fields0123456-15',
-    #                  fieldsToLoad, center, region_size,
-    #                  log_sfera=False, debug=False)
+    getpoints4fields(ro, 'snapshot' + str(ssnum) + '_center_fields0123456-15',
+                     fieldsToLoad, center, region_size,
+                     log_sfera=False, debug=False)
 
     # star particles
     get_stars_for_fields(ro, 'snapshot' + str(ssnum) + '_center_stars',

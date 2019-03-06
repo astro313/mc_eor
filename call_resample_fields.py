@@ -17,12 +17,17 @@ plotdir = "resampled/"
 if not os.path.isdir(plotdir):
     os.mkdir(plotdir)
 
-folder = '/mnt/home/daisyleung/mc_eor/precomputed_data/'
+here = os.path.dirname(os.path.abspath(__file__))
+
+folder = here+'/precomputed_data/'
 f_camera = folder + 'camera_settings.log'
 from io_modules.load_misc import get_camera_from_file
 data = get_camera_from_file(f_camera)
 
-snapshotToLoad = range(16, 29)
+istart = 28
+istop  = 29
+
+snapshotToLoad = range(istart,istop)
 fieldsToExtract = ['rho', 'P_nt', 'P', 'H2', 'Z']
 
 for ssnum in snapshotToLoad:
