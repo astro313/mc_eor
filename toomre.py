@@ -29,6 +29,8 @@ import astropy.units as U
 class ToomreAnalyze(object):
   """
   Single Toomre Q object
+  equation taken from Inoue+16
+     http://adsabs.harvard.edu/abs/2016MNRAS.456.2052I
 
   """
   def __init__(self, isnap, wg_var, field_type, plane, smooth_size_kpc=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False, min_wg = 'min', fold_out = ''):
@@ -872,7 +874,7 @@ class ToomreAnalyze_2comp(object):
     """ see eq. 4 of Inoue+16"""
 
     mask        = veldisp_r<= 0
-    ratio       = veldis_vert
+    ratio       = veldisp_vert
     ratio[mask] = ratio[mask]/veldisp_r[mask]
     mask        = np.logical_not(mask)
     ratio[mask] = 1
