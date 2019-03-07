@@ -18,6 +18,11 @@
 \newcommand{\AP}[1]{({\bf \color{apcolor} AP: #1})}
 \newcommand{\DL}[1]{({\bf \color{dlcolor} DL: #1})}
 
+% it can be instead included as
+% \graphicspath{{Fig/}}
+% so that plots are automatically searched for in the given path
+\def\figpath{./Fig}
+
 \citestyle{aa}
 \shorttitle{Dynamical Properties of MC in Galaxies at the EoR
 }
@@ -65,24 +70,13 @@ High resolution imaging of the first galaxies with the Atacama Large (sub-)Milli
           galaxies: starburst --
           stars: formation}
 
-% it can be instead included as
-% \graphicspath{{Fig/}}
-% so that plots are automatically searched for in the given path
-\def\figpath{./Fig}
-
 %--------------------------------------------------------------------------
 %                                Introduction
 %--------------------------------------------------------------------------
 
-\section{Introduction}\label{sec:intro}
+\section{Introduction}%\label{sec:intro}
 
-The growth of galaxies and their subsequent evolution are governed by the baryon cycle ---
-galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive blackholes)
-and subsequent feedback replenishes and enriches the circumgalactic medium with part of this material.
-The general consensus is that the growth of \highz galaxies are triggered and supported by massive
-gas inflows from mergers and/or the cosmic web at early cosmic time, when the IGM and galaxies themselves
-are more gas-rich in their star-forming molecular
-gas contents compared to present-day galaxies.
+The growth of galaxies and their subsequent evolution are governed by the baryon cycle --- galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive blackholes) and subsequent feedback replenishes and enriches the circumgalactic medium with part of this material. The general consensus is that the growth of \highz galaxies are triggered and supported by massive gas inflows from mergers and/or the cosmic web at early cosmic time, when the IGM and galaxies themselves are more gas-rich in their star-forming molecular gas contents compared to present-day galaxies.
 % while at a given snapshot, the gas mass fraction maybe low (esp. at high-z when
 % the gravitational potential is still increasing), but their gas reservoirs
 % are continuously being replenished.
