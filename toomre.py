@@ -1027,7 +1027,9 @@ if __name__ == '__main__':
                             ,fold_out = fold_out
                             )
 
-  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc,annotate_clump=annotate,clump_list_filename=testfile)
+  Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
+                           ,annotate_clump=annotate,clump_list_filename=testfile
+                           )
   #Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
 
   Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',field_type='star', plane=plane
@@ -1036,7 +1038,6 @@ if __name__ == '__main__':
                        ,fold_out = fold_out
                         )
   Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
-                             ,fold_out = fold_out
                              ,annotate_clump=annotate,clump_list_filename=testfile
                              )
 
