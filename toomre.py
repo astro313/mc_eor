@@ -20,6 +20,11 @@ from matplotlib import cm
 cmap     = cm.get_cmap('viridis')      # 'magma'
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 
+c_clump  = 'k'
+#c_clump  = 'darkturquoise'
+#c_clump  = 'antiquewhite'
+
+
 from pymses.utils import constants as C_py
 from yt import units as C_yt
 import astropy.constants as C_ap
@@ -726,11 +731,11 @@ class ToomreAnalyze(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
       elif self.plane == '1':
-        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
       elif self.plane == '2':
-        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
+        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
 
     ax.set_xlim(x1,x2)
     ax.set_ylim(y1,y2)
@@ -990,11 +995,11 @@ class ToomreAnalyze_2comp(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
       elif self.plane == '1':
-        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
       elif self.plane == '2':
-        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
+        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
 
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
@@ -1046,8 +1051,8 @@ if __name__ == '__main__':
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 17
-  annotate  = False
+  isnap     = 28
+  annotate  = True
 
   clump_cut   = 0.32
   smooth_kpc  = 0.3
