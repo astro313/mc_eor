@@ -108,7 +108,7 @@ class ToomreAnalyze(object):
   def load_data(self):
 
     if self.field_type == 'gas':
-      self.data = import_fetch_gal(isnap=self.isnap 
+      self.data = import_fetch_gal(isnap=self.isnap
                                   ,clipping = self.min_wg
                                   )
       if self.megaverbose:
@@ -828,7 +828,8 @@ class ToomreAnalyze_2comp(object):
     self.debug       = Q_gas.debug or Q_star.debug
     self.verbose     = Q_gas.verbose or Q_star.verbose
     self.megaverbose = Q_gas.megaverbose or Q_star.megaverbose
-    self.Q_star_val  = Q_star.Q
+    self.Q_star_val = Q_star.Q
+    self.Q_gas_val = Q_gas.Q
 
     self.Q_gas       = Q_gas
     self.Q_star      = Q_star
@@ -841,50 +842,6 @@ class ToomreAnalyze_2comp(object):
 
     self.smooth_size = smooth_size
 
-
-    self.Q_gas.SD = self.Q_gas.projected_SurfaceDensity[self.Q_gas.plane]
-
-    self.interpolate_gas_onto_star_grid()
-
-
-  def interpolate_gas_onto_star_grid(self):
-    from scipy import interpolate
-
-    xx = np.linspace(self.Q_gas.coords[self.plane][0].value.min(), self.Q_gas.coords[self.plane][0].value.max(), len(self.Q_gas.coords[self.plane][0]))
-    yy = np.linspace(self.Q_gas.coords[self.plane][1].value.min(), self.Q_gas.coords[self.plane][1].value.max(), len(self.Q_gas.coords[self.plane][1]))
-
-    if self.verbose:
-      print 'reinterpolating'
-      print 'Q'
-      print '  ',np.max(self.Q_gas.Q),np.max(self.Q_gas.Q)
-      print '  ',np.mean(self.Q_gas.Q),np.std(self.Q_gas.Q)
-
-    f = interpolate.interp2d(xx,
-                             yy,
-                             self.Q_gas.Q,
-                             kind='cubic')
-    Q_gas_resampled = f(xx, yy)
-    assert self.Q_star_val.shape == Q_gas_resampled.shape
-
-    if self.verbose:
-      print 'Q resampled'
-      print '  ',np.max(self.Q_gas.Q),np.max(self.Q_gas.Q)
-      print '  ',np.mean(self.Q_gas.Q),np.std(self.Q_gas.Q)
-
-    if self.debug:
-      plt.figure()
-      plt.subplot(121)
-      plt.imshow(np.log10(self.Q_gas.Q))
-      plt.colorbar()
-      plt.title('original Qgas')
-      plt.subplot(122)
-      plt.imshow(np.log10(Q_gas_resampled))
-      plt.colorbar()
-      plt.title('resmapled Qgas')
-      plt.show(block=False)
-
-    self.Q_gas_val = Q_gas_resampled
-
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see eq. 4 of Inoue+16"""
 
@@ -895,8 +852,8 @@ class ToomreAnalyze_2comp(object):
 
     if self.verbose:
       print "vel disp ratio (sigma_z/sigma_r): "
-      print '  max/ min',np.max(ratio),np.min(ratio) 
-      print '  mean/std',np.mean(ratio),np.std(ratio) 
+      print '  max/ min',np.max(ratio),np.min(ratio)
+      print '  mean/std',np.mean(ratio),np.std(ratio)
 
     res1 = 1.  + 0.6 * ratio**2
     res2 = 0.8 + 0.7 * ratio
@@ -939,15 +896,15 @@ class ToomreAnalyze_2comp(object):
     if self.verbose:
       for arr,nome in zip([w,Q_thick_star, Q_thick_gas],['weight','Q_thick_star','Q_thick_gas']):
         print nome
-        print '  max/ min',np.max(arr),np.min(arr) 
-        print '  mean/std',np.mean(arr),np.std(arr) 
+        print '  max/ min',np.max(arr),np.min(arr)
+        print '  mean/std',np.mean(arr),np.std(arr)
 
     # init
     mask          =  np.logical_and(Q_thick_star> 0, Q_thick_gas > 0)
     Q_twoComp_inv = - np.ones_like(Q_thick_gas)
     self.Q_twoComp= np.zeros_like(Q_thick_gas)
     res1,res2     = - np.ones_like(Q_thick_gas), - np.ones_like(Q_thick_gas)
- 
+
     # compute Q composite
     """ see eq. 3 of Inoue+16"""
     res1[mask]    = w[mask] /Q_thick_star[mask] + 1.     / Q_thick_gas[mask]
@@ -965,8 +922,8 @@ class ToomreAnalyze_2comp(object):
 
       for arr,nome in zip([self.Q_twoComp],['Q_2_comp']):
         print nome
-        print '  max/ min',np.max(arr),np.min(arr) 
-        print '  mean/std',np.mean(arr),np.std(arr) 
+        print '  max/ min',np.max(arr),np.min(arr)
+        print '  mean/std',np.mean(arr),np.std(arr)
 
       if (np.isnan(self.Q_twoComp) == True).any():
         print 'NANs are present'
@@ -1089,7 +1046,7 @@ if __name__ == '__main__':
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 28
+  isnap     = 17
   annotate  = False
 
   clump_cut   = 0.32
