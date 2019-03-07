@@ -153,65 +153,80 @@ for snapshotnum in range(28,29):
         head = 'Coordinates of clumps\nClumpID x, y, z'
         for ileaf in id_sorted:
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
+            # ids = leaf_clumps[ileaf].data.icoords
+            # ix  = ids[:,0]
+            # iy  = ids[:,1]
+            # iz  = ids[:,2]
+            # _fc_new = np.array([0,0,0])
+            # blahx = dd['x'].reshape((224, 224, 224))
+            # blahy = dd['y'].reshape((224, 224, 224))
+            # blahz = dd['z'].reshape((224, 224, 224))
+            # _fc_new[0] = np.mean( blahx[ix,iy,iz].convert_to_units('kpc') )
+            # _fc_new[1] = np.mean( blahy[ix,iy,iz].convert_to_units('kpc') )
+            # _fc_new[2] = np.mean( blahz[ix,iy,iz].convert_to_units('kpc') )
+
+            print _fc
+            print _fc.convert_to_units('kpc')
+            # import pdb; pdb.set_trace()
 
             X.append([ileaf, _fc[0], _fc[1], _fc[2]])
         print 'save to'
         print '  ',outname
         np.savetxt(outname, X, fmt='%d %.5f %.5f %.5f', header=head)
 
-        for ileaf in id_sorted:
-            _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
-            prj.annotate_marker(_fc,
-                                coord_system='data',
-                                plot_args={'color': 'red', 's': 500})
-            prj.annotate_text(_fc,
-                              ileaf,
-                              coord_system='data',
-                              text_args={'color': 'black', 'size': 32},
-                              inset_box_args={'boxstyle': 'square',
-                                              'facecolor': 'white',
-                                              'linewidth': 2.0,
-                                              'edgecolor': 'white',
-                                              'alpha': 0.})
+        # for ileaf in id_sorted:
+        #     _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
+        #     prj.annotate_marker(_fc,
+        #                         coord_system='data',
+        #                         plot_args={'color': 'red', 's': 500})
+        #     prj.annotate_text(_fc,
+        #                       ileaf,
+        #                       coord_system='data',
+        #                       text_args={'color': 'black', 'size': 32},
+        #                       inset_box_args={'boxstyle': 'square',
+        #                                       'facecolor': 'white',
+        #                                       'linewidth': 2.0,
+        #                                       'edgecolor': 'white',
+        #                                       'alpha': 0.})
 
-        print 'ncut = ', incut
-        print '  N clumps', len(leaf_clumps)
-        for i in xrange(len(leaf_clumps)):
-            print '    id     ', i
-            print '    len    ', len(leaf_clumps[i]["h2density"])
-            print '    max f*d', np.max(leaf_clumps[i]["h2density"])
-            print '    min f*d', np.min(leaf_clumps[i]["h2density"])
+        # print 'ncut = ', incut
+        # print '  N clumps', len(leaf_clumps)
+        # for i in xrange(len(leaf_clumps)):
+        #     print '    id     ', i
+        #     print '    len    ', len(leaf_clumps[i]["h2density"])
+        #     print '    max f*d', np.max(leaf_clumps[i]["h2density"])
+        #     print '    min f*d', np.min(leaf_clumps[i]["h2density"])
 
-        prj.zoom(2)
-        prj.save(f_out)
-        print 'Dump to'
-        print '  ', f_out
-        prj = None
+        # prj.zoom(2)
+        # prj.save(f_out)
+        # print 'Dump to'
+        # print '  ', f_out
+        # prj = None
 
-        import cPickle as pickle
-        print '  compute properties'
-        # to retreive physical properties of leaf
-        leaf_fields = {}
-        for n_leaf in range(len(leaf_clumps)):
-            leaf_fields[str(n_leaf)] = get_phyprop_of_leaf(leaf_clumps[n_leaf],
-                                                           data['density'],
-                                                           data['H2'] *
-                                                           data['density'],
-                                                           data['P'], data[
-                                                               'P_nt'],
-                                                           data['Z'],
-                                                           data['velx'],
-                                                           data['vely'],
-                                                           data['velz'],
-                                                           starPartDict=starData,
-                                                           plothist=False)
-        print "saved leaf fields: ", leaf_fields['0'].keys()
-        suboutdir = "leaf_fields_" + str(snapshotnum) + "/"
+        # import cPickle as pickle
+        # print '  compute properties'
+        # # to retreive physical properties of leaf
+        # leaf_fields = {}
+        # for n_leaf in range(len(leaf_clumps)):
+        #     leaf_fields[str(n_leaf)] = get_phyprop_of_leaf(leaf_clumps[n_leaf],
+        #                                                    data['density'],
+        #                                                    data['H2'] *
+        #                                                    data['density'],
+        #                                                    data['P'], data[
+        #                                                        'P_nt'],
+        #                                                    data['Z'],
+        #                                                    data['velx'],
+        #                                                    data['vely'],
+        #                                                    data['velz'],
+        #                                                    starPartDict=starData,
+        #                                                    plothist=False)
+        # print "saved leaf fields: ", leaf_fields['0'].keys()
+        # suboutdir = "leaf_fields_" + str(snapshotnum) + "/"
 
-        if not os.path.isdir(outdir + suboutdir):
-            os.mkdir(outdir + suboutdir)
+        # if not os.path.isdir(outdir + suboutdir):
+        #     os.mkdir(outdir + suboutdir)
 
-        pickle.dump(leaf_fields, open(outdir + suboutdir +
-                                      '{0:.2f}'.format(incut) + '_' + str(n_cell_min) + "_fields.p", "wb"))
+        # pickle.dump(leaf_fields, open(outdir + suboutdir +
+        #                               '{0:.2f}'.format(incut) + '_' + str(n_cell_min) + "_fields.p", "wb"))
 
     # ------------

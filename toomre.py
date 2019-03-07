@@ -20,6 +20,11 @@ from matplotlib import cm
 cmap     = cm.get_cmap('viridis')      # 'magma'
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 
+c_clump  = 'k'
+#c_clump  = 'darkturquoise'
+#c_clump  = 'antiquewhite'
+
+
 from pymses.utils import constants as C_py
 from yt import units as C_yt
 import astropy.constants as C_ap
@@ -726,11 +731,11 @@ class ToomreAnalyze(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
       elif self.plane == '1':
-        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
       elif self.plane == '2':
-        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
+        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
 
     ax.set_xlim(x1,x2)
     ax.set_ylim(y1,y2)
@@ -931,6 +936,11 @@ class ToomreAnalyze_2comp(object):
     return self.Q_twoComp
 
 
+  def smooth_Q_eff(self):
+    self.smooth_size = self.Q_gas.smooth_size
+    self.Q_twoComp = gaussian_filter(self.Q_twoComp, sigma=self.smooth_size)
+
+
   def plot_Q_eff(self):
     plt.figure()
     im = plt.imshow(np.log10(self.Q_twoComp),
@@ -990,11 +1000,11 @@ class ToomreAnalyze_2comp(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(cly, clz, 'x', markersize=15, color='darkturquoise')
+        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
       elif self.plane == '1':
-        plt.plot(clx, clz, 'x', markersize=15, color='antiquewhite')
+        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
       elif self.plane == '2':
-        plt.plot(clx, cly, 'x', markersize=15, color='antiquewhite')
+        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
 
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
@@ -1034,6 +1044,7 @@ class ToomreAnalyze_2comp(object):
     self.compute_T_g()
     self.compute_T_s()
     self.calc_Q_eff()
+    self.smooth_Q_eff()
 
     self.plot_Q_eff_zoom(central_kpc_one_side, annotate_clump, clump_list_filename)
 
@@ -1046,8 +1057,8 @@ if __name__ == '__main__':
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 17
-  annotate  = False
+  isnap     = 28
+  annotate  = True
 
   clump_cut   = 0.32
   smooth_kpc  = 0.3
