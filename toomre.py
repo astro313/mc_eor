@@ -907,27 +907,55 @@ class ToomreAnalyze_2comp(object):
     # radial velocity dispersion.
 
     """ see eq. 3 of Inoue+16"""
-    w = 2. * self.Q_star.sigma_r * self.Q_gas.sigma_r / (self.Q_star.sigma_r**2 + self.Q_gas.sigma_r**2)
-    #
-    if self.verbose:
-      print "weight Q: "
-      print '  max/ min',np.max(w),np.min(w) 
-      print '  mean/std',np.mean(w),np.std(w) 
+    # calculate weight
+    up      = 2. * self.Q_star.sigma_r * self.Q_gas.sigma_r
+    low     = (self.Q_star.sigma_r**2 + self.Q_gas.sigma_r**2)
+    w       = np.zeros_like(up)
+    mask    = low>0
+    w[mask] = up[mask]/low[mask]
 
+    # get thick Q parameters
     Q_thick_star = self.Q_star_val * self.T_s
     Q_thick_gas  = self.Q_gas_val * self.T_g
 
-    """ see eq. 3 of Inoue+16"""
-    # 2D array
-    res1 = w /Q_thick_star + 1./ Q_thick_gas
-    res2 = 1./Q_thick_star +  w/Q_thick_gas
-    #
-    Q_twoComp_inv = np.where(Q_thick_star >= Q_thick_gas, res1, res2)
-    #
-    self.Q_twoComp = 1. / Q_twoComp_inv
+    # regularize
+    Q_thick_star[np.isnan(Q_thick_star)] = 0
+    Q_thick_gas [np.isnan(Q_thick_gas )] = 0
 
     if self.verbose:
-      print (np.isnan(self.Q_twoComp) == True).any()
+      for arr,nome in zip([w,Q_thick_star, Q_thick_gas],['weight','Q_thick_star','Q_thick_gas']):
+        print nome
+        print '  max/ min',np.max(arr),np.min(arr) 
+        print '  mean/std',np.mean(arr),np.std(arr) 
+
+    # init
+    mask          =  np.logical_and(Q_thick_star> 0, Q_thick_gas > 0)
+    Q_twoComp_inv = - np.ones_like(Q_thick_gas)
+    self.Q_twoComp= np.zeros_like(Q_thick_gas)
+    res1,res2     = - np.ones_like(Q_thick_gas), - np.ones_like(Q_thick_gas)
+ 
+    # compute Q composite
+    """ see eq. 3 of Inoue+16"""
+    res1[mask]    = w[mask] /Q_thick_star[mask] + 1.     / Q_thick_gas[mask]
+    res2[mask]    = 1.      /Q_thick_star[mask] + w[mask]/Q_thick_gas[mask]
+    #
+    mask2                = np.logical_and(Q_thick_star > Q_thick_gas,mask)
+    Q_twoComp_inv[mask2] = res1[mask2]
+    mask2                = np.logical_and(Q_thick_star < Q_thick_gas,mask)
+    Q_twoComp_inv[mask2] = res1[mask2]
+    #
+    mask                 =     Q_twoComp_inv > 0
+    self.Q_twoComp[mask] = 1. / Q_twoComp_inv[mask]
+
+    if self.verbose:
+
+      for arr,nome in zip([self.Q_twoComp],['Q_2_comp']):
+        print nome
+        print '  max/ min',np.max(arr),np.min(arr) 
+        print '  mean/std',np.mean(arr),np.std(arr) 
+
+      if (np.isnan(self.Q_twoComp) == True).any():
+        print 'NANs are present'
 
     return self.Q_twoComp
 
