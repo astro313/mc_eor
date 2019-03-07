@@ -100,14 +100,15 @@ class ToomreAnalyze(object):
   def load_data(self):
 
     if self.field_type == 'gas':
-      self.data = import_fetch_gal(isnap=self.isnap)
+      self.data = import_fetch_gal(isnap=self.isnap 
+                                  ,clipping = self.min_wg
+                                  )
       if self.megaverbose:
         print self.data.keys()
       self.ds, self.dd = prepare_unigrid(data=self.data,
                                add_unit=True,
                                regionsize_kpc=self.region_size_kpc,
                                debug=self.debug
-                              ,clippinng = self.min_wg
                                )
 
     elif self.field_type == 'star':
@@ -1002,15 +1003,12 @@ if __name__ == '__main__':
 
   testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
 
-  '''
   Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',
                       field_type='gas', plane=plane,
-                      smooth_size=smooth_kpc, debug=False)
+                      smooth_size_kpc =smooth_kpc, debug=False)
 
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc,annotate_clump=annotate,clump_list_filename=testfile)
   Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
-
-  '''
 
   Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',
                         field_type='star', plane=plane,
@@ -1019,9 +1017,9 @@ if __name__ == '__main__':
                                annotate_clump=annotate,
                              clump_list_filename=testfile)
 
-  #Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
-  #Q_tot_val = Q_tot_obj.run(central_kpc_one_side=1.5, annotate_clump=annotate,
-  #                          clump_list_filename=testfile)
+  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
+  Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc, annotate_clump=annotate,
+                            clump_list_filename=testfile)
 
 
 

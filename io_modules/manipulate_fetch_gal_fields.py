@@ -41,7 +41,7 @@ def get_units(ro=None):
     return dict_unit
 
 
-def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_fields0123456-15_resampled.h5", verbose=True, convert=True):
+def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_fields0123456-15_resampled.h5", verbose=True, convert=True, clipping = 'min'):
 
     import pymses
     from pymses.utils import constants as C
@@ -99,12 +99,18 @@ def import_fetch_gal(isnap=28, folder_ramsesdata='output', tag_h5file="_center_f
                 vely=vely,
                 velz=velz
                 )
-    if True:
+    if clipping is not None:
+
+      if clipping == 'min':
+        clip_n  = np.min(data["density"][data["density"] > 0])
+        clip_H2 = 1.e-3
+      else:
+        clip_n,clip_H2  = clipping[0],clipping[1]
+
         if verbose:
             print 'Clipping variables'
-        data["density"][data["density"] <= 0] = np.min(
-            data["density"][data["density"] > 0])
-        data["H2"][data["H2"] < 1.e-3] = 1.e-3
+        data["density"][data["density"] <= clip_n ] = clip_n
+        data["H2"     ][data["H2"]      <= clip_H2] = clip_H2
     if verbose:
         for var in ['density', 'H2']:
             print '  ', var, np.max(data[var]), np.min(data[var])
