@@ -711,7 +711,7 @@ class ToomreAnalyze(object):
     ax.set_ylim(y1,y2)
 
     ax = plt.subplot(224)
-    map_Q = gaussian_filter(np.log10(self.Q), sigma=self.smooth_size)
+    map_Q = np.log10(gaussian_filter(self.Q, sigma=self.smooth_size))
     im = ax.imshow(map_Q[bottomBound: topBound, leftBound:rightBound],
                    origin='lower',
                    extent=(xruler[leftBound],
@@ -850,12 +850,23 @@ class ToomreAnalyze_2comp(object):
     xx = np.linspace(self.Q_gas.coords[self.plane][0].value.min(), self.Q_gas.coords[self.plane][0].value.max(), len(self.Q_gas.coords[self.plane][0]))
     yy = np.linspace(self.Q_gas.coords[self.plane][1].value.min(), self.Q_gas.coords[self.plane][1].value.max(), len(self.Q_gas.coords[self.plane][1]))
 
+    if self.verbose:
+      print 'reinterpolating'
+      print 'Q'
+      print '  ',np.max(self.Q_gas.Q),np.max(self.Q_gas.Q)
+      print '  ',np.mean(self.Q_gas.Q),np.std(self.Q_gas.Q)
+
     f = interpolate.interp2d(xx,
                              yy,
                              self.Q_gas.Q,
                              kind='cubic')
     Q_gas_resampled = f(xx, yy)
     assert self.Q_star_val.shape == Q_gas_resampled.shape
+
+    if self.verbose:
+      print 'Q resampled'
+      print '  ',np.max(self.Q_gas.Q),np.max(self.Q_gas.Q)
+      print '  ',np.mean(self.Q_gas.Q),np.std(self.Q_gas.Q)
 
     if self.debug:
       plt.figure()
