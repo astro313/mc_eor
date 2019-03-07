@@ -800,7 +800,7 @@ class ToomreAnalyze_2comp(object):
   Toomre for gas + star in thick disk
 
   """
-  def __init__(self, Q_gas, Q_star,fold_out=''):
+  def __init__(self, Q_gas, Q_star,fold_out='' ,smooth_size = 0):
 
     """
 
@@ -839,6 +839,8 @@ class ToomreAnalyze_2comp(object):
     assert self.Q_gas.isnap == self.Q_star.isnap
     self.isnap = self.Q_gas.isnap
 
+    self.smooth_size = smooth_size
+
     self.interpolate_gas_onto_star_grid()
 
 
@@ -869,9 +871,9 @@ class ToomreAnalyze_2comp(object):
 
     self.Q_gas_val = Q_gas_resampled
 
-
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see eq. 4 of Inoue+16"""
+
 
     ratio       = np.ones_like(veldisp_vert)
     mask        = veldisp_r > 0
@@ -912,17 +914,20 @@ class ToomreAnalyze_2comp(object):
       print '  max/ min',np.max(w),np.min(w) 
       print '  mean/std',np.mean(w),np.std(w) 
 
+    Q_thick_star = self.Q_star_val * self.T_s
+    Q_thick_gas  = self.Q_gas_val * self.T_g
+
     """ see eq. 3 of Inoue+16"""
     # 2D array
-    res1 = w / (self.Q_star_val * self.T_s) + 1 / (self.Q_gas_val * self.T_g)
-    res2 = 1 / (self.Q_star_val * self.T_s) + w / (self.Q_gas_val * self.T_g)
+    res1 = w /Q_thick_star + 1./ Q_thick_gas
+    res2 = 1./Q_thick_star +  w/Q_thick_gas
     #
-    Q_twoComp_inv = np.where(self.T_s * self.Q_star_val >= self.T_g * self.Q_gas_val, res1, res2)
+    Q_twoComp_inv = np.where(Q_thick_star >= Q_thick_gas, res1, res2)
     #
     self.Q_twoComp = 1. / Q_twoComp_inv
 
-    if self.megaverbose:
-      print(np.isnan(self.Q_twoComp) == True).any()
+    if self.verbose:
+      print (np.isnan(self.Q_twoComp) == True).any()
 
     return self.Q_twoComp
 
@@ -1009,8 +1014,23 @@ class ToomreAnalyze_2comp(object):
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f)
 
+  def smooth_maps(self):
+
+    self.Q_star.sigma_r                     = gaussian_filter(self.Q_star.sigma_r                     ,self.smooth_size)
+    self.Q_gas.sigma_r                      = gaussian_filter(self.Q_gas.sigma_r                      ,self.smooth_size)
+
+    from yt import YTArray
+
+    tmp = gaussian_filter(self.Q_gas.veldisp_vertical_plane.convert_to_units('km/s').value ,self.smooth_size)
+    self.Q_gas.veldisp_vertical_plane = YTArray(tmp, 'km/s')
+
+    tmp = gaussian_filter(self.Q_star.veldisp_vertical_plane.convert_to_units('km/s').value,self.smooth_size)
+    self.Q_star.veldisp_vertical_plane = YTArray(tmp, 'km/s')
 
   def run(self, central_kpc_one_side, annotate_clump, clump_list_filename):
+
+    if self.smooth_size > 0:
+      self.smooth_maps()
 
     self.compute_T_g()
     self.compute_T_s()
@@ -1060,7 +1080,7 @@ if __name__ == '__main__':
                              ,annotate_clump=annotate,clump_list_filename=testfile
                              )
 
-  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj,fold_out = fold_out)
+  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj,fold_out = fold_out, smooth_size =Q_gas_obj.smooth_size )
   Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc
                            ,annotate_clump=annotate,clump_list_filename=testfile
                            )
