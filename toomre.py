@@ -14,8 +14,10 @@ from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_uni
 import matplotlib.pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
 
+import os,sys
+
 from matplotlib import cm
-cmap = cm.get_cmap('viridis')          # 'magma'
+cmap     = cm.get_cmap('viridis')      # 'magma'
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 
 from pymses.utils import constants as C_py
@@ -29,7 +31,7 @@ class ToomreAnalyze(object):
   Single Toomre Q object
 
   """
-  def __init__(self, isnap, wg_var, field_type, plane, smooth_size_kpc=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False, min_wg = 'min'):
+  def __init__(self, isnap, wg_var, field_type, plane, smooth_size_kpc=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False, min_wg = 'min', fold_out = ''):
 
     self.isnap = isnap
     self.read_proper_unit = read_proper_unit
@@ -80,6 +82,10 @@ class ToomreAnalyze(object):
     self.coords3d = {}
     self.center_plane = {}
 
+    # regulate output
+    self.fold_out       = fold_out
+    if (self.fold_out !='' and not os.path.isdir(self.fold_out)):
+      os.mkdir(self.fold_out)
 
   def load_cam_stuff(self):
     with open(self.f_camera, 'rb') as f:
@@ -739,8 +745,8 @@ class ToomreAnalyze(object):
             '.png'
     if self.verbose:
       print 'save to'
-      print '  ',out_f
-    plt.savefig(out_f)
+      print '  ',self.fold_out+out_f
+    plt.savefig(self.fold_out+out_f)
 
 
   def run(self, radial_nbins=None, central_kpc_one_side=None,
@@ -792,7 +798,7 @@ class ToomreAnalyze_2comp(object):
   Toomre for gas + star in thick disk
 
   """
-  def __init__(self, Q_gas, Q_star):
+  def __init__(self, Q_gas, Q_star,fold_out=''):
 
     """
 
@@ -811,6 +817,11 @@ class ToomreAnalyze_2comp(object):
 
 
     """
+
+    # regulate output
+    self.fold_out       = fold_out
+    if (self.fold_out !='' and not os.path.isdir(self.fold_out)):
+      os.mkdir(self.fold_out)
 
     self.debug = Q_gas.debug or Q_star.debug
     self.verbose = Q_gas.verbose or Q_star.verbose
@@ -918,8 +929,8 @@ class ToomreAnalyze_2comp(object):
     out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png'
     if self.verbose:
       print 'save to'
-      print '  ',out_f
-    plt.savefig(out_f)
+      print '  ',self.fold_out+out_f
+    plt.savefig(self.fold_out+out_f)
 
 
   def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
@@ -976,8 +987,8 @@ class ToomreAnalyze_2comp(object):
             '_zoom_'+ str(central_kpc_one_side) + '_kpc.png'
     if self.verbose:
       print 'save to'
-      print '  ',out_f
-    plt.savefig(out_f)
+      print '  ',self.fold_out+out_f
+    plt.savefig(self.fold_out+out_f)
 
 
   def run(self, central_kpc_one_side, annotate_clump, clump_list_filename):
@@ -991,6 +1002,11 @@ class ToomreAnalyze_2comp(object):
 
 if __name__ == '__main__':
 
+  base_out = 'out_toomre/'
+
+  if not os.path.isdir(base_out):
+    os.mkdir(base_out)
+
   plane     = '0'
   isnap     = 28
   annotate  = False
@@ -1002,24 +1018,32 @@ if __name__ == '__main__':
   size_kpc  = 2.0
 
   testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
+  fold_out  = base_out+'snap_'+str(isnap)+'/'
 
-  Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',
-                      field_type='gas', plane=plane,
-                      smooth_size_kpc =smooth_kpc, debug=False)
+
+  Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',field_type='gas', plane=plane
+                            ,smooth_size_kpc =smooth_kpc
+                            ,debug=False
+                            ,fold_out = fold_out
+                            )
 
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc,annotate_clump=annotate,clump_list_filename=testfile)
-  Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
+  #Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
 
-  Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',
-                        field_type='star', plane=plane,
-                        smooth_size_kpc=smooth_kpc, debug=False,min_wg = min_mass)
-  Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc,
-                               annotate_clump=annotate,
-                             clump_list_filename=testfile)
+  Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',field_type='star', plane=plane
+                       ,smooth_size_kpc=smooth_kpc,min_wg = min_mass
+                       ,debug=False
+                       ,fold_out = fold_out
+                        )
+  Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
+                             ,fold_out = fold_out
+                             ,annotate_clump=annotate,clump_list_filename=testfile
+                             )
 
-  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj)
-  Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc, annotate_clump=annotate,
-                            clump_list_filename=testfile)
+  Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj,fold_out = fold_out)
+  Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc
+                           ,annotate_clump=annotate,clump_list_filename=testfile
+                           )
 
 
 
