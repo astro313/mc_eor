@@ -2,7 +2,7 @@
 
 plot physical properties of clouds.
 
-Single snapshot, different ncuts (from test_brute.py)
+Single snapshot, different ncuts (from brute.py)
 
 
 last mod: August 18 2018
