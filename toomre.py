@@ -933,7 +933,7 @@ class ToomreAnalyze_2comp(object):
 
   def smooth_Q_eff(self):
     self.smooth_size = self.Q_gas.smooth_size
-    self.Q_twoComp = gaussian_filter(np.log10(self.Q_twoComp), sigma=self.smooth_size)
+    self.Q_twoComp = gaussian_filter(self.Q_twoComp, sigma=self.smooth_size)
 
 
   def plot_Q_eff(self):
