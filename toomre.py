@@ -711,7 +711,7 @@ class ToomreAnalyze(object):
     ax.set_ylim(y1,y2)
 
     ax = plt.subplot(224)
-    map_Q = gaussian_filter(np.log10(self.Q), sigma=self.smooth_size)
+    map_Q = np.log10(gaussian_filter(self.Q, sigma=self.smooth_size))
     im = ax.imshow(map_Q[bottomBound: topBound, leftBound:rightBound],
                    origin='lower',
                    extent=(xruler[leftBound],
@@ -841,7 +841,6 @@ class ToomreAnalyze_2comp(object):
     self.isnap = self.Q_gas.isnap
 
     self.smooth_size = smooth_size
-
 
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see eq. 4 of Inoue+16"""
