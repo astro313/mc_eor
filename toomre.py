@@ -841,6 +841,9 @@ class ToomreAnalyze_2comp(object):
 
     self.smooth_size = smooth_size
 
+
+    self.Q_gas.SD = self.Q_gas.projected_SurfaceDensity[self.Q_gas.plane]
+
     self.interpolate_gas_onto_star_grid()
 
 
