@@ -24,10 +24,7 @@
 \shortauthors{Leung et al.}
 
 \begin{document}
-\title{
-Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Reionization
-}
-
+\title{Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Reionization}
 
 \author{T. K. Daisy Leung\altaffilmark{1, 2}}
 \author{Andrea Pallottini\altaffilmark{3, 4}}
@@ -45,28 +42,20 @@ Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Re
 
 
 \begin{abstract}
-We study the dynamical properties of molecular clouds complexes (MC) in a prototypical galaxy (\flower)
-and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
-We identify MCs using H$_2$ density, 
-and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$)
-with those observed in nearby and \z$\sim$\,2 galaxies.
-The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are 
-systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
-We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine 
-regions that are unstable to local axisymmetric perturbations. 
+We study the dynamical properties of molecular clouds complexes (MC) in a prototypical galaxy (\flower) and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
+%
+We identify MCs using H$_2$ density, and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$) with those observed in nearby and \z$\sim$\,2 galaxies.
+%
+The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
+%
+We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine regions that are unstable to local axisymmetric perturbations. 
+%
 We further perform virial analysis, which is accessible from observations, to examine regions likely 
-to undergo collapse.
-Our analysis indicates that the MCs in the main disk of \flower are unbound, but its 
-substructures have lower virial parameters and Toomre $Q$, which is
-consistent with the notion that collapsing structures occur within globally stable structures.
-We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies,
-which we interpret as result of the weaker stellar feedback and less frequent \SF compared to \flower.
-Our results suggest that the more massive and bigger MCs compared to the Milky Way
-manifest from the higher gas mass fraction, surface density, and velocity dispersion.
+to undergo collapse. Our analysis indicates that the MCs in the main disk of \flower are unbound, but its substructures have lower virial parameters and Toomre $Q$, which is consistent with the notion that collapsing structures occur within globally stable structures.
+%
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result of the weaker stellar feedback and less frequent \SF compared to \flower. Our results suggest that the more massive and bigger MCs compared to the Milky Way manifest from the higher gas mass fraction, surface density, and velocity dispersion.
 % , which together sets the scale for fragmentation.
-High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the
-Next Generation Very Large Array (ngVLA)
-can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
+High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA) can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -79,11 +68,12 @@ can furnish scrutinizing data to test our findings and shed light on \SF since t
 % it can be instead included as
 % \graphicspath{{Fig/}}
 % so that plots are automatically searched for in the given path
-\def\figpath{Fig}
+\def\figpath{./Fig}
 
 %--------------------------------------------------------------------------
 %                                Introduction
 %--------------------------------------------------------------------------
+
 \section{Introduction}\label{sec:intro}
 
 The growth of galaxies and their subsequent evolution are governed by the baryon cycle ---
@@ -463,13 +453,12 @@ To account for stabilizing effect of both gas and stars and the non-negligible d
 we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} and
 \citet{Inoue16a} which is expressed as follows:
 \begin{equation}
-Q^{-1}_{\rm eff} = \[ \left\{
+Q^{-1}_{\rm eff} =  \left\{
 				\begin{array}{lccr}
 					     {\displaystyle\frac{w}{T_{\rm star} Q_{\rm star}} + \frac{1}{T_{\rm gas} Q_{\rm gas}}}      & & & \mbox{if\ }T_{\rm star} Q_{\rm star} \geq T_{\rm gas} Q_{\rm gas} \\ [0.75em]
                                                {\displaystyle\frac{1}{T_{\rm star} Q_{\rm star}} + \frac{w}{T_{\rm gas} Q_{\rm gas}}}      & & & \mbox{if\ }T_{\rm star} Q_{\rm star} \leq T_{\rm gas} Q_{\rm gas} \\				
 				\end{array} 
-			    \right,
-			    \]
+			    \right.
 \end{equation}
 where $w$ is defined as:
 \begin{equation}
@@ -477,14 +466,13 @@ w\equiv\frac{2 \sigma_{\rm star} \sigma_{\rm gas}}{\sigma_{\rm star}^2 + \sigma_
 \end{equation}
 and $T$ is approximated as:
 \begin{equation}
-T = \[ \left\{
+T = \left\{
 		\begin{array}{lccr}
 			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [1.25em]
 			{\displaystyle 1 + 0.6\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}        & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
 \\
 		\end{array}
-	\right \rlap{.}
-	\]
+	\right.
 \end{equation}
 
 For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the 
