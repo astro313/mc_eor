@@ -825,13 +825,13 @@ class ToomreAnalyze_2comp(object):
     if (self.fold_out !='' and not os.path.isdir(self.fold_out)):
       os.mkdir(self.fold_out)
 
-    self.debug = Q_gas.debug or Q_star.debug
-    self.verbose = Q_gas.verbose or Q_star.verbose
+    self.debug       = Q_gas.debug or Q_star.debug
+    self.verbose     = Q_gas.verbose or Q_star.verbose
     self.megaverbose = Q_gas.megaverbose or Q_star.megaverbose
-    self.Q_star_val = Q_star.Q
+    self.Q_star_val  = Q_star.Q
 
-    self.Q_gas = Q_gas
-    self.Q_star = Q_star
+    self.Q_gas       = Q_gas
+    self.Q_star      = Q_star
 
     assert self.Q_gas.plane == self.Q_star.plane
     self.plane = self.Q_gas.plane
@@ -873,11 +873,9 @@ class ToomreAnalyze_2comp(object):
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see eq. 4 of Inoue+16"""
 
-    mask        = veldisp_r<= 0
-    ratio       = veldisp_vert
-    ratio[mask] = ratio[mask]/veldisp_r[mask]
-    mask        = np.logical_not(mask)
-    ratio[mask] = 1
+    ratio       = np.ones_like(veldisp_vert)
+    mask        = veldisp_r > 0
+    ratio[mask] = veldisp_vert[mask]/veldisp_r[mask]
 
     if self.verbose:
       print "vel disp ratio (sigma_z/sigma_r): "
