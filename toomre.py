@@ -869,15 +869,26 @@ class ToomreAnalyze_2comp(object):
 
 
   def compute_T(self, veldisp_vert, veldisp_r):
-    """ see Eqn of Inoue+16"""
+    """ see eq. 4 of Inoue+16"""
+
+    mask        = veldisp_r<= 0
+    ratio       = veldis_vert
+    ratio[mask] = ratio[mask]/veldisp_r[mask]
+    mask        = np.logical_not(mask)
+    ratio[mask] = 1
 
     if self.verbose:
-      print "vel disp ratio (sigma_z/sigma_r): ", veldisp_vert / veldisp_r
+      print "vel disp ratio (sigma_z/sigma_r): "
+      print '  max/ min',np.max(ratio),np.min(ratio) 
+      print '  mean/std',np.mean(ratio),np.std(ratio) 
 
-    res1 = 1. + 0.6 * (veldisp_vert / veldisp_r)**2
-    res2 = 0.8 * 0.7 * (veldisp_vert / veldisp_r)
-    res = np.where(veldisp_vert < 0.5 * veldisp_r, res1, res2)
-    return res
+    res1 = 1.  + 0.6 * ratio**2
+    res2 = 0.8 + 0.7 * ratio
+
+    out            = res1
+    out[ratio>0.5] = res2[ratio>0.5]
+
+    return out
 
   def compute_T_s(self):
     self.T_s = self.compute_T(self.Q_star.veldisp_vertical_plane.value, self.Q_star.sigma_r)
@@ -893,15 +904,23 @@ class ToomreAnalyze_2comp(object):
     # component by a factor T, which depends on the ratio of vertical to
     # radial velocity dispersion.
 
+    """ see eq. 3 of Inoue+16"""
     w = 2. * self.Q_star.sigma_r * self.Q_gas.sigma_r / (self.Q_star.sigma_r**2 + self.Q_gas.sigma_r**2)
+    #
+    if self.verbose:
+      print "weight Q: "
+      print '  max/ min',np.max(w),np.min(w) 
+      print '  mean/std',np.mean(w),np.std(w) 
 
+    """ see eq. 3 of Inoue+16"""
     # 2D array
     res1 = w / (self.Q_star_val * self.T_s) + 1 / (self.Q_gas_val * self.T_g)
     res2 = 1 / (self.Q_star_val * self.T_s) + w / (self.Q_gas_val * self.T_g)
-
+    #
     Q_twoComp_inv = np.where(self.T_s * self.Q_star_val >= self.T_g * self.Q_gas_val, res1, res2)
-
+    #
     self.Q_twoComp = 1. / Q_twoComp_inv
+
     if self.megaverbose:
       print(np.isnan(self.Q_twoComp) == True).any()
 
