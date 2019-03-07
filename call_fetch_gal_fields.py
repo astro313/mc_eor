@@ -20,7 +20,7 @@ f_camera = folder + 'camera_settings.log'
 istart = 28
 istop  = 29
 
-snapshotToLoad = range(istart,istop)
+snapshotsToLoad = range(istart,istop)
 
 fieldsToLoad = ['rho', 'vel', 'P_nt', 'P', 'H2', 'Z']
 fields_stars = ['id', 'vel', 'epoch', 'mass', 'level']
