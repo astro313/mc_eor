@@ -932,6 +932,11 @@ class ToomreAnalyze_2comp(object):
     return self.Q_twoComp
 
 
+  def smooth_Q_eff(self):
+    self.smooth_size = self.Q_gas.smooth_size
+    self.Q_twoComp = gaussian_filter(np.log10(self.Q_twoComp), sigma=self.smooth_size)
+
+
   def plot_Q_eff(self):
     plt.figure()
     im = plt.imshow(np.log10(self.Q_twoComp),
@@ -1035,6 +1040,7 @@ class ToomreAnalyze_2comp(object):
     self.compute_T_g()
     self.compute_T_s()
     self.calc_Q_eff()
+    self.smooth_Q_eff()
 
     self.plot_Q_eff_zoom(central_kpc_one_side, annotate_clump, clump_list_filename)
 
@@ -1047,7 +1053,7 @@ if __name__ == '__main__':
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 17
+  isnap     = 28
   annotate  = False
 
   clump_cut   = 0.32
