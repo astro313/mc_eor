@@ -539,7 +539,7 @@ rest-frame {\it UV and optical light} \citep{Elmegreen07a, Elmegreen09a}.
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/minmaxNcut_basicDistributions.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.7\textwidth]{\figpath/minmaxNcut_basicDistributions.png}
 \caption{
 Distributions of mass, size, and gas mass fraction of MCs identified using
 the lowest $n_{\rm cut}$ (left panels) and $n_{\rm ncut}$\eq18.96\,\cc (right panels).
@@ -662,14 +662,14 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the gas Toomre $Q$ parameter and the effective two-component $Q_{\rm eff}$ parameter along different projection angles during the accretion phase of \flower are shown in \Fig{Q} and \Fig{Qeff}, respectively (see \Fig{h2density} for examples of clumps identified 
-in this snapshot). Fragmentation are expected in regions of low Toomre Q values.
+Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in Figures~\ref{fig:Q}, \ref{fig:Qstar}, and \ref{fig:Qeff}, respectively (see \Fig{h2density} for an example of MCs identified 
+in this snapshot). Fragmentation are expected in regions of low Toomre $Q$ values.
 Further interpretation and implication of this is discussed in \Sec{origin}.
 
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/{ss16_gas_toomre_proj_0_zoom_2.0_kpc}.png}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_0_zoom_2.0_kpc}.png}
 \caption{
 Maps of the total gas surface density (top left), 
 velocity dispersion (top right),
@@ -678,28 +678,29 @@ and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
-\DL{Ignore the crosses for now....}
+Crosses correspond to positions of MCs identified using the lowest $n_{\rm cut}$. % using 0.32
+Positions of sub-MCs are not shown (but see top row of \Fig{Qeff} for an example). 
 \label{fig:Q}}
 \addtocounter{figure}{-1}
 \end{figure*}
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/{ss16_gas_toomre_proj_1_zoom_2.0_kpc}.png}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_1_zoom_2.0_kpc}.png}
 \caption{Continued. Maps showing the various quantities projected on the $xz$-plane.}
 \addtocounter{figure}{-1}
 \end{figure*}
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{{\figpath/ss16_gas_toomre_proj_2_zoom_2.0_kpc}.png}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{{\figpath/ss16_gas_toomre_proj_2_zoom_2.0_kpc}.png}
 \caption{Continued. Maps show the various quantities projected on the $yz$-plane.}
 \end{figure*}
 
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/{ss16_star_toomre_proj_0_zoom_2.0_kpc}.png}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_star_toomre_proj_0_zoom_2.0_kpc}.png}
 \caption{
 Same as \Fig{Q} but for the stellar component, projected in the $xy$-plane.
 \label{fig:Qstar}}
@@ -711,14 +712,23 @@ Same as \Fig{Q} but for the stellar component, projected in the $xy$-plane.
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 0 20 0, clip, width=0.55\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc}.png}
-\includegraphics[trim=10 0 0 0, clip, width=0.4\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_2.0_kpc}.png}
+\includegraphics[trim=10 0 100 20, clip, width=0.35\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_0.32}.png}
+\includegraphics[trim=30 0 10 20, clip, width=0.425\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_6.81}.png}  \\
+\includegraphics[trim=10 0 0 10, clip, width=0.425\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_2.0_kpc}.png} \\
+\includegraphics[trim=30 25 30 20, clip, width=0.4\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_0.8_kpc_6.81}.png}
+\includegraphics[trim=10 0 0 0, clip, width=0.38\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_0.8_kpc}.png}
 \caption{
-Effective two-component Toomre Q (left) and gas surface density (right) maps projected onto the $xy$-plane.
+Effective two-component Toomre $Q_{\rm eff}$ (top row) 
+and gas surface density (middle) maps projected onto the $xy$-plane.
+Positions of MCs identified using the lowest $n_{\rm cut}$\eq0.32\,cm$^{-3}$ (top left; same as \Fig{Q})
+and $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (top right) are overplotted as crosses.
+Bottom row: Effective $Q_{\rm eff}$ (left) and gas surface density (right) maps zoomed in on the central 1.5\,kpc region.
+Cross markers indicate positions of MCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (same as top right).
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
-\DL{Ignore the crosses for now....Please compare by eye for the time being.}
+Some MCs lie in regions of $\log{Q_{\rm eff}}\gtrsim0$, whereas regions of $\log{Q_{\rm eff}}\lesssim0$ 
+are likely gravitationally unstable.
 \label{fig:Qeff}}
 % \addtocounter{figure}{-1}
 \end{figure*}
@@ -866,7 +876,7 @@ and thus, \SF is expected to continue
 as gas from satellite galaxies is being accreted onto the main galaxies during the EoR.
 
 The apparently large virial parameters seen in the MCs of \flower can be understood using the 
-Toomre $Q$ parameter (\Fig{Q} and \Fig{Qeff}). 
+Toomre $Q$ parameter (see Figures~\ref{fig:Q}\,r$-$\,\ref{fig:Qeff}). 
 We first note that fragmentation {\it can} happen in regions of low $Q$ (if we only consider 
 instability against axisymmetric perturbations), but  
 further evolution/collapse depends on the dynamics or equation of state of the gas. 
@@ -946,9 +956,7 @@ Virial analysis indicates that the MC/arms of the main disk of \flower are unbou
 This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are
 supported by turbulence and rotation on large scale.
 We also find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as
-result of the weaker stellar feedback as they have
-experienced less episodes of \SF compared to \flower 
-(also supported by the lower stellar-to-gas mass ratio of the latter).
+result of the weaker stellar feedback compared to \flower 
 MCs in the satellites are therefore likely collapsing structures.
 
 We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, 
