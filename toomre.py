@@ -1120,7 +1120,7 @@ if __name__ == '__main__':
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 16
+  isnap     = 28
   annotate  = True
 
   clump_cut   = 0.32
@@ -1129,7 +1129,8 @@ if __name__ == '__main__':
   min_mass  = 1.e+1 # used to clip 0 in the stellar mass field
   size_kpc  = 2.0
 
-  testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
+  #testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
+  testfile  = 'ss'+str(isnap)+'_h2density_wgclumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
   fold_out  = base_out+'snap_'+str(isnap)+'/'
 
 
