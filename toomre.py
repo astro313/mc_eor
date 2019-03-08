@@ -12,6 +12,7 @@ from plot_modules.plot_cloud_prop import setup_plot
 setup_plot()
 from io_modules.manipulate_fetch_gal_fields import import_fetch_gal, prepare_unigrid, prepare_star_unigrid, get_units, import_fetch_stars
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.ndimage.filters import gaussian_filter
 
 import os,sys
@@ -19,11 +20,6 @@ import os,sys
 from matplotlib import cm
 cmap     = cm.get_cmap('viridis')      # 'magma'
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
-
-c_clump  = 'k'
-#c_clump  = 'darkturquoise'
-#c_clump  = 'antiquewhite'
-
 
 from pymses.utils import constants as C_py
 from yt import units as C_yt
@@ -52,6 +48,11 @@ class ToomreAnalyze(object):
     self.convertPart = convertPart
     self.plane = plane
     self.field_type = field_type
+    #
+    if self.field_type == 'gas':
+      self.c_clump  = 'orange'
+    elif self.field_type == 'star':
+      self.c_clump = 'green'
     #
     self.smooth_size = 0.                  # size for smoothing image in code units
     self.smooth_kpc  = smooth_size_kpc     # size for smoothing image in kpc
@@ -582,7 +583,7 @@ class ToomreAnalyze(object):
     return self.Q
 
 
-  def plot_range_set_by_camera(self):
+  def set_plot_range_set_by_camera(self):
     self._xmin = (self.coords_plane[0] - self.center_plane[self.plane][0]).min()
     self._xmax = (self.coords_plane[0] - self.center_plane[self.plane][0]).max()
     self._ymin = (self.coords_plane[1] - self.center_plane[self.plane][1]).min()
@@ -590,8 +591,6 @@ class ToomreAnalyze(object):
 
 
   def plot_Q(self):
-    # define plot boundary kpc
-
     plt.figure()
     plt.imshow(np.log10(self.Q), origin='lower',
                 extent=(self._xmin, self._xmax, self._ymin, self._ymax)
@@ -731,11 +730,14 @@ class ToomreAnalyze(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
+        plt.plot(clz, cly, 'x', markersize=15, color=self.c_clump,
+                  linewidth=1.8)
       elif self.plane == '1':
-        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
+        plt.plot(clz, clx, 'x', markersize=15, color=self.c_clump,
+                  linewidth=1.8)
       elif self.plane == '2':
-        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
+        plt.plot(cly, clx, 'x', markersize=15, color=self.c_clump,
+                  linewidth=1.8)
 
     ax.set_xlim(x1,x2)
     ax.set_ylim(y1,y2)
@@ -745,7 +747,7 @@ class ToomreAnalyze(object):
     cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
     cbar.set_label(r"$\log{Q}$", fontsize=16)
 
-    # plt.tight_layout()
+    plt.tight_layout()
     plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane +\
             '_zoom_'+str(central_kpc_one_side)+'_kpc'+\
@@ -754,6 +756,53 @@ class ToomreAnalyze(object):
       print 'save to'
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f)
+
+
+  def plot_single_SD(self, central_kpc_one_side=None):
+    """
+    plot and save single panel SD
+
+    """
+
+    if not central_kpc_one_side:
+      central_kpc_one_side = 1.5
+
+    xspacing = (self._xmax - self._xmin)/len(self.SD)
+    xruler = np.arange(self._xmin, self._xmax, xspacing)
+    rightBound = np.argmin(abs(xruler - central_kpc_one_side))
+    leftBound = np.argmin(abs(xruler + central_kpc_one_side))
+
+    yspacing = (self._ymax - self._ymin)/len(self.SD)
+    yruler = np.arange(self._ymin, self._ymax, yspacing)
+    topBound = np.argmin(abs(yruler - central_kpc_one_side))
+    bottomBound = np.argmin(abs(yruler + central_kpc_one_side))
+
+    fig = plt.figure(figsize=(5, 5))
+    fig.subplots_adjust(left=0.10, right=0.90, bottom=0.15, top=0.9)
+    ax = plt.gca()
+    im = ax.imshow(np.log10(self.SD / self.cm2pc**2 * \
+                            self.g2Msun)[bottomBound: topBound,
+                                         leftBound:rightBound],
+                   origin='lower',
+                   extent=(xruler[leftBound],
+                           xruler[rightBound],
+                           yruler[bottomBound],
+                           yruler[topBound]),
+                   cmap=cmap)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    cbar = plt.colorbar(im, cax=cax)
+    cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
+
+    plt.tight_layout()
+    plt.show(block=False)
+    out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_SD_proj_' + \
+            self.plane + '_zoom_' + str(central_kpc_one_side) + '_kpc' + '.png'
+
+    if self.verbose:
+      print 'save to'
+      print '  ',self.fold_out+out_f
+    plt.savefig(self.fold_out+out_f, bbox_inches='tight')
 
 
   def run(self, radial_nbins=None, central_kpc_one_side=None,
@@ -780,9 +829,11 @@ class ToomreAnalyze(object):
     self.smooth_kappa(plot=self.debug)
     self.calc_Q()
 
-    self.plot_range_set_by_camera()
+    self.set_plot_range_set_by_camera()
     self.plot_all_quant_zoom(central_kpc_one_side, annotate_clump,
                              clump_list_filename)
+
+    self.plot_single_SD(central_kpc_one_side)
 
     if self.debug:
       self.plot_SD()
@@ -846,6 +897,7 @@ class ToomreAnalyze_2comp(object):
     self.isnap = self.Q_gas.isnap
 
     self.smooth_size = smooth_size
+    self.c_clump = self.Q_star.c_clump
 
   def compute_T(self, veldisp_vert, veldisp_r):
     """ see eq. 4 of Inoue+16"""
@@ -942,15 +994,19 @@ class ToomreAnalyze_2comp(object):
 
 
   def plot_Q_eff(self):
-    plt.figure()
+    plt.figure(figsize=(5, 5))
+    plt.subplots_adjust(left=0.1, right=0.9, bottom=0.15, top=0.9)
+    ax = plt.gca()
     im = plt.imshow(np.log10(self.Q_twoComp),
                     extent=(self.Q_gas._xmin, self.Q_gas._xmax, self.Q_gas._ymin, self.Q_gas._ymax),
                     cmap=cmap_div,
                     origin='lower',
                     vmin=-1, vmax=1)     # clip at -1 < log10(Q) < 1
-
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes("right", size="5%", pad=0.05)
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
-                         ticks=[-1, 0, 1]
+                         ticks=[-1, 0, 1],
+                         cax=cax
                         )
     cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
     cbar.set_label(r"$\log{Q_{\rm eff}}$", fontsize=16)
@@ -958,12 +1014,13 @@ class ToomreAnalyze_2comp(object):
     plt.xlabel('kpc', fontsize=16)
     plt.ylabel('kpc', fontsize=16)
 
+    plt.tight_layout()
     plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png'
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
-    plt.savefig(self.fold_out+out_f)
+    plt.savefig(self.fold_out+out_f, bbox_inches='tight')
 
 
   def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
@@ -1000,11 +1057,14 @@ class ToomreAnalyze_2comp(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(clz, cly, 'x', markersize=15, color=c_clump)
+        plt.plot(clz, cly, 'x', markersize=15, color=self.c_clump,
+                 linewidth=1.8)
       elif self.plane == '1':
-        plt.plot(clz, clx, 'x', markersize=15, color=c_clump )
+        plt.plot(clz, clx, 'x', markersize=15, color=self.c_clump,
+                 linewidth=1.8)
       elif self.plane == '2':
-        plt.plot(cly, clx, 'x', markersize=15, color=c_clump )
+        plt.plot(cly, clx, 'x', markersize=15, color=self.c_clump,
+                 linewidth=1.8)
 
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
                          ticks=[-1, 0, 1]
@@ -1015,13 +1075,14 @@ class ToomreAnalyze_2comp(object):
     plt.xlabel('kpc', fontsize=16)
     plt.ylabel('kpc', fontsize=16)
 
+    plt.tight_layout()
     plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + \
             '_zoom_'+ str(central_kpc_one_side) + '_kpc.png'
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
-    plt.savefig(self.fold_out+out_f)
+    plt.savefig(self.fold_out+out_f, bbox_inches='tight')
 
   def smooth_maps(self):
 
@@ -1051,13 +1112,15 @@ class ToomreAnalyze_2comp(object):
 
 if __name__ == '__main__':
 
+  plt.close('all')
+
   base_out = 'out_toomre/'
 
   if not os.path.isdir(base_out):
     os.mkdir(base_out)
 
   plane     = '0'
-  isnap     = 28
+  isnap     = 16
   annotate  = True
 
   clump_cut   = 0.32
