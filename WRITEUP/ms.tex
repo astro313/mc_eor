@@ -18,16 +18,18 @@
 \newcommand{\AP}[1]{({\bf \color{apcolor} AP: #1})}
 \newcommand{\DL}[1]{({\bf \color{dlcolor} DL: #1})}
 
+% it can be instead included as
+% \graphicspath{{Fig/}}
+% so that plots are automatically searched for in the given path
+\def\figpath{./Fig}
+
 \citestyle{aa}
 \shorttitle{Dynamical Properties of MC in Galaxies at the EoR
 }
 \shortauthors{Leung et al.}
 
 \begin{document}
-\title{
-Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Reionization
-}
-
+\title{Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Reionization}
 
 \author{T. K. Daisy Leung\altaffilmark{1, 2}}
 \author{Andrea Pallottini\altaffilmark{3, 4}}
@@ -45,28 +47,23 @@ Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Re
 
 
 \begin{abstract}
-We study the dynamical properties of molecular clouds complexes (MC) in a prototypical galaxy (\flower)
-and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
-We identify MCs using H$_2$ density, 
-and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$)
-with those observed in nearby and \z$\sim$\,2 galaxies.
-The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are 
-systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
-We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine 
-regions that are unstable to local axisymmetric perturbations. 
+We study the dynamical properties of molecular cloud complexes (MC) in a prototypical galaxy (\flower) and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
+%
+We identify MCs using H$_2$ density, and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$) with those observed in nearby and \z$\sim$\,2 galaxies.
+%
+The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
+%
+We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine regions that are 
+gravitationally unstable.
+%
 We further perform virial analysis, which is accessible from observations, to examine regions likely 
-to undergo collapse.
-Our analysis indicates that the MCs in the main disk of \flower are unbound, but its 
-substructures have lower virial parameters and Toomre $Q$, which is
-consistent with the notion that collapsing structures occur within globally stable structures.
-We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies,
-which we interpret as result of the weaker stellar feedback and less frequent \SF compared to \flower.
-Our results suggest that the more massive and bigger MCs compared to the Milky Way
-manifest from the higher gas mass fraction, surface density, and velocity dispersion.
+to undergo collapse. Our analysis indicates that the MCs in the main disk of \flower are unbound, but its substructures have lower virial parameters and Toomre $Q$, which is consistent with the notion that collapsing structures occur within globally stable structures.
+%
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result of the weaker stellar feedback 
+compared to \flower. Our results suggest that the more massive and bigger MCs compared to the Milky Way manifest from the 
+higher gas mass fraction, surface density, and velocity dispersion.
 % , which together sets the scale for fragmentation.
-High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the
-Next Generation Very Large Array (ngVLA)
-can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
+High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA) can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -76,23 +73,13 @@ can furnish scrutinizing data to test our findings and shed light on \SF since t
           galaxies: starburst --
           stars: formation}
 
-% it can be instead included as
-% \graphicspath{{Fig/}}
-% so that plots are automatically searched for in the given path
-\def\figpath{Fig}
-
 %--------------------------------------------------------------------------
 %                                Introduction
 %--------------------------------------------------------------------------
-\section{Introduction}\label{sec:intro}
 
-The growth of galaxies and their subsequent evolution are governed by the baryon cycle ---
-galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive blackholes)
-and subsequent feedback replenishes and enriches the circumgalactic medium with part of this material.
-The general consensus is that the growth of \highz galaxies are triggered and supported by massive
-gas inflows from mergers and/or the cosmic web at early cosmic time, when the IGM and galaxies themselves
-are more gas-rich in their star-forming molecular
-gas contents compared to present-day galaxies.
+\section{Introduction}%\label{sec:intro}
+
+The growth of galaxies and their subsequent evolution are governed by the baryon cycle --- galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive blackholes) and subsequent feedback replenishes and enriches the circumgalactic medium with part of this material. The general consensus is that the growth of \highz galaxies are triggered and supported by massive gas inflows from mergers and/or the cosmic web at early cosmic time, when the IGM and galaxies themselves are more gas-rich in their star-forming molecular gas contents compared to present-day galaxies.
 % while at a given snapshot, the gas mass fraction maybe low (esp. at high-z when
 % the gravitational potential is still increasing), but their gas reservoirs
 % are continuously being replenished.
@@ -463,13 +450,12 @@ To account for stabilizing effect of both gas and stars and the non-negligible d
 we consider the approximation for the effective two-component $Q_{\rm eff}$ parameter following \citet{Romeo11a} and
 \citet{Inoue16a} which is expressed as follows:
 \begin{equation}
-Q^{-1}_{\rm eff} = \[ \left\{
+Q^{-1}_{\rm eff} =  \left\{
 				\begin{array}{lccr}
 					     {\displaystyle\frac{w}{T_{\rm star} Q_{\rm star}} + \frac{1}{T_{\rm gas} Q_{\rm gas}}}      & & & \mbox{if\ }T_{\rm star} Q_{\rm star} \geq T_{\rm gas} Q_{\rm gas} \\ [0.75em]
                                                {\displaystyle\frac{1}{T_{\rm star} Q_{\rm star}} + \frac{w}{T_{\rm gas} Q_{\rm gas}}}      & & & \mbox{if\ }T_{\rm star} Q_{\rm star} \leq T_{\rm gas} Q_{\rm gas} \\				
 				\end{array} 
-			    \right,
-			    \]
+			    \right.
 \end{equation}
 where $w$ is defined as:
 \begin{equation}
@@ -477,14 +463,13 @@ w\equiv\frac{2 \sigma_{\rm star} \sigma_{\rm gas}}{\sigma_{\rm star}^2 + \sigma_
 \end{equation}
 and $T$ is approximated as:
 \begin{equation}
-T = \[ \left\{
+T = \left\{
 		\begin{array}{lccr}
 			{\displaystyle 0.8 + 0.7\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}      && & \mbox{if\ } \sigma_z \lesssim 0.5 \times \sigma_r \\ [1.25em]
 			{\displaystyle 1 + 0.6\left(\frac{\sigma_{z}}{\sigma_{r}}\right)}        & & & \mbox{if\ } \sigma_z \gtrsim 0.5 \times \sigma_r 
 \\
 		\end{array}
-	\right \rlap{.}
-	\]
+	\right.
 \end{equation}
 
 For the purpose of this work, we present Toomre $Q$ map in \Sec{results} and discuss the 
@@ -557,7 +542,7 @@ rest-frame {\it UV and optical light} \citep{Elmegreen07a, Elmegreen09a}.
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/minmaxNcut_basicDistributions.png}
+\includegraphics[trim=0 0 0 0, clip, width=0.7\textwidth]{\figpath/minmaxNcut_basicDistributions.png}
 \caption{
 Distributions of mass, size, and gas mass fraction of MCs identified using
 the lowest $n_{\rm cut}$ (left panels) and $n_{\rm ncut}$\eq18.96\,\cc (right panels).
@@ -680,14 +665,14 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the gas Toomre $Q$ parameter and the effective two-component $Q_{\rm eff}$ parameter along different projection angles during the accretion phase of \flower are shown in \Fig{Q} and \Fig{Qeff}, respectively (see \Fig{h2density} for examples of clumps identified 
-in this snapshot). Fragmentation are expected in regions of low Toomre Q values.
+Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in Figures~\ref{fig:Q}, \ref{fig:Qstar}, and \ref{fig:Qeff}, respectively (see \Fig{h2density} for an example of MCs identified 
+in this snapshot). Fragmentation are expected in regions of low Toomre $Q$ values.
 Further interpretation and implication of this is discussed in \Sec{origin}.
 
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/ss16_gas_toomre_proj_0}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_0_zoom_2.0_kpc}.png}
 \caption{
 Maps of the total gas surface density (top left), 
 velocity dispersion (top right),
@@ -696,36 +681,61 @@ and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
+Crosses correspond to positions of MCs identified using the lowest $n_{\rm cut}$. % using 0.32
+Positions of sub-MCs are not shown (but see top row of \Fig{Qeff} for an example). 
 \label{fig:Q}}
 \addtocounter{figure}{-1}
 \end{figure*}
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/ss16_gas_toomre_proj_1}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_1_zoom_2.0_kpc}.png}
 \caption{Continued. Maps showing the various quantities projected on the $xz$-plane.}
 \addtocounter{figure}{-1}
 \end{figure*}
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/ss16_gas_toomre_proj_2}
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{{\figpath/ss16_gas_toomre_proj_2_zoom_2.0_kpc}.png}
 \caption{Continued. Maps show the various quantities projected on the $yz$-plane.}
 \end{figure*}
+
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_star_toomre_proj_0_zoom_2.0_kpc}.png}
+\caption{
+Same as \Fig{Q} but for the stellar component, projected in the $xy$-plane.
+\label{fig:Qstar}}
+% \addtocounter{figure}{-1}
+\end{figure*}
+
 
 
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 20 30 30, clip, width=0.85\textwidth]{\figpath/}
+\includegraphics[trim=10 0 100 20, clip, width=0.35\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_0.32}.png}
+\includegraphics[trim=30 0 10 20, clip, width=0.425\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_6.81}.png}  \\
+\includegraphics[trim=10 0 0 10, clip, width=0.425\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_2.0_kpc}.png} \\
+\includegraphics[trim=30 25 30 20, clip, width=0.4\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_0.8_kpc_6.81}.png}
+\includegraphics[trim=10 0 0 0, clip, width=0.38\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_0.8_kpc}.png}
 \caption{
-Effective two-component Toomre Q map in the $xy$-plane.
+Effective two-component Toomre $Q_{\rm eff}$ (top row) 
+and gas surface density (middle) maps projected onto the $xy$-plane.
+Positions of MCs identified using the lowest $n_{\rm cut}$\eq0.32\,cm$^{-3}$ (top left; same as \Fig{Q})
+and $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (top right) are overplotted as crosses.
+Bottom row: Effective $Q_{\rm eff}$ (left) and gas surface density (right) maps zoomed in on the central 1.5\,kpc region.
+Cross markers indicate positions of MCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (same as top right).
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
+Some MCs lie in regions of $\log{Q_{\rm eff}}\gtrsim0$, whereas regions of $\log{Q_{\rm eff}}\lesssim0$ 
+are likely gravitationally unstable.
 \label{fig:Qeff}}
 % \addtocounter{figure}{-1}
 \end{figure*}
+\clearpage
 
 
 
@@ -869,7 +879,7 @@ and thus, \SF is expected to continue
 as gas from satellite galaxies is being accreted onto the main galaxies during the EoR.
 
 The apparently large virial parameters seen in the MCs of \flower can be understood using the 
-Toomre $Q$ parameter (\Fig{Q} and \Fig{Qeff}). 
+Toomre $Q$ parameter (see Figures~\ref{fig:Q}\,$-$\,\ref{fig:Qeff}). 
 We first note that fragmentation {\it can} happen in regions of low $Q$ (if we only consider 
 instability against axisymmetric perturbations), but  
 further evolution/collapse depends on the dynamics or equation of state of the gas. 
@@ -880,7 +890,8 @@ correspond to the collapsing, denser, and cooler molecular structures that are o
 Thus, the high virial parameter found 
 for most MCs in \flower, which is the ratio between the velocity dispersion (accounts for effect of pressure 
 and rotation) and surface density, indicate that most of them are not collapsing structures. 
-As such, some MCs lie in regions of $Q>1$. 
+As such, some MCs are found to lie in regions of $Q>1$. 
+% some MCs at Q < 1, some are marginally stable against m=0 mode perturb, some are Q>1.
 Only in (the denser) regions with a low Toomre $Q$ parameter and 
 when energy can be dissipated on a timescale 
 that is shorter than the timescale over which it gains energy (e.g., heating) 
@@ -897,9 +908,10 @@ Second, due to turbulence dissipation on small-scales, such (sub-)structures are
 large-scale gravitational potential and differential rotation.
 This in turn enables subregions of the MCs to collapse and potentially form OB associations out of these unbound
 MCs \citep{Clark04a, Clark05a}.
-Additional mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
-can also induce orbit crossing, shocks and dissipation in gas, further promoting turbulence dissipation
+Additionally, mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
+can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation
 and collapse on smaller scales to trigger \SF.
+
 
 %--------------------------------------------------------------------------
 %                                Conclusions
@@ -945,18 +957,20 @@ density threshold and even for the molecular substructures.
 Such a high velocity dispersion likely results from
 the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
 
-Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter.
-This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are
+Virial analysis indicates that MC/arms of the main disk of \flower are unbound, but substructures have
+lower virial parameter. Some of these sub-MCs have Toomre $Q_{\rm eff}$ parameters consistent with being 
+gravitationally unstable. This is consistent with the notion that collapsing structures resulting from
+gravitational instability occur within globally stable structures, which are
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as
-result of the weaker stellar feedback as they have
-experienced less episodes of \SF compared to \flower 
-(also supported by the lower stellar-to-gas mass ratio of the latter).
+We also find $\alpha_{\rm vir}\approx$\,2 for MCs in the satellite galaxies, which we interpret as
+result of the weaker stellar feedback compared to \flower.
 MCs in the satellites are therefore likely collapsing structures.
 
-We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, 
-at least in terms of the scaling relations examined.
-Our results are robust against the H$_2$ volume density threshold adopted (see Appendix \Sec{ncut}).
+In terms of the scaling relations examined, we do not observe any significant
+temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation.
+Similarly, we do not find any significant dependence on the H$_2$ volume density threshold adopted
+in the scaling relations examined (see Appendix \Sec{ncut}). 
+Our results are thus robust against the density threshold adopted.
 
 Determining the multi-phase ISM properties of early galaxies
 is a critical piece to understanding the evolution and
@@ -969,7 +983,7 @@ in the context of galaxy evolution and the ISM physics behind their intense star
 Cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
 statistics and is subject to the sub-grid models adopted, 
 serve as an useful avenue/tool for examining and making predictions on the morphology and dynamics of
-the multi-phase ISM of the first galaxies.
+the molecular ISM of the first galaxies.
 %Future higher resolution zoom-in simulations would certainly be useful to understand
 %the evolving dynamical properties of the lower-mass molecular structures in
 %galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
