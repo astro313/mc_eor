@@ -47,18 +47,21 @@
 
 
 \begin{abstract}
-We study the dynamical properties of molecular clouds complexes (MC) in a prototypical galaxy (\flower) and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
+We study the dynamical properties of molecular cloud complexes (MC) in a prototypical galaxy (\flower) and its satellite galaxies at the Epoch of Reionization (EoR) using cosmological zoom-in simulation.
 %
 We identify MCs using H$_2$ density, and compare their masses, sizes, velocity dispersions, gas surface densities, and virial parameters ($\alpha_{\rm vir}$) with those observed in nearby and \z$\sim$\,2 galaxies.
 %
 The MCs span a mass range of $10^{6.5-9}$\,\Msun. Their velocity dispersions and gas surface densities are systematically higher than those observed in nearby galaxies, but comparable to starburst galaxies.
 %
-We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine regions that are unstable to local axisymmetric perturbations. 
+We compute the effective two-component Toomre $Q$ parameter (gas and stars) to examine regions that are 
+gravitationally unstable.
 %
 We further perform virial analysis, which is accessible from observations, to examine regions likely 
 to undergo collapse. Our analysis indicates that the MCs in the main disk of \flower are unbound, but its substructures have lower virial parameters and Toomre $Q$, which is consistent with the notion that collapsing structures occur within globally stable structures.
 %
-We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result of the weaker stellar feedback and less frequent \SF compared to \flower. Our results suggest that the more massive and bigger MCs compared to the Milky Way manifest from the higher gas mass fraction, surface density, and velocity dispersion.
+We find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as result of the weaker stellar feedback 
+compared to \flower. Our results suggest that the more massive and bigger MCs compared to the Milky Way manifest from the 
+higher gas mass fraction, surface density, and velocity dispersion.
 % , which together sets the scale for fragmentation.
 High resolution imaging of the first galaxies with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA) can furnish scrutinizing data to test our findings and shed light on \SF since the cosmic dark ages.
 \end{abstract}
@@ -876,7 +879,7 @@ and thus, \SF is expected to continue
 as gas from satellite galaxies is being accreted onto the main galaxies during the EoR.
 
 The apparently large virial parameters seen in the MCs of \flower can be understood using the 
-Toomre $Q$ parameter (see Figures~\ref{fig:Q}\,r$-$\,\ref{fig:Qeff}). 
+Toomre $Q$ parameter (see Figures~\ref{fig:Q}\,$-$\,\ref{fig:Qeff}). 
 We first note that fragmentation {\it can} happen in regions of low $Q$ (if we only consider 
 instability against axisymmetric perturbations), but  
 further evolution/collapse depends on the dynamics or equation of state of the gas. 
@@ -887,7 +890,8 @@ correspond to the collapsing, denser, and cooler molecular structures that are o
 Thus, the high virial parameter found 
 for most MCs in \flower, which is the ratio between the velocity dispersion (accounts for effect of pressure 
 and rotation) and surface density, indicate that most of them are not collapsing structures. 
-As such, some MCs lie in regions of $Q>1$. 
+As such, some MCs are found to lie in regions of $Q>1$. 
+% some MCs at Q < 1, some are marginally stable against m=0 mode perturb, some are Q>1.
 Only in (the denser) regions with a low Toomre $Q$ parameter and 
 when energy can be dissipated on a timescale 
 that is shorter than the timescale over which it gains energy (e.g., heating) 
@@ -904,9 +908,10 @@ Second, due to turbulence dissipation on small-scales, such (sub-)structures are
 large-scale gravitational potential and differential rotation.
 This in turn enables subregions of the MCs to collapse and potentially form OB associations out of these unbound
 MCs \citep{Clark04a, Clark05a}.
-Additional mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
-can also induce orbit crossing, shocks and dissipation in gas, further promoting turbulence dissipation
+Additionally, mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential
+can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation
 and collapse on smaller scales to trigger \SF.
+
 
 %--------------------------------------------------------------------------
 %                                Conclusions
@@ -952,16 +957,20 @@ density threshold and even for the molecular substructures.
 Such a high velocity dispersion likely results from
 the strong supernova and stellar feedback \flower experienced over the multiple episodes of bursty \SF.
 
-Virial analysis indicates that the MC/arms of the main disk of \flower are unbound, but the substructures have lower virial parameter.
-This is consistent with the notion that collapsing structures result from gravitational instability within globally stable structures, which are
+Virial analysis indicates that MC/arms of the main disk of \flower are unbound, but substructures have
+lower virial parameter. Some of these sub-MCs have Toomre $Q_{\rm eff}$ parameters consistent with being 
+gravitationally unstable. This is consistent with the notion that collapsing structures resulting from
+gravitational instability occur within globally stable structures, which are
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\approx$\,2 for the MCs in the satellite galaxies, which we interpret as
-result of the weaker stellar feedback compared to \flower 
+We also find $\alpha_{\rm vir}\approx$\,2 for MCs in the satellite galaxies, which we interpret as
+result of the weaker stellar feedback compared to \flower.
 MCs in the satellites are therefore likely collapsing structures.
 
-We find no temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation, 
-at least in terms of the scaling relations examined.
-Our results are robust against the H$_2$ volume density threshold adopted (see Appendix \Sec{ncut}).
+In terms of the scaling relations examined, we do not observe any significant
+temporal variations in the MC dynamics over the course of 700\,Myr traced in our simulation.
+Similarly, we do not find any significant dependence on the H$_2$ volume density threshold adopted
+in the scaling relations examined (see Appendix \Sec{ncut}). 
+Our results are thus robust against the density threshold adopted.
 
 Determining the multi-phase ISM properties of early galaxies
 is a critical piece to understanding the evolution and
@@ -974,7 +983,7 @@ in the context of galaxy evolution and the ISM physics behind their intense star
 Cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
 statistics and is subject to the sub-grid models adopted, 
 serve as an useful avenue/tool for examining and making predictions on the morphology and dynamics of
-the multi-phase ISM of the first galaxies.
+the molecular ISM of the first galaxies.
 %Future higher resolution zoom-in simulations would certainly be useful to understand
 %the evolving dynamical properties of the lower-mass molecular structures in
 %galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
