@@ -141,15 +141,15 @@ if __name__ == '__main__':
                        ,vmin = z1, vmax = z2,
                        cmap=cmap
                       )
-        plt.ylabel("kpc", fontsize=18)
-        plt.xlabel("kpc", fontsize=18)
+        plt.ylabel("kpc", fontsize=21)
+        plt.xlabel("kpc", fontsize=21)
         plt.tick_params(which='minor', length=4)
         #
         cbar = fig.colorbar(bu)
-        cbar.set_label(r"$\log \Sigma_{\star}$" + r"[M$_{\odot}\,{\rm pc}^{-2}]$", fontsize=18)
+        cbar.set_label(r"$\log \Sigma_{\star}$" + r"[M$_{\odot}\,{\rm pc}^{-2}]$", fontsize=21)
         cbar.set_clim(z1,z2)
         plt.tight_layout()
-        plt.savefig(stardir + "star_" + str(ssnum) + '.png')
+        plt.savefig(stardir + "star_" + str(ssnum) + '.pdf')
         plt.close()
 
         # particles positions are automatically loadded in.
@@ -211,14 +211,14 @@ if __name__ == '__main__':
               bin_in_x = np.digitize(GalaxyAgeFirstStarFormationMyr, t_binned[:-1])
               y        = np.bincount(bin_in_x,weights = mass) / ( it * 1.e6)
 
-            out_name = stardir + "snapshot" + str(ssnum) + '_SFR_' + str(int(it)) + 'Myr.png'
+            out_name = stardir + "snapshot" + str(ssnum) + '_SFR_' + str(int(it)) + 'Myr.pdf'
             if verbose:
               print '  SFR averaged over',it,'Myr to'
               print '    ',name_out
             plt.figure()
             plt.plot(t_binned, y)
-            plt.ylabel("SFR " + r"[$M_{\odot}$\,yr$^{-1}$]", fontsize=18)
-            plt.xlabel("Age of Galaxy [Myr]", fontsize=18)
+            plt.ylabel("SFR " + r"[$M_{\odot}$\,yr$^{-1}$]", fontsize=21)
+            plt.xlabel("Age of Galaxy [Myr]", fontsize=21)
             plt.title(" SFR of Main Galaxy in snapshot " + str(ssnum) + " averaged over " + str(int(it)) + " Myr")
             plt.tight_layout()
             plt.savefig(out_name)
