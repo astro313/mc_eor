@@ -217,7 +217,7 @@ if __name__ == '__main__':
               print '    ',name_out
             plt.figure()
             plt.plot(t_binned, y)
-            plt.ylabel("SFR " + r"[$M_{\odot}\,yr^{-1}$]", fontsize=18)
+            plt.ylabel("SFR " + r"[$M_{\odot}$\,yr$^{-1}$]", fontsize=18)
             plt.xlabel("Age of Galaxy [Myr]", fontsize=18)
             plt.title(" SFR of Main Galaxy in snapshot " + str(ssnum) + " averaged over " + str(int(it)) + " Myr")
             plt.tight_layout()
