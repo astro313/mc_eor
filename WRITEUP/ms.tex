@@ -667,8 +667,10 @@ lines of constant surface density (i.e., Larson's third relation). This represen
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in Figures~\ref{fig:Q}, \ref{fig:Qstar}, and \ref{fig:Qeff}, respectively (see \Fig{h2density} for an example of MCs identified 
-in this snapshot). Fragmentation are expected in regions of low Toomre $Q$ values.
+Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in Figures~\ref{fig:Q}, \ref{fig:Qstar}, and \ref{fig:Qeff}, respectively. 
+Before accounting for contribution of the stellar component to the gravitational potential, 
+most MCs lie in regions of $\log{Q_{\rm gas}}\simeq$\,0 (see \Fig{Q}).
+Fragmentation are expected in regions of low Toomre $Q_{\rm eff}$ values.
 Further interpretation and implication of this is discussed in \Sec{origin}.
 
 
@@ -683,8 +685,12 @@ and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
-Crosses correspond to positions of MCs identified using the lowest $n_{\rm cut}$. % using 0.32
-Positions of sub-MCs are not shown (but see top row of \Fig{Qeff} for an example). 
+Markers in the surface density and Toomre $Q$ maps
+correspond to the mass-weighted positions of MCs identified using the lowest $n_{\rm cut}$. % using 0.32
+Positions of sub-MCs identified using lower $n_{\rm cut}$ are not shown (but see top row of \Fig{Qeff} for an example). 
+Before accounting for contribution of the stellar component to the 
+gravitational potential, we find that most MCs lie in regions of 
+$\log{Q_{\rm gas}}\simeq$\,0. 
 \label{fig:Q}}
 \addtocounter{figure}{-1}
 \end{figure*}
@@ -719,16 +725,17 @@ Same as \Fig{Q} but for the stellar component, projected in the $xy$-plane.
 \centering
 \includegraphics[trim=10 0 100 20, clip, width=0.35\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_0.32}.png}
 \includegraphics[trim=30 0 10 20, clip, width=0.425\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_6.81}.png}  \\
+\includegraphics[trim=10 0 0 10, clip, width=0.4\textwidth]{\figpath/{ss16_star_SD_proj_0_zoom_2.0_kpc}.png}  
 \includegraphics[trim=10 0 0 10, clip, width=0.425\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_2.0_kpc}.png} \\
-\includegraphics[trim=30 25 30 20, clip, width=0.4\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_0.8_kpc_6.81}.png}
+\includegraphics[trim=30 25 30 20, clip, width=0.38\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_0.8_kpc_6.81}.png} 
 \includegraphics[trim=10 0 0 0, clip, width=0.38\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_0.8_kpc}.png}
 \caption{
 Effective two-component Toomre $Q_{\rm eff}$ (top row) 
 and gas surface density (middle) maps projected onto the $xy$-plane.
 Positions of MCs identified using the lowest $n_{\rm cut}$\eq0.32\,cm$^{-3}$ (top left; same as \Fig{Q})
-and $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (top right) are overplotted as crosses.
-Bottom row: Effective $Q_{\rm eff}$ (left) and gas surface density (right) maps zoomed in on the central 1.5\,kpc region.
-Cross markers indicate positions of MCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (same as top right).
+and $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (top right) are overplotted as star markers.
+Bottom row: Zoom-in view of the effective $Q_{\rm eff}$ (left) and gas surface density (right) maps.
+Markers in the bottom left Toomre $Q$ map correspond to positions of MCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (same as top right).
 Modest smoothing has been applied to the maps. 
 A divergent colormap is used for the Toomre $Q$ map to facilitate 
 identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
