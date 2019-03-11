@@ -55,7 +55,12 @@ n_cell_min = 10
 largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 
-test =  not os.path.isfile('snapshot28_center_stars_resampled.h5')
+istart = 16
+iend = 17
+
+
+isnap = str(istart)
+test =  not os.path.isfile('snapshot'+isnap+'_center_stars_resampled.h5')
 read_proper_unit = True
 
 if read_proper_unit:
@@ -81,9 +86,7 @@ debug = True
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
 
-# for snapshotnum in range(16, 29):
-#for snapshotnum in range(16, 17):
-for snapshotnum in range(28,29):
+for snapshotnum in range(istart, iend):
 
     if read_proper_unit:
         regionsize_kpc = cameraDat[str(snapshotnum)]['size_kpc']
