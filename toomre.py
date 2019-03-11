@@ -50,9 +50,9 @@ class ToomreAnalyze(object):
     self.field_type = field_type
     #
     if self.field_type == 'gas':
-      self.c_clump  = 'orange'
+      self.c_clump  = 'darkgoldenrod'
     elif self.field_type == 'star':
-      self.c_clump = 'green'
+      self.c_clump = '#bcbd22'    # https://matplotlib.org/users/dflt_style_changes.html
     #
     self.smooth_size = 0.                  # size for smoothing image in code units
     self.smooth_kpc  = smooth_size_kpc     # size for smoothing image in kpc
@@ -78,7 +78,7 @@ class ToomreAnalyze(object):
     self.f_camera = self.cameraFolder + 'camera_settings.log'
 
     # project velocity by mass-weighting, project surface density
-    # axis : corresponding to the axis to slice along
+    # axis : corresponding to the axis to slice along'none'
 
     self.axes = {'0': 'x', '1': 'y', '2': 'z'}
     self.vel = {}
@@ -683,6 +683,26 @@ class ToomreAnalyze(object):
               cmap=cmap)
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
+
+    if annotate_clump:
+      _, clx, cly, clz = np.loadtxt(clump_list_filename, unpack=True)
+      # pos2 = pos * self.factor_R
+
+      if self.plane == '0':
+        plt.plot(clz, cly, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.15,
+                  linewidth=1.8)
+      elif self.plane == '1':
+        plt.plot(clz, clx, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.15,
+                  linewidth=1.8)
+      elif self.plane == '2':
+        plt.plot(cly, clx, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.15,
+                  linewidth=1.8)
     ax.set_xlim(x1,x2)
     ax.set_ylim(y1,y2)
 
@@ -730,13 +750,19 @@ class ToomreAnalyze(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(clz, cly, 'x', markersize=15, color=self.c_clump,
+        plt.plot(clz, cly, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.65,
                   linewidth=1.8)
       elif self.plane == '1':
-        plt.plot(clz, clx, 'x', markersize=15, color=self.c_clump,
+        plt.plot(clz, clx, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.65,
                   linewidth=1.8)
       elif self.plane == '2':
-        plt.plot(cly, clx, 'x', markersize=15, color=self.c_clump,
+        plt.plot(cly, clx, '*', markersize=15, markerfacecolor='none',
+                   markeredgecolor=self.c_clump, fillstyle='none',
+                   markeredgewidth=1.65,
                   linewidth=1.8)
 
     ax.set_xlim(x1,x2)
@@ -1057,13 +1083,19 @@ class ToomreAnalyze_2comp(object):
       # pos2 = pos * self.factor_R
 
       if self.plane == '0':
-        plt.plot(clz, cly, 'x', markersize=15, color=self.c_clump,
+        plt.plot(clz, cly, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.c_clump, fillstyle='none',
+                 markeredgewidth=1.65,
                  linewidth=1.8)
       elif self.plane == '1':
-        plt.plot(clz, clx, 'x', markersize=15, color=self.c_clump,
+        plt.plot(clz, clx, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.c_clump, fillstyle='none',
+                 markeredgewidth=1.65,
                  linewidth=1.8)
       elif self.plane == '2':
-        plt.plot(cly, clx, 'x', markersize=15, color=self.c_clump,
+        plt.plot(cly, clx, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.c_clump, fillstyle='none',
+                 markeredgewidth=1.65,
                  linewidth=1.8)
 
     cbar = plt.colorbar(im, extend='both',    # arrows in both direction
@@ -1123,13 +1155,14 @@ if __name__ == '__main__':
   isnap     = 16
   annotate  = True
 
-  clump_cut   = 0.32
+  clump_cut   = 6.81
   smooth_kpc  = 0.3
 
   min_mass  = 1.e+1 # used to clip 0 in the stellar mass field
   size_kpc  = 2.0
 
-  testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
+  #testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
+  testfile  = 'ss'+str(isnap)+'_h2density_wgclumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
   fold_out  = base_out+'snap_'+str(isnap)+'/'
 
 
@@ -1142,7 +1175,8 @@ if __name__ == '__main__':
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
                            ,annotate_clump=annotate,clump_list_filename=testfile
                            )
-  #Q_gas_obj.plot_all_quant_zoom(1.0, annotate_clump=annotate,clump_list_filename=testfile)
+  Q_gas_obj.plot_all_quant_zoom(0.8, annotate_clump=annotate,clump_list_filename=testfile)
+  Q_gas_obj.plot_single_SD(central_kpc_one_side=0.8)
 
   Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',field_type='star', plane=plane
                        ,smooth_size_kpc=smooth_kpc,min_wg = min_mass
@@ -1152,11 +1186,16 @@ if __name__ == '__main__':
   Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
                              ,annotate_clump=annotate,clump_list_filename=testfile
                              )
+  Q_star_obj.plot_single_SD(central_kpc_one_side=0.8)
 
   Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj,fold_out = fold_out, smooth_size =Q_gas_obj.smooth_size )
   Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc
-                           ,annotate_clump=annotate,clump_list_filename=testfile
+                           ,annotate_clump=annotate,
+                           clump_list_filename=testfile
                            )
+  Q_tot_obj.plot_Q_eff_zoom(central_kpc_one_side=0.8,
+                            annotate_clump=annotate,
+                            clump_list_filename=testfile)
 
 
 

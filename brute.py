@@ -74,6 +74,10 @@ if read_proper_unit:
 else:
     pass
 
+# I have some problem in printing the file (non unicode character somewhere)
+debug = True
+
+
 # because of the stupid yt bug, we will loop through the cuts and run
 # clumpfinder one level at a time...
 
@@ -118,8 +122,9 @@ for snapshotnum in range(28,29):
 
         from plot_modules.dual_view_plotter import plot_face_edge
 
-        # plot face on and edgeon view of the galaxy and overplot clumps
-        __ppj, __paxes = plot_face_edge(isnap=snapshotnum,
+        if not debug:
+          # plot face on and edgeon view of the galaxy and overplot clumps
+          __ppj, __paxes = plot_face_edge(isnap=snapshotnum,
                                               data=data, ds=ds, dd=dd,
                                               leaf_clumps=leaf_clumps,
                                               incut=incut,
@@ -149,30 +154,39 @@ for snapshotnum in range(28,29):
                   '_clumppos_ncut_' + '{:.2f}'.format(incut) + \
                   '_Ncellmin_' + str(int(n_cell_min)) + '.txt'
         X = []
+        Y = []
 
-        head = 'Coordinates of clumps\nClumpID x, y, z'
+        nn = int(len(dd['x'])**(1./3.)) + 1
+        x_mat = np.copy(dd['x'].convert_to_units('kpc').value).reshape((nn,nn,nn))
+        y_mat = np.copy(dd['y'].convert_to_units('kpc').value).reshape((nn,nn,nn))
+        z_mat = np.copy(dd['z'].convert_to_units('kpc').value).reshape((nn,nn,nn))
+        wg_mat= np.copy(dd['density'].convert_to_units('g/cm**3').value).reshape((nn,nn,nn))
+
+        head  = 'Coordinates of clumps\nClumpID x, y, z [kpc]'
+        head2 = 'Weighted coordinates of clumps\nClumpID x, y, z [kpc]'
         for ileaf in id_sorted:
+            # unweighted center
             _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
-            # ids = leaf_clumps[ileaf].data.icoords
-            # ix  = ids[:,0]
-            # iy  = ids[:,1]
-            # iz  = ids[:,2]
-            # _fc_new = np.array([0,0,0])
-            # blahx = dd['x'].reshape((224, 224, 224))
-            # blahy = dd['y'].reshape((224, 224, 224))
-            # blahz = dd['z'].reshape((224, 224, 224))
-            # _fc_new[0] = np.mean( blahx[ix,iy,iz].convert_to_units('kpc') )
-            # _fc_new[1] = np.mean( blahy[ix,iy,iz].convert_to_units('kpc') )
-            # _fc_new[2] = np.mean( blahz[ix,iy,iz].convert_to_units('kpc') )
+            # weighted center
+            ids = leaf_clumps[ileaf].data.icoords
+            ix,iy,iz  = ids[:,0], ids[:,1], ids[:,2]
+            _fc_wg    = np.array([0.,0.,.0])
+            _fc_wg[0] = np.sum(wg_mat[ix,iy,iz]*x_mat[ix,iy,iz])/np.sum(wg_mat[ix,iy,iz])
+            _fc_wg[1] = np.sum(wg_mat[ix,iy,iz]*y_mat[ix,iy,iz])/np.sum(wg_mat[ix,iy,iz])
+            _fc_wg[2] = np.sum(wg_mat[ix,iy,iz]*z_mat[ix,iy,iz])/np.sum(wg_mat[ix,iy,iz])
 
-            print _fc
-            print _fc.convert_to_units('kpc')
-            # import pdb; pdb.set_trace()
+            if debug:
+              print ileaf
+              print '  c_wg',_fc_wg
+              print '  c   ',_fc
+              print '  wg r',np.max(wg_mat[ix,iy,iz]),np.min(wg_mat[ix,iy,iz])
 
             X.append([ileaf, _fc[0], _fc[1], _fc[2]])
+            Y.append([ileaf, _fc_wg[0], _fc_wg[1], _fc_wg[2]])
         print 'save to'
         print '  ',outname
         np.savetxt(outname, X, fmt='%d %.5f %.5f %.5f', header=head)
+        np.savetxt(outname.replace('_clumppos_','_wgclumppos_'), Y, fmt='%d %.5f %.5f %.5f', header=head2)
 
         # for ileaf in id_sorted:
         #     _fc = np.mean(leaf_clumps[ileaf].data.fcoords[:], axis=0)
