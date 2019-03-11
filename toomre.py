@@ -247,12 +247,16 @@ class ToomreAnalyze(object):
           self.center_plane[kk] = [self.center[1], self.center[2]]
 
   def set_smooth_size(self):
-    dx = self.coords_plane[0].max() - self.coords_plane[0].min()
-    dy = self.coords_plane[1].max() - self.coords_plane[1].min()
+
+    # get spacing in x and y direction in kpc
+    nx = np.shape(self.coords_plane[0])[0]
+    ny = np.shape(self.coords_plane[1])[1]
+    dx = (self.coords_plane[0].max() - self.coords_plane[0].min())/nx
+    dy = (self.coords_plane[1].max() - self.coords_plane[1].min())/ny
     dx = (dx.convert_to_units('kpc')).value
     dy = (dy.convert_to_units('kpc')).value
-
-    self.smooth_size = self.smooth_kpc/np.sqrt(dx * dy)
+    # set smoothing radius
+    self.smooth_size = 0.5*self.smooth_kpc/np.sqrt(dx * dy)
 
   def project_onto_plane(self):
 
@@ -1124,7 +1128,7 @@ if __name__ == '__main__':
   annotate  = True
 
   clump_cut   = 0.32
-  smooth_kpc  = 0.3
+  smooth_kpc  = 0.1
 
   min_mass  = 1.e+1 # used to clip 0 in the stellar mass field
   size_kpc  = 2.0
