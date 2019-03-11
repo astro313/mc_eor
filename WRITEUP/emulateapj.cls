@@ -449,8 +449,8 @@
    \expandafter{\@tempb}%
   }{%
     \def\@thefnmark{\relax}
-%     \frontmatter@footnotetext{#1}  % default
-    \frontmatter{#1} % DL
+     \frontmatter@footnotetext{#1}  % default ; AP: sorry DL, but it seems that overleaf does not like your substitution
+%    \frontmatter{#1} % DL
   }%
  \endgroup
 }%
