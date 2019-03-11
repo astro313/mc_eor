@@ -22,7 +22,8 @@ import numpy as np
 import os
 from pymses.analysis.visualization import *
 from plot_modules.plot_cloud_prop import setup_plot
-
+from matplotlib import cm
+cmap     = cm.get_cmap('magma')
 
 
 if __name__ == '__main__':
@@ -137,13 +138,15 @@ if __name__ == '__main__':
 
         size_region_kpc = camera_in['region_size'][0] * ro.info['unit_length'].express(C.kpc)
         bu = ax.imshow(np.log10(mapp),extent = [-size_region_kpc/2,size_region_kpc/2,-size_region_kpc/2,+size_region_kpc/2]
-                       ,vmin = z1, vmax = z2
+                       ,vmin = z1, vmax = z2,
+                       cmap=cmap
                       )
-        plt.ylabel("kpc")
-        plt.xlabel("kpc")
+        plt.ylabel("kpc", fontsize=18)
+        plt.xlabel("kpc", fontsize=18)
+        plt.tick_params(which='minor', length=4)
         #
         cbar = fig.colorbar(bu)
-        cbar.set_label(r"$\log \Sigma_{\star}$" + r"[M$_{\odot}\,{\rm pc}^{-2}]$")
+        cbar.set_label(r"$\log \Sigma_{\star}$" + r"[M$_{\odot}\,{\rm pc}^{-2}]$", fontsize=18)
         cbar.set_clim(z1,z2)
         plt.tight_layout()
         plt.savefig(stardir + "star_" + str(ssnum) + '.png')
@@ -214,8 +217,8 @@ if __name__ == '__main__':
               print '    ',name_out
             plt.figure()
             plt.plot(t_binned, y)
-            plt.ylabel("dM/dt [Msun/yr]")
-            plt.xlabel("Age of Galaxy [Myr]")
+            plt.ylabel("SFR " + r"[$M_{\odot}\,yr^{-1}$]", fontsize=18)
+            plt.xlabel("Age of Galaxy [Myr]", fontsize=18)
             plt.title(" SFR of Main Galaxy in snapshot " + str(ssnum) + " averaged over " + str(int(it)) + " Myr")
             plt.tight_layout()
             plt.savefig(out_name)
