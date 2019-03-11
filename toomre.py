@@ -1224,10 +1224,12 @@ class ToomreAnalyze_2comp(object):
     x1, x2      = xruler[leftBound],  xruler[rightBound]
     y1, y2      = yruler[bottomBound],yruler[topBound]
 
-    fig = plt.figure(figsize=(9, 8))
-    fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
 
     if type_plots in ['2by2','3by2']:
+
+      fig = plt.figure(figsize=(9, 8))
+      fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+
       list_maps    = [
                       np.log10(self.Q_gas.SD / self.Q_gas.cm2pc**2 * self.Q_gas.g2Msun)
                      ,np.log10(self.Q_star.SD / self.Q_star.cm2pc**2 * self.Q_star.g2Msun)
@@ -1237,16 +1239,25 @@ class ToomreAnalyze_2comp(object):
       list_plt_ids = [221,222,223,224]
       list_types   = ['Sigma','Sigma','sigma','sigma']
       list_labels  = [
-                      r"$\log{\Sigma_g}$ [M$_{\odot}$~pc$^{-2}$]"
+                      r"$\log{\Sigma_{\rm gas}}$ [M$_{\odot}$~pc$^{-2}$]"
                      ,r"$\log{\Sigma_\star}$ [M$_{\odot}$~pc$^{-2}$]"
-                     ,r"$\log{\sigma_g}$ [${\rm km}\,{\rm s}^{-1}$]"
+                     ,r"$\log{\sigma_{\rm gas}}$ [${\rm km}\,{\rm s}^{-1}$]"
                      ,r"$\log{\sigma_\star}$ [${\rm km}\,{\rm s}^{-1}$]"
                      ]
-    if type_plots == '3by2':
-      list_plt_ids = [321,322,323,324,325,326]
-      list_types   = list_types + ['Q','Q']
-      list_maps    = list_maps  + [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q)] 
-      list_labels  = list_labels+ [r'$\log Q_{gas}$','$\log Q_{\star}$']
+      if type_plots == '3by2':
+        list_plt_ids = [321,322,323,324,325,326]
+        list_types   = list_types + ['Q','Q']
+        list_maps    = list_maps  + [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q)] 
+        list_labels  = list_labels+ [r'$\log Q_{\rm gas}$','$\log Q_{\star}$']
+    elif type_plots == '3by1':
+
+      fig = plt.figure(figsize=(9, 3))
+      fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+
+      list_plt_ids = [131,132,133]
+      list_types   = ['Q','Q','Q']
+      list_maps    = [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q),np.log10(self.Q_twoComp)] 
+      list_labels  = [r'$\log Q_{\rm gas}$','$\log Q_{\star}$',r'$\log Q_{\rm eff}$']
 
     for mappa, label, tipo, plt_id in zip(list_maps,list_labels,list_types,list_plt_ids):
 
@@ -1344,7 +1355,7 @@ if __name__ == '__main__':
                            clump_list_filename=testfile
                            )
 
-  for type_plots in ['2by2', '3by2']:
+  for type_plots in ['2by2', '3by2', '3by1']:
     Q_tot_obj.plots_combined(
                             central_kpc_one_side = size_kpc
                             ,annotate_clump=annotate
