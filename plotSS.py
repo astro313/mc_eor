@@ -163,7 +163,7 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     fig.subplots_adjust(hspace=0.45)
     plt.tick_params(which='minor', length=4)
 
-    plt.savefig(plotdir + 'minmaxNcut_basicDistributions.png', \
+    plt.savefig(plotdir + 'minmaxNcut_basicDistributions.pdf', \
                 bbox_inches='tight')
     plt.close()
 
@@ -259,12 +259,12 @@ if __name__ == '__main__':
     #         count += 1
     # print count
 
-    # plotting_procedure(16, 28, pattern="0.32")
-    # plotting_procedure(16, 28, pattern="0.53")
-    # plotting_procedure(16, 28, pattern="0.88")
-    # plotting_procedure(16, 28, pattern="1.47")
-    # plotting_procedure(16, 28, pattern="2.45")
-    # plotting_procedure(16, 28, pattern="4.08")
-    # plotting_procedure(16, 28, pattern="6.81")
-    # plotting_procedure(16, 28, pattern="11.36")
-    # plotting_procedure(16, 28, pattern="18.96")
+    plotting_procedure(16, 28, pattern="0.32")
+    plotting_procedure(16, 28, pattern="0.53")
+    plotting_procedure(16, 28, pattern="0.88")
+    plotting_procedure(16, 28, pattern="1.47")
+    plotting_procedure(16, 28, pattern="2.45")
+    plotting_procedure(16, 28, pattern="4.08")
+    plotting_procedure(16, 28, pattern="6.81")
+    plotting_procedure(16, 28, pattern="11.36")
+    plotting_procedure(16, 28, pattern="18.96")
