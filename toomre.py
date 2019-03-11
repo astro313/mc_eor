@@ -18,7 +18,8 @@ from scipy.ndimage.filters import gaussian_filter
 import os,sys
 
 from matplotlib import cm
-cmap     = cm.get_cmap('viridis')      # 'magma'
+cmap     = cm.get_cmap('viridis')
+cmap2    = cm.get_cmap('magma')
 cmap_div = cm.get_cmap('RdBu')         # divergent cmap
 
 from pymses.utils import constants as C_py
@@ -34,7 +35,7 @@ class ToomreAnalyze(object):
      http://adsabs.harvard.edu/abs/2016MNRAS.456.2052I
 
   """
-  def __init__(self, isnap, wg_var, field_type, plane, smooth_size_kpc=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False, min_wg = 'min', fold_out = ''):
+  def __init__(self, isnap, wg_var, field_type, plane, smooth_size_kpc=0.1, read_proper_unit=True, verbose=True, debug=False, convertPart=True, megaverbose = False, min_wg = 'min', fold_out = '' , show = False):
 
     self.isnap = isnap
     self.read_proper_unit = read_proper_unit
@@ -44,6 +45,7 @@ class ToomreAnalyze(object):
     #
     self.debug = debug
     self.verbose = verbose
+    self.show    = show
     self.megaverbose = megaverbose
     self.convertPart = convertPart
     self.plane = plane
@@ -284,7 +286,8 @@ class ToomreAnalyze(object):
     plt.title(r'$\Sigma$')
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\Sigma$ [cgs]", fontsize=16)
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
 
   def plot_veldisp_vert(self):
@@ -295,8 +298,8 @@ class ToomreAnalyze(object):
     plt.title('vdisp vertical')
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\sigma_z$ [km s$^{-1}$]", fontsize=16)
-    plt.show(block=False)
-
+    if self.show:
+      plt.show(block=False)
 
   def calc_radial_veldisp(self):
     """ calculate velocity dispersion along radial direction """
@@ -333,7 +336,8 @@ class ToomreAnalyze(object):
       plt.imshow(np.log10(self.sigma_r), cmap=cmap, origin='lower')
     plt.title(r'$\sigma_r$ weighted by '+self.wg_var)
     plt.colorbar()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
 
   def plot_cs_eff_plane(self):
@@ -341,7 +345,8 @@ class ToomreAnalyze(object):
     plt.imshow(self.c_s_eff_plane.value, cmap=cmap, origin='lower')
     plt.title(r'$c_{s, {\rm eff}}$ weighted by '+self.wg_var)
     plt.colorbar()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
     if self.verbose:
       print r'max/min $c_s$ in km/s (from velocity)', np.max(self.c_s_eff_plane), np.min(self.c_s_eff_plane)
 
@@ -370,7 +375,8 @@ class ToomreAnalyze(object):
       ax = plt.subplot(122)
       ax = plt.subplot(133)
       ax.imshow(_sigma_r, cmap=cmap, origin='lower')
-      plt.show(block=False)
+      if self.show:
+        plt.show(block=False)
 
     self.sigma_r = _sigma_r
 
@@ -415,7 +421,8 @@ class ToomreAnalyze(object):
       ax.imshow(self.v_phi, cmap=cmap, origin='lower')
       ax = plt.subplot(122)
       ax.imshow(_v_phi, cmap=cmap, origin='lower')
-      plt.show(block=False)
+      if self.show:
+        plt.show(block=False)
 
     self.v_phi = _v_phi
 
@@ -428,7 +435,8 @@ class ToomreAnalyze(object):
       plt.imshow(np.log10(self.v_phi), cmap=cmap, origin='lower')
     plt.colorbar()
     plt.title('vphi')
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
 
   def smooth_SD(self, plot=True):
@@ -443,7 +451,8 @@ class ToomreAnalyze(object):
       ax.imshow(np.log10(self.SD), cmap=cmap, origin='lower')
       ax = plt.subplot(132)
       ax.imshow(np.log10(_SD), cmap=cmap, origin='lower')
-      plt.show(block=False)
+      if self.show:
+        plt.show(block=False)
     self.SD = _SD
 
 
@@ -477,8 +486,8 @@ class ToomreAnalyze(object):
     plt.figure()
     plt.imshow(self.omega_measured)
     plt.colorbar()
-    plt.show(block=False)
-
+    if self.show:
+      plt.show(block=False)
 
   def calc_kappa(self, radial_nbins):
 
@@ -555,7 +564,8 @@ class ToomreAnalyze(object):
       ax.imshow(np.log10(self.kappa), cmap=cmap, origin='lower')
       ax = plt.subplot(132)
       ax.imshow(np.log10(_kappa), cmap=cmap, origin='lower')
-      plt.show(block=False)
+      if self.show:
+        plt.show(block=False)
     self.kappa = _kappa
 
 
@@ -563,8 +573,8 @@ class ToomreAnalyze(object):
     plt.figure()
     plt.imshow(np.log10(self.kappa), cmap=cmap, origin='lower')
     plt.colorbar()
-    plt.show(block=False)
-
+    if self.show:
+      plt.show(block=False)
 
   def calc_Q(self):
     # calculate Q_gas
@@ -603,7 +613,8 @@ class ToomreAnalyze(object):
     plt.title('Log Q without blanking for field: {:s}'.format(self.field_type))
     cbar = plt.colorbar()
     cbar.set_label(r"$\log{Q}$", fontsize=16)
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
 
   def plot_all_quant(self):
@@ -622,7 +633,8 @@ class ToomreAnalyze(object):
     im = ax.imshow(self.sigma_r, origin='lower', extent=(self._xmin, self._xmax, self._ymin, self._ymax), cmap=cmap)
     cbar = plt.colorbar(im)
     cbar.set_label(r"$\sigma$ [km\,s$^{-1}$]", fontsize=16)
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
     ax = plt.subplot(223)
     im = ax.imshow(np.log10(self.kappa * 3.086e+16), origin='lower', extent=(self._xmin, self._xmax, self._ymin, self._ymax), cmap=cmap)
@@ -645,7 +657,8 @@ class ToomreAnalyze(object):
     cbar.set_label(r"$\log{Q}$", fontsize=16)
 
     # plt.tight_layout()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
 
 
   def plot_all_quant_zoom(self, central_kpc_one_side=None, annotate_clump=True,
@@ -778,7 +791,8 @@ class ToomreAnalyze(object):
     cbar.set_label(r"$\log{Q}$", fontsize=16)
 
     plt.tight_layout()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_toomre_proj_' + self.plane +\
             '_zoom_'+str(central_kpc_one_side)+'_kpc'+\
             '.png'
@@ -786,6 +800,7 @@ class ToomreAnalyze(object):
       print 'save to'
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f)
+    plt.clf()
 
 
   def plot_single_SD(self, central_kpc_one_side=None):
@@ -825,7 +840,8 @@ class ToomreAnalyze(object):
     cbar.set_label(r"$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]", fontsize=16)
 
     plt.tight_layout()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_' + self.field_type + '_SD_proj_' + \
             self.plane + '_zoom_' + str(central_kpc_one_side) + '_kpc' + '.png'
 
@@ -833,6 +849,7 @@ class ToomreAnalyze(object):
       print 'save to'
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f, bbox_inches='tight')
+    plt.clf()
 
 
   def run(self, radial_nbins=None, central_kpc_one_side=None,
@@ -914,8 +931,7 @@ class ToomreAnalyze_2comp(object):
     self.debug       = Q_gas.debug or Q_star.debug
     self.verbose     = Q_gas.verbose or Q_star.verbose
     self.megaverbose = Q_gas.megaverbose or Q_star.megaverbose
-    self.Q_star_val = Q_star.Q
-    self.Q_gas_val = Q_gas.Q
+    self.show        = Q_gas.show or Q_star.show
 
     self.Q_gas       = Q_gas
     self.Q_star      = Q_star
@@ -973,8 +989,8 @@ class ToomreAnalyze_2comp(object):
     w[mask] = up[mask]/low[mask]
 
     # get thick Q parameters
-    Q_thick_star = self.Q_star_val * self.T_s
-    Q_thick_gas  = self.Q_gas_val * self.T_g
+    Q_thick_star = self.Q_star.Q * self.T_s
+    Q_thick_gas  = self.Q_gas.Q  * self.T_g
 
     # regularize
     Q_thick_star[np.isnan(Q_thick_star)] = 0
@@ -1045,21 +1061,20 @@ class ToomreAnalyze_2comp(object):
     plt.ylabel('kpc', fontsize=16)
 
     plt.tight_layout()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + '.png'
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f, bbox_inches='tight')
+    plt.clf()
 
 
-  def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
+  def get_bound_zoom(self,central_kpc_one_side = None):
 
-    if not central_kpc_one_side:
+    if central_kpc_one_side is None:
       central_kpc_one_side = 1.5
-
-    if annotate_clump:
-      assert clump_list_filename is not None
 
     xspacing = (self.Q_gas._xmax - self.Q_gas._xmin)/len(self.Q_twoComp)
     xruler = np.arange(self.Q_gas._xmin, self.Q_gas._xmax, xspacing)
@@ -1070,6 +1085,15 @@ class ToomreAnalyze_2comp(object):
     yruler = np.arange(self.Q_gas._ymin, self.Q_gas._ymax, yspacing)
     topBound = np.argmin(abs(yruler - central_kpc_one_side))
     bottomBound = np.argmin(abs(yruler + central_kpc_one_side))
+
+    return bottomBound, topBound, leftBound,rightBound,xruler,yruler 
+
+  def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
+
+    if annotate_clump:
+      assert clump_list_filename is not None
+
+    bottomBound, topBound, leftBound,rightBound,xruler,yruler = self.get_bound_zoom(central_kpc_one_side= central_kpc_one_side)
 
     plt.figure()
     # fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
@@ -1112,13 +1136,15 @@ class ToomreAnalyze_2comp(object):
     plt.ylabel('kpc', fontsize=16)
 
     plt.tight_layout()
-    plt.show(block=False)
+    if self.show:
+      plt.show(block=False)
     out_f = 'ss' + str(self.isnap) + '_toomreEff_proj_' + self.plane + \
             '_zoom_'+ str(central_kpc_one_side) + '_kpc.png'
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
     plt.savefig(self.fold_out+out_f, bbox_inches='tight')
+    plt.clf()
 
   def smooth_maps(self):
 
@@ -1132,6 +1158,126 @@ class ToomreAnalyze_2comp(object):
 
     tmp = gaussian_filter(self.Q_star.veldisp_vertical_plane.convert_to_units('km/s').value,self.smooth_size)
     self.Q_star.veldisp_vertical_plane = YTArray(tmp, 'km/s')
+
+  def wrapper_plot(self,ax= None
+                  ,mappa= None, label= '', tipo= ''
+                  ,bottomBound=0, topBound=-1, leftBound=0,rightBound=-1
+                  ,xruler= None,yruler= None 
+                  ):
+
+
+    cmap_plt = cmap
+    vmin_plt = None
+    vmax_plt = None
+
+    if tipo == 'Q':
+      cmap_plt=cmap_div
+      vmin_plt=-1
+      vmax_plt =1
+    elif tipo == 'Sigma':
+      cmap_plt = cmap2
+
+    im = ax.imshow(mappa[bottomBound: topBound, leftBound:rightBound],
+              origin='lower',
+              extent=(xruler[leftBound],xruler[rightBound],yruler[bottomBound],yruler[topBound]),
+              cmap=cmap_plt, vmin= vmin_plt,vmax=vmax_plt)
+    if tipo == 'Q':
+      cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                         ticks=[-1, 0, 1]
+                        )
+      cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
+
+    else:
+      cbar = plt.colorbar(im)
+    cbar.set_label(label, fontsize=16)
+
+    return ax,cbar
+
+  def wrapper_annotate_clumps(self, ax= None, clump_list_filename= None):
+
+    __, clx, cly, clz = np.loadtxt(clump_list_filename, unpack=True)
+    # pos2 = pos * self.factor_R
+    if self.plane == '0':
+      ax.plot(clz, cly, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.Q_gas.c_clump, fillstyle='none',
+                 markeredgewidth=1.15,
+                linewidth=1.8)
+    elif self.plane == '1':
+      ax.plot(clz, clx, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.Q_gas.c_clump, fillstyle='none',
+                 markeredgewidth=1.15,
+                linewidth=1.8)
+    elif self.plane == '2':
+      ax.plot(cly, clx, '*', markersize=15, markerfacecolor='none',
+                 markeredgecolor=self.Q_gas.c_clump, fillstyle='none',
+                 markeredgewidth=1.15,
+                linewidth=1.8)
+    return ax
+
+  def plots_combined(self,central_kpc_one_side = 1.5, annotate_clump = False, clump_list_filename = None,
+                     type_plots = '2by2'):
+
+    if not central_kpc_one_side:
+      central_kpc_one_side = 1.5
+
+    bottomBound, topBound, leftBound,rightBound,xruler,yruler = self.get_bound_zoom(central_kpc_one_side= central_kpc_one_side)
+    x1, x2      = xruler[leftBound],  xruler[rightBound]
+    y1, y2      = yruler[bottomBound],yruler[topBound]
+
+    fig = plt.figure(figsize=(9, 8))
+    fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+
+    if type_plots in ['2by2','3by2']:
+      list_maps    = [
+                      np.log10(self.Q_gas.SD / self.Q_gas.cm2pc**2 * self.Q_gas.g2Msun)
+                     ,np.log10(self.Q_star.SD / self.Q_star.cm2pc**2 * self.Q_star.g2Msun)
+                     ,np.log10(self.Q_gas.sigma_r)   
+                     ,np.log10(self.Q_star.sigma_r)   
+                     ]
+      list_plt_ids = [221,222,223,224]
+      list_types   = ['Sigma','Sigma','sigma','sigma']
+      list_labels  = [
+                      r"$\log{\Sigma_g}$ [M$_{\odot}$~pc$^{-2}$]"
+                     ,r"$\log{\Sigma_\star}$ [M$_{\odot}$~pc$^{-2}$]"
+                     ,r"$\log{\sigma_g}$ [${\rm km}\,{\rm s}^{-1}$]"
+                     ,r"$\log{\sigma_\star}$ [${\rm km}\,{\rm s}^{-1}$]"
+                     ]
+    if type_plots == '3by2':
+      list_plt_ids = [321,322,323,324,325,326]
+      list_types   = list_types + ['Q','Q']
+      list_maps    = list_maps  + [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q)] 
+      list_labels  = list_labels+ [r'$\log Q_{gas}$','$\log Q_{\star}$']
+
+    for mappa, label, tipo, plt_id in zip(list_maps,list_labels,list_types,list_plt_ids):
+
+      ax     = plt.subplot(plt_id)
+      ax, cb = self.wrapper_plot(ax=ax,mappa = mappa,label = label,tipo  = tipo
+                           ,bottomBound=bottomBound, topBound=topBound, leftBound= leftBound,rightBound = rightBound
+                           ,xruler = xruler , yruler = yruler 
+                           )
+      if annotate_clump:
+        assert clump_list_filename is not None
+        ax= self.wrapper_annotate_clumps(ax=ax, clump_list_filename=clump_list_filename)
+      ax.set_xlim(x1,x2)
+      ax.set_ylim(y1,y2)
+
+    '''
+    np.log10(self.Q_gas.kappa * 3.086e+16)
+    r"$\log{\kappa}$ [km\,s$^{-1}$\,kpc$^{-1}$]"
+    self.Q_gas.Q
+    '''
+
+    plt.tight_layout()
+    if self.show:
+      plt.show(block=False)
+    out_f = 'ss' + str(self.isnap) + '_toomre_combined_'+type_plots+'_' + self.plane +\
+            '.png'
+    if self.verbose:
+      print 'save to'
+      print '  ',self.fold_out+out_f
+    plt.savefig(self.fold_out+out_f)
+    plt.clf()
+
 
   def run(self, central_kpc_one_side, annotate_clump, clump_list_filename):
 
@@ -1159,7 +1305,7 @@ if __name__ == '__main__':
   isnap     = 16
   annotate  = True
 
-  smooth_kpc  = 0.1
+  smooth_kpc  = 0.05   # 50 pc
   clump_cut   = 6.81
 
   min_mass  = 1.e+1 # used to clip 0 in the stellar mass field
@@ -1179,8 +1325,8 @@ if __name__ == '__main__':
   Q_gas_val = Q_gas_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
                            ,annotate_clump=annotate,clump_list_filename=testfile
                            )
-  Q_gas_obj.plot_all_quant_zoom(0.8, annotate_clump=annotate,clump_list_filename=testfile)
-  Q_gas_obj.plot_single_SD(central_kpc_one_side=0.8)
+  Q_gas_obj.plot_all_quant_zoom(size_kpc, annotate_clump=annotate,clump_list_filename=testfile)
+  Q_gas_obj.plot_single_SD(central_kpc_one_side=size_kpc)
 
   Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',field_type='star', plane=plane
                        ,smooth_size_kpc=smooth_kpc,min_wg = min_mass
@@ -1190,16 +1336,25 @@ if __name__ == '__main__':
   Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
                              ,annotate_clump=annotate,clump_list_filename=testfile
                              )
-  Q_star_obj.plot_single_SD(central_kpc_one_side=0.8)
+  Q_star_obj.plot_single_SD(central_kpc_one_side=size_kpc)
 
   Q_tot_obj = ToomreAnalyze_2comp(Q_gas_obj, Q_star_obj,fold_out = fold_out, smooth_size =Q_gas_obj.smooth_size )
   Q_tot_val = Q_tot_obj.run(central_kpc_one_side=size_kpc
                            ,annotate_clump=annotate,
                            clump_list_filename=testfile
                            )
-  Q_tot_obj.plot_Q_eff_zoom(central_kpc_one_side=0.8,
-                            annotate_clump=annotate,
-                            clump_list_filename=testfile)
+
+  for type_plots in ['2by2', '3by2']:
+    Q_tot_obj.plots_combined(
+                            central_kpc_one_side = size_kpc
+                            ,annotate_clump=annotate
+                            ,clump_list_filename=testfile
+                            ,type_plots= type_plots
+                           )
+
+  #Q_tot_obj.plot_Q_eff_zoom(central_kpc_one_side=size_kcp,
+  #                          annotate_clump=annotate,
+  #                          clump_list_filename=testfile)
 
 
 
