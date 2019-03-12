@@ -1199,11 +1199,30 @@ class ToomreAnalyze_2comp(object):
         cbar.set_label(r'$\log{Q}$', fontsize=13, labelpad=5)
       else:
         cbar = None
-    elif showcbar:
-      cbar = plt.colorbar(im)
-
-    if tipo != 'Q' and showcbar:
-      cbar.set_label(label, fontsize=16)
+    elif tipo == "Sigma":
+      if showcbar:
+        ax_cbar = fig.add_axes([0.15, 0.935, 0.8, 0.01])
+        cbar = plt.colorbar(im,
+                            orientation='horizontal',
+                            cax=ax_cbar, ticklocation='top'
+                            )
+        cbar.ax.tick_params(length=6)
+        label = r'$\log{\Sigma}$ [M$_{\odot}$~pc$^{-2}$]'
+        cbar.set_label(label, fontsize=16)
+      else:
+        cbar = None
+    elif tipo == "sigma":
+      if showcbar:
+        ax_cbar = fig.add_axes([0.15, 0.492, 0.8, 0.01])
+        cbar = plt.colorbar(im,
+                            orientation='horizontal',
+                            cax=ax_cbar, ticklocation='top'
+                            )
+        cbar.ax.tick_params(length=6)
+        label = r'$\sigma$ [km\,s$^{-1}$]'
+        cbar.set_label(label, fontsize=16)
+      else:
+        cbar = None
 
     return ax,cbar
 
@@ -1241,22 +1260,30 @@ class ToomreAnalyze_2comp(object):
 
     if type_plots in ['2by2','3by2']:
 
-      fig = plt.figure(figsize=(9, 8))
-      fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+      fig = plt.figure(figsize=(9, 10))
+      plt.subplots_adjust(left=0.10, right=0.90, wspace=0.2, hspace=0.05)
 
       list_maps    = [
                       np.log10(self.Q_gas.SD / self.Q_gas.cm2pc**2 * self.Q_gas.g2Msun)
                      ,np.log10(self.Q_star.SD / self.Q_star.cm2pc**2 * self.Q_star.g2Msun)
-                     ,np.log10(self.Q_gas.sigma_r)
-                     ,np.log10(self.Q_star.sigma_r)
+#                      ,np.log10(self.Q_gas.sigma_r)
+#                      ,np.log10(self.Q_star.sigma_r)
+                     ,self.Q_gas.sigma_r
+                     ,self.Q_star.sigma_r
                      ]
       list_plt_ids = [221,222,223,224]
       list_types   = ['Sigma','Sigma','sigma','sigma']
+      # list_labels  = [
+      #                 r"$\log{\Sigma_{\rm gas}}$ [M$_{\odot}$~pc$^{-2}$]"
+      #                ,r"$\log{\Sigma_\star}$ [M$_{\odot}$~pc$^{-2}$]"
+      #                ,r"$\log{\sigma_{\rm gas}}$ [${\rm km}\,{\rm s}^{-1}$]"
+      #                ,r"$\log{\sigma_\star}$ [${\rm km}\,{\rm s}^{-1}$]"
+      #                ]
       list_labels  = [
-                      r"$\log{\Sigma_{\rm gas}}$ [M$_{\odot}$~pc$^{-2}$]"
-                     ,r"$\log{\Sigma_\star}$ [M$_{\odot}$~pc$^{-2}$]"
-                     ,r"$\log{\sigma_{\rm gas}}$ [${\rm km}\,{\rm s}^{-1}$]"
-                     ,r"$\log{\sigma_\star}$ [${\rm km}\,{\rm s}^{-1}$]"
+                      r"$\log{\Sigma_{\rm gas}}$"
+                     ,r"$\log{\Sigma_\star}$"
+                     ,r"$\sigma_{\rm gas}$"
+                     ,r"$\sigma_\star$"
                      ]
       if type_plots == '3by2':
         list_plt_ids = [321,322,323,324,325,326]
@@ -1266,21 +1293,23 @@ class ToomreAnalyze_2comp(object):
     elif type_plots == '3by1':
 
       fig = plt.figure(figsize=(9, 3))
-      fig.subplots_adjust(left=0.10, right=0.90, wspace=0.01)
+      fig.subplots_adjust(left=0.10, right=0.90, wspace=0.00)
 
       list_plt_ids = [131,132,133]
       list_types   = ['Q','Q','Q']
-      list_maps    = [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q),np.log10(self.Q_twoComp)]
+      list_maps    = [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q),
+                    np.log10(self.Q_twoComp)]
       # list_labels  = [r'$\log Q_{\rm gas}$','$\log Q_{\star}$',r'$\log Q_{\rm eff}$']       # for individual cbar
       list_labels  = [r'$Q_{\rm gas}$', r'$Q_{\star}$', r'$Q_{\rm eff}$']      # for labels inside figures
 
     for mappa, label, tipo, plt_id in zip(list_maps,list_labels,list_types,list_plt_ids):
 
       ax     = plt.subplot(plt_id)
-      if plt_id in (131, 132):       # show only one cbar
+      if plt_id in (131, 132, 222, 224):       # show only one cbar
         showcbar = False
       else:
         showcbar = True
+
       ax, cb = self.wrapper_plot(fig=fig, ax=ax, mappa=mappa,
                                  label = label, tipo=tipo,
                                  bottomBound=bottomBound,
@@ -1299,9 +1328,16 @@ class ToomreAnalyze_2comp(object):
       ax.set_xlim(x1,x2)
       ax.set_ylim(y1,y2)
 
-      if plt_id in (131, 221, 321):
+      if plt_id in (131, 321, 223):
         ax.set_xlabel('kpc', fontsize=16)
         ax.set_ylabel('kpc', fontsize=16)
+      if plt_id == 221:
+        ax.set_xticklabels([])
+      elif plt_id == 222:
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+      elif plt_id == 224:
+        ax.set_yticklabels([])
 
     '''
     np.log10(self.Q_gas.kappa * 3.086e+16)
@@ -1312,8 +1348,8 @@ class ToomreAnalyze_2comp(object):
     plt.tight_layout()
     if self.show:
       plt.show(block=False)
-    out_f = 'ss' + str(self.isnap) + '_toomre_combined_'+type_plots+'_' + self.plane +\
-            '.png'
+    out_f = 'ss' + str(self.isnap) + '_toomre_combined_'+type_plots+'_' + \
+            self.plane + '_' + str(central_kpc_one_side) + '.pdf'
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
@@ -1388,10 +1424,15 @@ if __name__ == '__main__':
                            clump_list_filename=testfile
                            )
 
-#  for type_plots in ['2by2', '3by2', '3by1']:
-  for type_plots in ['3by1']:
+  for type_plots in ['2by2', '3by1']:    #  '3by2',
     Q_tot_obj.plots_combined(
                             central_kpc_one_side = size_kpc
+                            ,annotate_clump=annotate
+                            ,clump_list_filename=testfile
+                            ,type_plots= type_plots
+                           )
+    Q_tot_obj.plots_combined(
+                            central_kpc_one_side=0.8
                             ,annotate_clump=annotate
                             ,clump_list_filename=testfile
                             ,type_plots= type_plots
