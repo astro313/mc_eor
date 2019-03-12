@@ -1086,7 +1086,7 @@ class ToomreAnalyze_2comp(object):
     topBound = np.argmin(abs(yruler - central_kpc_one_side))
     bottomBound = np.argmin(abs(yruler + central_kpc_one_side))
 
-    return bottomBound, topBound, leftBound,rightBound,xruler,yruler 
+    return bottomBound, topBound, leftBound,rightBound,xruler,yruler
 
   def plot_Q_eff_zoom(self, central_kpc_one_side=None, annotate_clump=False, clump_list_filename=None):
 
@@ -1159,10 +1159,10 @@ class ToomreAnalyze_2comp(object):
     tmp = gaussian_filter(self.Q_star.veldisp_vertical_plane.convert_to_units('km/s').value,self.smooth_size)
     self.Q_star.veldisp_vertical_plane = YTArray(tmp, 'km/s')
 
-  def wrapper_plot(self,ax= None
+  def wrapper_plot(self, fig=None, ax=None
                   ,mappa= None, label= '', tipo= ''
                   ,bottomBound=0, topBound=-1, leftBound=0,rightBound=-1
-                  ,xruler= None,yruler= None 
+                  ,xruler= None,yruler= None, showcbar=True
                   ):
 
 
@@ -1182,14 +1182,28 @@ class ToomreAnalyze_2comp(object):
               extent=(xruler[leftBound],xruler[rightBound],yruler[bottomBound],yruler[topBound]),
               cmap=cmap_plt, vmin= vmin_plt,vmax=vmax_plt)
     if tipo == 'Q':
-      cbar = plt.colorbar(im, extend='both',    # arrows in both direction
-                         ticks=[-1, 0, 1]
-                        )
-      cbar.ax.set_yticklabels([r'$<-1$', r'$0$', r'$>1$'])
-
-    else:
+      if showcbar:
+        # cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+        #                    ticks=[-1, 0, 1],
+        #                    orientation='horizontal',
+        #                    location='top'
+        #                   )
+        ax_cbar = fig.add_axes([0.15, 0.95, 0.8, 0.03])
+        cbar = plt.colorbar(im, extend='both',    # arrows in both direction
+                           ticks=[-1, 0, 1],
+                           orientation='horizontal',
+                           cax=ax_cbar, ticklocation='top'
+                          )
+        cbar.ax.set_xticklabels([r'$<-1$', r'$0$', r'$>1$'])
+        cbar.ax.tick_params(length=6)     # labelsize=
+        cbar.set_label(r'$\log{Q}$', fontsize=13, labelpad=5)
+      else:
+        cbar = None
+    elif showcbar:
       cbar = plt.colorbar(im)
-    cbar.set_label(label, fontsize=16)
+
+    if tipo != 'Q' and showcbar:
+      cbar.set_label(label, fontsize=16)
 
     return ax,cbar
 
@@ -1233,8 +1247,8 @@ class ToomreAnalyze_2comp(object):
       list_maps    = [
                       np.log10(self.Q_gas.SD / self.Q_gas.cm2pc**2 * self.Q_gas.g2Msun)
                      ,np.log10(self.Q_star.SD / self.Q_star.cm2pc**2 * self.Q_star.g2Msun)
-                     ,np.log10(self.Q_gas.sigma_r)   
-                     ,np.log10(self.Q_star.sigma_r)   
+                     ,np.log10(self.Q_gas.sigma_r)
+                     ,np.log10(self.Q_star.sigma_r)
                      ]
       list_plt_ids = [221,222,223,224]
       list_types   = ['Sigma','Sigma','sigma','sigma']
@@ -1247,30 +1261,47 @@ class ToomreAnalyze_2comp(object):
       if type_plots == '3by2':
         list_plt_ids = [321,322,323,324,325,326]
         list_types   = list_types + ['Q','Q']
-        list_maps    = list_maps  + [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q)] 
+        list_maps    = list_maps  + [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q)]
         list_labels  = list_labels+ [r'$\log Q_{\rm gas}$','$\log Q_{\star}$']
     elif type_plots == '3by1':
 
       fig = plt.figure(figsize=(9, 3))
-      fig.subplots_adjust(left=0.10, right=0.90, hspace=0.3, wspace=0.25)
+      fig.subplots_adjust(left=0.10, right=0.90, wspace=0.01)
 
       list_plt_ids = [131,132,133]
       list_types   = ['Q','Q','Q']
-      list_maps    = [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q),np.log10(self.Q_twoComp)] 
-      list_labels  = [r'$\log Q_{\rm gas}$','$\log Q_{\star}$',r'$\log Q_{\rm eff}$']
+      list_maps    = [np.log10(self.Q_gas.Q),np.log10(self.Q_star.Q),np.log10(self.Q_twoComp)]
+      # list_labels  = [r'$\log Q_{\rm gas}$','$\log Q_{\star}$',r'$\log Q_{\rm eff}$']       # for individual cbar
+      list_labels  = [r'$Q_{\rm gas}$', r'$Q_{\star}$', r'$Q_{\rm eff}$']      # for labels inside figures
 
     for mappa, label, tipo, plt_id in zip(list_maps,list_labels,list_types,list_plt_ids):
 
       ax     = plt.subplot(plt_id)
-      ax, cb = self.wrapper_plot(ax=ax,mappa = mappa,label = label,tipo  = tipo
-                           ,bottomBound=bottomBound, topBound=topBound, leftBound= leftBound,rightBound = rightBound
-                           ,xruler = xruler , yruler = yruler 
+      if plt_id in (131, 132):       # show only one cbar
+        showcbar = False
+      else:
+        showcbar = True
+      ax, cb = self.wrapper_plot(fig=fig, ax=ax, mappa=mappa,
+                                 label = label, tipo=tipo,
+                                 bottomBound=bottomBound,
+                                 topBound=topBound,
+                                 leftBound=leftBound,
+                                 rightBound=rightBound, xruler=xruler,
+                                 yruler=yruler, showcbar=showcbar
                            )
+      ax.text(0.23, 0.86, s=label, fontsize=14,
+              color='k', transform=ax.transAxes,
+              bbox=dict(facecolor='white', edgecolor='k', alpha=0.9)) #  boxstyle='round'
+
       if annotate_clump:
         assert clump_list_filename is not None
         ax= self.wrapper_annotate_clumps(ax=ax, clump_list_filename=clump_list_filename)
       ax.set_xlim(x1,x2)
       ax.set_ylim(y1,y2)
+
+      if plt_id in (131, 221, 321):
+        ax.set_xlabel('kpc', fontsize=16)
+        ax.set_ylabel('kpc', fontsize=16)
 
     '''
     np.log10(self.Q_gas.kappa * 3.086e+16)
@@ -1286,7 +1317,7 @@ class ToomreAnalyze_2comp(object):
     if self.verbose:
       print 'save to'
       print '  ',self.fold_out+out_f
-    plt.savefig(self.fold_out+out_f)
+    plt.savefig(self.fold_out+out_f, bbox_inches='tight')
     plt.clf()
 
 
@@ -1316,11 +1347,13 @@ if __name__ == '__main__':
   isnap     = 16
   annotate  = True
 
-  smooth_kpc  = 0.05   # 50 pc
+  smooth_kpc  = 0.03   # 50 pc = 0.05
   clump_cut   = 6.81
 
   min_mass  = 1.e+1 # used to clip 0 in the stellar mass field
   size_kpc  = 2.0
+
+  debug = False
 
   #testfile  = 'ss'+str(isnap)+'_h2density_clumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
   testfile  = 'ss'+str(isnap)+'_h2density_wgclumppos_ncut_'+str(clump_cut)+'_Ncellmin_10.txt'
@@ -1329,7 +1362,7 @@ if __name__ == '__main__':
 
   Q_gas_obj = ToomreAnalyze(isnap=isnap, wg_var='density',field_type='gas', plane=plane
                             ,smooth_size_kpc =smooth_kpc
-                            ,debug=False
+                            ,debug=debug
                             ,fold_out = fold_out
                             )
 
@@ -1341,7 +1374,7 @@ if __name__ == '__main__':
 
   Q_star_obj = ToomreAnalyze(isnap=isnap, wg_var='mass',field_type='star', plane=plane
                        ,smooth_size_kpc=smooth_kpc,min_wg = min_mass
-                       ,debug=False
+                       ,debug=debug
                        ,fold_out = fold_out
                         )
   Q_star_val = Q_star_obj.run(radial_nbins=100, central_kpc_one_side=size_kpc
@@ -1355,7 +1388,8 @@ if __name__ == '__main__':
                            clump_list_filename=testfile
                            )
 
-  for type_plots in ['2by2', '3by2', '3by1']:
+#  for type_plots in ['2by2', '3by2', '3by1']:
+  for type_plots in ['3by1']:
     Q_tot_obj.plots_combined(
                             central_kpc_one_side = size_kpc
                             ,annotate_clump=annotate
