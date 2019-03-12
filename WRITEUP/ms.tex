@@ -560,15 +560,27 @@ Size-mass relation of MCs identified in the accretion phase of \flower in our si
 \label{fig:MR}}
 \end{figure*}
 
-Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in Figures~\ref{fig:Q}, \ref{fig:Qstar}, and \ref{fig:Qeff}, respectively (see also \Fig{h2density} for an example of MCs identified in this evolutionary stage of \flower
-for different $n_{\rm cut}$). Fragmentation are expected in regions of low Toomre $Q$ values. \AP{why then we do not postpone the figure presentation?} \DL{I am not sure if I should first show all the plots in Sec 4 and the discuss in details in Sec 5 or what. I guess we could just show
+Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-component $Q_{\rm eff}$ are shown in \Fig{Q} 
+(see also \Fig{h2density} for an example of MCs identified in this evolutionary stage of \flower
+for different $n_{\rm cut}$). Fragmentation are expected in regions of low Toomre $Q$ values.
+ \AP{why then we do not postpone the figure presentation?} \DL{I am not sure if I should first show all the plots in Sec 4 and the discuss in details in Sec 5 or what. I guess we could just show
 in Sec 5.}
+We discuss the importance of accounting for stellar contributions and the effect of the thickness of the disk to the total stability criterion. 
+Close resemblance of the $Q_{\rm eff}$ and $Q_{\star}$ maps indicates that contributions from the stellar component play an important role in 
+governing the stability of the MCs against $m$\eq0 perturbations.
+This can be understood since stars in \flower dominates in mass in the central part of the galaxy, 
+so their gravitational potential provides a non-negligible contribution to the stability. 
+Similarly, contribution from the thickness of the disk is important in \flower since its disk is not thin (with a 
+scale height ratio of $h/r_{\rm gal}$\ssim150\,pc/1\,kpc$\simeq$\,0.15) and since \flower is more of a warped disk.
+That is, some MCs are located in regions of $Q_{\rm gas}$\ssim1, but 
+when including the effects of stars and thickness of the disk (via $\sigma_z$),
+they are consistent with $Q_{\rm gas} > 1$.
 Further interpretation and implication of this is discussed in \Sec{origin}.
 
 \begin{figure*}
 \centering
 \includegraphics[width=0.9\textwidth]{\figpath/{ss16_toomre_combined_2by2_0}.png}
-\caption{\AP{let me know which scheme you prefer (as per mail) or you would like a different plotting scheme; in any case, i guess we should go from $\log \sigma$ to $\sigma$; additionally we might want to use shared colorbars (e.g. $\Sigma_{gas}\,,\Sigma_{\star}-> \Sigma$) and write gas and stars as white text on the maps}
+\caption{\AP{guess we should go from $\log \sigma$ to $\sigma$; additionally we might want to use shared colorbars (e.g. $\Sigma_{gas}\,,\Sigma_{\star}-> \Sigma$) and write gas and stars as white text on the maps}
 %
 }
 \end{figure*}
@@ -576,9 +588,18 @@ Further interpretation and implication of this is discussed in \Sec{origin}.
 \begin{figure*}
 \centering
 \includegraphics[width=0.9\textwidth]{\figpath/{ss16_toomre_combined_3by1_0}.png}
-\caption{\AP{we should probably use horizontal colorbars or a signle vertical one, with gas stars and combined written as an inset; probably the 50 pc smoothing radius is be too large, we might want to go to 30 or 20}
-%
-}
+\caption{
+Toomre $Q$ maps derived from the gas (left) and stellar (middle) components, respectively. 
+A map of the effective two-component Toomre $Q_{\rm eff}$ parameter is shown in the right panel. 
+All maps are projected onto the $xy$-plane.
+Positions of MCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ are overplotted as star symbols.
+% Bottom row: Effective $Q_{\rm eff}$ (left) and gas surface density (right) maps zoomed in on the central 1.5\,kpc region.
+A smoothing length of 30\,pc has been applied to the maps.
+A divergent colormap is used for the Toomre $Q$ map to facilitate 
+identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
+Some MCs lie in regions of $\log{Q_{\rm eff}}\gtrsim0$, where regions of $\log{Q_{\rm eff}}\lesssim0$ 
+are likely gravitationally unstable.
+\label{fig:Qeff}}
 \end{figure*}
 
 \begin{comment}
