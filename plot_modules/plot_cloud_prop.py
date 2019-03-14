@@ -5,6 +5,9 @@ import os
 here    = os.path.dirname(os.path.abspath(__file__))
 litpath = here[:here.rfind('/')]+'/literature/'
 
+import pandas as pd
+import glob
+
 def setup_cmap(cm='Blues'):
     import matplotlib.pyplot as plt
     return plt.set_cmap(cm)
@@ -168,9 +171,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
     fig, ax
 
     """
-    import pandas as pd
-    import glob
-
     plt.close('all')
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -1431,8 +1431,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     # fig.tight_layout()
 
     if saveFig:
-        name_out = ystr.replace(' ', '-') + '_' + \
-            xstr.replace(' ', '-')
+        name_out = '3by2_clumpProp_'
         fig.savefig(outdir + name_out + tag + '.pdf', bbox_inches="tight")
     else:
         plt.show(block=False)

@@ -109,7 +109,7 @@ if __name__ == '__main__':
     fig, ax = plot_stuff_3by2(to_plot1, to_plot2, ls='',
                               markersize=10,
                               marker='*',
-                              tag='',
+                              tag='ss16-ss27',
 #                              cmap=cm,
                               sfrlabel=False,
                               cbarLabelSize=16,
