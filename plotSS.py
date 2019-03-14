@@ -185,7 +185,7 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
 if __name__ == '__main__':
 
     # for paper
-    plot_dis_allSS()
+    # plot_dis_allSS()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
@@ -259,12 +259,37 @@ if __name__ == '__main__':
     #         count += 1
     # print count
 
-    plotting_procedure(16, 28, pattern="0.32")
-    plotting_procedure(16, 28, pattern="0.53")
-    plotting_procedure(16, 28, pattern="0.88")
-    plotting_procedure(16, 28, pattern="1.47")
-    plotting_procedure(16, 28, pattern="2.45")
-    plotting_procedure(16, 28, pattern="4.08")
-    plotting_procedure(16, 28, pattern="6.81")
-    plotting_procedure(16, 28, pattern="11.36")
-    plotting_procedure(16, 28, pattern="18.96")
+    # plotting_procedure(16, 28, pattern="0.32")
+    # plotting_procedure(16, 28, pattern="0.53")
+    # plotting_procedure(16, 28, pattern="0.88")
+    # plotting_procedure(16, 28, pattern="1.47")
+    # plotting_procedure(16, 28, pattern="2.45")
+    # plotting_procedure(16, 28, pattern="4.08")
+    # plotting_procedure(16, 28, pattern="6.81")
+    # plotting_procedure(16, 28, pattern="11.36")
+    # plotting_procedure(16, 28, pattern="18.96")
+
+
+    # for paper, 3x2 panel for just
+    plt.close('all')
+
+    from plot_modules.plot_cloud_prop import setup_plot, plot_stuff, plot_stuff_3by2
+    cm = setup_plot()
+
+    fname1 = '0.53_10_fields.p'
+    fname2 = '18.96_10_fields.p'
+    _, to_plot1, leafdir_out1 = load_pickleTOplot(16, 28, fname1)
+    _, to_plot2, leafdir_out2 = load_pickleTOplot(16, 28, fname2)
+
+    bubu = [fname1[:fname1.find('_')], fname2[:fname2.find('_')]]
+
+    fig, ax = plot_stuff_3by2(to_plot1, to_plot2, ls='',
+                              markersize=10,
+                              marker='*',
+                              tag='allss',
+#                              cmap=cm,
+                              sfrlabel=bubu,
+                              cbarLabelSize=16,
+                              outdir='./',
+                              legendFontSize=13,
+                              saveFig=False)

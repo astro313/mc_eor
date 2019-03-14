@@ -865,7 +865,7 @@ def set_minorticks(fig, ax):
     return fig, ax
 
 
-def plot_size_veldisp(fig, ax, to_plot, sfrlabel, ls='',
+def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                       markersize=10, marker='*',
                       showylabel=True,
                       showLegend=False, legendFontSize=None):
@@ -948,22 +948,10 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, ls='',
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["size pc"]
         _y = to_plot[ks]["sigma kms"]
-        if sfrlabel:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-#            legend_h.append(h)
-        else:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-
-#            legend_h.append(h)
-
-
+        h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                     marker=marker,
+                     markeredgecolor='gray',
+                     markeredgewidth=0.5)
     # Shrink current axis by 10%
     box = ax.get_position()
     ax.set_position([box.x0, box.y0, box.width, box.height * 0.9])
@@ -978,7 +966,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, ls='',
 
     ax.set_xscale("log")
     ax.set_xlabel("Cloud Size [pc]")
-    ax.set_xlim(1.0, 2.e3)
+    ax.set_xlim(2, 2.e3)
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
@@ -991,7 +979,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, ls='',
     return fig, ax
 
 
-def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, ls='',
+def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                        markersize=10, marker='*',
                        showLegend=False, legendFontSize=None):
 
@@ -1151,20 +1139,10 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, ls='',
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["cloud mass"]
         _y = to_plot[ks]["alpha vir"]
-        if sfrlabel:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-#            legend_h.append(h)
-        else:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-
-#            legend_h.append(h)
+        h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                     marker=marker,
+                     markeredgecolor='gray',
+                     markeredgewidth=0.5)
 
     # shrink
     box = ax.get_position()
@@ -1172,8 +1150,8 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, ls='',
     if showLegend:
         if not legendFontSize:
             legendFontSize = 10
-        ax.legend(loc="best", ncol=5, fontsize=legendFontSize,
-                  bbox_to_anchor=(0.42, 0.985))
+        ax.legend(loc="upper center", ncol=5, fontsize=legendFontSize,
+                  bbox_to_anchor=(1., 1.2))
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
         #           bbox_to_anchor=(0.5, 0.9))
@@ -1192,7 +1170,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, ls='',
     return fig, ax
 
 
-def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, ls='',
+def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                       markersize=10, marker='*',
                       showLegend=False, legendFontSize=None):
 
@@ -1257,20 +1235,10 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, ls='',
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["gas sd cgs"]
         _y = to_plot[ks]["sigmaSq over size"]
-        if sfrlabel:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-#            legend_h.append(h)
-        else:
-            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker,
-                         markeredgecolor='gray',
-                         markeredgewidth=0.5)
-
-#            legend_h.append(h)
+        h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                     marker=marker,
+                     markeredgecolor='gray',
+                     markeredgewidth=0.5)
 
     if showLegend:
         if not legendFontSize:
@@ -1295,8 +1263,7 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, ls='',
 def plot_stuff_3by2(to_plotLeft, to_plotRight,
                     ls='', markersize=10, marker='*',
                     tag='',
-#                     cmap=None,
-                    sfrlabel=False,
+                    sfrlabel=None,
                     cbarLabelSize=16,
                     outdir='./',
                     legendFontSize=16,
@@ -1319,6 +1286,8 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         # load in SFR of each snapshot (averaged over 4 Myr, see load_misc.py)
         from io_modules.load_misc import load_SFR_perSS
         sfr = load_SFR_perSS()
+    else:
+        sfr = None
 
     plt.close('all')
     cm = plt.get_cmap()
@@ -1334,6 +1303,8 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         for kkk in _to_plot.iterkeys():
             ncut.append(float(kkk))
         ncut = sorted(ncut)
+    else:
+        sfr_val = sorted([ii for ii in sfr.itervalues()])
 
     fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False, sharey=True,
                              figsize=(40,40))
@@ -1341,10 +1312,8 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
                         bottom=0.1, hspace=0.25,
                         wspace=0.1)
     if sfrlabel:
-        # t1 = r'ncut: {:.2f} [cm$^{-3}$]'.format(blah)
-        # t2 = r'ncut: {:.2f} [cm$^{-3}$]'.format(blah)
-        pass
-
+        t1 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[0]) + r' [cm$^{-3}$]'
+        t2 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[1]) + r' [cm$^{-3}$]'
     else:
         t1 = 'Accretion Phase'
         t2 = 'Starburst Phase'
@@ -1352,7 +1321,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax = axes[0, 0]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, ls=ls,
+    plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                       showLegend=True, legendFontSize=legendFontSize) # ss16
     plt.text(0.5, 1.3, t1,
@@ -1363,7 +1332,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax = axes[0, 1]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_size_veldisp(fig, ax, to_plotRight, sfrlabel,ls=ls,
+    plot_size_veldisp(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                       showLegend=False)
     ax.set_ylabel('')
@@ -1378,14 +1347,14 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax = axes[1, 0]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plotLeft, sfrlabel,ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                        showLegend=True, legendFontSize=legendFontSize)    # ss16
 
     ax = axes[1, 1]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plotRight, sfrlabel,ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                        showLegend=False)
     ax.set_ylabel('')
@@ -1396,14 +1365,14 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax = axes[2, 0]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_sigmaSqOR_SD(fig, ax, to_plotLeft, sfrlabel,ls=ls,
+    plot_sigmaSqOR_SD(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                      showLegend=True, legendFontSize=legendFontSize)
 
     ax = axes[2, 1]
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_sigmaSqOR_SD(fig, ax, to_plotRight, sfrlabel,ls=ls,
+    plot_sigmaSqOR_SD(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                       showLegend=False)
     ax.set_ylabel('')
@@ -1413,7 +1382,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     # add a global cbar
     # https://stackoverflow.com/questions/8342549/matplotlib-add-colorbar-to-a-sequence-of-line-plots
     # https://stackoverflow.com/questions/13784201/matplotlib-2-subplots-1-colorbar
-    c = np.arange(min(ncut), max(ncut))
+    if not sfrlabel:
+        c = np.linspace(min(ncut), max(ncut), 10)
+    else:
+        c = np.linspace(min(sfr_val), max(sfr_val), 10)
 
     norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
     _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
