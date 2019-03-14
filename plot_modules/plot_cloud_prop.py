@@ -5,7 +5,7 @@ import os
 here    = os.path.dirname(os.path.abspath(__file__))
 litpath = here[:here.rfind('/')]+'/literature/'
 
-def setup_cmap(cm='gist_rainbow'):
+def setup_cmap(cm='Blues'):
     import matplotlib.pyplot as plt
     return plt.set_cmap(cm)
 
@@ -35,8 +35,8 @@ def setup_plot():
                                 , 'ytick.minor.width': 1     # points
                                 , 'font.serif': ("Times", "Palatino", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
-    setup_cmap()
-    return None
+    cm = setup_cmap()
+    return cm
 
 
 
@@ -142,7 +142,7 @@ def unpack_xy(ss):
 
 
 def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
-               leglabel='', tag='', cm='gist_rainbow',
+               leglabel='', tag='',
                to_plot=None, save=True, outdir='./',
                sfrlabel=False):
     """
@@ -175,8 +175,8 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
+    cm = plt.get_cmap()
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap()  # "plasma_r")
 
     legend_h = []
 
@@ -749,7 +749,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
 
 def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
-                    leglabel='', tag='', cm='gist_rainbow',
+                    leglabel='', tag='',
                     to_plot=None, save=True, outdir='./', sfrlabel=False):
     from matplotlib.ticker import NullFormatter
 
@@ -763,7 +763,7 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
     ax = fig.add_subplot(111)
 
     NUM_COLORS = len(to_plot)
-    cm = plt.get_cmap(cm)  # "plasma_r")
+    cm = plt.get_cmap()  # "plasma_r")
 
     # --- my clouds ----
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -848,6 +848,596 @@ def load_Heiderman10():
                           0.440, 0.343, 2.01]
 
     return Heinerman_mass, Heinerman_SigmaGas, Heinerman_SFR, Heinerman_SigmaSFR
+
+
+
+
+
+def set_minorticks(fig, ax):
+    from matplotlib.ticker import AutoMinorLocator, MultipleLocator
+
+    minorLocator = AutoMinorLocator(15)
+    ax.xaxis.set_minor_locator(minorLocator)
+    ax.yaxis.set_minor_locator(minorLocator)
+    ax.xaxis.set_minor_locator(minorLocator)
+    ax.yaxis.set_minor_locator(minorLocator)
+    ax.minorticks_on()
+    return fig, ax
+
+
+def plot_size_veldisp(fig, ax, to_plot, sfrlabel, ls='',
+                      markersize=10, marker='*',
+                      showylabel=True,
+                      showLegend=False, legendFontSize=None):
+
+    legend_h = []
+
+    # Solomon+87: slope=0.5, based on 273 GMCs (superceeded by Heyer+09):
+    # y = 0.72 * x**0.5
+
+    # Heyer & Brunt 2004 (27 GMCs in MW): sigma = 0.9 * R^0.56
+    x = np.logspace(1, 3, 10)
+    yH04 = 0.9 * x**0.56
+    h, = ax.plot(x, yH04, linestyle='-.', color='r', linewidth=2,
+            label=r'Heyer \& Brunt 2004 $\sigma \propto R^{0.56}$')
+    legend_h.append(h)
+
+    # Bolatto+08: sigma = 0.44 * R^0.6 km/s
+    yB08 = 0.44 * x**0.60
+    h, = ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
+            label=r'Bolatto+08 $\sigma \propto R^{0.60}$')
+    legend_h.append(h)
+
+    # Larson81
+    y = 1.10 * x**0.38       # Larson81 Eqn 1
+    h, = ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
+            label=r'Larson 1981 $\sigma \propto R^{0.38}$')
+    legend_h.append(h)
+
+    # More data from literature
+    xegc, yegc = np.loadtxt(litpath + 'ExtraGalacticGMCs.csv',  # Bolatto08
+                            delimiter=',', unpack=True)
+    xgc, ygc = np.loadtxt(litpath + 'GalacticCenter.csv',
+                          delimiter=',', unpack=True)
+    x64, y64 = np.loadtxt(litpath + 'M64.csv', delimiter=',', unpack=True)
+    # normalization ~5x higher than found in MW
+    xmark, ymark, ymark_err = np.loadtxt(
+        litpath + 'SMMJ2135.txt', unpack=True)
+    rmark, rmark_err = np.loadtxt(
+        litpath + "eyelash_larson.dat", unpack=True, usecols=(5, 6))
+    xngc253, yngc253 = np.loadtxt(litpath + 'Leroy15_NGC253.csv',
+                                  delimiter=',', unpack=True)
+
+    h = ax.errorbar(rmark, ymark, yerr=ymark_err, xerr=rmark_err,
+                    label="SMM J2135-0102",
+                    color='magenta', fmt='D', markersize=3.5,
+                    markeredgewidth=1.0)
+    legend_h.append(h)
+
+    h = ax.scatter(xngc253, yngc253, label="NGC 253",
+                   color='red', marker='o', s=7)
+    legend_h.append(h)
+
+    h = ax.scatter(x64, y64, label="M64", color='orange',
+                   marker='^', s=10)
+    legend_h.append(h)
+
+    h = ax.scatter(xgc, ygc, label="Heyer Galactic Center",
+                   color='b', marker='o', s=7)
+    legend_h.append(h)
+
+    h = ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
+                   color='k', marker='.', s=10)
+    legend_h.append(h)
+
+
+    psuedo_keys = []
+    if not sfrlabel:
+        for kkk in to_plot.iterkeys():
+            psuedo_keys.append(float(kkk))
+        psuedo_keys = sorted(psuedo_keys)
+        psuedo_keys = map(str, psuedo_keys)
+    else:
+        sfr_ = []
+        for kkk in to_plot.iterkeys():
+            sfr_.append(sfr[kkk])
+            psuedo_keys.append(kkk)
+        _idx = np.argsort(sfr_)
+        psuedo_keys = [psuedo_keys[i] for i in _idx]
+    for ks in psuedo_keys:
+        # ks = numerical value of ncut or sfr
+        _x = to_plot[ks]["size pc"]
+        _y = to_plot[ks]["sigma kms"]
+        if sfrlabel:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+#            legend_h.append(h)
+        else:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+
+#            legend_h.append(h)
+
+
+    # Shrink current axis by 10%
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width, box.height * 0.9])
+    if showLegend:
+        if not legendFontSize:
+            legendFontSize = 10
+        ax.legend(loc="upper center", ncol=4, fontsize=legendFontSize,
+                  bbox_to_anchor=(1.1, 1.28))
+        # ax.legend(handles=legend_h, loc="upper center", ncol=2,
+        #           fontsize=legendFontSize,
+        #           bbox_to_anchor=(0.5, 0.9))
+
+    ax.set_xscale("log")
+    ax.set_xlabel("Cloud Size [pc]")
+    ax.set_xlim(1.0, 2.e3)
+
+    ax.set_yscale("log")
+    ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
+    ax.set_ylim(5, 7.e2)
+
+    ax.tick_params(axis='both', which='both')   # direction='in'
+
+    fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, ls='',
+                       markersize=10, marker='*',
+                       showLegend=False, legendFontSize=None):
+
+    # Kauffmann+17 Figure 4
+    # read data from old Kauffmann paper
+    CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
+                              header=0,
+                              delim_whitespace=True)
+
+    # CMZ data: GCMS dendrograms
+    DataTable = pd.DataFrame()
+    LinewidthSizeFiles = glob.glob(
+        litpath + './Kauffmann17/Clumps_*.pickle')
+    for File in LinewidthSizeFiles:
+        DataTable = DataTable.append(pd.read_pickle(File))
+
+    DataTable['mass'] = 224.46 * (2.0E23 / 1.0E22) * \
+        np.pi * (DataTable['r_eff'])**2.
+    DataTable['alpha'] = 1.2 * (DataTable['v_rms'])**2. * \
+        DataTable['r_eff'] * \
+        (DataTable['mass'] / 1.0E3)**(-1)
+    DataTable['Mach'] = DataTable['v_rms'] / \
+        (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+
+    np.unique(CloudData['Sample'])
+
+    # show instability range
+    ax.fill_between([1.0E-9, 1.0E9],
+                    [1.0E-9, 1.0E-9],
+                    [2., 2.],
+                    facecolor='0.9', edgecolor='none',
+                    zorder=0)
+    ax.annotate(s='unstable',
+                 xy=[9.e5, 0.2],
+                 color='0.3', size=20.,
+                 ha='left')
+
+    COFilterArray = (CloudData['Sample'] == 'DuvalGRS')
+    CloudData.loc[CloudData['Sample'] == 'HeyerGRS'] = 'NaN'
+
+    # plot reference data
+    ax.plot(CloudData['Mass'][COFilterArray],
+             CloudData['Alpha'][COFilterArray],
+             'p', markeredgecolor='palegreen', markeredgewidth=2.,
+             markersize=7., markerfacecolor='none', label='GRS')
+            # Heyer+09, Roman-Duval+10
+
+    ax.plot(CloudData['Mass'][np.invert(COFilterArray)],
+             CloudData['Alpha'][np.invert(COFilterArray)],
+             'o', color='limegreen', markeredgewidth=0., label='MW clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
+
+    # CMZ data: GCMS dendrograms
+    ax.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
+             DataTable[DataTable['Target'] != 'SgrD']['alpha'],
+             '+',
+             markersize=13.,
+             markeredgecolor='blue', markeredgewidth=3.,
+             markerfacecolor=(1, 0.7, 0.7),
+             zorder=10, label='CMZ')
+
+    ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+             DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+             '+',
+             markersize=13.,
+             markeredgecolor='blue', markeredgewidth=6.,
+             markerfacecolor=(1, 0.7, 0.7),
+             zorder=10, label='')
+
+    ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+             DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+             '+',
+             markersize=13.,
+             markeredgecolor='white', markeredgewidth=2.,
+             markerfacecolor=(1, 0.7, 0.7),
+             zorder=10, label='Sgr D outside CMZ')
+
+    ax.annotate(s='"clumps"',
+                xy=[5.0E3, 0.7],
+                color='blue',
+                ha='left',
+                fontsize=15)
+
+    # # estimate for dense cores
+    # ax.fill_between([1.0E2, 1.0E3],
+    #                 1.2 * 0.6**2. * 0.1 /
+    #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+    #                 1.2 * 2.2**2. * 0.1 /
+    #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+    #                 facecolor='blue', edgecolor='none', alpha=0.3,
+    #                 zorder=3)
+    # plt.plot([1.0E2, 1.0E3],
+    #          1.2 * 0.6**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+    #          color='blue',
+    #          linewidth=3.)
+    # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{0.6 \, km \, s^{-1}}$',
+    #          xy=[300., 1. / 1.5 * 1.2 * 0.6**2. * 0.1 / (300. / 1.0E3)],
+    #          color='blue',
+    #          ha='right')
+    # plt.plot([1.0E2, 1.0E3],
+    #          1.2 * 2.2**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+    #          color='blue',
+    #          linewidth=3.)
+    # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{2.2 \, km \, s^{-1}}$',
+    #          xy=[100, 1.2 * 1.2 * 2.2**2. * 0.1 / (100. / 1.0E3)],
+    #          color='blue',
+    #          ha='center')
+
+    # CMZ data: entire clouds
+    EntireCloudData = pd.DataFrame()
+    EntireCloudData['Target'] = [
+        'SgrC', '20kms', '50kms', 'G0.253', 'SgrB1']
+    EntireCloudData['Mass'] = [2.5E4, 33.9E4, 6.5E4, 9.3E4, 14.5E4]
+    EntireCloudData['Size'] = [1.7, 5.1, 2.7, 2.8, 3.6]
+    EntireCloudData['VelocityDispersion'] = [6.5, 10.2, 13.9, 16.4, 13.1]
+    EntireCloudData['VirialParameter'] = 1.2 * EntireCloudData['VelocityDispersion']**2. * \
+        EntireCloudData['Size'] * \
+        (EntireCloudData['Mass'] / 1000.)**-1.
+    EntireCloudData['Mach'] = \
+        EntireCloudData['VelocityDispersion'] / \
+        (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+    EntireCloudData['MeanDensity'] = \
+        3.5E4 * (EntireCloudData['Mass'] / 1.0E4) / \
+        EntireCloudData['Size']**3.
+    EntireCloudData['ThresholdDensitySF'] = \
+        EntireCloudData['VirialParameter'] * \
+        EntireCloudData['Mach']**2. * \
+        EntireCloudData['MeanDensity']
+
+    ax.plot(EntireCloudData['Mass'],
+             EntireCloudData['VirialParameter'],
+             'D',
+             markersize=13.,
+             markeredgecolor='blue', markeredgewidth=3.,
+             markerfacecolor='none',
+             zorder=10, label='CO-based MW')
+
+    ax.annotate(s='entire clouds',
+                 xy=[1.0E5, 18.],
+                 color='blue',
+                 ha='center',
+                 fontsize=15)
+
+    psuedo_keys = []
+    if not sfrlabel:
+        for kkk in to_plot.iterkeys():
+            psuedo_keys.append(float(kkk))
+        psuedo_keys = sorted(psuedo_keys)
+        psuedo_keys = map(str, psuedo_keys)
+    else:
+        sfr_ = []
+        for kkk in to_plot.iterkeys():
+            sfr_.append(sfr[kkk])
+            psuedo_keys.append(kkk)
+        _idx = np.argsort(sfr_)
+        psuedo_keys = [psuedo_keys[i] for i in _idx]
+    for ks in psuedo_keys:
+        # ks = numerical value of ncut or sfr
+        _x = to_plot[ks]["cloud mass"]
+        _y = to_plot[ks]["alpha vir"]
+        if sfrlabel:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+#            legend_h.append(h)
+        else:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+
+#            legend_h.append(h)
+
+    # shrink
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width, box.height * 0.87])
+    if showLegend:
+        if not legendFontSize:
+            legendFontSize = 10
+        ax.legend(loc="best", ncol=5, fontsize=legendFontSize,
+                  bbox_to_anchor=(0.42, 0.985))
+        # ax.legend(handles=legend_h, loc="upper center", ncol=2,
+        #           fontsize=legendFontSize,
+        #           bbox_to_anchor=(0.5, 0.9))
+
+    ax.set_xscale("log")
+    ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+    ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
+
+    ax.set_yscale("log")
+    ax.set_ylabel(r"$\alpha_{\rm vir}$")
+    ax.set_ylim(0.02, 2.e2)
+
+    ax.tick_params(axis='both', which='both')   # direction='in'
+    fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, ls='',
+                      markersize=10, marker='*',
+                      showLegend=False, legendFontSize=None):
+
+    # Heyer+09 GRS data
+    xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
+    ax.scatter(xxx, yyy, marker='.', color='k', s=7, label='Heyer+09 GRS')
+
+    POverKb = [1.e4, 1.e5, 1.e6, 1.e7]#, 1.e8, 1.e9]
+    # Mass_cgs = np.logspace(3, 8, 50)
+    # R_pc = np.logspace(1., 1.e5, 50)
+    # sd_cgs = Mass_cgs/(np.pi * (R_pc / cm2pc)**2)
+    sd_cgs = np.logspace(-5., 5., 100)
+    Plabel = ['4', '5', '6', '7']#, '8', '9']
+
+    def V0_sq_func(pressure, sd_cgs, Gamma=3. / 5):
+        """
+
+        Gamma = 3./5 for uniform density sphere
+
+        V_0^2 = sigma^2/R = 1/3 (pi * Gamma * G * Sigma + 4 * P / Sigma)
+        K cm^-3, Elmegreen+89: typical Pressure for neutral ISM ~9 x 1E3 K
+        cm^-3
+
+        """
+        import astropy.constants as C
+        cm2pc = 1. / 3.086E+18
+
+        # print np.pi * Gamma * C.G.cgs.value * sd_cgs
+        # print pressure / sd_cgs * C.k_B.cgs.value
+
+        V0_sq = 1. / 3 * (np.pi * Gamma * C.G.cgs.value * sd_cgs +
+                          4. * pressure * C.k_B.cgs.value / sd_cgs)
+        V0_sq = V0_sq/cm2pc/(1.e5)**2
+        return V0_sq
+
+    for ip, Pext in enumerate(POverKb):
+        V0_sq = V0_sq_func(Pext, sd_cgs)
+        ax.plot(sd_cgs, V0_sq, 'k--',alpha=0.3)
+#                     label=r'$\log (P /{\rm K }\,{\rm cm}^{-3}) =' + Plabel[ip] +r'$')
+        x_text = 8e-3
+        y_text = 2*V0_sq[np.where(sd_cgs>x_text)[0][0]]
+        ax.annotate(s=r'$\log (P /{\rm K }\,{\rm cm}^{-3}) =' + Plabel[ip] +r'$',
+         xy=[x_text, y_text],
+         color='k',
+         ha='center',
+         fontsize=12)
+
+    psuedo_keys = []
+    if not sfrlabel:
+        for kkk in to_plot.iterkeys():
+            psuedo_keys.append(float(kkk))
+        psuedo_keys = sorted(psuedo_keys)
+        psuedo_keys = map(str, psuedo_keys)
+    else:
+        sfr_ = []
+        for kkk in to_plot.iterkeys():
+            sfr_.append(sfr[kkk])
+            psuedo_keys.append(kkk)
+        _idx = np.argsort(sfr_)
+        psuedo_keys = [psuedo_keys[i] for i in _idx]
+    for ks in psuedo_keys:
+        # ks = numerical value of ncut or sfr
+        _x = to_plot[ks]["gas sd cgs"]
+        _y = to_plot[ks]["sigmaSq over size"]
+        if sfrlabel:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+#            legend_h.append(h)
+        else:
+            h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                         marker=marker,
+                         markeredgecolor='gray',
+                         markeredgewidth=0.5)
+
+#            legend_h.append(h)
+
+    if showLegend:
+        if not legendFontSize:
+            legendFontSize = 10
+
+        ax.legend(loc='best', fontsize=legendFontSize)
+
+    ax.set_xscale("log")
+    ax.set_xlim(10**-2.5, 10**0.3)
+    ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
+
+    ax.set_yscale("log")
+    ax.set_ylim(10**-1.5, 10**2.5)
+    ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
+
+    ax.tick_params(axis='both', which='both')   # direction='in'
+    fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_stuff_3by2(to_plotLeft, to_plotRight,
+                    ls='', markersize=10, marker='*',
+                    tag='',
+#                     cmap=None,
+                    sfrlabel=False,
+                    cbarLabelSize=16,
+                    outdir='./',
+                    legendFontSize=16,
+                    saveFig=False):
+    """
+
+    plot 3x2 panel of 1) sigma-size; 2) alpha_vir - M; 3) sigma^2/R - Sigma_gas, all sharing one cbar
+
+    sfrlabel: bool
+        if True: Left panel: low ncut, right: high ncut
+        if False: Left panels: ss16, rightpanels = ss27
+
+
+    """
+    import matplotlib as mpl
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+
+    if sfrlabel:
+        # load in SFR of each snapshot (averaged over 4 Myr, see load_misc.py)
+        from io_modules.load_misc import load_SFR_perSS
+        sfr = load_SFR_perSS()
+
+    plt.close('all')
+    cm = plt.get_cmap()
+    NUM_COLORS = max(len(to_plotLeft), len(to_plotRight))
+
+    # get ncut calues
+    if not sfrlabel:
+        ncut = []
+        if len(to_plotLeft) > len(to_plotRight):
+            _to_plot = to_plotLeft
+        else:
+            _to_plot = to_plotRight
+        for kkk in _to_plot.iterkeys():
+            ncut.append(float(kkk))
+        ncut = sorted(ncut)
+
+    fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False, sharey=True,
+                             figsize=(40,40))
+    fig.subplots_adjust(right=0.875, left=0.1, top=0.9,
+                        bottom=0.1, hspace=0.25,
+                        wspace=0.1)
+    if sfrlabel:
+        # t1 = r'ncut: {:.2f} [cm$^{-3}$]'.format(blah)
+        # t2 = r'ncut: {:.2f} [cm$^{-3}$]'.format(blah)
+        pass
+
+    else:
+        t1 = 'Accretion Phase'
+        t2 = 'Starburst Phase'
+
+    ax = axes[0, 0]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, ls=ls,
+                      markersize=10, marker='*',
+                      showLegend=True, legendFontSize=legendFontSize) # ss16
+    plt.text(0.5, 1.3, t1,
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
+    ax = axes[0, 1]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_size_veldisp(fig, ax, to_plotRight, sfrlabel,ls=ls,
+                      markersize=10, marker='*',
+                      showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    # ax.set_yticklabels([])
+    plt.text(0.5, 1.3, t2,
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
+    # second row
+    ax = axes[1, 0]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plotLeft, sfrlabel,ls=ls,
+                      markersize=10, marker='*',
+                       showLegend=True, legendFontSize=legendFontSize)    # ss16
+
+    ax = axes[1, 1]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plotRight, sfrlabel,ls=ls,
+                      markersize=10, marker='*',
+                       showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    # ax.set_yticklabels([])
+
+    # third row
+    ax = axes[2, 0]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_sigmaSqOR_SD(fig, ax, to_plotLeft, sfrlabel,ls=ls,
+                      markersize=10, marker='*',
+                     showLegend=True, legendFontSize=legendFontSize)
+
+    ax = axes[2, 1]
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_sigmaSqOR_SD(fig, ax, to_plotRight, sfrlabel,ls=ls,
+                      markersize=10, marker='*',
+                      showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    # ax.set_yticklabels([])
+
+    # add a global cbar
+    # https://stackoverflow.com/questions/8342549/matplotlib-add-colorbar-to-a-sequence-of-line-plots
+    # https://stackoverflow.com/questions/13784201/matplotlib-2-subplots-1-colorbar
+    c = np.arange(min(ncut), max(ncut))
+
+    norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+    _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+    _cmap.set_array([])
+
+    cbar = fig.colorbar(_cmap, ticks=c, fraction=0.04, # aspect=10,
+                        ax=axes.ravel().tolist())
+    cbar.ax.tick_params(length=6)
+    if sfrlabel:
+        label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
+    else:
+        label = 'ncut'
+    cbar.set_label(label, fontsize=cbarLabelSize)
+
+    # fig.tight_layout()
+
+    if saveFig:
+        name_out = ystr.replace(' ', '-') + '_' + \
+            xstr.replace(' ', '-')
+        fig.savefig(outdir + name_out + tag + '.pdf', bbox_inches="tight")
+    else:
+        plt.show(block=False)
+
+    return fig, ax
 
 
 def mass_function(data, logged=False,
