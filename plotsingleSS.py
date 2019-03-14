@@ -83,8 +83,11 @@ def plotting_procedure(snapshot_num):
 # ---
 if __name__ == '__main__':
 
-    # for isnap in range(16, 29):
-    #     plotting_procedure(isnap)
+    from plot_modules.plot_cloud_prop import setup_plot
+    cm = setup_plot()
+
+    for isnap in range(16, 29):
+        plotting_procedure(isnap)
 
     # min MC mass for highest n_cut (for paper)
     # for isnap in [16, 27]:
@@ -97,9 +100,6 @@ if __name__ == '__main__':
 
     # for paper, 3x2 panel for just ss16 and ss27
     plt.close('all')
-
-    from plot_modules.plot_cloud_prop import setup_plot
-    cm = setup_plot()
 
     from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3by2
     from plotsingleSS import load_pickleTOplot

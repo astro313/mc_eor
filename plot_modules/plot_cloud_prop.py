@@ -593,10 +593,10 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
-                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+#                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
-            legend_h.append(h)
+#            legend_h.append(h)
 
         else:
             if xstr == "gas sd per ff" and ystr == "sfr sd":
@@ -604,11 +604,12 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                 _y = np.log10(_y)
 
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
-                         marker=marker, label=leglabel + ks,
+                         marker=marker,
+#                         label=leglabel + ks,
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
-            legend_h.append(h)
+#            legend_h.append(h)
 
     # name_out = ystr.replace(' ', '-') + '_' + \
     #     xstr.replace(' ', '-')
