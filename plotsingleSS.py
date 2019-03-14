@@ -83,8 +83,8 @@ def plotting_procedure(snapshot_num):
 # ---
 if __name__ == '__main__':
 
-    for isnap in range(16, 29):
-        plotting_procedure(isnap)
+    # for isnap in range(16, 29):
+    #     plotting_procedure(isnap)
 
     # min MC mass for highest n_cut (for paper)
     # for isnap in [16, 27]:
@@ -93,3 +93,26 @@ if __name__ == '__main__':
     # # plot Larson and local points only (for talk introduction slide)
     # _, to_plot, _ = load_pickleTOplot(16)
     # plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir='./')
+
+
+    # for paper, 3x2 panel for just ss16 and ss27
+    plt.close('all')
+
+    from plot_modules.plot_cloud_prop import setup_plot
+    cm = setup_plot()
+
+    from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3by2
+    from plotsingleSS import load_pickleTOplot
+    ss1, to_plot1, leafdir_out1 = load_pickleTOplot(16)
+    ss2, to_plot2, leafdir_out2 = load_pickleTOplot(27)
+
+    fig, ax = plot_stuff_3by2(to_plot1, to_plot2, ls='',
+                              markersize=10,
+                              marker='*',
+                              tag='',
+#                              cmap=cm,
+                              sfrlabel=False,
+                              cbarLabelSize=16,
+                              outdir='./',
+                              legendFontSize=13,
+                              saveFig=False)
