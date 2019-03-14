@@ -259,15 +259,15 @@ if __name__ == '__main__':
     #         count += 1
     # print count
 
-    # plotting_procedure(16, 28, pattern="0.32")
-    # plotting_procedure(16, 28, pattern="0.53")
-    # plotting_procedure(16, 28, pattern="0.88")
-    # plotting_procedure(16, 28, pattern="1.47")
-    # plotting_procedure(16, 28, pattern="2.45")
-    # plotting_procedure(16, 28, pattern="4.08")
-    # plotting_procedure(16, 28, pattern="6.81")
-    # plotting_procedure(16, 28, pattern="11.36")
-    # plotting_procedure(16, 28, pattern="18.96")
+    plotting_procedure(16, 28, pattern="0.32")
+    plotting_procedure(16, 28, pattern="0.53")
+    plotting_procedure(16, 28, pattern="0.88")
+    plotting_procedure(16, 28, pattern="1.47")
+    plotting_procedure(16, 28, pattern="2.45")
+    plotting_procedure(16, 28, pattern="4.08")
+    plotting_procedure(16, 28, pattern="6.81")
+    plotting_procedure(16, 28, pattern="11.36")
+    plotting_procedure(16, 28, pattern="18.96")
 
 
     # for paper, 3x2 panel for just
