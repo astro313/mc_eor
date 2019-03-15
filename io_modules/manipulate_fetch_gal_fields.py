@@ -347,13 +347,14 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
         x = np.log10(ele)
         # plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
     plt.yscale('log')
-    plt.xlabel(r"$\log~n($H$_2)$ [cm$^{-3}$]")
+    plt.xlabel(r"$\log~n_{{\rm H}_2}$ [cm$^{-3}$]")
+    plt.tight_layout()
     if ss is None:
         plt.savefig(outdir + 'hist_test.png')
         # plt.savefig(outdir + 'hist_test.pdf')
     else:
-        plt.savefig(outdir + 'hist_test_' + str(ss) + '.png')
-        # plt.savefig(outdir + 'hist_test_' + str(ss) + '.pdf')
+        # plt.savefig(outdir + 'hist_test_' + str(ss) + '.png')
+        plt.savefig(outdir + 'hist_test_' + str(ss) + '.pdf', bbox_inches='tight')
 
 
 def check_power(data, size_kpc=7., isnap=28, outdir=''):
