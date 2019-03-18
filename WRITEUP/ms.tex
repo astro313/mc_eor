@@ -279,7 +279,7 @@ Existing studies find a good correspondence in the dynamical properties extracte
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[trim=35 0 10 35, clip, width=0.55\textwidth]{\figpath/hist_test_16.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/hist_test_16.pdf}
 \caption{Probability distribution function of the H$_2$ number density in \flower during the accretion phase shown in \Fig{SFH}.
 \label{fig:h2density}}
 \end{figure}
@@ -388,9 +388,9 @@ Larson's third relation relates MCs structures on small and large scales via two
 \begin{equation}
 A_v = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
 \end{equation}
-then, assuming spherical symmetry, the mass of a MC can be expressed as a function of $A_v$ and its size $l$
+then, assuming spherical symmetry, the mass of a MC can be expressed as a function of $A_v$ and its size $R$
 \begin{equation}\label{eqn:constantcolumndensity}
-M_{\rm cl} = \frac{4\pi}{3} \mu m_p n l^3 = 154 \,A_v \left(\frac{l}{\rm pc}\right)^2 \Msun \,,
+M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154 \,A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
 \end{equation}
 where we have taken $\mu = 2.5$ as the mean molecular weight.
 
@@ -398,10 +398,7 @@ We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to obs
 %
 In the same plot, we also show loci of constant surface densities, which are parameterized through the visual extinction $A_V$. As shown in \Fig{MR}, the MCs identified in \flower lie above this relation, along the locus of $A_v \simeq 8.9$ clouds observed by \citet{Lombardi10a} in the MW.
 %
-% use bla 
-
-%
-The values of $A_V$ inferred from http://adsab%s.harvard.edu/abs/2017MNRAS.471.5018Fthe $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
+%The values of $A_V$ inferred from http://adsabs.harvard.edu/abs/2017MNRAS.471.5018Fthe $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
 
 \begin{figure*}[htbp]
 \centering
@@ -573,16 +570,19 @@ the MCs to be gravitationally unbound (see e.g., \citealt{Dobbs11a}), which is
 consistent with the high $\alpha_{\rm vir}$ found for the MCs in the main disk of \flower.
 
 % mass-size relation
-In terms of the mass-size relation (\Fig{MR}), the MCs of \flower are found to lie above the \citet{Kauffmann10c} relation, which is an empirical relation corresponding to the threshold for massive \SF, but lies
-%The implication of this \citet{Kauffmann10c} relation is that cluster-forming cloud fragments are
-%found to be more massive than those that are devoid of clusters
-%at a given radius.
-below the locus of $A_V$\eq100\,mag followed by Milky Way clouds. This can be understood by acknowledging the fact that a H$_2$ molecular cloud does not necessary contain CO (e.g., as CO forms deeper in molecular clouds), and that our simulation does not have enough resolution to directly form CO\footnote{In fact, to form CO and make predictions for CO line emission in the work presented by \citet{Vallini18a}, we model the internal structure of MC within each cell in our simulation.}.
+MCs of \flower lie below the locus of $A_V$\eq100\,mag followed by Milky Way clouds in the mass-size relation shown in \Fig{MR}. This can be understood by acknowledging the fact that a H$_2$ molecular cloud does not necessary contain CO (e.g., as CO forms deeper in molecular clouds), and that our simulation does not have enough resolution to directly form CO\footnote{In fact, to form CO and make predictions for CO line emission in the work presented by \citet{Vallini18a}, we model the internal structure of MC within each cell in our simulation.}.
 %
 That is, the MCs of \flower lying along the locus of $A_V$\eq4\,mag likely manifests from the fact that the MCs in our simulation have lower column densities than the star-forming cores observed in the Milky Way, which are observationally well-resolved within an MC, and indeed, have sufficient column density to form CO.
 
+The \citet{Kauffmann10c} relation suggests that regions with high-mass \SF follow 
+an ``internal'' mass-size relation where $M\propto r^{1.33}$.
+If this holds for MCs of \flower, an extrapolation of the \citet{Kauffmann10c} relation down to $\sim$1\,pc would correspond to structures with masses and sizes comparable to those of the cores found in
+regions of high-mass \SF. That is, the MCs identified have mass-size relations suggesting they are capable of high-mass \SF. 
+
 % different evolutionary stages
-In the scaling relations examined, we find similar MC properties in relation to those observed in the nearby Universe between the accretion phase and the starburst phase of \flower (see \Fig{larsons_single}). That is, we do not find any quantitative major differences in the MC properties between the accretion and the starburst phase, which are separated by $\simeq$300\,Myr.
+In the scaling relations examined, we find similar MC properties in relation to those observed in the nearby Universe between the accretion phase and the starburst phase of \flower (see \Fig{larsons_single}). That is, we do not find any quantitative major differences in the MC properties between the accretion and the starburst phase, which are separated by $\simeq$300\,Myr. \DL{some MCs in SB phase have
+lower $\alpha_{\rm vir}$ and pressure, but 
+is there any significance in that?}
 
 \subsection{Origin and Physical Scales of MCs} \label{sec:origin}
 
