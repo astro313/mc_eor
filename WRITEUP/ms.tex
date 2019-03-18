@@ -104,229 +104,73 @@ While ALMA has enabled the detection of \cii158\,$\micron$ and CO line emission 
 
 To answer these questions, isolate key issues, and  accompany ongoing/future experimental efforts, we have undertaken a detailed numerical study whose aim is to characterize the dynamical properties of the star-forming molecular cloud complexes in prototypical (i.e., $L^*$) galaxies in the Epoch of Reionization (EoR). 
 
-The paper is structured as follows\footnote{Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities in units of the critical density $\Omega_{\Lambda}$\eq0.692, $\Omega_m$\eq0.308, $\Omega_b$\eq0.0481, Hubble constant $H_0$\eq100\,$h$\,km s\pmOne\,Mpc\pmOne with $h$\eq0.678, spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.}. In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower). In \Sec{eqn}, we describe the method used to identify molecular gas complexes and present the formalism within which we interpret the results. In \Sec{results}, we present the results and the scaling relations for the MCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
+The paper is structured as follows\footnote{Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities in units of the critical density $\Omega_{\Lambda}$\eq0.692, $\Omega_m$\eq0.308, $\Omega_b$\eq0.0481, Hubble constant $H_0$\eq100\,$h$\,km s\pmOne\,Mpc\pmOne with $h$\eq0.678, spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.}. We start by providing some physical background in \Sec{Back}. In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower). In \Sec{eqn}, we describe the method used to identify molecular gas complexes and present the formalism within which we interpret the results. In \Sec{results}, we present the results and the scaling relations for the MCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
 %
+\section{Physical Background}\label{sec:Back}
+We begin by introducing some basic material concerning known physical relations and stability analysis of MCs that will become useful in the following.
+\subsection{Larson relations}\label{sec:PVE}
+\citep{Larson81a} discussed a number of relations among Galactic MC properties, namely the linewidth-size, density-size, and mass-size relations. Larson relations are routinely used for comparing properties of molecular structures in different galactic environments. They also represent a useful framework to analyze our results as they arise from the interplay between gravity and turbulence encoded in the virial theorem. 
 
-% ------------------
-\section{Numerical simulations}\label{sec:sim}
-The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
-%
-\ncode{Serra}\footnote{Greenhouse in italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) technique to achieve high spatial resolution in the region of interest (i.e., regions of high density).
-%
-In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
-
-We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}.
-
-% radiative feedback --> NT pressure
-Star formation is modeled using a H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SN) and OB/AGB stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).
-
-The simulation zooms on a galaxy named \flower whose properties are given in \citet{Pallottini17b} and are briefly summarized in the following. \flower is a Lyman-break galaxy (LBG), that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc; \flower has a stellar mass of $M_*\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
-
-\subsection{Star Formation History} \label{sec:sfh}
-
-\begin{figure*}
-\centering
-\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
-\caption{
-    Star formation history of \flower (top) and projected stellar mass distribution (bottom) during {\it (a)} an accretion phases at its early stage of evolution; {\it (b)} a major starburst phases after a merger event; and {\it (c)} a relatively quiescent phase post-starburst.
-\label{fig:SFH}}
-\end{figure*}
-
-One of the main advantages for studying the dynamical properties of simulated galaies is the fact that we can examine how their properties evolve with time.
-%
-%This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
-
-The \SF history of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne\footnote{Note that here the SFR is calculated based on the stallar mass formed in the last 10 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR account for the contributions from massive satellite galaxies within the virial radius ($\approx$15\,kpc).} as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the few hundred Myr simulated in the simulation.
-
-Given the stochasticity in the \SF history of \flower, in this work we mostly focus on the analysis of two of its most extreme evolutionary stages (see \Sec{singless}). The two phases correspond to (a) when \flower is accreting materials from its surrounding  and (b) when \flower is undergoing a starburst phase; such phases are expected to bracket the most extreme variations in the cloud dynamics. For completeness, for the other evolutionary stages traced in the simulation we only show the results in terms of the found scaling relations (see \Fig{alpha16-28}).
-
-\AP{i think we need a different name for these objects}
-Throughout this paper, we call ``satellite galaxies'' as dense gas regions outside the main disk of \flower, which is $\sim$\,1\,kpc in radius.
-
-\section{Molecular Cloud Complexes}\label{sec:eqn}
-
-\subsection{Structure Identification}\label{sec:method}
-
-To identify the molecular complexes, we use a customized version of the ``clump-finding'' algorithm available in the \ncode{python} package \ncode{yt} \citep{Turk11a}, which was initially described in \citet{Smith09a}, but this function has been modified since then.
-%
-The latest version of the default \ncode{yt} clump finder decomposes the zones of the simulation into non-overlapping tiles, which are stored in a k-dimensional tree (k-d tree). It then identifies the contours of a variable field (here, the density field) within a tile and connects them across the tiles. In the customized version used for this study, we modify the function to enhance the stability of the code.
-%
-Due to the nature of our AMR simulation, we regrid the simulation data into uniform grids. The grid size is defined based on the highest resolution of the simulation data, i.e., the less refined regions are supersampled in the resulting uniform grids.
-
-In the clump-finding process, we employ a set of different density thresholds defined based on the molecular hydrogen density of \flower at different evolutionary stages ($z$\eq6.0\,$-$\,7.2).
-%
-We note that this process is in essence similar to identifying molecular structures based on the noise levels of surface density maps observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN, as commonly adopted in observational studies (e.g., identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a}).
-%
-We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
-% Many concerning the correspondence between  ... , dating back to the work by \citep{Adler92a}.
-Existing studies find a good correspondence in the dynamical properties extracted in PPV- versus PPP-space (\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see also \citealt{Shetty10a} for a discussion on caveats and limitations).
-% large scale structure in PPP may be identified as numerous lower mass structures in the PPV cube due to gradients in the LOS and conversly, superposition when spatially distinct components with the same velocity are "merged" into one component in the PPV space when observed along the LOS (see Fig. 1 of Beaumount13a). (may be worth putting more thoughts on this after the report is due).
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[trim=35 0 10 35, clip, width=0.55\textwidth]{\figpath/hist_test_16.pdf}
-\caption{H$_2$ number density distribution of \flower taken from the accretion phase shown in \Fig{SFH}.
-\label{fig:h2density}}
-\end{figure}
-
-\begin{figure*}[htbp]
- \centering
-  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_0.53}.pdf}
-  \\ [-2.9em]
-  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_6.81}.pdf}
-  \\ [-2.9em]
-  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_18.96}.pdf}
-\caption{
-Examples of MCs identified by the clump-finder. \flower is shown in its in the accreting phase: white contours indicate the identified clumps and the color-bar shows the mean H$_2$ number density, weighted by gas mass. Different rows shows the clump-finder results obtained by applying different H$_2$ number density. Left and right panels show the galaxy from different inclinations
-%cuts of $n_{\rm cut}$\eq[0.53, 6.81,19.00]\,cm$^{-3}$, which is a subset of all the $n_{\rm cut}$ adopted (see \Sec{method})
-\label{fig:MC}}
-% \addtocounter{figure}{-1}
-\end{figure*}
-
-In \Fig{h2density}, we show the H$_2$ number density ($n_{\rm H2}$) distribution of \flower~in its accreting phase, by inlcuding the contribution from the gas within 3.5 kpc from the galaxy center.
-%
-We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and it samples the range of density where ``clumps/structures'' are found based on morphological analysis\footnote{For $n_{\rm H2}\gtrsim1$\,\cc the fourth Minkowsky functional of the H$_{2}$ density field is significantly larger then zero. Such functional is a measure of the Euler characteristic, being positive (negative) implies that the field is made of isolated (connected) components. See Fig. 6 in \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCs by applying 10 equally-spaced volumetric H$_2$ density cuts of $\log{(n_{\rm cut}/{\rm cm^{-3})}}\in[-0.5, 1.5]$\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]\footnote{We also vary the range of $n_{\rm cut}$ adopted and find no qualitative differences affecting the results and conclusions of this work (see \Sec{ncut}).} to each snapshot.
-
-To have a visual overwview of the clump finding results, in \Fig{MC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 6.81, and 19.00\,\cc) on the H$_2$ density maps.
-% equation below for bookkeeping:
-% ${\rm pixel_i}$\eq$\frac{\sum_i~\rho_{\rm H2, i}~w_i~\Delta z_i}{\sum_i~w_i~\Delta z_i}$,
-% where $\rho_{\rm H2, i}$ is the H$_2$ density of pixel $i$, $w_i$ is the weighted quantity in pixel $i$ which we adopt
-% to be the total gas density, and $\Delta z_i$ is the path length of pixel $i$ along the line-of-sight over which the quantities are integrated along.
-Since the molecular structures identified could easily appear as overlapping structures depending on the viewing angle, we also plot them in different three-dimensional projections (right panels of \Fig{MC}) --- so that one can more easily see that they are collections of disjoint structures.
-%
-We repeat this identification process for 14 evolutionary stages between redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq50\,Myr.
-
-Note that we impose the additional constraint that an identified structure must be composed of at least 10 cells. We caution that an important caveat of such constraint is that we can only examine the parameter space of ``cloud'' of typical size $R\gtrsim 60$\,pc, because of the resolution limit in the simulation.
-
-\subsection{Properties of the Clouds}
-
-% Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
-% the mechanisms and physics of formation and evolution of molecular structures and \SF.
-Upon identifying the molecular structures, we extract properties such as the H$_2$ gas mass ($M_{\rm cl}$), effective size ($R$), Mach number ($\mathcal{M}$), velocity dispersion ($\sigma$), and gas surface density ($\Sigma_{\rm gas}$) to examine their dynamics.
-
-The mass of an MC is calculated from the uniformly-gridded 3D density field, integrating over the MC volume $V$. The effective size is defined assuming spherical geometry, i.e. $R \equiv (3 V /4 \pi)^{1/3}$.
-%
-The velocity dispersion of MCs is calculated from non-thermal velocity dispersion ($\sigma_{\rm NT}$) and thermal sound speed ($c_s$):
-\begin{equation}
-\sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
-\label{eqn:veldisp}
-\end{equation}
-%
-In \obs of MC, the linewidths contribution of dense gas contribution is larger then the one from the diffuse gas. We therefore calculate
-each term on the RHS of Equation~\ref{eqn:veldisp} as a density-weighted quantity. For instance, the non-thermal velocity dispersion is
-calculated as follows:
-\begin{equation}
-\sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
-\end{equation}
-where the sum is done for the cells composing each MC.
-The local sound speed of all identified molecular complexes are much smaller compared to the their turbulent velocities\footnote{We find comparable velocity dispersion between that derived from taking the root mean square versus that derived from thermal and non-thermal pressure terms, indicating that rotation velocity is unlikely to be the dominant source of velocity dispersion reported here.\label{ftn:veldisp}}.
-On average, the Mach number of the MCs corresponds to about $\mathcal{M} = \sigma_{\rm NT}/c_s\approx 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
-
-We show in \Fig{dist} the MC distributions in terms of their molecular gas masses, radii, and gas mass fractions, which we define as
-\begin{equation}
-f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_*\right)},
-\end{equation}
-where $M_*$ is the stellar mass within the MC volume.
-%
-We note that the distributions vary for different evolutionary stage of \flower. The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc yields a ``minimum'' MC mass of the order of 10$^{5.5}$\,\Msun for the densest MC.
-%
-We find $\sim$10$-$13 MCs with masses exceeding 10$^8$\,\Msun across all the evolutionary stages considered in this work,
-for each of the given $n_{\rm cut}$ (see \Sec{method}). The mass of the MCs identified ranges between $M_{\rm cl}\approx$10$^{5.5-8.5}$\,\Msun, consistent with those observed in \z$\sim$2 galaxies in rest-frame {\it UV and optical light} \citep{Elmegreen07a, Elmegreen09a}.
-
-\begin{figure*}[htbp]
-\centering
-\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
-\caption{Distributions of mass (left), size (middle), and gas mass fraction (right) of MCs identified using the lowest $n_{\rm cut}$ (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels).
-Note that the scale shown on the y-axes are different between the top and bottom panels, as less MCs are identified at higher $n_{\rm cut}$.
-\label{fig:dist}}
-\end{figure*}
-
-%\section{Basic physical properties}\label{sec:eqn}
-
-%\subsection{Virial Equilibrium and Larson's Relations}\label{sec:PVE}
-\subsection{Larson's Relations}\label{sec:PVE}
-
-In next sections, we examine and compare properties of the MCs with observations in the context of the Larson's relations \citep{Larson81a}. Namely, the linewidth-size, density-size, and mass-size relations. Larson's relations are adopted for the discussion in this work as they  describe the interactions between gravity and turbulence, and is the first set of relations used for studying star-forming molecular structure formation based on observables which has been routinely used for comparing properties of molecular structures in different galactic environments.
-% Inner MW: R=2-8.5 kpc, most of the mass in the molecular ISM is in the form of GMCs with sizes $gtrsim$20\,pc and masses greater than 10$^5$\,\Msun \citep{Sanders85a}.
-
-% Relating Larson's law to stability and pressure (perhaps move this to other section?).
-In general, the virial theorem for a distribution of gas can be written as
+In general, the virial theorem for a gas distribution of gas can be written as
 \begin{equation}\label{eqn:virial_th_general}
 \frac{1}{2}\ddot{\mathcal{I}} = 2(\mathcal{T} - \mathcal{T}_{\rm ext}) + \mathcal{W},
 \end{equation}
-where $\ddot{\mathcal{I}}$ is the second time derivative of the Lagrangian moment of inertia, 
-$\mathcal{T}$ is the internal energy of the gas, 
-$\mathcal{T}_{\rm ext}$ is external pressure support, and $\mathcal{W}$ is the gravitational energy.
+where $\ddot{\mathcal{I}}$ is the second time derivative of the Lagrangian moment of inertia, $\mathcal{T}$ is the internal energy of the gas, $\mathcal{T}_{\rm ext}$ is external pressure support, and $\mathcal{W}$ is the gravitational energy.
 %
-Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm cl}$, radius $R$, and velocity dispersion $\sigma$, accounting for both thermal and turbulent velocity dispersion. Neglecting magnetic field and calling $P_{\rm ext}$ the external pressure, \Eq{virial_th_general} can be written as
+Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm cl}$, radius $R$, and r.m.s. velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions. Neglecting magnetic field and defining $P_{\rm ext}$ the external pressure, \Eq{virial_th_general} can be written as
 \begin{equation}
-\frac{1}{2}{\mathcal{I}} = 3 M_{\rm cl} \sigma^2 - 4\pi P_{\rm ext} R - \frac{\Gamma GM_{\rm cl}^2}{R}\,,
+\frac{1}{2}{\ddot{\mathcal{I}}} = 3 M_{\rm cl} \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM_{\rm cl}^2}{R}\,,
 \label{eqn:virial}
 \end{equation}
-where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the first term on the right hand side (RHS) is the pressure term from internal velocity dispersion, the second term the external pressure term, and the third term is is the gravity term. For the case of simple virial equilibrium (SVE; i.e., equilibrium state without external pressure), \Eq{virial} becomes:
+where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the terms on the r.h.s. represent the kinetic, external, and gravity pressure terms. 
+%
+For the case of simple virial equilibrium (SVE; i.e., equilibrium state without external pressure), \Eq{virial} becomes:
 \begin{equation}
-\alpha_{\rm vir} \equiv \frac{3\sigma^2}{\Gamma GM_{\rm cl}/R} = \frac{5\sigma^2R}{GM_{\rm cl}}\,,
+\alpha_{\rm vir} \equiv \frac{3\sigma^2}{\Gamma (GM_{\rm cl}/R)} = \frac{5\sigma^2R}{GM_{\rm cl}}\,,
 \label{eqn:alpha}
 \end{equation}
-which is also the defined as the virial parameter $\alpha_{\rm vir}$.
+which defined as the virial parameter $\alpha_{\rm vir}$.
 
-Motivated by the Larson's linewidth-size relation \citep{Larson81a} and the work by \citet{Heyer09a},
-we recast Equation~\ref{eqn:alpha} into the form of:
+Motivated by the Larson's linewidth-size relation \citep{Larson81a} and the work by \citet{Heyer09a}, we recast Equation~\ref{eqn:alpha} into 
 \begin{equation}
 \sigma^2/R = \pi G \Sigma/5\,,
 \label{eqn:SVE}
 \end{equation}
-for gas in virial equilibrium (i.e., by setting $\alpha_{\rm vir}$\eq1).
-On the other hand, for pressure-bounded virial equilibrium (PVE; i.e. equilibrium state with pressure), % external pressure
-Equation~\ref{eqn:virial} becomes:
+for gas in virial equilibrium, i.e., by setting $\alpha_{\rm vir}$\eq1; the surface density $\Sigma$\eq$M/\pi R^2$. On the other hand, for pressure-bounded virial equilibrium (PVE; i.e. equilibrium state with external pressure), Equation~\ref{eqn:virial} becomes:
 \begin{equation}
-P_{\rm ext} = \frac{3\sigma^2M_{\rm cl}}{4\pi R^3} - \frac{\Gamma G M_{\rm cl}^2}{4\pi R^4},
+P_{\rm ext} = \frac{3\sigma^2M_{\rm cl}}{4\pi R^3} - \Gamma\frac{G M_{\rm cl}^2}{4\pi R^4}\,,
 \label{eqn:pext}
 \end{equation}
-which describes how much external pressure is needed to confine the gas inside a given volume.
-Substituting surface density $\Sigma$\eq$M/\pi R^2$ into Equation~\ref{eqn:pext}, we can express it with the following:
+which quantifies the external pressure needed to confine the gas inside a given volume. Substituting again $\Sigma$  into Equation~\ref{eqn:pext}, we find 
 \begin{equation}
 \frac{\sigma^2}{R} = \frac{1}{3}\left(\frac{4P_{\rm ext}}{\Sigma} + \Gamma G \Sigma \pi \right)\,,
 \label{eqn:v0}
 \end{equation}
 keeping $\sigma^2/R$ on the LHS.
 
-Based on Equations~\ref{eqn:SVE} and \ref{eqn:pext}, a one-to-one mapping
-between $\sigma^2/R$ and $\Sigma$ is therefore expected for a virialized cloud,
-since $\sigma^2/R\propto\Sigma$. Equation~\ref{eqn:v0}
-then yields the loci along which external pressures $P_{\rm ext}$ are needed in order for some given MCs to have
-linewidths $\sigma$ for a given set of surface densities. % (see\Fig{alpha27}).
-In other words, a cloud with $\sigma$ and $\Sigma$ offset from $\sigma^2/R\mapsto\Sigma$ is in equilibrium with
-external pressure $P_{\rm ext}$ (and therefore $\sigma^2/R$ is not constant
-with $\Sigma$ but varies depending on $P_{\rm ext}$; cf.
-expectation for SVE, where $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
+Based on Equations~\ref{eqn:SVE} and \ref{eqn:pext}, a one-to-one mapping between $\sigma^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma^2/R\propto\Sigma$. Equation~\ref{eqn:v0} then yields the loci along which external pressures $P_{\rm ext}$ are needed in order for some given MCs to have linewidths $\sigma$ for a given set of surface densities. In other words, a cloud with $\sigma$ and $\Sigma$ offset from $\sigma^2/R\mapsto\Sigma$ is in equilibrium with external pressure $P_{\rm ext}$; therefore $\sigma^2/R$ is not constant with $\Sigma$ but varies depending on $P_{\rm ext}$ (cf. expectation for SVE, where $\sigma\propto R^{0.5}$; see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
-Summarizing, we use the virial parameter (\Eq{alpha}) to quantify the stability of an MC.
-An $\alpha_{\rm vir}\approx$\,2 corresponds to approximately equipartition between gravitational and kinetic energies, and is
- often used to assess the boundedness of a given structure in \obs \citep[see e.g., ][]{Kauffmann17b}\footnote{Note, however, that the true virial state/boundedness of a given structure also depends on the surface terms and the magnetic field (see \Eq{virial}).}.
-To facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to
-the stellar component.
+Summarizing, the virial parameter can be used to quantify the stability/boundedness of an MC. Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{bertoldi:1992}.
+%
+Such criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}; in the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
-\subsection{Toomre Stability}\label{sec:Q}
+\subsection{Toomre stability analysis}\label{sec:Q}
 
-The onset of gravitational instability is considered to be tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. 
-From virial theorem, Jeans instability sets the scales at which gravitational potential overcomes the internal energy. Namely, gravitational instabilities dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, centrifugal force resulting from differential rotation in disk galaxies can inhibit collapse even on these scales. As a result, a disk is thought to be unstable on scales between $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set by the surface density of the disk and the angular velocity of the rotation.
+The onset of gravitational instability is considered to be tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. From virial theorem, Jeans instability sets the scales at which gravitational potential overcomes the internal energy. Namely, gravitational instabilities dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, centrifugal force resulting from differential rotation in disk galaxies can inhibit collapse even on these scales. As a result, a disk is thought to be unstable on scales between $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set by the surface density of the disk and the angular velocity of the rotation.
 
-In theoretical and observational works, gravitational instability has been widely discussed in the context of the Toomre $Q$ stability criterion \citep{Toomre64a, Goldreich65b} or its observable proxy 
-$v_{\rm circ}/\sigma$, i.e., the circular velocity to dispersion ratio \citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
+In theoretical and observational works, gravitational instability has been widely discussed in the context of the Toomre $Q$ stability criterion \citep{Toomre64a, Goldreich65b} or its observable proxy  $v_{\rm circ}/\sigma$, i.e., the circular velocity to dispersion ratio \citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
 % https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
 % from linear analysis
-For {\it axisymmetric} mode, the dispersion relation for the growth of density perturbation in a rotating turbulent disk of
-finite thickness $h$ is described by
+For {\it axisymmetric} mode, the dispersion relation for the growth of density perturbation in a rotating turbulent disk of finite thickness $h$ is described by
 \begin{equation}
 \omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma^2 k^2\,,
 \label{eqn:3Ddisp}
 \end{equation}
 where $k$ is the wavenumber and $\kappa$ is the epicyclic frequency, defined as:
 \begin{equation}
-\kappa^2\equiv\frac{2\Omega}{R}\frac{d}{dR}\left(R^2\Omega\right)\,,
+\kappa^2\equiv\frac{2\Omega}{R}\frac{d}{dR}\left(R^2\Omega\right)\,.
 \label{eqn:kappa}
 \end{equation}
 \citep{Romeo92a}.
@@ -335,15 +179,13 @@ The first term on the RHS of Equation~\ref{eqn:3Ddisp} describes rotation suppor
 Q_{\rm gas}\equiv\frac{\sigma_{\rm gas}\kappa}{\pi G \Sigma_{\rm gas}}\,.
 \label{eqn:Q}
 \end{equation}
-In the thin disk approximation ($kh\ll1$), the solution of \Eq{3Ddisp} is unstable for scales $k$ such that 
-$Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). Physically, this situation happens when local gravitational instability
-overcomes support from pressure and rotation, allowing fragmentation and collapse to happen.
-Similarly, for a collisionless fluid --- as an ensemble of stars --- the Toomre $Q$ parameter is defined by \citep{Toomre64a}:
+In the thin disk approximation ($kh\ll1$), the solution of \Eq{3Ddisp} is unstable for scales $k$ such that $Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). Physically, this situation occurs when local gravitational instability
+overcomes support from pressure and rotation, allowing fragmentation and collapse to happen. Similarly, for a collisionless fluid --- as an ensemble of stars --- the Toomre $Q$ parameter is defined by \citep{Toomre64a}:
 \begin{equation}
 Q_{\star} \equiv\frac{\sigma_{\star}\kappa}{3.36 G \Sigma_{\star}}\,.
 \end{equation}
 
-In our stability analysis, we account for a non-negligible disk thickness and for the combined effect of gas and stars; this is done adopting the approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
+In our stability analysis, we account for the non-negligible disk thickness and for the combined effect of gas and stars; this is done adopting the approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
 %
 The effect of disk thickness modify the $Q$ parameter for gas/star by accounting for the vertical velocity dispersion:
 \begin{equation}
@@ -375,13 +217,136 @@ where the relative weight $w$ is defined as:
 \begin{equation}
 w\equiv\frac{2 \sigma_{\star} \sigma_{\rm gas}}{\sigma_{\star}^2 + \sigma_{\rm gas}^2},
 \end{equation}
-Conceptually, the thickness of a disk reduces the gravity in the vertical direction, thereby making 
-a system easier to obtain stability, and thus, lowering the criterion of the critical Toomre 
-$Q_{\rm crit}$ from $\simeq$\,1 to 
-0.67 \citep{Goldreich65a}. On the other hand, including the contribution of the stellar 
-component promotes gravitational instability, and thus, increasing the criterion of the Toomre $Q_{\rm crit}$.
-unless it is dynamically hot to ``compensate''.  
-As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
+Conceptually, the thickness of a disk reduces the gravity in the vertical direction, thereby making it easier for a system to obtain stability, and thus lowering the criterion of the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 
+0.67 \citep{Goldreich65a}.
+%
+On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus, increasing the criterion of the Toomre $Q_{\rm crit}$, unless it is dynamically hot to ``compensate''. As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
+
+% ------------------
+\section{Numerical simulations}\label{sec:sim}
+The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
+%
+\ncode{Serra}\footnote{Greenhouse in italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) technique to achieve high spatial resolution in the region of interest (i.e., regions of high density).
+%
+In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
+
+We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}.
+
+% radiative feedback --> NT pressure
+Star formation is modeled using a H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SN) and OB/AGB stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).
+
+The simulation zooms on a galaxy named \flower whose properties are given in \citet{Pallottini17b} and are briefly summarized in the following. \flower is a Lyman-break galaxy (LBG), that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc; \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
+
+\subsection{Star Formation History} \label{sec:sfh}
+
+\begin{figure*}
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
+\caption{
+    {\it Top panel}: Star formation history of \flower. {\it Bottom}: projected stellar mass distribution during {\it (a)} an early accretion phase;  {\it (b)} a major starburst following a merger event; and {\it (c)} a relatively quiescent post-starburst phase.
+\label{fig:SFH}}
+\end{figure*}
+
+One of the main advantages for studying the dynamical properties of simulated galaies is the fact that we can examine how their properties evolve with time.
+%
+%This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
+
+The \SF history\footnote{Note that here the SFR is calculated based on the stellar mass formed in the last 10 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR account for the contribution from massive satellite galaxies within the virial radius ($\approx$15\,kpc).} of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
+
+Given \flower's SF stochastic nature, in this work we mostly focus on the analysis of two of its most extreme evolutionary stages (see \Sec{singless}). The two phases correspond to (a) intense accretion (b) starburst (\Fig{SFH}). We are interesting in determining whether MC properties are sensitive to these different dynamical conditions. For completeness, for the other evolutionary stages traced in the simulation we only show scaling relations (see \Fig{alpha16-28}).
+
+Throughout this paper, we dub as ``satellite galaxies'' the dense gas regions outside the main disk of \flower. The distinction between clumps and satellites is admittedly somewhat ambiguous, and we consider it only as a working one.
+\AF{To be discussed at the end}
+
+\section{Molecular Cloud Complexes}\label{sec:eqn}
+
+\subsection{Identification}\label{sec:method}
+
+To identify the molecular complexes, we use a customized version of the ``clump-finding'' algorithm available in the \ncode{python} package \ncode{yt} \citep{Turk11a}, which was initially described in \citet{Smith09a}, but this function has been modified since then.
+%
+The latest version of the default \ncode{yt} clump finder decomposes the zones of the simulation into non-overlapping tiles, which are stored in a $k$-dimensional tree ($k$-D tree). It then identifies the contours of a variable field (here, the density field) within a tile and connects them across the tiles. In the customized version used for this study, we modify the function to enhance the stability of the code.
+%
+Due to the nature of our AMR simulation, we regrid the simulation data into uniform grids. The grid size is defined based on the highest resolution of the simulation data, i.e., the less refined regions are supersampled in the resulting uniform grids.
+
+In the clump-finding process, we employ a set of different density thresholds defined based on the molecular hydrogen density of \flower at different evolutionary stages ($z$\eq6.0\,$-$\,7.2).
+%
+We note that this process is in essence similar to identifying molecular structures based on the noise levels of surface density maps observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN, as commonly adopted in observational studies (e.g., identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a}).
+%
+We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
+% Many concerning the correspondence between  ... , dating back to the work by \citep{Adler92a}.
+Existing studies find a good correspondence in the dynamical properties extracted in PPV- versus PPP-space (\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see also \citealt{Shetty10a} for a discussion on caveats and limitations).
+% large scale structure in PPP may be identified as numerous lower mass structures in the PPV cube due to gradients in the LOS and conversly, superposition when spatially distinct components with the same velocity are "merged" into one component in the PPV space when observed along the LOS (see Fig. 1 of Beaumount13a). (may be worth putting more thoughts on this after the report is due).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[trim=35 0 10 35, clip, width=0.55\textwidth]{\figpath/hist_test_16.pdf}
+\caption{Probability distribution function of the H$_2$ number density in \flower during the accretion phase shown in \Fig{SFH}.
+\label{fig:h2density}}
+\end{figure}
+
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_0.53}.pdf}
+  \\ [-2.9em]
+  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_6.81}.pdf}
+  \\ [-2.9em]
+  \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_18.96}.pdf}
+\caption{
+Examples of MCs (white contours) identified by the clump-finder in  \flower during its  accreting phase. The color-bar shows the mean H$_2$ number density, weighted by gas mass. Different rows shows the clump-finder results obtained by applying different H$_2$ number density cuts density cuts $(n_{\rm cut})$ as shown by the label. Left and right panels show the galaxy from different viewing angles.
+\label{fig:MC}}
+\end{figure*}
+
+In \Fig{h2density}, we show the H$_2$ number density ($n_{\rm H2}$) distribution of \flower~in its accreting phase, by including the contribution from the gas within 3.5 kpc from the galaxy center.
+%
+We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and it samples the range of densities where clumps are found based on morphological analysis\footnote{For $n_{\rm H2}\gtrsim1$\,\cc the fourth Minkowsky functional of the H$_{2}$ density field is significantly larger than zero. This implies that the field is made of isolated components. See Fig. 6 in \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCs by applying 10 equally-spaced volumetric H$_2$ density cuts of ${(n_{\rm cut}/{\rm cm^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 5.81, 11.36, 18.96, 31.62]$\footnote{We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}).} to each snapshot.
+
+To visually appreciate  the clump finding procedure, in \Fig{MC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
+Since the molecular structures identified could easily appear as overlapping structures depending on the viewing angle, we also plot them in different three-dimensional projections (right panels of \Fig{MC}) so that one can more easily see that they are collections of disjoint structures.
+%
+We repeat this identification process for 14 evolutionary stages between redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq50\,Myr.
+
+Note that we impose the additional constraint that an identified structure must be composed of at least 10 cells. We caution that an important caveat of such constraint is that we can only examine the parameter space of ``cloud'' of typical size $R\gtrsim 60$\,pc, because of the resolution limit in the simulation.
+
+\subsection{Properties of the Clouds}
+
+% Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
+% the mechanisms and physics of formation and evolution of molecular structures and \SF.
+Upon identifying the molecular structures, we extract properties such as the gas mass ($M_{\rm cl}$), effective size ($R$), Mach number ($\mathcal{M}$), r.m.s. velocity dispersion ($\sigma$), and gas surface density ($\Sigma_{\rm gas}$) to examine their dynamics.
+
+The mass of an MC is calculated from the uniformly-gridded 3D density field, integrating over the MC volume $V$. The effective size is defined assuming spherical geometry, i.e. $R \equiv (3 V /4 \pi)^{1/3}$.
+%
+The velocity dispersion of MCs is calculated from non-thermal velocity dispersion ($\sigma_{\rm NT}$) and thermal sound speed ($c_s$):
+\begin{equation}
+\sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
+\label{eqn:veldisp}
+\end{equation}
+%
+In \obs of MC, the linewidths contribution of dense gas contribution is larger then the one from the diffuse gas. We therefore calculate each term on the RHS of Equation~\ref{eqn:veldisp} as a density-weighted quantity. For instance, the non-thermal velocity dispersion is calculated as follows:
+\begin{equation}
+\sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
+\end{equation}
+where the sum is done for the cells composing each MC.
+%
+The local sound speed of all identified molecular complexes is much smaller than their turbulent velocities\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field, indicating that contribution from shear is unlikely to dominating the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\approx 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
+
+We show in \Fig{dist} the MC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
+\begin{equation}
+f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_\star\right)},
+\end{equation}
+where $M_\star$ is the stellar mass within the MC volume.
+%
+We note that the distributions vary for different evolutionary stages of \flower. The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc yields a minimum MC mass of the order of 10$^{5.5}$\,\Msun for the densest MC.
+%
+We find $\sim$10$-$13 MCs with masses exceeding 10$^8$\,\Msun across all the evolutionary stages considered in this work, for each  $n_{\rm cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do you show the valu 18.96 instead?} \DL{MCs w/ Mcl $>$10$^8$\,\Msun is the case for each ncut.} Such massive clouds correspond to the galaxy molecular disk, that is identified as a single component for low $n_{\rm cut}$. The mass of the MCs identified ranges between $M_{\rm cl}\approx$10$^{5.5-8.5}$\,\Msun, consistent with those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and $f_{gas}$ here..Also, what is the total number of MCs?}
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
+\caption{Distributions of mass (left), size (middle), and gas mass fraction (right) of MCs identified using the lowest $n_{\rm cut}$ (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels).
+Note that the scale shown on the y-axes are different between the top and bottom panels, as less MCs are identified at higher $n_{\rm cut}$.
+\label{fig:dist}}
+\end{figure*}
+
 
 \section{Results}\label{sec:results}
 
@@ -389,44 +354,29 @@ As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67
 \centering
 \includegraphics[trim=30 30 0 0, clip, width=1.1\textwidth]{\figpath/3by2_clumpProp_ss16-27.pdf}
 \caption{
-Linewidth-size relation (top),
-$\alpha_{\rm vir}$-mass relation 
-(middle), and 
-$\sigma^2/R$-$\Sigma_{\rm gas}$ relation (bottom)
-for MCs (star symbols)
-identified in the two most extreme evolutionary stages of \flower\ --- accreting phase (left) and starburst phase (right).
-Star symbols are color-coded by the density thresholds ($n_{\rm cut}$). 
+Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\sigma^2/R$-$\Sigma_{\rm gas}$ relation (bottom) for MCs (star symbols) identified in the two most extreme evolutionary stages of \flower\ --- accreting phase (left) and starburst phase (right). Star symbols are color-coded by the density thresholds ($n_{\rm cut}$). 
+Data points in the $\alpha_{\rm vir}$-mass figure are taken from \citet{Kauffmann17a} and \citet{Kauffmann17b} and references therein.
+\DL{for some reason, I can't change the yaxis-limit first the top plots..}
 \label{fig:larsons_single}}
 \end{figure*}
 
 \begin{figure*}
 \centering
 \includegraphics[trim=20 20 0 0, clip, width=1.1\textwidth]{\figpath/3by2_clumpProp_allss.png}
-\caption{
-Same as \Fig{larsons_single}, except star symbols are showing MCs identified across all evolutionary 
-stages traced in our simulation, which are color-coded by the SFR of \flower in those stages. 
-Left panels show MCs identified using a low $n_{\rm cut}$\eq0.53\,\cc
-and right panels show MCs identified using a high $n_{\rm cut}$\eq19\,\cc.
+\caption{Same as \Fig{larsons_single}, except star symbols are showing MCs identified across all evolutionary stages traced in our simulation, which are color-coded by the SFR of \flower in those stages. Left panels show MCs identified using a low $n_{\rm cut}$\eq0.53\,\cc and right panels show MCs identified using a high $n_{\rm cut}$\eq19\,\cc.
 \label{fig:alpha16-28}}
 \end{figure*}
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
 
-For each of the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), we identify a set of MCs.
-%
-Scaling relations for the MCs identified in the accretion phase are shown in left panels of \Fig{larsons_single} and in the right
-panels for the starburst phase.
+For each of the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), we identify a set of MCs. Scaling relations for the MCs identified in the accretion phase are shown in left panels of \Fig{larsons_single} and in the right panels for the starburst phase.
 % 
-Some MCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ (closer to loci with lower external pressure)
-compared to the accretion phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
+Some MCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ (closer to loci with lower external pressure) compared to the accretion phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
 %
-Regardless of the H$_2$ density cuts adopted, MCs in both phases are found to have consistently 
-high turbulences and surface densities. They correspond to MCs at the center of the main disk of \flower and occupy the top right corner of the Larson's relation shown in \Fig{larsons_single}.
-As we increase the density threshold, some of the MCs within the main disk break into multiple sub-MCs. As such, we effectively identify a population of denser molecular structures (see \Fig{MC}).
+Regardless of the H$_2$ density cuts adopted, MCs in both phases are found to have consistently high turbulence and surface densities. They correspond to MCs at the center of the main disk of \flower and occupy the top right corner of the Larson's relation shown in \Fig{larsons_single}. As we increase the density threshold, some of the MCs within the main disk break into multiple sub-MCs. As such, we effectively identify a population of denser molecular structures (see \Fig{MC}).
 
 % PVE
-We also compare the MCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are
-needed for MCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
+We also compare the MCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are needed for MCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
 The MCs in the satellite galaxies are found to follow the locus of $\log{(P/\textrm{K cm}^{-3})}$\eq6, which
 is consistent with that found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a}.
@@ -434,34 +384,44 @@ is consistent with that found for the bulk of dense gas in the simulation in the
 % cloud structures at large and small scale
 % Larson's: m = 460 M_sun (r_pc)^1.9 for structure w/in molecular clouds. --> $m \propto r^2$ \citep{McKee07a} (law of constant
 % column density) as fundamental properties of molecular cloud structure.
-Larson's third relation describes fundamental properties of molecular clouds, relating their structures on small and large scales via two physical properties: mass and size \citep{Larson81a, McKee07a}. This is also known as the law of constant column density, since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_{\rm H2}$) obtainable from extinction maps ($A_V$). That is, $N_{\rm H2}\propto A_V$, $\Sigma\propto N_{\rm H2}$, and $M$\eq$\int \Sigma~dA$. Therefore, cloud mass is related to $N_{\rm H2}$ and $A_V$.
+Larson's third relation relates MCs structures on small and large scales via two physical properties: mass and size \citep{Larson81a, McKee07a}. This is also known as the constant column density relation, since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with MW-like dust can be written as 
+\begin{equation}
+A_v = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
+\end{equation}
+then, assuming spherical symmetry, the mass of a MC can be expressed as a function of $A_v$ and its size $l$
+\begin{equation}\label{eqn:constantcolumndensity}
+M_{\rm cl} = \frac{4\pi}{3} \mu m_p n l^3 = 154 \,A_v \left(\frac{l}{\rm pc}\right)^2 \Msun \,,
+\end{equation}
+where we have taken $\mu = 2.5$ as the mean molecular weight.
 
 We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870$\,\Msun$\times\,\left(r/{\rm pc}\right)^{1.33}$.
 %
-In the same plot, we also show loci of constant surface densities, which are parameterized through the visual extinction $A_V$. As shown in \Fig{MR}, the MCs identified in \flower lie above this relation, along the locus with a visual extinction of $A_V$\eq4\,mag \citep{Lombardi10a}. We discuss this result in the Discussion section.
+In the same plot, we also show loci of constant surface densities, which are parameterized through the visual extinction $A_V$. As shown in \Fig{MR}, the MCs identified in \flower lie above this relation, along the locus of $A_v \simeq 8.9$ clouds observed by \citet{Lombardi10a} in the MW.
+%
+% use bla 
+
+%
+The values of $A_V$ inferred from http://adsab%s.harvard.edu/abs/2017MNRAS.471.5018Fthe $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
 
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
 \caption{
 Size-mass relation of MCs identified in the accretion phase of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the threshold for massive \SF reported by \citet{Kauffmann10b}. Star symbols are color-coded by increasing $n_{\rm cut}$. Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}. The colored lines show the loci expected for various visual extinctions ($A_V$), which corresponds to lines of constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
-The star symbols are color-coded by $n_{\rm cut}$, same as \Fig{larsons_single}.
+The star symbols are color-coded by $n_{\rm cut}$, same as \Fig{larsons_single}. \AP{please implement the following} The reference lines with different $A_V$ are computed from \Eq{constantcolumndensity}.
+\DL{Ignore the blue dotted line for now.}
 \label{fig:MR}}
 \end{figure*}
 
-
-
 \subsection{Temporal Evolution and Adopted Density Threshold Dependence}\label{sec:ncut}
 % single Snapshot
-We investigate possible variations in the dynamics of the molecular structures of \flower and its satellites to test the robustness of our results against the choice of density threshold by adopting
-different sets of $n_{\rm cut}$ in identifying the MCs.
+We investigate possible variations in the dynamics of the molecular structures of \flower and its satellites to test the robustness of our results against the choice of density threshold by adopting different sets of $n_{\rm cut}$ in identifying the MCs. That is, how sensitive are the structure properties, and thus, the results presented in \Sec{singless} dependent on the choice of density thresholds.
 %
-That is, how sensitive are the structure properties, and thus, the results presented in \Sec{singless} dependent on the choice of density thresholds. We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results (i.e., inferences on the dynamics of \z$\sim$\,6 MCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of
-cloud scaling relations).
+We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results, i.e., inferences on the dynamics of \z$\sim$\,6 MCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of cloud scaling relations.
 %
 In addition, for the densest MC in the main disk of \flower, we find that while its size decreases as we increase $n_{\rm cut}$ --- as one would intuitively expect, the velocity dispersion remain approximately $\sigma\simeq$\,200\,\kms (see also \Fig{larsons_single}).
 %
-This lack of variation is reassuring, in the sense that at least on the scales studied here, the dynamics of the MCs are not artifacts or biased by our choice of $n_{\rm cut}$. Our results are therefore robust to the various density cuts of choice.
+This lack of variation is reassuring, i.e. the dynamics of the MCs are not artifacts or biased by our choice of $n_{\rm cut}$ on the scales studied in the present work. Our results are therefore robust to the various density cuts of choice.
 
 % temporal evolution in Cloud Dynamics
 We show the properties of all MCs identified across all evolutionary stages in \Fig{alpha16-28}. We find no quantitative differences in the cloud properties over the 700\,Myr traced in our simulation.
@@ -581,7 +541,6 @@ We show the properties of all MCs identified across all evolutionary stages in \
 %
 %\end{comment}
 
-
 %--------------------------------------------------------------------------
 %                                Discussion
 %--------------------------------------------------------------------------
@@ -597,7 +556,7 @@ Their velocity dispersions are also comparable to those observed in the inner Mi
 (see footnote~\ref{ftn:veldisp} on page \pageref{ftn:veldisp}) of these MCs can also be understood as they have experienced more recent episodes of \SF as \flower is assembling its stellar mass (these MCs also have higher stellar-to-gas mass ratios of $\sim$60).
 %
 In fact, by the accretion stage (see \Fig{SFH}a) at $z\simeq$\,7.2, 
-\flower has assembled a stellar mass of $M_*$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is due in part to the stronger stellar feedback compared to e.g., MCs in its satellites ($\sigma\approx$10\,\kms).
+\flower has assembled a stellar mass of $M_\star$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is due in part to the stronger stellar feedback compared to e.g., MCs in its satellites ($\sigma\approx$10\,\kms).
 
 
 The high pressure observed in \flower is comparable to what has been observed in local ultra-luminous IR galaxies (ULIRGs); however, the molecular clouds in the latter are concentrated within their central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun \citep{Downes98a, Sakamoto08a}. In our simulated galaxy, the high pressure MCs of \flower are found throughout the disk. This difference likely stems from the different physical mechanisms giving rise to the formation (and thus the nature) of these molecular structures.
@@ -828,7 +787,7 @@ enabling us to test our findings and refine future simulations to shed light on 
 %-------------------------------------
 \acknowledgements
 
-We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data.
+We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data, and Jens for useful discussions.
 %
 TKDL acknowledges support by the NSF through award SOSPA4-009 from the NRAO and support from the Simons Foundation.
 %
