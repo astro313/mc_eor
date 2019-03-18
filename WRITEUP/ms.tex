@@ -51,7 +51,7 @@
 \altaffiltext{7}{American Museum of Natural History, 79th St.~at Central Park West, New York, NY 10024, USA}
 
 \begin{abstract}
-We study the properties of molecular cloud (MC) complexes in a prototypical galaxy (``\flower") at redshift $z\approx 6$ using cosmological zoom-in simulations.
+We study the properties of molecular cloud (MC) complexes in a prototypical galaxy (``Alth{\ae}a'') at redshift $z\approx 6$ using cosmological zoom-in simulations.
 %
 We identify MCs using an H$_2$ density-based clump finder, and compare their mass, size, velocity dispersion, gas surface density, and virial parameter ($\alpha_{\rm vir}$) with those observed in nearby and \z$\lesssim 2$ galaxies.
 %
@@ -78,6 +78,7 @@ High resolution imaging of the first galaxies with the Atacama Large (sub-)Milli
 %--------------------------------------------------------------------------
 
 \section{Introduction}
+\DL{please igonre Fig 7 for now. Labels/markers in the AlphaVir plots in Fig 5,6 will be updated based on Jens Kauffman's comments} 
 The growth of galaxies and their subsequent evolution are governed by the baryon cycle --- galaxies accrete gas from the intergalactic medium (IGM) to fuel \SF (and feed their supermassive black holes). Subsequent feedback replenishes and enriches the circumgalactic medium with part of this material. The general consensus is that the growth of \highz galaxies are triggered and supported by massive gas inflows from mergers and/or cosmic web at early cosmic times. Back then, galaxies themselves are more gas-rich and their molecular fraction possibly higher compared to present-day galaxies.
 
 Such massive gas inflows trigger gravitational instabilities which lead to the formation of molecular complexes that are typically more massive ($M_{\rm cl}\approx 10^9$\,\Msun) and extended ($\approx$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
@@ -114,7 +115,7 @@ The simulations used in this work are described by \citealt{Pallottini17a, Pallo
 %
 In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
 
-We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}).
+We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}.
 
 % radiative feedback --> NT pressure
 Star formation is modeled using a H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SN) and OB/AGB stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).
@@ -415,9 +416,12 @@ For each of the two most extreme evolutionary stages of \flower\ --- accretion a
 %
 Scaling relations for the MCs identified in the accretion phase are shown in left panels of \Fig{larsons_single} and in the right
 panels for the starburst phase.
+% 
+Some MCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ (closer to loci with lower external pressure)
+compared to the accretion phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
 %
-Regardless of the H$_2$ density cuts adopted, the MCs are found to have consistently 
-high turbulences and surface densities in both stages. These correspond to MCs at the center of the main disk of \flower and occupy the top right corner of the Larson's relation shown in \Fig{larsons_single}.
+Regardless of the H$_2$ density cuts adopted, MCs in both phases are found to have consistently 
+high turbulences and surface densities. They correspond to MCs at the center of the main disk of \flower and occupy the top right corner of the Larson's relation shown in \Fig{larsons_single}.
 As we increase the density threshold, some of the MCs within the main disk break into multiple sub-MCs. As such, we effectively identify a population of denser molecular structures (see \Fig{MC}).
 
 % PVE
