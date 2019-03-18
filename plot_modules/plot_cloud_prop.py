@@ -402,7 +402,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         k10_Msun = 870. * (r_pc)**1.33
 
         # corresponds to A_v = 4 mag
-        mag4_Msun = 265. * (r_pc)**2.
+        A_0_k = 1.0
+        A_V_from_A_K = 1/0.112
+        mag4_Msun = A_0_k * A_V_from_A_K * 265. * (r_pc)**2.
 
         # 10^n mag
         mag10_Msun = 662. * 10**1.0 * (r_pc)**2
@@ -964,7 +966,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
-    ax.set_ylim(0.5, 1.e5)   # 2.e2
+    ax.set_ylim([0.5, 2.e2])
 
     ax.tick_params(axis='both', which='both')   # direction='in'
 
@@ -1313,9 +1315,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     else:
         sfr_val = sorted([ii for ii in sfr.itervalues()])
 
-    fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False, sharey=True,
-                             figsize=(40,40))
-    fig.subplots_adjust(right=0.875, left=0.1, top=0.9,
+    fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False,
+                             sharey=False,   # do NOT set to TRUE
+                             figsize=(15,10))
+    fig.subplots_adjust(right=0.87, left=0.1, top=0.9,
                         bottom=0.1, hspace=0.25,
                         wspace=0.1)
     if sfrlabel:
@@ -1398,8 +1401,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
     _cmap.set_array([])
 
+    # cax = fig.add_axes([0.88, 0.1, 0.1, 0.8])
     cbar = fig.colorbar(_cmap, ticks=c, fraction=0.04, # aspect=10,
                         ax=axes.ravel().tolist())
+                        # ax=cax)
     cbar.ax.tick_params(length=6)
     if sfrlabel:
         label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
@@ -1407,7 +1412,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         label = 'ncut'
     cbar.set_label(label, fontsize=cbarLabelSize)
 
-    # fig.tight_layout()
+    fig.tight_layout()
 
     if saveFig:
         name_out = '3by2_clumpProp_'
