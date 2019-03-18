@@ -7,15 +7,10 @@ last mod: 18 Aug 2018
 
 '''
 
-import os
-from plot_modules.plot_cloud_prop import setup_plot
-setup_plot()
-import matplotlib.pyplot as plt
-
-
 def load_pickleTOplot(minss, maxss, fname):
     from plot_modules.plot_cloud_prop import unpack_xy
     from io_modules.leaf_pickle import load_in_pickle_SS
+    import os
 
     here = os.path.dirname(os.path.abspath(__file__))
     pickle_base_fold = here + '/test_brute/'
@@ -79,6 +74,7 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, get_sizes_all_clouds, get_fgas_all_clouds
     from matplotlib.ticker import AutoMinorLocator, MultipleLocator
     import matplotlib.ticker as ticker
+    import matplotlib.pyplot as plt
 
     ss11, to_plot11, _ = load_pickleTOplot(minss, maxss, \
                                            fname=pattern1 + '_10_fields.p')
@@ -184,6 +180,13 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
 
 if __name__ == '__main__':
 
+    import matplotlib
+    matplotlib.use('agg')
+
+    import matplotlib.pyplot as plt
+    from plot_modules.plot_cloud_prop import setup_plot
+    cm = setup_plot()
+
     # for paper
     # plot_dis_allSS()
 
@@ -269,12 +272,10 @@ if __name__ == '__main__':
     plotting_procedure(16, 28, pattern="11.36")
     plotting_procedure(16, 28, pattern="18.96")
 
-
     # for paper, 3x2 panel for just
     plt.close('all')
 
     from plot_modules.plot_cloud_prop import setup_plot, plot_stuff, plot_stuff_3by2
-    cm = setup_plot()
 
     fname1 = '0.53_10_fields.p'
     fname2 = '18.96_10_fields.p'
@@ -292,4 +293,4 @@ if __name__ == '__main__':
                               cbarLabelSize=16,
                               outdir='./',
                               legendFontSize=13,
-                              saveFig=False)
+                              saveFig=True)
