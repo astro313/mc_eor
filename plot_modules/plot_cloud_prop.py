@@ -36,7 +36,7 @@ def setup_plot():
                                 , 'xtick.labelsize': 14
                                 , 'ytick.labelsize': 14
                                 , 'ytick.minor.width': 1     # points
-                                , 'font.serif': ("Times", "Palatino", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
+                                , 'font.serif': ("Times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
     cm = setup_cmap()
     return cm
@@ -299,37 +299,36 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         plt.plot(CloudData['Mass'][COFilterArray],
                  CloudData['Alpha'][COFilterArray],
                  'p', markeredgecolor='palegreen', markeredgewidth=2.,
-                 markersize=7., markerfacecolor='none', label='GRS')
+                 markersize=7., markerfacecolor='none', label='CO-based MW')
                 # Heyer+09, Roman-Duval+10
 
         plt.plot(CloudData['Mass'][np.invert(COFilterArray)],
                  CloudData['Alpha'][np.invert(COFilterArray)],
-                 'o', color='limegreen', markeredgewidth=0., label='MW clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
+                 'o', color='limegreen', markeredgewidth=0., label='Clumps \& Cores in MW Clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
 
-        # CMZ data: GCMS dendrograms
         plt.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
                  DataTable[DataTable['Target'] != 'SgrD']['alpha'],
                  '+',
                  markersize=13.,
                  markeredgecolor='blue', markeredgewidth=3.,
                  markerfacecolor=(1, 0.7, 0.7),
-                 zorder=10, label='CMZ')
-
-        plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-                 DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-                 '+',
-                 markersize=13.,
-                 markeredgecolor='blue', markeredgewidth=6.,
-                 markerfacecolor=(1, 0.7, 0.7),
                  zorder=10, label='')
 
-        plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-                 DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-                 '+',
-                 markersize=13.,
-                 markeredgecolor='white', markeredgewidth=2.,
-                 markerfacecolor=(1, 0.7, 0.7),
-                 zorder=10, label='Sgr D outside CMZ')
+        # plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+        #          '+',
+        #          markersize=13.,
+        #          markeredgecolor='blue', markeredgewidth=6.,
+        #          markerfacecolor=(1, 0.7, 0.7),
+        #          zorder=10, label='')
+
+        # plt.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+        #          '+',
+        #          markersize=13.,
+        #          markeredgecolor='white', markeredgewidth=2.,
+        #          markerfacecolor=(1, 0.7, 0.7),
+        #          zorder=10, label='Sgr D outside CMZ')
 
         ax.annotate(s='"clumps"',
                     xy=[5.0E3, 0.7],
@@ -388,7 +387,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                  markersize=13.,
                  markeredgecolor='blue', markeredgewidth=3.,
                  markerfacecolor='none',
-                 zorder=10, label='CO-based MW')
+                 zorder=10, label='')
 
         plt.annotate(s='entire clouds',
                      xy=[1.0E5, 18.],
@@ -723,18 +722,23 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             #           bbox_to_anchor=(0.5, -0.18))
             ax.legend(handles=legend_h, loc="upper center", ncol=4,
                       fontsize=9,
-                      bbox_to_anchor=(0.5, -0.18))
+                      bbox_to_anchor=(0.5, -0.18),
+                      markerscale=3)
         elif xstr == "size pc" and ystr == "cloud mass":
             ax.legend(handles=legend_h, loc="best",
-                      fontsize=10)
+                      fontsize=10,
+                      markerscale=3)
         elif xstr == "cloud mass" and ystr == 'alpha vir':
-            ax.legend(loc='best', ncol=2, fontsize=10)
+            ax.legend(loc='best', ncol=2, fontsize=10,
+                      markerscale=3)
         elif xstr == "gas sd per ff" and ystr == "sfr sd":
-            ax.legend(loc='best', ncol=2, fontsize=10)
+            ax.legend(loc='best', ncol=2, fontsize=10,
+                                      markerscale=3)
         elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
-            ax.legend(loc='best', ncol=2, fontsize=10)
+            ax.legend(loc='best', ncol=2, fontsize=10,
+                                      markerscale=3)
         else:
-            ax.legend(loc='best', fontsize=10)
+            ax.legend(loc='best', fontsize=10,                       markerscale=3)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.tight_layout()
@@ -953,17 +957,6 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                      marker=marker,
                      markeredgecolor='gray',
                      markeredgewidth=0.5)
-    # Shrink current axis by 10%
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width, box.height * 0.9])
-    if showLegend:
-        if not legendFontSize:
-            legendFontSize = 10
-        ax.legend(loc="upper center", ncol=4, fontsize=legendFontSize,
-                  bbox_to_anchor=(1.1, 1.28))
-        # ax.legend(handles=legend_h, loc="upper center", ncol=2,
-        #           fontsize=legendFontSize,
-        #           bbox_to_anchor=(0.5, 0.9))
 
     ax.set_xscale("log")
     ax.set_xlabel("Cloud Size [pc]")
@@ -971,11 +964,23 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
-    ax.set_ylim(5, 7.e2)
+    ax.set_ylim(0.5, 1.e5)   # 2.e2
 
     ax.tick_params(axis='both', which='both')   # direction='in'
 
     fig, ax = set_minorticks(fig, ax)
+
+    # Shrink current axis by 10%
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width, box.height * 0.9])
+    if showLegend:
+        if not legendFontSize:
+            legendFontSize = 10
+        ax.legend(loc="upper center", ncol=4, fontsize=legendFontSize,
+                  bbox_to_anchor=(1.1, 1.28), markerscale=3)
+        # ax.legend(handles=legend_h, loc="upper center", ncol=2,
+        #           fontsize=legendFontSize,
+        #           bbox_to_anchor=(0.5, 0.9))
 
     return fig, ax
 
@@ -1025,12 +1030,12 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     ax.plot(CloudData['Mass'][COFilterArray],
              CloudData['Alpha'][COFilterArray],
              'p', markeredgecolor='palegreen', markeredgewidth=2.,
-             markersize=7., markerfacecolor='none', label='GRS')
+             markersize=7., markerfacecolor='none', label='CO-based MW')
             # Heyer+09, Roman-Duval+10
 
     ax.plot(CloudData['Mass'][np.invert(COFilterArray)],
              CloudData['Alpha'][np.invert(COFilterArray)],
-             'o', color='limegreen', markeredgewidth=0., label='MW clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
+             'o', color='limegreen', markeredgewidth=0., label='Clumps \& Cores in MW Clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
 
     # CMZ data: GCMS dendrograms
     ax.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
@@ -1039,23 +1044,23 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
              markersize=13.,
              markeredgecolor='blue', markeredgewidth=3.,
              markerfacecolor=(1, 0.7, 0.7),
-             zorder=10, label='CMZ')
-
-    ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-             DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-             '+',
-             markersize=13.,
-             markeredgecolor='blue', markeredgewidth=6.,
-             markerfacecolor=(1, 0.7, 0.7),
              zorder=10, label='')
 
-    ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-             DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-             '+',
-             markersize=13.,
-             markeredgecolor='white', markeredgewidth=2.,
-             markerfacecolor=(1, 0.7, 0.7),
-             zorder=10, label='Sgr D outside CMZ')
+    # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+    #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+    #          '+',
+    #          markersize=13.,
+    #          markeredgecolor='blue', markeredgewidth=6.,
+    #          markerfacecolor=(1, 0.7, 0.7),
+    #          zorder=10, label='')
+
+    # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+    #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+    #          '+',
+    #          markersize=13.,
+    #          markeredgecolor='white', markeredgewidth=2.,
+    #          markerfacecolor=(1, 0.7, 0.7),
+    #          zorder=10, label='Sgr D outside CMZ')
 
     ax.annotate(s='"clumps"',
                 xy=[5.0E3, 0.7],
@@ -1115,7 +1120,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
              markersize=13.,
              markeredgecolor='blue', markeredgewidth=3.,
              markerfacecolor='none',
-             zorder=10, label='CO-based MW')
+             zorder=10, label='')
 
     ax.annotate(s='entire clouds',
                  xy=[1.0E5, 18.],
@@ -1152,7 +1157,8 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         if not legendFontSize:
             legendFontSize = 10
         ax.legend(loc="upper center", ncol=5, fontsize=legendFontSize,
-                  bbox_to_anchor=(1., 1.2))
+                  bbox_to_anchor=(1.05, 1.2),
+                      markerscale=3)
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
         #           bbox_to_anchor=(0.5, 0.9))
@@ -1245,7 +1251,7 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         if not legendFontSize:
             legendFontSize = 10
 
-        ax.legend(loc='best', fontsize=legendFontSize)
+        ax.legend(loc='best', fontsize=legendFontSize,                       markerscale=3)
 
     ax.set_xscale("log")
     ax.set_xlim(10**-2.5, 10**0.3)
