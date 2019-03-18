@@ -342,7 +342,7 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
 
     plt.close('all')
     plt.figure()
-    plt.hist(aa, bins=100)
+    plt.hist(aa[aa>-7], bins=100)
     for ele in th_list:
         x = np.log10(ele)
         # plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
