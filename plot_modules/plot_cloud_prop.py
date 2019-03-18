@@ -401,14 +401,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         # threshold for high-mass stars from Kauffmann & Pillai10
         k10_Msun = 870. * (r_pc)**1.33
 
-        # corresponds to A_v = 4 mag
-        A_0_k = 1.0
-        A_V_from_A_K = 1/0.112
-        mag4_Msun = A_0_k * A_V_from_A_K * 265. * (r_pc)**2.
-
-        # 10^n mag
-        mag10_Msun = 662. * 10**1.0 * (r_pc)**2
-        mag102_Msun = 662. * 10**2.0 * (r_pc)**2
+        mag4_Msun = 154 * 4.0 * (r_pc)**2
+        mag10_Msun = 154 * 10**1.0 * (r_pc)**2
+        mag102_Msun = 154 * 10**2.0 * (r_pc)**2
 
         h, = ax.plot(r_pc, k10_Msun, linestyle='-.', color='r',
                 linewidth=2,
