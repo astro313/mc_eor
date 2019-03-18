@@ -9,17 +9,11 @@ last mod: August 18 2018
 
 '''
 
-
-import os
-from plot_modules.plot_cloud_prop import setup_plot
-setup_plot()
-import matplotlib.pyplot as plt
-
-
 def load_pickleTOplot(snapshot_num, pattern=None):
 
     from io_modules.leaf_pickle import load_in_pickled_leaf_singleSS
     from plot_modules.plot_cloud_prop import unpack_xy
+    import os
 
     try:
         here = os.path.dirname(os.path.abspath(__file__)) + '/'
@@ -54,7 +48,7 @@ def plotting_procedure(snapshot_num):
     plot_stuff("cloud mass", "mass over jeans mass",
                leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "jeans mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out, cm='gist_rainbow')
+               to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("size pc", "sigma kms", leglabel="ncut: ",
@@ -83,6 +77,9 @@ def plotting_procedure(snapshot_num):
 # ---
 if __name__ == '__main__':
 
+    import matplotlib
+    matplotlib.use('agg')
+
     from plot_modules.plot_cloud_prop import setup_plot
     cm = setup_plot()
 
@@ -99,6 +96,7 @@ if __name__ == '__main__':
 
 
     # for paper, 3x2 panel for just ss16 and ss27
+    import matplotlib.pyplot as plt
     plt.close('all')
 
     from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3by2
@@ -115,4 +113,4 @@ if __name__ == '__main__':
                               cbarLabelSize=16,
                               outdir='./',
                               legendFontSize=13,
-                              saveFig=False)
+                              saveFig=True)

@@ -974,7 +974,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     # Shrink current axis by 10%
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width, box.height * 0.9])
+    ax.set_position([box.x0, box.y0, box.width, box.height * 0.8])
     if showLegend:
         if not legendFontSize:
             legendFontSize = 10
@@ -1159,7 +1159,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         if not legendFontSize:
             legendFontSize = 10
         ax.legend(loc="upper center", ncol=5, fontsize=legendFontSize,
-                  bbox_to_anchor=(1.05, 1.2),
+                  bbox_to_anchor=(1.05, 1.1),
                       markerscale=3)
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
@@ -1317,10 +1317,12 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
 
     fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False,
                              sharey=False,   # do NOT set to TRUE
-                             figsize=(15,10))
-    fig.subplots_adjust(right=0.87, left=0.1, top=0.9,
+                             figsize=(15,15))
+    fig.subplots_adjust(right=0.8, left=0.1, top=0.85,
                         bottom=0.1, hspace=0.25,
                         wspace=0.1)
+    plt.subplots_adjust(right=0.8, top=0.8)
+
     if sfrlabel:
         t1 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[0]) + r' [cm$^{-3}$]'
         t2 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[1]) + r' [cm$^{-3}$]'
@@ -1392,6 +1394,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     # add a global cbar
     # https://stackoverflow.com/questions/8342549/matplotlib-add-colorbar-to-a-sequence-of-line-plots
     # https://stackoverflow.com/questions/13784201/matplotlib-2-subplots-1-colorbar
+
     if not sfrlabel:
         c = np.linspace(min(ncut), max(ncut), 10)
     else:
@@ -1401,10 +1404,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
     _cmap.set_array([])
 
-    # cax = fig.add_axes([0.88, 0.1, 0.1, 0.8])
-    cbar = fig.colorbar(_cmap, ticks=c, fraction=0.04, # aspect=10,
-                        ax=axes.ravel().tolist())
-                        # ax=cax)
+    cax = fig.add_axes([0.85, 0.1, 0.1, 0.8])
+    cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                        # ax=axes.ravel().tolist())
+                        ax=cax)
     cbar.ax.tick_params(length=6)
     if sfrlabel:
         label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
@@ -1412,11 +1415,11 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         label = 'ncut'
     cbar.set_label(label, fontsize=cbarLabelSize)
 
-    fig.tight_layout()
+    # fig.tight_layout()
 
     if saveFig:
         name_out = '3by2_clumpProp_'
-        fig.savefig(outdir + name_out + tag + '.pdf', bbox_inches="tight")
+        fig.savefig(outdir + name_out + tag + '.pdf') # , bbox_inches="tight")
     else:
         plt.show(block=False)
 
