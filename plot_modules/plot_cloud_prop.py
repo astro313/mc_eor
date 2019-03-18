@@ -1317,7 +1317,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
 
     fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False,
                              sharey=False,   # do NOT set to TRUE
-                             figsize=(15,15))
+                             figsize=(15,17))
     fig.subplots_adjust(right=0.8, left=0.1, top=0.85,
                         bottom=0.1, hspace=0.25,
                         wspace=0.1)
@@ -1404,10 +1404,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
     _cmap.set_array([])
 
-    cax = fig.add_axes([0.85, 0.1, 0.1, 0.8])
+    cax = fig.add_axes([0.85, 0.1, 0.03, 0.8])
     cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
-                        # ax=axes.ravel().tolist())
-                        ax=cax)
+                        # ax=axes.ravel().tolist(),
+                        cax=cax)
     cbar.ax.tick_params(length=6)
     if sfrlabel:
         label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
