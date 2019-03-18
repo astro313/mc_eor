@@ -227,7 +227,7 @@ The simulations used in this work are described by \citealt{Pallottini17a, Pallo
 %
 \ncode{Serra}\footnote{Greenhouse in italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) technique to achieve high spatial resolution in the region of interest (i.e., regions of high density).
 %
-In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
+In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l_{\rm cell}\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
 
 We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}.
 
@@ -382,17 +382,17 @@ is consistent with that found for the bulk of dense gas in the simulation in the
 % cloud structures at large and small scale
 % Larson's: m = 460 M_sun (r_pc)^1.9 for structure w/in molecular clouds. --> $m \propto r^2$ \citep{McKee07a} (law of constant
 % column density) as fundamental properties of molecular cloud structure.
-Larson's third relation relates MCs structures on small and large scales via two physical properties: mass and size \citep{Larson81a, McKee07a}. This is also known as the constant column density relation, since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with MW-like dust can be written as 
+Larson's third relation relates MCs structures on small and large scales via two physical properties: mass and size \citep{Larson81a, McKee07a}. This is also known as the constant column density relation, since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with Milky Way-like dust can be written as 
 \begin{equation}
 A_v = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
 \end{equation}
-then, assuming spherical symmetry, the mass of a MC can be expressed as a function of $A_v$ and its size $R$
+then, assuming spherical symmetry, the mass of an MC can be expressed as a function of $A_v$ and its size $R$
 \begin{equation}\label{eqn:constantcolumndensity}
-M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154 \,A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
+M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154~A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
 \end{equation}
 where we have taken $\mu = 2.5$ as the mean molecular weight.
 
-We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870$\,\Msun$\times\,\left(r/{\rm pc}\right)^{1.33}$.
+We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870$\,\Msun$\times\,\left(R/{\rm pc}\right)^{1.33}$.
 %
 In the same plot, we also show loci of constant surface densities, which are parameterized through the visual extinction $A_V$. As shown in \Fig{MR}, the MCs identified in \flower lie above this relation, along the locus of $A_v \simeq 8.9$ clouds observed by \citet{Lombardi10a} in the MW.
 %
@@ -407,6 +407,8 @@ mass-size relation found for regions in the Milky Way with massive \SF reported 
 Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), which correspond to lines of
 constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
 The star symbols are color-coded by $n_{\rm cut}$, same as \Fig{larsons_single}. 
+Extrapolating the masses and sizes of MCs of \flower along the \citet{Kauffmann10b} 
+relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCs are capable of high-mass \SF.
 \label{fig:MR}}
 \end{figure*}
 
@@ -575,7 +577,7 @@ MCs of \flower lie below the locus of $A_V$\eq100\,mag followed by Milky Way clo
 That is, the MCs of \flower lying along the locus of $A_V$\eq4\,mag likely manifests from the fact that the MCs in our simulation have lower column densities than the star-forming cores observed in the Milky Way, which are observationally well-resolved within an MC, and indeed, have sufficient column density to form CO.
 
 The \citet{Kauffmann10c} relation suggests that regions with high-mass \SF follow 
-an ``internal'' mass-size relation where $M\propto r^{1.33}$.
+an ``internal'' mass-size relation where $M\propto R^{1.33}$.
 If this holds for MCs of \flower, an extrapolation of the \citet{Kauffmann10c} relation down to $\sim$1\,pc would correspond to structures with masses and sizes comparable to those of the cores found in
 regions of high-mass \SF. That is, the MCs identified have mass-size relations suggesting they are capable of high-mass \SF. 
 
