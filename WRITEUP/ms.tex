@@ -360,13 +360,17 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from \citet{Kauffman
 \end{figure*}
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
+\AF{Description of the results is very chaotic. You mix evol. phases, properties, ncut, that is physical and numerical issues. Please reorder and make it more logical.}
+We first focus on the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), and identify a set of MCs in each of them. Scaling relations for the MCs are shown in \Fig{larsons_single} for the accretion (left panels) and starburst phase (right), respectively. Let us start from analyzing the accretion phase.
 
-For each of the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), we identify a set of MCs. Scaling relations for the MCs identified in the accretion phase are shown in left panels of \Fig{larsons_single} and in the right panels for the starburst phase.
-% 
+MCs in \flower\ are characterized by large velocity dispersions ($\sigma \approx 100 {\rm km s}^{-1}$) and sizes ($R\approx 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}.
+Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCs within the main disk break into multiple sub-MCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MC}). Instead, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
+
+%Now discuss sigma - R relation; poor statistcis. But how many MCs do we have?
+
+
+% Starburst 
 Some MCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ (closer to loci with lower external pressure) compared to the accretion phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
-%
-Regardless of the H$_2$ density cuts adopted, MCs in both phases are found to have consistently high turbulence and surface densities. They correspond to MCs at the center of the main disk of \flower and occupy the top right corner of the Larson's relation shown in \Fig{larsons_single}. As we increase the density threshold, some of the MCs within the main disk break into multiple sub-MCs. As such, we effectively identify a population of denser molecular structures (see \Fig{MC}).
-
 % PVE
 We also compare the MCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are needed for MCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
@@ -386,7 +390,7 @@ M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154~A_v \left(\frac{R}{\rm pc}\right
 \end{equation}
 where we have taken $\mu = 2.5$ as the mean molecular weight.
 
-We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870$\,\Msun$\times\,\left(R/{\rm pc}\right)^{1.33}$.
+We show in \Fig{MR} the size-mass relation of the MCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870(R/{\rm pc})^{4/3} M_\odot$.
 %
 In the same plot, we also show loci of constant surface densities, which are parameterized through the visual extinction $A_V$. As shown in \Fig{MR}, the MCs identified in \flower lie above this relation, along the locus of $A_v \simeq 8.9$ clouds observed by \citet{Lombardi10a} in the MW.
 %
@@ -665,20 +669,18 @@ Maps of the Toomre $Q$ parameters for the gas, stars, and the effective two-comp
 (see also \Fig{h2density} for example of MCs identified in this evolutionary stage of \flower
 using different $n_{\rm cut}$). 
 
-Close resemblance of the $Q_{\rm eff}$ and $Q_{\star}$ maps indicates that contributions from the stellar component play an important role in governing the stability of the MCs against $m$\eq0 perturbations. This can be understood since stars in \flower dominates the central part of the galaxy in mass, so their gravitational potential provides a non-negligible contribution to the stability.
+Close resemblance of the $Q_{\rm eff}$ and $Q_{\star}$ maps indicates that contributions from the stellar component play an important role in governing the stability of the MCs against $m$\eq0 perturbations. This can be understood since stars in \flower dominates the central part of the galaxy in mass, so their gravitational potential provides a non-negligible contribution to the instability.
 
 Similarly, contribution from the thickness of the disk is important in \flower since its disk warped and cannot be considered thin, i.e., 
 it has a scale height to radius ratio of $h/r_{\rm gal}$\ssim150\,pc/1\,kpc\,$\simeq$\,0.15.
 
-That is, some MCs are found in regions of $Q_{\rm gas}$\ssim1, 
-which would suggest that they are gravitationally unstable;
-however, when including the stabilizing effects due to its stellar potential and the
-thickness of its disk (via $\sigma_z$), some of these MCs are consistent with $Q_{\rm eff} > 1$.
-This highlights the importance of accounting for stellar contribution and disk thickness 
+That is, some MCs are found in regions of $Q_{\rm gas}$\ssim1, consistent with the expectation that they correspond to regions of high surface densities that are gravitationally unstable. 
+Note, however, that when including the stabilizing effects due to the stellar potential of \flower and the
+thickness of its disk (via $\sigma_z$), some of these MCs are consistent with  $Q_{\rm eff} > 1$. 
+This demonstrates the importance of accounting for stellar contribution and disk thickness 
 when examining the stability of molecular gas structures.
 This consideration is especially relevant for the relatively evolved and enriched systems at high-$z$, 
 that are preferentially being imaged at high resolution with ALMA.
-% One should be caution when interpreting results based on gas-only Toomre $Q$ analysis.
 In the outer regions of \flower, on the other hand, $Q_{\rm eff}$ resembles $Q_{\rm gas}$, with 
 both $\log{Q_{\rm gas}}$ and $\log{Q_{\rm eff}} < -1$. 
 Notably, these are the more gas-rich regions (see \Fig{sigma}).
@@ -698,14 +700,14 @@ First, our results are limited by the resolution of the simulation, i.e., in \fl
 %
 Second, due to turbulence dissipation on small-scales, such (sub-)structures are no longer supported by large-scale gravitational potential and differential rotation. This in turn enables sub-regions of the MCs to collapse and potentially form OB associations out of these unbound MCs \citep{Clark04a, Clark05a}.
 %
-Further, mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation and collapse on smaller scales to trigger \SF.
-Finally, the SFR is very bursty and high SFR stages are transient.
-
+Further, mechanisms causing non-axisymmetric perturbations (e.g., arms) to the gravitational potential can induce orbit crossing, shocks and dissipation in gas, promoting turbulence dissipation and collapse on smaller scales to trigger \SF. These mechanisms are likely important given high $Q_{\rm eff}$ found across \flower and its few tens of solar masses per year SFR, albeit sporadic.
+Finally, the SFR of \flower is very bursty and high SFR stages are only transient.
+% the giant MCs found are likely due to non-axisymmetric mode.
 
 %--------------------------------------------------------------------------
 %                                Conclusions
 %--------------------------------------------------------------------------
-\section{Summary and Conclusions}      \label{sec:conclusion}
+\section{Summary}      \label{sec:conclusion}
 
 We study the dynamical properties of molecular clouds complexes and their temporal evolution in a \z$\sim$\,6 prototypical galaxy, \flower,
 at the EoR using state-of-the-art cosmological zoom-in simulation (\ncode{Serra}),
