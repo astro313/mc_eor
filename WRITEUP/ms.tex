@@ -314,17 +314,33 @@ The simulations used in this work are described by \citealt{Pallottini17a, Pallo
 %
 \ncode{Serra}\footnote{Greenhouse in Italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
-In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation zoom-in on a target halo of mass $\sim 10^11 \Msun$. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter (equivalent baryonic) mass resolution is $\simeq 6\times 10^4 \Msun$ ($1.2 \times 10^4 \Msun$). Such region is spatially refined with a quasi-Lagrangian mass threshold-based criterion, i.e. a cell is refined if its total (DM+baryonic) mass exceed the the mass resolution by a factor 8. The final finest refined cell in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$).
+In particular, it uses a modified version of \ncode{ramses}
+\citep{Teyssier02a} as the AMR backend. The simulation used here
+covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation
+zooms in on a target halo of mass $\sim 10^11 \Msun$. The Lagrangian
+region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter
+%mm (equivalent baryonic) 
+mass resolution of $\simeq 6\times 10^4 \Msun$, 
+%mm ($1.2 \times 10^4 \Msun$) [expanded out the meaning, but check if
+%I have it right]  Such
+     equivalent at initial density to a baryonic mass resolution of $1.2
+     \times 10^4 \Msun$.  This 
+region is spatially refined with a quasi-Lagrangian criterion based on
+a mass threshold, so that a cell is refined if its total dark matter
+plus baryonic mass exceeds the mass resolution by a factor of
+eight. The final finest refined cell in the zoom in region has size
+$l_{\rm cell}\simeq$\,30\,pc (at $z = 6$). 
 %mm
-    \MM{Is this really the resolution of dark matter particles?  The baryonic mass (i.e.\ gas) resolution depends on the 
-    local density, which would have to be specified here.} \AP{the setting description has been extended}
+%    \MM{Is this really the resolution of dark matter particles?  The baryonic mass (i.e.\ gas) resolution depends on the 
+%    local density, which would have to be specified here.} \AP{the setting description has been extended}
      Cell sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
 %mm 
-     \MM{Nota Bene!} \AP{This note is discussed in details in the following section. In the simulation we do not treat 5--10 cells as MCs, so I would remove the point from the present} although the resolved scale of 5--10 cells is rather larger.
-%mm We
-    The models include a chemical network 
-%mm including ${\rm e}^{-}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ 
-   following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme 
+%     \MM{Nota Bene!} \AP{This note is discussed in details in the following section. In the simulation we do not treat 5--10 cells as MCs, so I would remove the point from the present} although the resolved scale of 5--10 cells is rather larger.
+The models include a chemical network 
+following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and
+H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is
+that abundances are calculated using an on-the-fly non-equilibrium
+formation of molecular hydrogen scheme  
 %mm following \citet{Pallotini17b} [the order had to be reversed for alphabetization]
     described by \citet{Pallottini17a}.
 
@@ -334,7 +350,10 @@ Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kenni
    as well as winds from OB and asymptotic giant branch stars.
 Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).  
 %mm
-   \MM{confirm:} Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{pallottini:2019,decataldo:2019}. \AP{modified accordingly}
+%   \MM{confirm:} 
+Photoionization from local sources is neglected in this simulation
+\citep[see][for its effect]{pallottini:2019,decataldo:2019}. 
+%mm \AP{modified accordingly}
 
 The simulation zooms in on a galaxy named
 %mm 
@@ -344,7 +363,29 @@ The simulation zooms in on a galaxy named
       \citet{Pallottini17a} 
 and are briefly summarized in the following. \flower is a Lyman-break galaxy 
 %mm (LBG), [unused acronym]
-that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. \MM{What is its gas fraction?  I ask because its molecular gas mass is minuscule, particularly for such a high SFR: this is a depletion time of only 0.5 Myr, while modern galaxies usually have depletion times more like 0.5--2~Gyr!} \AP{the gas fraction is very flickering and depends on which radius we are considering, as the galaxy is actively accreating material and merging; depletion time are low, see the ssfr note added considering that $ssfr \propto t_{depletion}^{-1}$} The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star} \simeq 4 -- 40 \rm Gry ^{-1}$, compatible with sSFR vs $M_{\star}$ relation observed at high-redshift \citep{Jiang2016}, that is higher with respect to normal local galaxies. Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
+that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm
+  DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and
+accretes mass from the IGM mainly via three filaments of length
+$\simeq$\,100\,kpc. \flower has a stellar mass of
+$M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of
+$Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm
+  H2}\simeq$\,5\E{7}\,\Msun, and a SFR of
+%mm $\simeq$\,100\,\Msun\,yr\pmOne. [for consistency with the next subsection] 
+   30--80 \Msun\,yr\pmOne. 
+%mm \MM{What is its gas fraction?  I ask because its molecular gas
+%mass is minuscule, particularly for such a high SFR: this is a
+%depletion time of only 0.5 Myr, while modern galaxies usually have
+%depletion times more like 0.5--2~Gyr!} \AP{the gas fraction is very
+%flickering and depends on which radius we are considering, as the
+%galaxy is actively accreating material and merging; depletion time
+%are low, see the ssfr note added considering that $ssfr \propto
+%t_{depletion}^{-1}$} 
+The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star}
+\simeq$~4--40 ~Gyr\pmOne, compatible with the sSFR vs.\ $M_{\star}$
+relation observed at high redshift \citep{Jiang2016}, which is higher
+than normal local galaxies. The effective stellar radius of \flower
+is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm
+  200}\simeq$\,15\,kpc. 
 
 \subsection{Star Formation History} \label{sec:sfh}
 
@@ -352,15 +393,21 @@ that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
-    {\it Top panel}: Star formation history of \flower. {\it Bottom}: projected stellar mass distribution during {\it (a)} an early accretion phase;  {\it (b)} a major starburst following a merger event; and {\it (c)} a relatively quiescent post-starburst phase.
+    {\it Top}: Star formation history of \flower. {\it Bottom}: projected stellar mass distribution during {\it (a)} an early accretion phase;  {\it (b)} a major starburst following a merger event; and {\it (c)} a relatively quiescent post-starburst phase.
 \label{fig:SFH}}
 \end{figure*}
 
-One of the main advantages for studying the dynamical properties of simulated galaies is the fact that we can examine how their properties evolve with time.
+One of the main advantages for studying the dynamical properties of simulated galaies is that we can examine how their properties evolve with time.
 %
 %This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
-
-The \SF history\footnote{Note that here the SFR is calculated based on the stellar mass formed in the last 10 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR accounts for the contribution from massive satellite galaxies within the virial radius ($\approx$15\,kpc).} of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
+%mm [delete para break]
+The \SF history\footnote{Note that here the SFR is calculated based on
+  the stellar mass formed in the last 10 Myr within 3.5 kpc from the
+  galaxy center of mass. The SFR plotted in Figure 2 of
+  \citet{Pallottini17b} is a factor of two higher since there the SFR
+  accounts for the contribution from massive satellite galaxies within
+  the virial radius ($\approx$15\,kpc).} of \flower is shown in
+\Fig{SFH}. The SFR of \flower varies between $\sim$30--80 \Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
 
 Given \flower's SF stochastic nature, in this work we mostly focus on
 the analysis of two of its most extreme evolutionary stages (see
