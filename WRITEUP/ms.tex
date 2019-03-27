@@ -298,26 +298,59 @@ Conceptually, the finite disk thickness reduces the gravity in the vertical dire
 stability, and thus lowering the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 
 0.67 \citep{Goldreich65a}.
 %
-On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus, increases
+On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus increases
 %mm  the criterion of the Toomre
-$Q_{\rm crit}$
+$Q_{\rm crit}$, 
 %mm, unless it is dynamically hot to ``compensate''. 
+   moreso if the stars have low velocity dispersion.
 As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
 
 % ------------------
 \section{Numerical simulations}\label{sec:sim}
 The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
 %
-\ncode{Serra}\footnote{Greenhouse in italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) technique to achieve high spatial resolution in the region of interest (i.e., regions of high density).
+\ncode{Serra}\footnote{Greenhouse in Italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
-In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, resolving down to a physical scale of $l_{\rm cell}\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution of $m_b\simeq$\,10$^4$\,\Msun at the finest level. Such a physical scales are comparable to those of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a}.
+In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, 
+%mm resolving down to a physical scale of 
+     with the finest refined cell sizes 
+$l_{\rm cell}\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution
+%mm
+    \MM{Is this really the resolution of dark matter particles?  The baryonic mass (i.e.\ gas) resolution depends on the 
+    local density, which would have to be specified here.}
+ of $m_b\simeq$\,10$^4$\,\Msun at the finest level. 
+%mm Such a physical scales are comparable to those of
+     Cell sizes are comparable to the sizes of
+local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
+%mm 
+     \MM{Nota Bene!} although the resolved scale of 5--10 cells is rather larger.
 
-We include a chemical network including ${\rm e}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using a on-the-fly non-equilibrium formation of molecular hydrogen scheme following \citet{Pallottini17b}.
+%mm We
+    The models 
+include a chemical network 
+%mm including ${\rm e}^{-}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ 
+   following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$
+\citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme 
+%mm following \citet{Pallotini17b} [the order had to be reversed for alphabetization]
+    described by \citet{Pallottini17a}.
 
 % radiative feedback --> NT pressure
-Star formation is modeled using a H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SN) and OB/AGB stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).
+Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) 
+%mm and OB/AGB stars. 
+   as well as OB and asymptotic giant branch stars.
+Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).  
+%mm
+   \MM{confirm:} Photoionization and stellar wind feedback is neglected.
 
-The simulation zooms on a galaxy named \flower whose properties are given in \citet{Pallottini17b} and are briefly summarized in the following. \flower is a Lyman-break galaxy (LBG), that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc; \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
+The simulation zooms in on a galaxy named
+%mm 
+   after the flower 
+\flower whose properties are given in 
+%mm \citet{Pallottini17b} 
+      \citet{Pallottini17a} 
+and are briefly summarized in the following. \flower is a Lyman-break galaxy 
+%mm (LBG), [unused acronym]
+that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. \MM{What is its gas fraction?  I ask because its molecular gas mass is minuscule, particularly for such a high SFR: this is a depletion time of only 0.5 Myr, while modern galaxies usually have depletion times more like 0.5--2~Gyr!} Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
 
 \subsection{Star Formation History} \label{sec:sfh}
 
