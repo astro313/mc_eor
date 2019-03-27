@@ -206,38 +206,63 @@ Such a criterion\footnote{In the following, to facilitate comparison with \obs, 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
 
-The onset of gravitational instability is considered to be tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. From virial theorem, Jeans instability sets the scales at which gravitational potential overcomes the internal energy. Namely, gravitational instabilities dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, centrifugal forces resulting from differential rotation in disk galaxies can stabilize perturbations even on these scales. As a result, a disk is thought to be unstable on scales between $L_J < L < L_{\rm rot}$, where $L_{\rm rot}$ is set by the surface density of the disk and the angular velocity of the rotation.
-
-In theoretical and observational works, gravitational instability has been widely discussed in the context of the Toomre $Q$ stability criterion \citep{Toomre64a, Goldreich65b} or its observable proxy  $v_{\rm circ}/\sigma$, i.e., the circular velocity to the disk r.m.s. velocity dispersion \AF{This is not exactly the same $\sigma$ as before} ratio \citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
-% https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
-%
-% from linear analysis
+The onset of gravitational instability is 
+%mm considered to be 
+tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. 
+%mm [rearranged to put derivation before result]
 For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by
 \begin{equation}
-\omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma^2 k^2\,,
+\omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma_{\rm disk}^2 k^2\,,
 \label{eqn:3Ddisp}
 \end{equation}
 where $k$ is the wavenumber and $\kappa$ is the epicyclic frequency, defined as:
 \begin{equation}
-\kappa^2\equiv\frac{2\Omega}{R}\frac{d}{dR}\left(R^2\Omega\right)\,.
+\kappa^2\equiv\frac{2\Omega}{\altomega}\frac{d}{d\altomega}\left(\altomega^2\Omega\right)\,.
 \label{eqn:kappa}
 \end{equation}
 \citep{Romeo92a}.
-\AF{$R$ is not the same as the MCC radius in the proev. Section}
-In Equation~\ref{eqn:3Ddisp} the terms on the r.h.s. are related to rotation, self-gravity and internal pressure, respectively. The Toomre $Q$ parameter for the gas component can be defined as \citep{Toomre64a}:
+\AF{$R$ is not the same as the MCC radius in the prev.\ Section} \MM{replaced $R$ with $\altomega$, and $\sigma$ with $\sigma_{\rm disk}$.}
+In Equation~\ref{eqn:3Ddisp} the terms on the right hand side are related to rotation, self-gravity and internal pressure, respectively. 
+%mm
+    Heuristically, the instability can be understood by considering the scale
+ at which gravitational potential overcomes the internal energy. Gravity dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, 
+%mm centrifugal forces resulting from
+   shearing by 
+differential rotation in disk galaxies can stabilize perturbations 
+%mm even on these scales. 
+    that might otherwise collapse for $L > L_{\rm rot}$, where $L_{\rm rot}$ is set by $\kappa$.
+%mm As a result, a disk is thought to be unstable on
+    As a result, disks are unstable to gravitational collapse on 
+scales between $L_J < L < L_{\rm rot}$.  
+
+From the dispersion relation, a parameter $Q$ can be derived such that $Q < 1$ when instability occurs, that reproduces this inequality to order unity.
+For a collisionless fluid---such as an ensemble of stars--- this parameter is \citep{Toomre64a}
+\begin{equation}
+Q_{\star} \equiv\frac{\sigma_{\star}\kappa}{3.36 G \Sigma_{\star}}\,.
+\end{equation}
+The equivalent parameter for a collisional gas was derived by
+%mm [corrected from Toomre64a to Goldreich65a (not Goldreich65b, which is about spiral arm formation)]
+    \citep{Goldreich65a}:
 \begin{equation}
 Q_{\rm gas}\equiv\frac{\sigma_{\rm gas}\kappa}{\pi G \Sigma_{\rm gas}}\,.
 \label{eqn:Q}
 \end{equation}
-In the thin disk approximation ($kh\ll1$), instability ($\omega^2 < 0$ in  \Eq{3Ddisp}) occurs on scales $k$ such that $Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). Physically, this implies that the local gravitational field 
-overcomes support from pressure and rotation, allowing fragmentation and collapse to happen. Similarly, for a collisionless fluid --- as an ensemble of stars --- the Toomre $Q$ parameter is defined by \citep{Toomre64a}:
-\begin{equation}
-Q_{\star} \equiv\frac{\sigma_{\star}\kappa}{3.36 G \Sigma_{\star}}\,.
-\end{equation}
-
-In our stability analysis, we account for the non-negligible disk thickness and for the combined effect of gas and stars; this is done adopting the approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
+In the thin disk approximation ($kh\ll1$), instability ($\omega^2 < 0$ in  \Eq{3Ddisp}) occurs on scales $k$ such that $Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). 
+%mm  In theoretical and observational works, gravitational instability has been widely discussed in the context of the Toomre $Q$ stability criterion \citep{Toomre64a, Goldreich65b} or its observable proxy
+     A frequently used observable proxy for $Q$ is the ratio of disk circular velocity to root-mean-square velocity dispersion
+$v_{\rm circ}/\sigma_{\rm disk}$
+%mm , i.e., the circular velocity to the disk r.m.s. velocity dispersion \AF{This is not exactly the same $\sigma$ as before} \MM{see above} ratio 
+\citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
+% https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
-The effect of disk thickness modify the $Q$ parameter for gas/star by accounting for the vertical velocity dispersion:
+% from linear analysis
+
+In our stability analysis, we account for the combined effect of gas and stars 
+%mm 
+     \citep[derived exactly by][]{Rafikov01}, 
+and for the non-negligible disk thickness. This is done by adopting an approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
+%
+The effect of disk thickness modifies the $Q$ parameter for gas and stars by accounting for the vertical velocity dispersion:
 \begin{equation}
 T_{x} = \left\{
 		\begin{array}{lccr}
@@ -267,10 +292,17 @@ where the relative weight $w$ is defined as:
 \begin{equation}
 w\equiv\frac{2 \sigma_{\star} \sigma_{\rm gas}}{\sigma_{\star}^2 + \sigma_{\rm gas}^2},
 \end{equation}
-Conceptually, the thickness of a disk reduces the gravity in the vertical direction, thereby making it easier for a system to obtain stability, and thus lowering the criterion of the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 
+Conceptually, the finite disk thickness reduces the gravity in the vertical direction, thereby making it easier for a system to
+%mm obtain
+    maintain 
+stability, and thus lowering the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 
 0.67 \citep{Goldreich65a}.
 %
-On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus, increasing the criterion of the Toomre $Q_{\rm crit}$, unless it is dynamically hot to ``compensate''. As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
+On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus, increases
+%mm  the criterion of the Toomre
+$Q_{\rm crit}$
+%mm, unless it is dynamically hot to ``compensate''. 
+As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
 
 % ------------------
 \section{Numerical simulations}\label{sec:sim}
