@@ -434,25 +434,63 @@ ambiguous, though, and we consider it only as a working one.
 
 \subsection{Identification}\label{sec:method}
 
-To identify the molecular complexes, we use a customized version of the ``clump-finding'' algorithm available in the \ncode{python} package \ncode{yt} \citep{Turk11a}, which was initially described in \citet{Smith09a}, but this function has been modified since then.
-%
-The latest version of the default \ncode{yt} clump finder decomposes the zones of the simulation into non-overlapping tiles, which are stored in a $k$-dimensional tree ($k$-D tree). It then identifies the contours of a variable field (here, the density field) within a tile and connects them across the tiles. In the customized version used for this study, we modify the function to enhance the stability of the code.
+To identify the molecular complexes, we use a customized version of
+the clump-finding algorithm available in the \ncode{python} package
+\ncode{yt} \citep{Turk11a}, which was initially described in
+\citet{Smith09a}, 
+%mm but this function has been modified since then.
+     and modified since.
+The latest version of the default \ncode{yt} clump finder decomposes
+the zones of the simulation into non-overlapping tiles, which are
+stored in a 
+%mm $k$-dimensional tree ($k$-D tree). [unused acronym]
+     three-dimensional tree that can be processed using $k$-dimensional tree algorithms.
+     \MM{Too persnickety?} 
+It then identifies the contours of a variable field (here, the density
+field) within a tile and connects them across the tiles. In the
+customized version used for this study, we
+%mm modify the function to enhance 
+     enhanced
+the stability of the code.
 %
 Due to the nature of our AMR simulation, we regrid the simulation data into uniform grids. The grid size is defined based on the highest resolution of the simulation data, i.e., the less refined regions are supersampled in the resulting uniform grids.
 
-In the clump-finding process, we employ a set of different density thresholds defined based on the molecular hydrogen density of \flower at different evolutionary stages ($z$\eq6.0\,$-$\,7.2).
+In the clump-finding process, we employ a set of different density
+thresholds defined based on the molecular hydrogen density of \flower
+at different evolutionary stages ($z=6.0$--7.2).
 %
-We note that this process is in essence similar to identifying molecular structures based on the noise levels of surface density maps observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN, as commonly adopted in observational studies (e.g., identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a}).
+We note that this process is 
+%mm in essence similar
+    the three-dimensional analog
+to identifying molecular structures based on the noise levels 
+%mm of surface density maps
+     in position-position-velocity maps that
+observers obtain with telescopes, using molecular line tracers such as
+CO, CS, and HCN.
+%mm , as commonly adopted in observational studies (e.g., 
+     This is commonly done by 
+identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a}).
 %
-We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
+%We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
 % Many concerning the correspondence between  ... , dating back to the work by \citep{Adler92a}.
-Existing studies find a good correspondence in the dynamical properties extracted in PPV- versus PPP-space (\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see also \citealt{Shetty10a} for a discussion on caveats and limitations).
+Existing studies find a good correspondence in the dynamical
+properties extracted in PPV- versus PPP-space 
+%mm
+   for well-isolated structures 
+(\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see
+%mm
+    \citealt{Ballesteros-Paredes02a} and 
+\citealt{Shetty10a} for a discussion on caveats and limitations).
 % large scale structure in PPP may be identified as numerous lower mass structures in the PPV cube due to gradients in the LOS and conversly, superposition when spatially distinct components with the same velocity are "merged" into one component in the PPV space when observed along the LOS (see Fig. 1 of Beaumount13a). (may be worth putting more thoughts on this after the report is due).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/hist_test_16.pdf}
-\caption{Probability distribution function of the H$_2$ number density in \flower during the accretion phase shown in \Fig{SFH}.
+\caption{Probability distribution function of the H$_2$ number density
+  in \flower during the accreting phase shown in \Fig{SFH}{\em
+    (b)}. \MM{PDFs should be normalized to unity by dividing by the
+    area under the curve (total number of samples).  A label on the
+    y-axis would also be useful, and perhaps minor ticks on the x-axis.}
 \label{fig:h2density}}
 \end{figure}
 
@@ -464,22 +502,58 @@ Existing studies find a good correspondence in the dynamical properties extracte
   \\ [-2.9em]
   \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_18.96}.pdf}
 \caption{
-Examples of MCCs (white contours) identified by the clump-finder in  \flower during its  accreting phase. The color-bar shows the mean H$_2$ number density, weighted by gas mass. Different rows shows the clump-finder results obtained by applying different H$_2$ number density cuts density cuts $(n_{\rm cut})$ as shown by the label. Left and right panels show the galaxy from different viewing angles.
+Examples of MCCs (white contours) identified by the clump finder in
+\flower during its  accreting phase. The color bar shows the mean
+H$_2$ number density, weighted by gas mass. Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$ as shown by the label. Left and right panels show the galaxy from different viewing angles.
 \label{fig:MCC}}
 \end{figure*}
 
-In \Fig{h2density}, we show the H$_2$ number density ($n_{\rm H2}$) distribution of \flower~in its accreting phase, by including the contribution from the gas within 3.5 kpc from the galaxy center.
+In \Fig{h2density}, we show the probability distribution of H$_2$
+number density $n_{\rm H2}$ for \flower~ during its accreting phase,
+including the contribution from the gas within 3.5 kpc from the
+galaxy center. 
 %
-We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and it samples the range of densities where clumps are found based on morphological analysis\footnote{For $n_{\rm H2}\gtrsim1$\,\cc the fourth Minkowsky functional of the H$_{2}$ density field is significantly larger than zero. This implies that the field is made of isolated components. See Fig. 6 in \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCCs by applying 10 equally-spaced volumetric H$_2$ density cuts of ${(n_{\rm cut}/{\rm cm^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 5.81, 11.36, 18.96, 31.62]$\footnote{We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}).} to each snapshot.
+We note that the distribution is almost flat for $n_{\rm
+  H2}\gtrsim1$\,\cc and it samples the range of densities where clumps
+are found based on morphological analysis\footnote{For $n_{\rm
+    H2}\gtrsim1$\,\cc the fourth Minkowsky functional of the H$_{2}$
+  density field is significantly larger than zero. This implies that
+  the field is made of isolated components. See Fig. 6 in
+  \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCCs by
+applying 10 equally-spaced volumetric H$_2$ density cuts of ${(n_{\rm
+    cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08,
+5.81, 11.36, 18.96, 31.62]$ to each snapshot. 
+%mm [I moved the next sentence into the main text from the footnote.]
+We also tested variations in
+  $n_{\rm cut}$ range and found no qualitative differences (see
+  \Sec{ncut}).
+%mm
+\MM{I am confused how H$_2$ can survive at such low number
+  densities.  Is there some sort of hidden clumping factor at work
+  here? Or is this due to the neglect of local photodissociating
+  radiation? Either way, the point should be mentioned in section 3, I
+guess.}
 
-To visually appreciate  the clump finding procedure, in \Fig{MCC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
+To visually
+%mm appreciate
+    display 
+the clump finding procedure, in \Fig{MCC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
 Since the molecular structures identified could easily appear as overlapping structures depending on the viewing angle, we also plot them in different three-dimensional projections (right panels of \Fig{MCC}) so that one can more easily see that they are collections of disjoint structures.
 %
 We repeat this identification process for 14 evolutionary stages between redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq50\,Myr.
 
-Note that we impose the additional constraint that an identified structure must be composed of at least 10 cells. We caution that an important caveat of such constraint is that we can only examine the parameter space of ``cloud'' of typical size $R\gtrsim 60$\,pc, because of the resolution limit in the simulation.
+Note that we impose the additional constraint that an identified
+structure must be composed of at least 10 cells. We caution that an
+important caveat of such a constraint is that we can only examine the
+parameter space of cloud complexes of 
+%mm typical size
+   radius 
+$R\gtrsim 60$\,pc, because of the resolution limit of the simulation.
 
-\subsection{Molecular Cloud Properties}
+\subsection{Molecular Cloud 
+%mm
+    Complex
+Properties}
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
