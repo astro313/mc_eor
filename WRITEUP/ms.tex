@@ -546,9 +546,10 @@ Note that we impose the additional constraint that an identified
 structure must be composed of at least 10 cells. We caution that an
 important caveat of such a constraint is that we can only examine the
 parameter space of cloud complexes of 
-%mm typical size
-   radius 
-$R\gtrsim 60$\,pc, because of the resolution limit of the simulation.
+%mm typical size $R\gtrsim 60$\,pc [revised assuming spherical MCCs
+%per Sect 4.2]
+   radius $R\gtrsim 40$\,pc,
+because of the resolution limit of the simulation.
 
 \subsection{Molecular Cloud 
 %mm
@@ -557,23 +558,37 @@ Properties}
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
-Upon identifying the molecular structures, we extract properties such as the gas mass ($M_{\rm cl}$), effective size ($R$), Mach number ($\mathcal{M}$), r.m.s. velocity dispersion ($\sigma$), and gas surface density ($\Sigma_{\rm gas}$) to examine their dynamics.
+Upon identifying the molecular structures, we extract properties such
+as the gas mass $M_{\rm cl}$, effective size $R$, Mach number
+$\mathcal{M}$, r.m.s. velocity dispersion $\sigma$
+, and gas surface density $\Sigma_{\rm gas}$ to examine their dynamics.
 
 The mass of an MCC is calculated from the uniformly-gridded 3D density field, integrating over the MCC volume $V$. The effective size is defined assuming spherical geometry, i.e. $R \equiv (3 V /4 \pi)^{1/3}$.
 %
-The velocity dispersion of MCCs is calculated from non-thermal velocity dispersion ($\sigma_{\rm NT}$) and thermal sound speed ($c_s$):
+The velocity dispersion of MCCs is calculated from non-thermal
+velocity dispersion $\sigma_{\rm NT}$ and thermal sound speed $c_s$ as
 \begin{equation}
 \sigma^2 = \sigma_{\rm NT}^2 + c_s^2.
 \label{eqn:veldisp}
 \end{equation}
 %
-In \obs of MCC, the linewidths contribution of dense gas contribution is larger then the one from the diffuse gas. We therefore calculate each term on the RHS of Equation~\ref{eqn:veldisp} as a density-weighted quantity. For instance, the non-thermal velocity dispersion is calculated as follows:
+In \obs of MCCs, the linewidth contribution of dense gas 
+exceeds that from the diffuse gas. We therefore calculate each term on
+the right-hand side of Equation~\ref{eqn:veldisp} as a density-weighted quantity. For instance, the non-thermal velocity dispersion is calculated as follows:
 \begin{equation}
 \sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
 \end{equation}
 where the sum is done for the cells composing each MCC.
 %
-The local sound speed of all identified molecular complexes is much smaller than their turbulent velocities\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field, indicating that contribution from shear is unlikely to dominating the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
+The local sound speed of all identified molecular complexes is much
+smaller than their turbulent velocities\footnote{Velocity dispersions
+  calculated from velocity field are comparable to those calculated
+  from the pressure field 
+%mm
+    \MM{The turbulent pressure field has not been
+    mentioned in section 3, so you'll need to add a sentence there
+    mentioning its presence and behavior to mention it here}, 
+indicating that contribution from shear is unlikely to dominate the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
 We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
@@ -583,13 +598,41 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %
 We note that the distributions vary for different evolutionary stages of \flower. The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc yields a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest MCC.
 %
-We find $\sim$10$-$13 MCCs with masses exceeding 10$^8$\,\Msun across all the evolutionary stages considered in this work, for each  $n_{\rm cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do you show the valu 18.96 instead?} \DL{MCCs w/ Mcl $>$10$^8$\,\Msun is the case for each ncut.} Such massive clouds correspond to the galaxy molecular disk, that is identified as a single component for low $n_{\rm cut}$. The mass of the MCCs identified ranges between $M_{\rm cl}\simeq$10$^{5.5-8.5}$\,\Msun, consistent with those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and $f_{gas}$ here..Also, what is the total number of MCCs?}
+We find $\sim$10--13 MCCs with masses exceeding 10$^8$\,\Msun across
+all the evolutionary stages considered in this work, for each  $n_{\rm
+  cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do
+  you show the valu 18.96 instead?} \DL{MCCs w/ Mcl $>$10$^8$\,\Msun
+  is the case for each ncut.} \MM{I am afraid I am also confused by
+  this, for two reasons.  First, if I understand the Figure, the
+  highest $n_{\rm cut}$ shows no such large MCCs at any time.  Second,
+  back in section 3, the H$_2$ mass of \flower was given as 5\E7
+  \Msun, precluding the existence of even a single 10$^8$ \Msun
+  cloud.} Such massive clouds correspond to the molecular disk of the
+galaxy, which is identified as a single component for low $n_{\rm
+  cut}$. The mass of the MCCs identified ranges between $M_{\rm
+  cl}\simeq$10$^{5.5-8.5}$\,\Msun, consistent with those observed in
+\z$\sim$2 galaxies in rest-frame UV and optical light
+\citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and
+  $f_{gas}$ here..Also, what is the total number of MCCs?} \MM{In the
+  high-density plot, it looks like you have quite a number of
+  unresolved clouds with $R < 40$~pc. Any idea what's going on there?}
 
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
-\caption{Distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest $n_{\rm cut}$ (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels).
-Note that the scale shown on the y-axes are different between the top and bottom panels, as less MCCs are identified at higher $n_{\rm cut}$.
+\caption{Distributions of mass (left), size (middle), and gas mass
+  fraction (right) of MCCs identified using the lowest $n_{\rm cut}$
+  (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels)
+%mm
+      over all times analyzed here.
+Note that the scalesshown on the $y$-axes are different between the top
+and bottom panels, as fewer MCCs are identified at higher $n_{\rm
+  cut}$. \MM{Put labels on the y-axis (maybe just $N$ or some such). Tick marks should point inwards
+  rather than outwards.  I'd suggest putting the $n_{\rm cut}$ labels
+  on the left panels following the style of the previous figure (and
+  drop the brackets around the unit there). The $R$ axis could
+  reasonably be pulled in to 250 pc, providing a bit more dynamic
+  range at the low end.}
 \label{fig:dist}}
 \end{figure*}
 
