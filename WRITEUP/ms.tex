@@ -148,23 +148,37 @@ and present the formalism within which we interpret the results. In \Sec{results
 \section{Physical Background}\label{sec:Back}
 We begin by introducing some basic material concerning notable physical ("Larson") relations characterizing MCCs, and the gravitational instability of galactic disks, which might be driving MCC formation. Such notions will be used in the subsequent analysis of our simulations. 
 \subsection{Larson relations and virial parameter}\label{sec:PVE}
-\citep{Larson81a} discussed a number of relations among Galactic MCC properties, namely the linewidth-size, density-size, and mass-size relations. Larson relations are routinely used for comparing properties of molecular structures in different galactic environments. They also represent a useful framework to analyze our results as they arise from the interplay between gravity and turbulence encoded in the virial theorem. 
+\citet{Larson81a} discussed a number of relations among Galactic 
+%mm MCC 
+     molecular cloud 
+properties, namely the linewidth-size, density-size, and mass-size relations. Larson relations are routinely used for comparing properties of molecular structures in different galactic environments. They also represent a useful framework to analyze our results as they 
+%mm
+     have been argued to 
+arise from the interplay between gravity and turbulence encoded in the virial theorem
+%mm 
+    (however, note the alternative interpretation involving gravitational collapse by 
+    \citealt{Ballesteros-Paredes11}).
 
-In general, the virial theorem for a gas distribution of gas can be written as
+%mm In general, the virial theorem for a gas distribution of gas can be written as
+     The virial theorem for a distribution of unmagnetized gas can be written as \citep{McKee1992}
 \begin{equation}\label{eqn:virial_th_general}
 \frac{1}{2}\ddot{\mathcal{I}} = 2(\mathcal{T} - \mathcal{T}_{\rm ext}) + \mathcal{W},
 \end{equation}
 where $\ddot{\mathcal{I}}$ is the second time derivative of the Lagrangian moment of inertia, $\mathcal{T}$ is the internal energy of the gas, $\mathcal{T}_{\rm ext}$ is external pressure support, and $\mathcal{W}$ is the gravitational energy.
 %
-Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm cl}$, radius $R$, and r.m.s. velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions. Neglecting magnetic field and defining $P_{\rm ext}$ the external pressure, \Eq{virial_th_general} can be written as
+Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm cl}$, radius $R$, and root-mean-square velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions. 
+%mm Neglecting magnetic field and 
+Defining $P_{\rm ext}$ as the external pressure, \Eq{virial_th_general} can be written as
 \begin{equation}
 \frac{1}{2}{\ddot{\mathcal{I}}} = 3 M_{\rm cl} \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM_{\rm cl}^2}{R}\,,
 \label{eqn:virial}
 \end{equation}
-where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the terms on the r.h.s. represent the kinetic, external, and gravity pressure terms. 
+where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the terms on the right-hand side represent the
+%mm  kinetic, external, and gravity pressure terms. 
+    kinetic energy, external pressure, and gravitational potential energy terms.
 
-Motivated by Larson's linewidth-size relation \citep{Larson81a} and the work by \citet{Heyer09a}, we assume equilibrium (i.e. ${\ddot{\mathcal{I}}}=0$), define the cloud surface density as
-$\Sigma$\eq$M/\pi R^2$, and rewrite previous equation as 
+Motivated by Larson's linewidth-size relation \citep{Larson81a} and the work by \citet{Heyer09a}, we assume equilibrium (i.e.\ ${\ddot{\mathcal{I}}}=0$), define the cloud surface density as
+$\Sigma$\eq$M/\pi R^2$, and rewrite the previous equation as 
 \begin{equation}
 \frac{\sigma^2}{R} = \frac{1}{3}\left(\frac{4P_{\rm ext}}{\Sigma} + \frac{3}{5} \pi G \Sigma \right)\,,
 \label{eqn:v0}
@@ -182,9 +196,12 @@ if the external pressure $P_{\rm ext}=0$. For this case (often referred to as si
 
 Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
-Summarizing, the virial parameter can be used to quantify the stability/boundedness of an MCC. Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{bertoldi:1992}.
+Summarizing, the virial parameter can be used to quantify the stability/boundedness of 
+%mm an MCC. 
+    a molecular cloud.
+Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{bertoldi:1992}.
 %
-Such criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
+Such a criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
