@@ -58,7 +58,7 @@
 \begin{abstract}
 %mm rearranged sentence
 We study the properties of molecular cloud complexes (MCs) in a cosmological zoom-in simulation of a
-prototypical galaxy (``\flower'') at redshift $z\approx 6$.
+prototypical galaxy (``\flower'') at redshift $z\simeq 6$.
 %
 We identify MCs using an H$_2$ density-based clump finder, and compare their mass, size, velocity dispersion, gas surface density, and virial parameter ($\alpha_{\rm vir}$) with those observed in nearby and \z$\lesssim 2$ galaxies.
 %
@@ -112,7 +112,7 @@ present-day galaxies.
 Such massive gas inflows trigger gravitational instabilities that lead to the formation of molecular 
 %mm complexes [first use of this term; did you want "cloud complexes" instead of "complexes" for agreement with abstract?] 
    cloud complexes (MCCs)  \MM{changed MC to MCC throughout}
-that are typically more massive ($M_{\rm cl}\approx 10^9$\,\Msun) and extended ($\approx$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
+that are typically more massive ($M_{\rm cl}\simeq 10^9$\,\Msun) and extended ($\simeq$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
 %
 Some theoretical works argue that the migration of such giant massive clumps are largely responsible for the buildup of the bulges of massive galaxies at redshift \z$\sim$\,0 \citep[e.g.,][]{Ceverino10a}.
 
@@ -314,36 +314,27 @@ The simulations used in this work are described by \citealt{Pallottini17a, Pallo
 %
 \ncode{Serra}\footnote{Greenhouse in Italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
-In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size, 
-%mm resolving down to a physical scale of 
-     with the finest refined cell sizes 
-$l_{\rm cell}\approx$\,30\,pc (at $z\sim6$) and a (baryonic) mass resolution
+In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation zoom-in on a target halo of mass $\sim 10^11 \Msun$. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter (equivalent baryonic) mass resolution is $\simeq 6\times 10^4 \Msun$ ($1.2 \times 10^4 \Msun$). Such region is spatially refined with a quasi-Lagrangian mass threshold-based criterion, i.e. a cell is refined if its total (DM+baryonic) mass exceed the the mass resolution by a factor 8. The final finest refined cell in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$).
 %mm
     \MM{Is this really the resolution of dark matter particles?  The baryonic mass (i.e.\ gas) resolution depends on the 
-    local density, which would have to be specified here.}
- of $m_b\simeq$\,10$^4$\,\Msun at the finest level. 
-%mm Such a physical scales are comparable to those of
-     Cell sizes are comparable to the sizes of
-local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
+    local density, which would have to be specified here.} \AP{the setting description has been extended}
+     Cell sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
 %mm 
-     \MM{Nota Bene!} although the resolved scale of 5--10 cells is rather larger.
-
+     \MM{Nota Bene!} \AP{This note is discussed in details in the following section. In the simulation we do not treat 5--10 cells as MCs, so I would remove the point from the present} although the resolved scale of 5--10 cells is rather larger.
 %mm We
-    The models 
-include a chemical network 
+    The models include a chemical network 
 %mm including ${\rm e}^{-}, \rm{H}$, $\rm{H}^{+}$, $\rm{H}^{-}$, $\rm{He}$, $\rm{He}^{+}$, $\rm{He}^{++}$, $\rm{H}_2$, $\rm{H}_2^{+}$ 
-   following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$
-\citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme 
+   following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme 
 %mm following \citet{Pallotini17b} [the order had to be reversed for alphabetization]
     described by \citet{Pallottini17a}.
 
 % radiative feedback --> NT pressure
 Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) 
 %mm and OB/AGB stars. 
-   as well as OB and asymptotic giant branch stars.
+   as well as winds from OB and asymptotic giant branch stars.
 Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).  
 %mm
-   \MM{confirm:} Photoionization and stellar wind feedback is neglected.
+   \MM{confirm:} Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{pallottini:2019,decataldo:2019}. \AP{modified accordingly}
 
 The simulation zooms in on a galaxy named
 %mm 
@@ -353,7 +344,7 @@ The simulation zooms in on a galaxy named
       \citet{Pallottini17a} 
 and are briefly summarized in the following. \flower is a Lyman-break galaxy 
 %mm (LBG), [unused acronym]
-that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. \MM{What is its gas fraction?  I ask because its molecular gas mass is minuscule, particularly for such a high SFR: this is a depletion time of only 0.5 Myr, while modern galaxies usually have depletion times more like 0.5--2~Gyr!} Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
+that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of $\simeq$\,100\,\Msun\,yr\pmOne. \MM{What is its gas fraction?  I ask because its molecular gas mass is minuscule, particularly for such a high SFR: this is a depletion time of only 0.5 Myr, while modern galaxies usually have depletion times more like 0.5--2~Gyr!} \AP{the gas fraction is very flickering and depends on which radius we are considering, as the galaxy is actively accreating material and merging; depletion time are low, see the ssfr note added considering that $ssfr \propto t_{depletion}^{-1}$} The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star} \simeq 4 -- 40 \rm Gry ^{-1}$, compatible with sSFR vs $M_{\star}$ relation observed at high-redshift \citep{Jiang2016}, that is higher with respect to normal local galaxies. Its effective stellar radius  is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
 
 \subsection{Star Formation History} \label{sec:sfh}
 
@@ -369,7 +360,7 @@ One of the main advantages for studying the dynamical properties of simulated ga
 %
 %This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 
-The \SF history\footnote{Note that here the SFR is calculated based on the stellar mass formed in the last 10 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR account for the contribution from massive satellite galaxies within the virial radius ($\approx$15\,kpc).} of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
+The \SF history\footnote{Note that here the SFR is calculated based on the stellar mass formed in the last 10 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR account for the contribution from massive satellite galaxies within the virial radius ($\simeq$15\,kpc).} of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30$-$80\,\Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\simeq 700$ Myr.
 
 Given \flower's SF stochastic nature, in this work we mostly focus on the analysis of two of its most extreme evolutionary stages (see \Sec{singless}). The two phases correspond to (a) intense accretion (b) starburst (\Fig{SFH}). We are interesting in determining whether MCC properties are sensitive to these different dynamical conditions. For completeness, for the other evolutionary stages traced in the simulation we only show scaling relations (see \Fig{alpha16-28}).
 
@@ -445,7 +436,7 @@ In \obs of MCC, the linewidths contribution of dense gas contribution is larger 
 \end{equation}
 where the sum is done for the cells composing each MCC.
 %
-The local sound speed of all identified molecular complexes is much smaller than their turbulent velocities\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field, indicating that contribution from shear is unlikely to dominating the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\approx 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
+The local sound speed of all identified molecular complexes is much smaller than their turbulent velocities\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field, indicating that contribution from shear is unlikely to dominating the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
 We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
@@ -455,7 +446,7 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %
 We note that the distributions vary for different evolutionary stages of \flower. The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc yields a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest MCC.
 %
-We find $\sim$10$-$13 MCCs with masses exceeding 10$^8$\,\Msun across all the evolutionary stages considered in this work, for each  $n_{\rm cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do you show the valu 18.96 instead?} \DL{MCCs w/ Mcl $>$10$^8$\,\Msun is the case for each ncut.} Such massive clouds correspond to the galaxy molecular disk, that is identified as a single component for low $n_{\rm cut}$. The mass of the MCCs identified ranges between $M_{\rm cl}\approx$10$^{5.5-8.5}$\,\Msun, consistent with those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and $f_{gas}$ here..Also, what is the total number of MCCs?}
+We find $\sim$10$-$13 MCCs with masses exceeding 10$^8$\,\Msun across all the evolutionary stages considered in this work, for each  $n_{\rm cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do you show the valu 18.96 instead?} \DL{MCCs w/ Mcl $>$10$^8$\,\Msun is the case for each ncut.} Such massive clouds correspond to the galaxy molecular disk, that is identified as a single component for low $n_{\rm cut}$. The mass of the MCCs identified ranges between $M_{\rm cl}\simeq$10$^{5.5-8.5}$\,\Msun, consistent with those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and $f_{gas}$ here..Also, what is the total number of MCCs?}
 
 \begin{figure*}[htbp]
 \centering
@@ -488,7 +479,7 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from \citet{Kauffman
 \AF{Description of the results is very chaotic. You mix evol. phases, properties, ncut, that is physical and numerical issues. Please reorder and make it more logical.}
 We first focus on the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), and identify a set of MCCs in each of them. Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accretion (left panels) and starburst phase (right), respectively. Let us start from analyzing the accretion phase.
 
-MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \approx 100 {\rm km s}^{-1}$) and sizes ($R\approx 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}.
+MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}.
 Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCCs within the main disk break into multiple sub-MCCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MCC}). Instead, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
 
 %Now discuss sigma - R relation; poor statistcis. But how many MCCs do we have?
@@ -574,7 +565,7 @@ We show the properties of all MCCs identified across all evolutionary stages in 
 %Milky Way (other symbols).
 %Literature data are compiled from \citealt{Kauffmann17b} and references therein.
 %Star symbols are color-coded by $n_{\rm cut}$.
-%Star symbols lying close to $\alpha_{\rm vir}\approx2$ correspond to MCCs in the satellite galaxies.
+%Star symbols lying close to $\alpha_{\rm vir}\simeq2$ correspond to MCCs in the satellite galaxies.
 %\label{fig:alpha16}}
 %\end{figure*}
 %
@@ -678,7 +669,7 @@ Their velocity dispersions are also comparable to those observed in the inner Mi
 (see footnote~\ref{ftn:veldisp} on page \pageref{ftn:veldisp}) of these MCCs can also be understood as they have experienced more recent episodes of \SF as \flower is assembling its stellar mass (these MCCs also have higher stellar-to-gas mass ratios of $\sim$60).
 %
 In fact, by the accretion stage (see \Fig{SFH}a) at $z\simeq$\,7.2, 
-\flower has assembled a stellar mass of $M_\star$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is due in part to the stronger stellar feedback compared to e.g., MCCs in its satellites ($\sigma\approx$10\,\kms).
+\flower has assembled a stellar mass of $M_\star$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is due in part to the stronger stellar feedback compared to e.g., MCCs in its satellites ($\sigma\simeq$10\,\kms).
 
 
 The high pressure observed in \flower is comparable to what has been observed in local ultra-luminous IR galaxies (ULIRGs); however, the molecular clouds in the latter are concentrated within their central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun \citep{Downes98a, Sakamoto08a}. In our simulated galaxy, the high pressure MCCs of \flower are found throughout the disk. This difference likely stems from the different physical mechanisms giving rise to the formation (and thus the nature) of these molecular structures.
@@ -723,13 +714,13 @@ since fragmentation occurs near the Jeans length $L_J\propto\sigma^2/\Sigma$ and
 Jeans mass $M_J\propto\sigma^4/\Sigma$ for dispersion-supported structures.
 
 Based on the scaling of $M_J$\eq$\sigma^4/(G^2\Sigma)$ for the Jeans mass, a
-velocity dispersion of $\sigma\approx50$\,\kms and a
-gas mass surface density of $\Sigma_{\rm gas}\approx450$\,\Msun\,pc$^{-2}$ yields
+velocity dispersion of $\sigma\simeq50$\,\kms and a
+gas mass surface density of $\Sigma_{\rm gas}\simeq450$\,\Msun\,pc$^{-2}$ yields
 $M_J\sim$\,8\E{8}\,\Msun, which is in good agreement with the mass range found in the MCCs identified (see \Fig{dist}).
 %
 Similarly massive molecular clouds have been reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum
 resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}).
-Note, however, that the IGM and merger and accretion histories are not properly modeled in such simulations since they adopt non-cosmological initial conditions. That said, this is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\approx$\,30\,pc).
+Note, however, that the IGM and merger and accretion histories are not properly modeled in such simulations since they adopt non-cosmological initial conditions. That said, this is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
 
 %Note that regions of $Q\lesssim1$ is actually somewhat
 %less than the number of MCCs we have identified based on density threshold ---
@@ -741,7 +732,7 @@ Note, however, that the IGM and merger and accretion histories are not properly 
 As shown in \Fig{larsons_single},
 the virial parameter of the sub-MCCs is about $\alpha_{\rm vir}\gtrsim10$, which is considerably lower than their ``parent'' MCCs found in the main disk of \flower ($\alpha_{\rm vir}\gtrsim100$).
 %
-For the MCCs in the satellite galaxies, a lower virial parameter is found compared to the (sub-)MCCs in the main disk of \flower, with $\alpha_{\rm vir}\approx$\,2.
+For the MCCs in the satellite galaxies, a lower virial parameter is found compared to the (sub-)MCCs in the main disk of \flower, with $\alpha_{\rm vir}\simeq$\,2.
 Differences in their $\alpha_{\rm vir}$ most likely result from the weaker stellar feedback in the satellites as they have experienced less episodes of \SF compared to \flower (i.e., lower stellar-to-gas mass ratios of $\sim$0.1).
 
 % pext
@@ -848,7 +839,7 @@ since the line luminosity scales with the molecular gas density (modulo optical 
 
 We extract properties such as mass, size, Mach number, velocity dispersion, gas surface density, and virial parameter for each MCC and we perform a Toomre-$Q$ stability analysis. The properties of the MCCs in \flower are compared with observed MCCs in the Milky Way disk, the Galactic center, and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF. This is done for different evolutionary stages of \flower.
 
-We find that the MCC of \flower are highly supersonic, with high velocity dispersions ($\sigma\approx$\,200\,\kms) comparable to
+We find that the MCC of \flower are highly supersonic, with high velocity dispersions ($\sigma\simeq$\,200\,\kms) comparable to
 those observed in $z$\ssim2 starburst galaxies.
 The mass scale of the MCCs is of the order of $10^{5.5-8.5}$\,\Msun, depending on the chosen H$_{2}$ cut. 
 The $\sim$200\,pc-scale MCCs found with a low density threshold
@@ -875,7 +866,7 @@ lower virial parameter. Some of these sub-MCCs have Toomre $Q_{\rm eff}$ paramet
 gravitationally unstable. This is consistent with the notion that collapsing structures resulting from
 gravitational instability occur within globally stable structures, which are
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\approx$\,2 for MCCs in the satellite galaxies, which we interpret as
+We also find $\alpha_{\rm vir}\simeq$\,2 for MCCs in the satellite galaxies, which we interpret as
 result of the weaker/delayed stellar feedback compared to \flower. 
 In particular, some of the MCCs in the satellites are collapsing structures that have not yet formed stars, as confirmed by their
 higher gas-to-stellar fractions.
