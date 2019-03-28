@@ -393,7 +393,12 @@ is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
 \caption{
-    {\it Top}: Star formation history of \flower. {\it Bottom}: projected stellar mass distribution during {\it (a)} an early accretion phase;  {\it (b)} a major starburst following a merger event; and {\it (c)} a relatively quiescent post-starburst phase.
+    {\it Top}: Star formation history of \flower. {\it Bottom}:
+    projected stellar mass distribution during {\it (a)} an early
+    accreting phase;  {\it (b)} a major starburst following a merger
+    event; and {\it (c)} a relatively quiescent post-starburst
+    phase. \MM{The figure says ``Accreting'', so I have edited
+      elsewhere to match.  You could also remove the quote marks from Quiescent.}
 \label{fig:SFH}}
 \end{figure*}
 
@@ -643,8 +648,18 @@ and bottom panels, as fewer MCCs are identified at higher $n_{\rm
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=1.05\textwidth]{\figpath/3by2_clumpProp_ss16-27.pdf}
 \caption{
-Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\sigma^2/R$-$\Sigma_{\rm gas}$ relation (bottom) for MCCs (star symbols) identified in the two most extreme evolutionary stages of \flower\ --- accreting phase (left) and starburst phase (right). Star symbols are color-coded by the density thresholds ($n_{\rm cut}$). 
-Data points in the $\alpha_{\rm vir}$-mass figure are taken from \citet{Kauffmann17a} and \citet{Kauffmann17b} and references therein (see Fig 4 of \citealt{Kauffmann17b}).
+Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation
+(middle), and $\sigma^2/R$-$\Sigma_{\rm gas}$ relation (bottom) for
+MCCs (star symbols) identified in the two most extreme evolutionary
+stages of \flower\ ---accreting phase (left) and starburst phase
+(right). Star symbols are color-coded by the density thresholds
+$n_{\rm cut}$.  \MM{Give the color coding somewhere.} 
+Data points in the $\alpha_{\rm vir}$-mass figure are taken from
+\citet{Kauffmann17a} and \citet{Kauffmann17b} and references therein
+(see Fig 4 of \citealt{Kauffmann17b}).   \MM{For consistency with
+  Figure 1, label as ``Accreting'' rather than ``Accretion'' phase. I
+  am inclined to leave the pressure confinement curves off of the
+  final plot.}
 \label{fig:larsons_single}}
 \end{figure*}
 
@@ -657,7 +672,7 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from \citet{Kauffman
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
 \AF{Description of the results is very chaotic. You mix evol. phases, properties, ncut, that is physical and numerical issues. Please reorder and make it more logical.}
-We first focus on the two most extreme evolutionary stages of \flower\ --- accretion and starburst phase (see \Sec{sfh}), and identify a set of MCCs in each of them. Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accretion (left panels) and starburst phase (right), respectively. Let us start from analyzing the accretion phase.
+We first focus on the two most extreme evolutionary stages of \flower---the accreting and starburst phases (see \Sec{sfh}), and identify a set of MCCs in each of them. Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accreting (left panels) and starburst phase (right), respectively. Let us start from analyzing the accretion phase.
 
 MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}.
 Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCCs within the main disk break into multiple sub-MCCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MCC}). Instead, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
@@ -670,13 +685,25 @@ Some MCCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vi
 % PVE
 We also compare the MCCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are needed for MCCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
-The MCCs in the satellite galaxies are found to follow the locus of $\log{(P/\textrm{K cm}^{-3})}$\eq6, which
+The MCCs in the satellite galaxies are found to follow the locus of
+$\log{(P/\textrm{K cm}^{-3})}$\eq6, \MM{This is not shown in the
+  figure.  If you want to claim it, it needs to be shown somewhere.} which
 is consistent with that found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a}.
 
 % cloud structures at large and small scale
 % Larson's: m = 460 M_sun (r_pc)^1.9 for structure w/in molecular clouds. --> $m \propto r^2$ \citep{McKee07a} (law of constant
 % column density) as fundamental properties of molecular cloud structure.
-Larson's third relation relates MCCs structures on small and large scales via two physical properties: mass and size \citep{Larson81a, McKee07a}. This is also known as the constant column density relation, since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with Milky Way-like dust can be written as 
+Larson's third relation relates MCCs structures on small and large
+scales via two physical properties: mass and size \citep{Larson81a,
+  McKee07a}. This is also known as the constant column density
+relation,
+\MM{And is thus inconsistent with the variation in $\sigma^2/R$ with
+  $\Sigma$.  Effectively, Larson's mass-size relation is a single
+  point on that relationship, at the constant $\Sigma$ value.  This
+  suggests that the mass-size relation is just an artifact of the
+  narrow range of column densities observed with $^{12}CO$, as
+  suggested among others by \citet{Ballesteros11}.}
+ since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with Milky Way-like dust can be written as 
 \begin{equation}
 A_v = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
 \end{equation}
@@ -696,7 +723,8 @@ In the same plot, we also show loci of constant surface densities, which are par
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
 \caption{
-Size-mass relation of MCCs identified in the accretion phase of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the 
+Size-mass relation of MCCs identified in the accreting phase \MM{In
+  Figure  of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the 
 mass-size relation found for regions in the Milky Way with massive \SF reported by \citet{Kauffmann10b}. Star symbols are color-coded by increasing $n_{\rm cut}$. Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}. 
 Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), which correspond to lines of
 constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
