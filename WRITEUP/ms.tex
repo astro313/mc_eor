@@ -481,7 +481,7 @@ properties extracted in PPV- versus PPP-space
 \begin{figure}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/hist_test_16.pdf}
-\caption{Number distribution of molecular gas density of \flower during the accreting phase shown in \Fig{SFH}{\em
+\caption{Distribution of molecular gas density of \flower during the accreting phase shown in \Fig{SFH}{\em
     (b)}. 
 \label{fig:h2density}}
 \end{figure}
@@ -528,9 +528,7 @@ guess.}
 \DL{ncut should be more like molecular gas density, and H2 fraction in each molecular gas is not 100\%, so the ncut here are lower than
  what one expects for purely H2 regions.}
 
-To visually
-%mm appreciate
-    display 
+To visually display 
 the clump finding procedure, in \Fig{MCC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
 Since the molecular structures identified could easily appear as overlapping structures depending on the viewing angle, we also plot them in different three-dimensional projections (right panels of \Fig{MCC}) so that one can more easily see that they are collections of disjoint structures.
 %
@@ -540,15 +538,10 @@ Note that we impose the additional constraint that an identified
 structure must be composed of at least 10 cells. We caution that an
 important caveat of such a constraint is that we can only examine the
 parameter space of cloud complexes of 
-%mm typical size $R\gtrsim 60$\,pc [revised assuming spherical MCCs
-%per Sect 4.2]
-   radius $R\gtrsim 40$\,pc,
+radius $R\gtrsim 40$\,pc,
 because of the resolution limit of the simulation.
 
-\subsection{Molecular Cloud 
-%mm
-    Complex
-Properties}
+\subsection{Molecular Cloud Complex Properties}
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
@@ -584,27 +577,24 @@ smaller than their turbulent velocities\footnote{Velocity dispersions
     mentioning its presence and behavior to mention it here}, 
 indicating that contribution from shear is unlikely to dominate the velocity dispersions reported here.\label{ftn:veldisp}}. On average, the Mach number of the MCCs is  $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$. This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
+The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to 
+a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure.
+However, not all evolutionary stages considered have at least one MCC at this highest density threshold, 
+we therefore consider MCCs identified with the second highest density threshold  ($n_{\rm cut}$\eq18.96\,\cc) in the following. 
 We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
 f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_\star\right)},
 \end{equation}
 where $M_\star$ is the stellar mass within the MCC volume.
 %
-We note that the distributions vary for different evolutionary stages of \flower. The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc yields a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest MCC.
+We note that the distributions vary for different evolutionary stages of \flower. 
 %
-We find $\sim$10--13 MCCs with masses exceeding 10$^8$\,\Msun across
-all the evolutionary stages considered in this work, for each  $n_{\rm
-  cut}$ value. \AF{This is true only for low $n_{cut}$? Why in Fig. do
-  you show the valu 18.96 instead?} \DL{MCCs w/ Mcl $>$10$^8$\,\Msun
-  is the case for each ncut.} \MM{I am afraid I am also confused by
-  this, for two reasons.  First, if I understand the Figure, the
-  highest $n_{\rm cut}$ shows no such large MCCs at any time.  Second,
+\MM{The highest $n_{\rm cut}$ shows no such large MCCs ($>$10$^8$\,\Msun) at any time.  Second,
   back in section 3, the H$_2$ mass of \flower was given as 5\E{7}
   \Msun, precluding the existence of even a single 10$^8$ \Msun
   cloud.} 
 \DL{Since we don't resolve the molecular clouds, the clouds are not fully molecular. The $M_{\rm cl}$ here is more 
-like total gas mass. AP will add disclaimer in Section 3. Will double check 
-Mcl for all ncut and address AF's comment.}
+like total gas mass. AP will add disclaimer in Section 3.}
   Such massive clouds correspond to the molecular disk of the
 galaxy, which is identified as a single component for low $n_{\rm
   cut}$. The mass of the MCCs identified ranges between $M_{\rm
@@ -625,12 +615,7 @@ galaxy, which is identified as a single component for low $n_{\rm
       over all times analyzed here.
 Note that the scalesshown on the $y$-axes are different between the top
 and bottom panels, as fewer MCCs are identified at higher $n_{\rm
-  cut}$. \MM{Put labels on the y-axis (maybe just $N$ or some such). Tick marks should point inwards
-  rather than outwards.  I'd suggest putting the $n_{\rm cut}$ labels
-  on the left panels following the style of the previous figure (and
-  drop the brackets around the unit there). The $R$ axis could
-  reasonably be pulled in to 250 pc, providing a bit more dynamic
-  range at the low end.}
+  cut}$. 
 \label{fig:dist}}
 \end{figure*}
 
@@ -667,7 +652,7 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from
 \AF{Description of the results is very chaotic. You mix evol. phases, properties, ncut, that is physical and numerical issues. Please reorder and make it more logical.}
 We first focus on the two most extreme evolutionary stages of \flower---the accreting and starburst phases (see \Sec{sfh}), and identify a set of MCCs in each of them. Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accreting (left panels) and starburst phase (right), respectively. Let us start from analyzing the accreting phase.
 
-MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}.
+MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}. 
 Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCCs within the main disk break into multiple sub-MCCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MCC}). Instead, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
 
 %Now discuss sigma - R relation; poor statistcis. But how many MCCs do we have?
