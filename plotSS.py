@@ -84,8 +84,8 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     # fig = plt.figure(figsize=(13, 6))
     # ax = fig.subplots(2, 3)
 
-    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(13, 3.5))
-    fig.subplots_adjust(left=0.12, wspace=0.15, bottom=0.1, top=0.95, hspace=0.0)
+    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(14, 3.5))
+    fig.subplots_adjust(left=0.12, wspace=0.18, bottom=0.1, top=0.95, hspace=0.0)
 
     # # separate allmasses into two color scheme
     # med11 = allmass11.median()
@@ -119,12 +119,12 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     # size
     allsizes11 = get_sizes_all_clouds(ss11)
     ax[0, 1].hist(allsizes11)
-    ax[0, 1].set_xlim([45, 300])
+    ax[0, 1].set_xlim([45, 260])
     ax[0, 1].set_xticklabels([])
     ax[0, 1].set_title(r'R [pc]')
     allsizes12 = get_sizes_all_clouds(ss12)
     ax[1, 1].hist(allsizes12)
-    ax[1, 1].set_xlim([45, 300])
+    ax[1, 1].set_xlim([45, 260])
 #    fig.text(0.5, 0.33, r'R [pc]', ha='center', fontsize=20)
 
     minorLocator = AutoMinorLocator(5)
@@ -191,76 +191,86 @@ if __name__ == '__main__':
     # plot_dis_allSS()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
-    # _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="0.53_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="0.53_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="0.88_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="0.88_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="1.47_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="1.47_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
+    # print count       # 0 MCCs w/ Mcl>1e8 Msun with this ncut already
+    # import pdb; pdb.set_trace()
+
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="2.45_10_fields.p")
+    # count = 0
+    # for i in _to.iterkeys():
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="2.45_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="4.08_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="4.08_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="6.81_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="6.81_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="11.36_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
 
-    # _to, _ = load_pickleTOplot(16, 28, fname="11.36_10_fields.p")
+    # _, _to, _ = load_pickleTOplot(16, 28, fname="18.96_10_fields.p")
     # count = 0
     # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
+    #     for ii in range(len(_to[i]['cloud mass'])):
+    #         if _to[i]['cloud mass'][ii] > 1.e8:
+    #             count += 1
     # print count
     # import pdb; pdb.set_trace()
-
-    # _to, _ = load_pickleTOplot(16, 28, fname="18.96_10_fields.p")
-    # count = 0
-    # for i in _to.iterkeys():
-    #     if _to[i]['cloud mass'] > 1.e8:
-    #         count += 1
-    # print count
 
     plotting_procedure(16, 28, pattern="0.32")
     plotting_procedure(16, 28, pattern="0.53")
