@@ -78,13 +78,13 @@ def plotting_procedure(snapshot_num):
 if __name__ == '__main__':
 
     import matplotlib
-    matplotlib.use('agg')
+    # matplotlib.use('agg')
 
     from plot_modules.plot_cloud_prop import setup_plot
     cm = setup_plot()
 
-    for isnap in range(16, 29):
-        plotting_procedure(isnap)
+    # for isnap in range(16, 17):
+    #     plotting_procedure(isnap)
 
     # min MC mass for highest n_cut (for paper)
     # for isnap in [16, 27]:
@@ -113,4 +113,4 @@ if __name__ == '__main__':
                               cbarLabelSize=16,
                               outdir='./',
                               legendFontSize=13,
-                              saveFig=True)
+                              saveFig=False)
