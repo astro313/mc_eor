@@ -193,9 +193,9 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
                     'Pressure': None,
                     'P_nt': None,
                     'metallicity': None,
-                    'velx': None,
-                    'vely': None,
-                    'velz': None}
+                    'velx_gas': None,
+                    'vely_gas': None,
+                    'velz_gas': None}
 
     if starPartDict is not None:
         for kkk in starPartDict.iterkeys():
@@ -208,13 +208,19 @@ def get_phyprop_of_leaf(subleaf, density, H2density, Pressure, P_nt, metallicity
 
     # print(subleaf.quantities.total_mass())
     # print(subleaf.quantities.center_of_mass())
-    
+
     for fff in _leaf_fields.iterkeys():
         if not fff in starPartDict.iterkeys():
-            _leaf_fields[fff] = eval(fff)[ii, jj, kk]
+            if fff == 'velx_gas':
+                _leaf_fields[fff]  = eval('velx')[ii, jj, kk]
+            elif fff == 'vely_gas':
+                _leaf_fields[fff]  = eval('vely')[ii, jj, kk]
+            elif fff == 'velz_gas':
+                _leaf_fields[fff]  = eval('velz')[ii, jj, kk]
+            else:
+                _leaf_fields[fff] = eval(fff)[ii, jj, kk]
         else:
             _leaf_fields[fff] = starPartDict[fff][ii, jj, kk]
-        
     #_h2_subleaf = subleaf.data['h2density']
     #h2_subleaf = _leaf_fields['H2density']
     #assert round(_h2_subleaf[0]) == round(h2_subleaf[0])

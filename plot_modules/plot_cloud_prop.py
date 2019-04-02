@@ -84,6 +84,7 @@ def unpack_xy(ss):
         _SFR_young = []
         _SFR_old = []
         _alpha = []
+        _alpha_tot = []   # include stellar
         _mSD = []
         _sizepc = []
         _R2pc2 = []
@@ -108,6 +109,7 @@ def unpack_xy(ss):
             _SFR_young.append(ss[ks][kkk].young_SFR_MsunPyr)
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
             _alpha.append(ss[ks][kkk].alpha)
+            _alpha_tot.append(ss[ks][kkk].alpha_total)
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
             _R2pc2.append((ss[ks][kkk].R_pc * 2.0) ** 2.0)
@@ -131,6 +133,7 @@ def unpack_xy(ss):
         to_plot[ks]['jeans mass'] = _Mj
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
+        to_plot[ks]['alpha vir total'] = _alpha_tot
         to_plot[ks]['gas sd'] = _mSD
         to_plot[ks]['sfr sd'] = _SFRSD
         to_plot[ks]['size pc'] = _sizepc
@@ -1142,9 +1145,15 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["cloud mass"]
         _y = to_plot[ks]["alpha vir"]
+        _y2 = to_plot[ks]["alpha vir total"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
                      markeredgecolor='gray',
+                     markeredgewidth=0.5)
+        # alpha_virial total
+        ax.plot(_x, _y2, ls=ls, markersize=markersize,
+                     marker='o',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     # shrink
@@ -1312,17 +1321,12 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
 
     fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False,
                              sharey=False,   # do NOT set to TRUE
-                             figsize=(15,17))
-    fig.subplots_adjust(right=0.8, left=0.1, top=0.85,
-                        bottom=0.1, hspace=0.25,
-                        wspace=0.1)
-    plt.subplots_adjust(right=0.8, top=0.8)
-
+                             figsize=(15,10))
     if sfrlabel:
         t1 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[0]) + r' [cm$^{-3}$]'
         t2 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[1]) + r' [cm$^{-3}$]'
     else:
-        t1 = 'Accretion Phase'
+        t1 = 'Accreting Phase'
         t2 = 'Starburst Phase'
 
     ax = axes[0, 0]
@@ -1410,7 +1414,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         label = 'ncut'
     cbar.set_label(label, fontsize=cbarLabelSize)
 
-    # fig.tight_layout()
+    fig.subplots_adjust(right=0.9, left=0.1, top=0.85,
+                        bottom=0.1, hspace=0.05,
+                        wspace=0.05)
+    fig.tight_layout()
 
     if saveFig:
         name_out = '3by2_clumpProp_'

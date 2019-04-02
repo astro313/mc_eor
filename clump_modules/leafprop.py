@@ -53,9 +53,9 @@ class Cloud(object):
         self.Pressure = leaf_0_dict['Pressure']    # K cm-3
         self.P_nt = leaf_0_dict['P_nt']            # K cm-3
         self.metallicity = leaf_0_dict['metallicity']   # old solar units
-        self.velx = leaf_0_dict['velx']            # km/s
-        self.vely = leaf_0_dict['vely']
-        self.velz = leaf_0_dict['velz']
+        self.velx = leaf_0_dict['velx_gas']            # km/s
+        self.vely = leaf_0_dict['vely_gas']
+        self.velz = leaf_0_dict['velz_gas']
         # plt.hist(self.velx)
         # plt.show()
         # import pdb; pdb.set_trace()
@@ -64,7 +64,10 @@ class Cloud(object):
         self.epoch = leaf_0_dict['epochMyr']       # Myr (age of universe when SF)
         self.mstar_young = leaf_0_dict['young10']       # Myr (age of universe when SF)
         self.mstar_old = leaf_0_dict['old100']       # Myr (age of universe when SF)
-        
+        self.velx_star = leaf_0_dict['velx']
+        self.vely_star = leaf_0_dict['vely']
+        self.velz_star = leaf_0_dict['velz']
+
         self.vol_pc3()
         self.vol_cc()
         self.mass_Msun()
@@ -90,24 +93,52 @@ class Cloud(object):
         self.mass_star_Msun()
         self.young_SFR()
         self.old_SFR()
+        self.alphaVir_total()
 
 
-    # --- star particles --- 
+    def alphaVir_total(self):
+        """
+
+        Cloud's alpha virial, Bertoldi & McKee 1992.
+
+                   5 * sigma ^ 2 * R
+          alpha =  ------------------
+                        G * M
+
+        """
+
+        # mass-weighted stellar velo disp
+        _velx_star = (self.velx_star - np.mean(self.velx_star)) * self.km2cm
+        _vely_star = (self.vely_star - np.mean(self.vely_star)) * self.km2cm
+        _velz_star = (self.velz_star - np.mean(self.velz_star)) * self.km2cm
+
+        self.sigmaSq_star = 1. / 3 * \
+            (self.mstar * ((_velx_star)**2 + (_vely_star) **
+                             2 + (_velz_star)**2)).sum() / self.mstar.sum()
+
+        print "stellar sigma [km/s]: ", np.sqrt(self.sigmaSq_star) / 1.e5    # km/s
+        del _velx_star, _vely_star, _velz_star
+
+        self.alpha_total = 5. * (self.sigmaSq_tot + self.sigmaSq_star) * \
+            self.R_cm / (self.G_cgs * (self.mass_Msun + self.mstar_Msun_tot) * self.Msun2g)
+
+
+    # --- star particles ---
     def mass_star_Msun(self):
         self.mstar_Msun_tot = self.mstar.sum()
         self.s2gR = self.mstar_Msun_tot/self.mass_Msun
 
     def young_SFR(self):
         """ calculate the SFR based on young stars [Msun/yr]
-        """ 
+        """
         self.young_SFR_MsunPyr = self.mstar_young.sum() / 10.0e6
 
     def old_SFR(self):
         """ calculate the SFR based on old stars [Msun/yr]
-        """ 
+        """
         self.old_SFR_MsunPyr = self.mstar_old.sum() / 100.0e6
-        
-    # --- AMR ---- 
+
+    # --- AMR ----
     def vol_pc3(self):
         self.vol_pc3 = self.dx**3 * len(self.density)
 
@@ -282,6 +313,7 @@ class Cloud(object):
 
         print "*" * 10 + "   Star Formation rate calculation:   " + "*" * 10
         print("alpha virial  = {:.2f}").format(self.alpha)
+        print("alpha virial incl. stellar  = {:.2f}").format(self.alpha_total)
         print("Mach number   = {:.2f} ").format(self.Mach)
         print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
         print("SFR          = {:.2f} [Msun/yr] ").format(self.SFR / 1.e6)
