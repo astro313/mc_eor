@@ -977,7 +977,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         if not legendFontSize:
             legendFontSize = 10
         ax.legend(loc="upper center", ncol=4, fontsize=legendFontSize,
-                  bbox_to_anchor=(1.1, 1.28), markerscale=3)
+                  bbox_to_anchor=(1.1, 1.2), markerscale=3)    # 1.28
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
         #           bbox_to_anchor=(0.5, 0.9))
@@ -1158,12 +1158,12 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     # shrink
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width, box.height * 0.87])
+    ax.set_position([box.x0, box.y0, box.width, box.height * 0.85])    # 0.82
     if showLegend:
         if not legendFontSize:
             legendFontSize = 10
         ax.legend(loc="upper center", ncol=5, fontsize=legendFontSize,
-                  bbox_to_anchor=(1.05, 1.1),
+                  bbox_to_anchor=(1.08, 1.12),   # 1.17
                       markerscale=3)
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
@@ -1175,7 +1175,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\alpha_{\rm vir}$")
-    ax.set_ylim(0.02, 2.e2)
+    ax.set_ylim(0.02, 3.e2)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     fig, ax = set_minorticks(fig, ax)
@@ -1319,9 +1319,15 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     else:
         sfr_val = sorted([ii for ii in sfr.itervalues()])
 
-    fig, axes = plt.subplots(nrows=3, ncols=2, sharex=False,
-                             sharey=False,   # do NOT set to TRUE
-                             figsize=(15,10))
+    if saveFig:
+        figsize= (22, 20)
+        dpi = 120
+    else:
+        figsize = (150/10., 300/10.)
+        dpi = 100           # otherwise mpl won't let me have a figure bigger than my screen size
+
+    fig, axes = plt.subplots(nrows=3, ncols=2,
+                             figsize=figsize, dpi=dpi)
     if sfrlabel:
         t1 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[0]) + r' [cm$^{-3}$]'
         t2 = r'$n_{\rm cut}$: ' + ('{:}').format(sfrlabel[1]) + r' [cm$^{-3}$]'
@@ -1335,9 +1341,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                       showLegend=True, legendFontSize=legendFontSize) # ss16
-    plt.text(0.5, 1.3, t1,
+    plt.text(0.5, 1.2,     # 1.3
+            t1,
             horizontalalignment='center',
-            fontsize=16,
+            fontsize=20,
             transform=ax.transAxes)
 
     ax = axes[0, 1]
@@ -1349,9 +1356,10 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax.set_ylabel('')
     ax.set_xlabel('')
     # ax.set_yticklabels([])
-    plt.text(0.5, 1.3, t2,
+    plt.text(0.5, 1.2,    # 1.3
+            t2,
             horizontalalignment='center',
-            fontsize=16,
+            fontsize=20,
             transform=ax.transAxes)
 
     # second row
@@ -1407,22 +1415,23 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
                         # ax=axes.ravel().tolist(),
                         cax=cax)
-    cbar.ax.tick_params(length=6)
+    cbar.ax.tick_params(length=6, labelsize=legendFontSize)
     if sfrlabel:
         label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
     else:
-        label = 'ncut'
+        label = r'$n_{\rm cut}$'
     cbar.set_label(label, fontsize=cbarLabelSize)
 
-    fig.subplots_adjust(right=0.9, left=0.1, top=0.85,
-                        bottom=0.1, hspace=0.05,
-                        wspace=0.05)
-    fig.tight_layout()
-
     if saveFig:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.2,
+                            wspace=0.15)
         name_out = '3by2_clumpProp_'
-        fig.savefig(outdir + name_out + tag + '.pdf') # , bbox_inches="tight")
+        fig.savefig(outdir + name_out + tag + '.pdf', bbox_inches="tight")
     else:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.45,
+                            wspace=0.15)
         plt.show(block=False)
 
     return fig, ax
