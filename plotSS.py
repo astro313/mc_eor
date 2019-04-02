@@ -302,7 +302,7 @@ if __name__ == '__main__':
                               tag='allss',
 #                              cmap=cm,
                               sfrlabel=bubu,
-                              cbarLabelSize=16,
+                              cbarLabelSize=20,
                               outdir='./',
-                              legendFontSize=13,
+                              legendFontSize=16,
                               saveFig=True)

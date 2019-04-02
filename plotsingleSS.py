@@ -86,13 +86,13 @@ if __name__ == '__main__':
     # for isnap in range(16, 29):
     #     plotting_procedure(isnap)
 
-    min MC mass for highest n_cut (for paper)
-    for isnap in [16, 27]:
-        _, _, _ = load_pickleTOplot(isnap, pattern='*18.96*10*p')
+    # # min MC mass for highest n_cut (for paper)
+    # for isnap in [16, 27]:
+    #     _, _, _ = load_pickleTOplot(isnap, pattern='*18.96*10*p')
 
-    # plot Larson and local points only (for talk introduction slide)
-    _, to_plot, _ = load_pickleTOplot(16)
-    plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir='./')
+    # # plot Larson and local points only (for talk introduction slide)
+    # _, to_plot, _ = load_pickleTOplot(16)
+    # plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir='./')
 
 
     # for paper, 3x2 panel for just ss16 and ss27

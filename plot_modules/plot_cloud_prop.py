@@ -964,7 +964,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
-    ax.set_ylim([0.5, 2.e2])
+    ax.set_ylim([0.5, 3.e2])
 
     ax.tick_params(axis='both', which='both')   # direction='in'
 
