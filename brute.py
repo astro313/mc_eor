@@ -1,3 +1,5 @@
+#!/mnt/home/daisyleung/Downloads/yt-conda/bin/python
+
 """
 
 Get to the buttom of the buggy yt clump finder...
@@ -26,6 +28,9 @@ last mod: 23 July 2018
 
 
 """
+
+import sys
+assert 'yt' in sys.path[1]     # instead of using the anaconda version
 
 import yt
 import os
@@ -56,7 +61,7 @@ largeNum = 1.e+42   # to plot only one contour in a hacky way
 
 
 istart = 16
-iend = 17
+iend = 29
 
 
 isnap = str(istart)
