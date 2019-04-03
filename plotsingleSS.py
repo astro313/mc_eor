@@ -45,6 +45,8 @@ def plotting_procedure(snapshot_num):
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("alpha vir", "SFR young", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "mass over jeans mass",
                leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("cloud mass", "jeans mass", leglabel="ncut: ",
@@ -53,7 +55,11 @@ def plotting_procedure(snapshot_num):
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("size pc", "sigma kms", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("Mach", "Mach pressure", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("Mach", "SFR young", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("Mach", "SFR old", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
@@ -61,8 +67,15 @@ def plotting_procedure(snapshot_num):
                to_plot=to_plot, outdir=leafdir_out)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out)
-    plot_stuff("size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("size pc", "cloud mass", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("cloud mass", "Mach", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff("cloud mass", "Mach pressure", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out)
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass",
+                    leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+    plot_stuff_3dim("Mach" ,"Mach pressure", "cloud mass",
                     leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
 
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
@@ -95,19 +108,19 @@ if __name__ == '__main__':
     # plot_stuff("size pc", "sigma kms", leglabel="ncut: ", to_plot=to_plot, outdir='./')
 
 
-    # for paper, 3x2 panel for just ss16 and ss27
+    # for paper, 3x2 panel for just ss16 and ss22!!!!
     import matplotlib.pyplot as plt
     plt.close('all')
 
     from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3by2
     from plotsingleSS import load_pickleTOplot
     ss1, to_plot1, leafdir_out1 = load_pickleTOplot(16)
-    ss2, to_plot2, leafdir_out2 = load_pickleTOplot(27)
+    ss2, to_plot2, leafdir_out2 = load_pickleTOplot(22)
 
     fig, ax = plot_stuff_3by2(to_plot1, to_plot2, ls='',
                               markersize=10,
                               marker='*',
-                              tag='ss16-ss27',
+                              tag='ss16-ss22',
 #                              cmap=cm,
                               sfrlabel=False,
                               cbarLabelSize=20,
