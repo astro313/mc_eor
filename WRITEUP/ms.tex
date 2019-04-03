@@ -124,6 +124,7 @@ As a consequence, we expect them to be significantly more ionized, and have inte
 Even in the local Universe, where detailed \obs can be made, variations in 
 %mm cloud
      MCC  \MM{do Hughes et al. study cloud complexes, as you do, or can you derive info about complexes from their data?}
+     \DL{This is just a statement to say there are variations among local GMCs. Together with the different galaxy properties found for early galaxies, it is interesting to study properties of molecular structures at earlier epochs. }
 properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of MCCs in early galaxies, and how do they differ from those found in local \galpop?}
 %
 
@@ -202,7 +203,7 @@ Summarizing, the virial parameter can be used to quantify the stability/boundedn
     a molecular cloud.
 Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{bertoldi:1992}.
 %
-Such a criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
+Such a criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.\DL{perhaps to be removed...}} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
@@ -222,7 +223,6 @@ where $k$ is the wavenumber and $\kappa$ is the epicyclic frequency, defined as:
 \label{eqn:kappa}
 \end{equation}
 \citep{Romeo92a}.
-\AF{$R$ is not the same as the MCC radius in the prev.\ Section} \MM{replaced $R$ with $\altomega$, and $\sigma$ with $\sigma_{\rm disk}$.}
 In Equation~\ref{eqn:3Ddisp} the terms on the right hand side are related to rotation, self-gravity and internal pressure, respectively. 
 %mm
     Heuristically, the instability can be understood by considering the scale
@@ -443,7 +443,6 @@ the zones of the simulation into non-overlapping tiles, which are
 stored in a 
 %mm $k$-dimensional tree ($k$-D tree). [unused acronym]
      three-dimensional tree that can be processed using $k$-dimensional tree algorithms.
-     \MM{Too persnickety?} 
 It then identifies the contours of a variable field (here, the density
 field) within a tile and connects them across the tiles. In the
 customized version used for this study, we
@@ -500,7 +499,7 @@ H$_2$ number density, weighted by gas mass. Different rows show the results obta
 \label{fig:MCC}}
 \end{figure*}
 
-In \Fig{h2density}, we show the probability distribution of H$_2$
+In \Fig{h2density}, we show the distribution of H$_2$
 number density $n_{\rm H2}$ for \flower~ during its accreting phase,
 including the contribution from the gas within 3.5 kpc from the
 galaxy center. 
@@ -526,7 +525,7 @@ We also tested variations in
   radiation? Either way, the point should be mentioned in section 3, I
 guess.}
 \DL{ncut should be more like molecular gas density, and H2 fraction in each molecular gas is not 100\%, so the ncut here are lower than
- what one expects for purely H2 regions.}
+ what one expects for purely H2 regions. No clumping factor.}
 
 To visually display 
 the clump finding procedure, in \Fig{MCC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
@@ -589,13 +588,9 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %
 We note that the distributions vary for different evolutionary stages of \flower. 
 %
-\MM{The highest $n_{\rm cut}$ shows no such large MCCs ($>$10$^8$\,\Msun) at any time.  Second,
-  back in section 3, the H$_2$ mass of \flower was given as 5\E{7}
-  \Msun, precluding the existence of even a single 10$^8$ \Msun
-  cloud.} 
-\DL{Since we don't resolve the molecular clouds, the clouds are not fully molecular. The $M_{\rm cl}$ here is more 
-like total gas mass. AP will add disclaimer in Section 3.}
-  Such massive clouds correspond to the molecular disk of the
+The massive ($M_{\rm cl}>$10$^8$\,\Msun) 
+clouds identified at low density cut (see top left panel of \Fig{dist})  
+correspond to the molecular disk of the
 galaxy, which is identified as a single component for low $n_{\rm
   cut}$. The mass of the MCCs identified ranges between $M_{\rm
   cl}\simeq$10$^{5.5-8.5}$\,\Msun, consistent with those observed in
