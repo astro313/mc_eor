@@ -315,6 +315,7 @@ class Cloud(object):
         print("alpha virial  = {:.2f}").format(self.alpha)
         print("alpha virial incl. stellar  = {:.2f}").format(self.alpha_total)
         print("Mach number   = {:.2f} ").format(self.Mach)
+        print("Mach number from NT pressure = {:.2f} ").format((np.mean(self.Mach_vec)))
         print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
         print("SFR          = {:.2f} [Msun/yr] ").format(self.SFR / 1.e6)
         print("SFR simple 30% SFE   = {:.2f} [Msun/yr]").format(self.SFR_JML/1.e6)
