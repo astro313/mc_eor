@@ -124,6 +124,7 @@ As a consequence, we expect them to be significantly more ionized, and have inte
 Even in the local Universe, where detailed \obs can be made, variations in 
 %mm cloud
      MCC  \MM{do Hughes et al. study cloud complexes, as you do, or can you derive info about complexes from their data?}
+     \DL{This is just a statement to say there are variations among local GMCs. Together with the different galaxy properties found for early galaxies, it is interesting to study properties of molecular structures at earlier epochs. }
 properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of MCCs in early galaxies, and how do they differ from those found in local \galpop?}
 %
 
@@ -202,7 +203,7 @@ Summarizing, the virial parameter can be used to quantify the stability/boundedn
     a molecular cloud.
 Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{bertoldi:1992}.
 %
-Such a criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
+Such a criterion\footnote{In the following, to facilitate comparison with \obs, we derive $\alpha_{\rm vir}$ using the gas component only and ignore contributions due to the stellar component.\DL{perhaps to be removed...}} is often used in \obs \citep[see e.g., ][]{Kauffmann17b}. 
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
@@ -222,7 +223,6 @@ where $k$ is the wavenumber and $\kappa$ is the epicyclic frequency, defined as:
 \label{eqn:kappa}
 \end{equation}
 \citep{Romeo92a}.
-\AF{$R$ is not the same as the MCC radius in the prev.\ Section} \MM{replaced $R$ with $\altomega$, and $\sigma$ with $\sigma_{\rm disk}$.}
 In Equation~\ref{eqn:3Ddisp} the terms on the right hand side are related to rotation, self-gravity and internal pressure, respectively. 
 %mm
     Heuristically, the instability can be understood by considering the scale
@@ -306,7 +306,7 @@ As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67
 \section{Numerical simulations}\label{sec:sim}
 The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
 %
-\ncode{Serra}\footnote{Greenhouse in Italian} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
+\ncode{Serra}\footnote{Greenhouse in Italian.} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
 In particular, it uses a modified version of \ncode{ramses}
 \citep{Teyssier02a} as the AMR backend. The simulation used here
@@ -400,7 +400,7 @@ One of the main advantages for studying the dynamical properties of simulated ga
 %This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 %mm [delete para break]
 The \SF history\footnote{Note that here the SFR is calculated based on
-  the stellar mass formed in the last 10 Myr within 3.5 kpc from the
+  the stellar mass formed in the last 4 Myr within 3.5 kpc from the
   galaxy center of mass. The SFR plotted in Figure 2 of
   \citet{Pallottini17b} is a factor of two higher since there the SFR
   accounts for the contribution from massive satellite galaxies within
@@ -443,7 +443,6 @@ the zones of the simulation into non-overlapping tiles, which are
 stored in a 
 %mm $k$-dimensional tree ($k$-D tree). [unused acronym]
      three-dimensional tree that can be processed using $k$-dimensional tree algorithms.
-     \MM{Too persnickety?} 
 It then identifies the contours of a variable field (here, the density
 field) within a tile and connects them across the tiles. In the
 customized version used for this study, we
@@ -500,7 +499,7 @@ H$_2$ number density, weighted by gas mass. Different rows show the results obta
 \label{fig:MCC}}
 \end{figure*}
 
-In \Fig{h2density}, we show the probability distribution of H$_2$
+In \Fig{h2density}, we show the distribution of H$_2$
 number density $n_{\rm H2}$ for \flower~ during its accreting phase,
 including the contribution from the gas within 3.5 kpc from the
 galaxy center. 
@@ -526,7 +525,7 @@ We also tested variations in
   radiation? Either way, the point should be mentioned in section 3, I
 guess.}
 \DL{ncut should be more like molecular gas density, and H2 fraction in each molecular gas is not 100\%, so the ncut here are lower than
- what one expects for purely H2 regions.}
+ what one expects for purely H2 regions. No clumping factor.}
 
 To visually display 
 the clump finding procedure, in \Fig{MCC} we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps.
@@ -589,21 +588,15 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %
 We note that the distributions vary for different evolutionary stages of \flower. 
 %
-\MM{The highest $n_{\rm cut}$ shows no such large MCCs ($>$10$^8$\,\Msun) at any time.  Second,
-  back in section 3, the H$_2$ mass of \flower was given as 5\E{7}
-  \Msun, precluding the existence of even a single 10$^8$ \Msun
-  cloud.} 
-\DL{Since we don't resolve the molecular clouds, the clouds are not fully molecular. The $M_{\rm cl}$ here is more 
-like total gas mass. AP will add disclaimer in Section 3.}
-  Such massive clouds correspond to the molecular disk of the
+The massive ($M_{\rm cl}>$10$^8$\,\Msun) 
+clouds identified at low density cut (see top left panel of \Fig{dist})  
+correspond to the molecular disk of the
 galaxy, which is identified as a single component for low $n_{\rm
   cut}$. The mass of the MCCs identified ranges between $M_{\rm
   cl}\simeq$10$^{5.5-8.5}$\,\Msun, consistent with those observed in
 \z$\sim$2 galaxies in rest-frame UV and optical light
 \citep{Elmegreen07a, Elmegreen09a}. \AF{you do not comment on $R$ and
-  $f_{gas}$ here..Also, what is the total number of MCCs?} \MM{In the
-  high-density plot, it looks like you have quite a number of
-  unresolved clouds with $R < 40$~pc. Any idea what's going on there?}
+  $f_{gas}$ here..Also, what is the total number of MCCs?} 
 
 \begin{figure*}[htbp]
 \centering
@@ -652,13 +645,13 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from
 We first focus on the two most extreme evolutionary stages of \flower---the accreting and starburst phases (see \Sec{sfh}), and identify a set of MCCs in each of them. Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accreting (left panels) and starburst phase (right), respectively. Let us start from analyzing the accreting phase.
 
 MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$ pc). These values are consistent with those found in starburst galaxies as SMM J2135-0102, located at $z=...$ \AF{Give refs. here and in caption; in addition it would good to give the properties of this galaxy}. 
-Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCCs within the main disk break into multiple sub-MCCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MCC}). Instead, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
+Sizes are somewhat dependent on the choice of $n_{\rm cut}$. As such density threshold is increased, some of the MCCs within the main disk break into multiple sub-MCCs. In this case, we effectively identify a population of denser molecular structures (see \Fig{MCC}). On the other hand, we find that $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
 
 %Now discuss sigma - R relation; poor statistcis. But how many MCCs do we have?
 
 
 % Starburst 
-Some MCCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ (closer to loci with lower external pressure) compared to the accreting phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
+Some MCCs in the starburst phase have lower velocity dispersion, $\alpha_{\rm vir}$, and $\sigma^2/R$ compared to the accreting phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
 % PVE
 We also compare the MCCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are needed for MCCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
@@ -1212,7 +1205,7 @@ systematically regardless of the
 density threshold $n_{\rm cut}$ adopted in identifying the structures.
 The scaling relations found are insensitive to the various density
 cuts.  \MM{This point needs to be made more clearly, probably by
-  defining the colors that correspond to the density cuts in the figures.}
+  defining the colors that correspond to the density cuts in the figures.} \DL{They are color-coded by ncut in Fig 5 and 7.}
  The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the density threshold and 
  even for the molecular substructures.  \MM{You never clearly identify
    what you mean by ``molecular substructures.''  Do you just mean
@@ -1248,7 +1241,7 @@ multi-band continuum and spectral line emission are crucial for better understan
 the role of \highz galaxy populations
 in the context of galaxy evolution and the ISM physics behind their intense star formation in the early Universe.
 Cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
-statistics, and subject to the sub-grid models adopted,
+statistics and are subject to the sub-grid models adopted,
 serve as a useful tool for examining and making predictions on the
 morphology and dynamics of 
 the molecular ISM of the first galaxies.
