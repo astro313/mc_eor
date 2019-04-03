@@ -24,7 +24,7 @@ def setup_plot():
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
                                 , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
-                                , 'text.usetex': True    # Use LaTeX to layout text
+                                , 'text.usetex': True
                                 , 'font.family': "serif"  # Use serifed fonts
                                 , 'xtick.major.size': 13     # length, points
                                 , 'xtick.major.width': 1     # points
@@ -36,7 +36,7 @@ def setup_plot():
                                 , 'xtick.labelsize': 14
                                 , 'ytick.labelsize': 14
                                 , 'ytick.minor.width': 1     # points
-                                , 'font.serif': ("Times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
+                                , 'font.serif': ("times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
     cm = setup_cmap()
     return cm
@@ -79,6 +79,7 @@ def unpack_xy(ss):
         _MMj = []
         _m = []
         _mach = []
+        _mach_pressure = []
         _mstar = []
         _mstar2mgas = []
         _SFR_young = []
@@ -103,6 +104,7 @@ def unpack_xy(ss):
             MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
             _MMj.append(MMj)
             _mach.append(ss[ks][kkk].Mach)
+            _mach_pressure.append(np.mean(ss[ks][kkk].Mach_vec))
             _m.append(ss[ks][kkk].mass_Msun)
             _mstar.append(ss[ks][kkk].mstar_Msun_tot)
             _mstar2mgas.append(ss[ks][kkk].s2gR)
@@ -126,6 +128,7 @@ def unpack_xy(ss):
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
         to_plot[ks]['Mach'] = _mach
+        to_plot[ks]['Mach pressure'] = _mach_pressure
         to_plot[ks]['cloud stellar mass'] = _mstar
         to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
@@ -356,7 +359,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                      color='blue',
                      ha='center')
 
-
     if xstr == "size pc" and ystr == "cloud mass":
         r_pc = np.logspace(0.01, 3, 20)
 
@@ -551,10 +553,24 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
-#                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
+                         label="SFR: " + "{0:d}".format(int(sfr[ks])),
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
-#            legend_h.append(h)
+            legend_h.append(h)
+
+            if ystr == "alpha vir":
+                # plot also total virial
+                _y2 = to_plot[ks]["alpha vir total"]
+                ax.plot(_x, _y2, ls=ls, markersize=markersize,
+                             marker='o',
+                             markeredgecolor='black',
+                             markeredgewidth=0.5)
+            elif xstr == "alpha vir":
+                _x2 = to_plot[ks]["alpha vir total"]
+                ax.plot(_x2, _y, ls=ls, markersize=markersize,
+                             marker='o',
+                             markeredgecolor='black',
+                             markeredgewidth=0.5)
 
         else:
             if xstr == "gas sd per ff" and ystr == "sfr sd":
@@ -563,11 +579,25 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
-#                         label=leglabel + ks,
+                         label=leglabel + ks,
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
-#            legend_h.append(h)
+            legend_h.append(h)
+
+            if ystr == "alpha vir":
+                # plot also total virial
+                _y2 = to_plot[ks]["alpha vir total"]
+                ax.plot(_x, _y2, ls=ls, markersize=markersize,
+                             marker='o',
+                             markeredgecolor='black',
+                             markeredgewidth=0.5)
+            elif xstr == "alpha vir":
+                _x2 = to_plot[ks]["alpha vir total"]
+                ax.plot(_x2, _y, ls=ls, markersize=markersize,
+                             marker='o',
+                             markeredgecolor='black',
+                             markeredgewidth=0.5)
 
     # name_out = ystr.replace(' ', '-') + '_' + \
     #     xstr.replace(' ', '-')
@@ -585,7 +615,10 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.set_xlim(1.0e5, 1.0e10)
 
     if xstr == "Mach":
-        ax.set_xlabel("Mach ")
+        ax.set_xlabel("Mach From velocity")
+
+    if xstr == "Mach pressure":
+        ax.set_xlabel("Mach From Total Pressure")
 
     if xstr == "stellar to gas mass":
         # ax.set_xlim(0.0, 0.5)
@@ -616,6 +649,12 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.set_xscale("log")
         ax.set_xlabel(r"$\alpha_{\rm vir}$")
         ax.set_xlim(0.02, 2.e2)
+
+    if ystr == "Mach":
+        ax.set_ylabel("Mach From velocity")
+
+    if ystr == "Mach pressure":
+        ax.set_ylabel("Mach From Total Pressure")
 
     if ystr == 'sigma kms':
         ax.set_yscale("log")
@@ -700,6 +739,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
             ax.legend(loc='best', fontsize=10,                       markerscale=3)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
+    plt.minorticks_on()
     plt.tight_layout()
 
     if save:
@@ -763,6 +803,7 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
         ax.legend(loc='best')
 
     ax.tick_params(axis='both', which='both')   # direction='in'
+    plt.minorticks_on()
     plt.tight_layout()
 
     if save:
@@ -1320,6 +1361,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
             horizontalalignment='center',
             fontsize=20,
             transform=ax.transAxes)
+    plt.minorticks_on()
 
     # second row
     ax = axes[1, 0]
@@ -1337,6 +1379,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
                        showLegend=False)
     ax.set_ylabel('')
     ax.set_xlabel('')
+    plt.minorticks_on()
     # ax.set_yticklabels([])
 
     # third row
@@ -1355,6 +1398,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
                       showLegend=False)
     ax.set_ylabel('')
     ax.set_xlabel('')
+    plt.minorticks_on()
     # ax.set_yticklabels([])
 
     # add a global cbar
@@ -1386,7 +1430,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
                             bottom=0.1, hspace=0.2,
                             wspace=0.15)
         name_out = '3by2_clumpProp_'
-        fig.savefig(outdir + name_out + tag + '.pdf', bbox_inches="tight")
+        fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
     else:
         fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
                             bottom=0.1, hspace=0.45,
