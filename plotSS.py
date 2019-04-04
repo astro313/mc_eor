@@ -34,30 +34,45 @@ def plotting_procedure(minss, maxss, pattern):
     fname = pattern + '_10_fields.p'
     ss, to_plot, leafdir_out = load_pickleTOplot(minss, maxss, fname)
 
+    plot_stuff("alpha vir", "SFR young", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("cloud mass", "mass over jeans mass", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("cloud mass", "jeans mass",  leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ",
+    plot_stuff("cloud mass", "alpha vir", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("size pc", "sigma kms", leglabel="ncut: ",
+    plot_stuff("size pc", "sigma kms", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("Mach", "SFR young", leglabel="ncut: ",
+    plot_stuff("Mach", "Mach pressure", leglabel="sfr: ",
+                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("Mach", "SFR young", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ",
+    plot_stuff("Mach", "SFR old", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-#     plot_stuff("gas sd", "sfr sd", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("gas sd", "sigma kms", leglabel="ncut: ",
+    plot_stuff("stellar to gas mass", "sigma kms", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
+    plot_stuff("gas sd", "sfr sd", leglabel="sfr: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("gas sd", "sigma kms", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("size pc", "cloud mass", leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="ncut: ",
+    plot_stuff("R2 pc2", "cloud mass", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("size pc", "cloud mass", leglabel="sfr: ",
+                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("cloud mass", "Mach", leglabel="sfr: ",
+                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("cloud mass", "Mach pressure", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+
+    plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="sfr: ",
                     to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ",
+    plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ",
+    plot_stuff('alpha vir', 'sigmaSq over size', leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff_3dim("Mach" ,"Mach pressure", "cloud mass",
+                    leglabel="sfr: ", to_plot=to_plot,
+                    outdir=leafdir_out, sfrlabel=True)
 
     from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential, CMF
     allmass = get_masses_all_clouds(ss)
