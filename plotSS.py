@@ -110,15 +110,16 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     fig.text(0.05, 0.95, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1, rotation=90)
     fig.text(0.05, 0.43, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2, rotation=90)
 
-    allmass11 = get_masses_all_clouds(ss11)
-    ax[0, 0].hist(np.log10(allmass11))
+    binwidth = 0.1
+    allmass11 = np.log10(get_masses_all_clouds(ss11))
+    ax[0, 0].hist(allmass11, bins=np.arange(min(allmass11), max(allmass11) +binwidth, binwidth))
 #     ax[0, 0].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1)
     ax[0, 0].set_title(r'$\log M_{\rm cl}$ [M$_{\odot}]$')
     ax[0, 0].set_ylabel(r'$N$')
     ax[0, 0].set_xlim([5.7, 8.5])
     ax[0, 0].set_xticklabels([])
-    allmass12 = get_masses_all_clouds(ss12)
-    ax[1, 0].hist(np.log10(allmass12))
+    allmass12 = np.log10(get_masses_all_clouds(ss12))
+    ax[1, 0].hist(allmass12, bins=np.arange(min(allmass12), max(allmass12) +binwidth, binwidth))
     ax[0, 0].set_ylabel(r'$N$')
     ax[1, 0].set_xlim([5.7, 8.5])
 #     ax[0, 1].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2)
@@ -134,40 +135,46 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     ax[0, 1].minorticks_on()
 
     # size
+    binwidth = 10
     allsizes11 = get_sizes_all_clouds(ss11)
-    ax[0, 1].hist(allsizes11)
-    ax[0, 1].set_xlim([45, 260])
+    ax[0, 1].hist(allsizes11, bins=np.arange(min(allsizes11), max(allsizes11) +binwidth, binwidth))
+    ax[0, 1].set_xlim([0, 260])
     ax[0, 1].set_xticklabels([])
     ax[0, 1].set_title(r'R [pc]')
     allsizes12 = get_sizes_all_clouds(ss12)
-    ax[1, 1].hist(allsizes12)
-    ax[1, 1].set_xlim([45, 260])
+    ax[1, 1].hist(allsizes12, bins=np.arange(min(allsizes12), max(allsizes12) +binwidth, binwidth))
+    ax[1, 1].set_xlim([0, 260])
 #    fig.text(0.5, 0.33, r'R [pc]', ha='center', fontsize=20)
 
     minorLocator = AutoMinorLocator(5)
     ax[1, 0].xaxis.set_minor_locator(minorLocator)
-    ax[1, 1].yaxis.set_minor_locator(minorLocator)
-    ax[1, 0].xaxis.set_minor_locator(minorLocator)
+    ax[1, 0].yaxis.set_minor_locator(minorLocator)
+    ax[1, 1].xaxis.set_minor_locator(minorLocator)
     ax[1, 1].yaxis.set_minor_locator(minorLocator)
 
     ax[1, 0].minorticks_on()
     ax[1, 1].minorticks_on()
 
+    # to only use integer yaxis tick
+    from matplotlib.ticker import MaxNLocator
+    ax[1, 1].yaxis.set_major_locator(MaxNLocator(2, integer=True))
+
     # f_gas
+    binwidth = 0.1
     fgas11 = get_fgas_all_clouds(ss11)
-    ax[0, 2].hist(fgas11)
+    ax[0, 2].hist(fgas11, bins=np.arange(min(fgas11), max(fgas11) +binwidth, binwidth))
     ax[0, 2].set_xlim([0., 1.0])
     ax[0, 2].set_xticklabels([])
     ax[0, 2].set_title(r'$f_{\rm gas}$')
     fgas12 = get_fgas_all_clouds(ss12)
-    ax[1, 2].hist(fgas12)
+    ax[1, 2].hist(fgas12, bins=np.arange(min(fgas12), max(fgas12) +binwidth, binwidth))
     ax[1, 2].set_xlim([0., 1.0])
 #    fig.text(0.51, 0.03, r'$f_{\rm gas}$', ha='center', fontsize=20)
 
     minorLocator = AutoMinorLocator(5)
     ax[0, 2].xaxis.set_minor_locator(minorLocator)
-    ax[1, 2].yaxis.set_minor_locator(minorLocator)
-    ax[0, 2].xaxis.set_minor_locator(minorLocator)
+    ax[0, 2].yaxis.set_minor_locator(minorLocator)
+    ax[1, 2].xaxis.set_minor_locator(minorLocator)
     ax[1, 2].yaxis.set_minor_locator(minorLocator)
 
     ax[0, 2].minorticks_on()
@@ -205,7 +212,8 @@ if __name__ == '__main__':
     cm = setup_plot()
 
     # for paper
-    # plot_dis_allSS()
+    plot_dis_allSS()
+    import sys; sys.exit()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _, _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
