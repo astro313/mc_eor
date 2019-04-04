@@ -120,7 +120,7 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     ax[0, 0].set_xticklabels([])
     allmass12 = np.log10(get_masses_all_clouds(ss12))
     ax[1, 0].hist(allmass12, bins=np.arange(min(allmass12), max(allmass12) +binwidth, binwidth))
-    ax[0, 0].set_ylabel(r'$N$')
+    ax[1, 0].set_ylabel(r'$N$')
     ax[1, 0].set_xlim([5.7, 8.5])
 #     ax[0, 1].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2)
 #    fig.text(0.51, 0.62, r'$\log $ M$_{\rm cl}$ [M$_{\odot}]$', ha='center', fontsize=20)
