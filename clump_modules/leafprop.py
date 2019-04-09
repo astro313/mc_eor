@@ -219,7 +219,11 @@ class Cloud(object):
     def tot_veldisp(self):
         """ non-thermal, turbulent + average mass-weighted sound speed"""
 
-        self.cs_avg = np.sqrt(np.mean(self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density)
+        # cs_avg = np.sqrt(np.mean(self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density)
+
+        x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density
+        self.cs_avg = np.sqrt(np.sum(self.density * x)/np.sum(self.density))
+
         self.sigmaSq_tot = self.sigmaSq + self.cs_avg**2
 
     def tff(self):
@@ -266,13 +270,27 @@ class Cloud(object):
             self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
 
     def Mach(self):
+
         self.Mach = np.sqrt(self.sigmaSq) / self.cs_avg
 
-    def Mach_vec(self):
-        self.Mach_vec = np.sqrt((self.Pressure + self.P_nt)/self.Pressure)
-        # weight by density?
 
-        print np.log10(self.Mach), np.log10(np.mean(self.Mach_vec))
+    def Mach_vec(self):
+        """
+
+        Calculate from mass-weighted NT and thermal pressure.
+
+        """
+        print "Mach, not mass weighted: "
+        M = np.sqrt((self.Pressure + self.P_nt)/self.Pressure)
+        # print M.mean()
+        # print M.max(), M.min()
+        self.Mach_vec = M.mean()
+
+        # # mass-weighted
+        # print "Mach, mass weighted: "
+        # mach = np.sqrt(1 +  self.P_nt/self.Pressure)
+        # self.Mach_vec = np.sqrt((self.density * mach).sum()/self.density.sum())
+        print self.Mach, self.Mach_vec
 
     def SFR_per_tff(self):
         """ Find the star formation  per free fall time of the cloud. As in  Krumholz, Matzner & McKee 2006. Eqn 40 and 41.
