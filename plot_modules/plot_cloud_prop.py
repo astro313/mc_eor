@@ -427,7 +427,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                 label=r'Heyer \& Brunt 2004 $\sigma \propto R^{0.56}$')
         legend_h.append(h)
 
-        # Bolatto+08: sigma = 0.44 * R^0.6 km/s
+        # Bolatto+08: sigma = 0.44 * R^0.6 km/s; eqn 9
         yB08 = 0.44 * x**0.60
         h, = ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
                 label=r'Bolatto+08 $\sigma \propto R^{0.60}$')
@@ -1269,6 +1269,111 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_alpha_vir_2ss(to_plot1, to_plot2,
+                       ls='', markersize=10, marker='*',
+                       tag='',
+                       t1='Pre-starburst Phase',
+                       t2='Starburst Phase',
+                       cbarLabelSize=16,
+                       outdir='./',
+                       legendFontSize=16,
+                       saveFig=False):
+
+    """
+    Plot alpha_vir for two snapshot side by side
+
+    created so I can plot it for Pre-SB phase and SB phase.
+
+    """
+    import matplotlib as mpl
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+    sfr = None
+    sfrlabel = None
+
+    plt.close('all')
+    cm = plt.get_cmap()
+    NUM_COLORS = max(len(to_plot1), len(to_plot2))
+
+    # get ncut calues
+    ncut = []
+    if len(to_plot1) > len(to_plot2):
+        _to_plot = to_plot1
+    else:
+        _to_plot = to_plot2
+    for kkk in _to_plot.iterkeys():
+        ncut.append(float(kkk))
+    ncut = sorted(ncut)
+
+    # if saveFig:
+    #     figsize= (22, 20)
+    #     dpi = 120
+    # else:
+    #     figsize = (150/10., 300/10.)
+    #     dpi = 100           # otherwise mpl won't let me have a figure bigger than my screen size
+
+
+    fig = plt.figure(figsize=(19, 6))
+    ax = plt.subplot(121)
+    fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*',
+                       showLegend=True, legendFontSize=legendFontSize)
+    plt.text(0.5, 1.1,
+            t1,
+            horizontalalignment='center',
+            fontsize=20,
+            transform=ax.transAxes)
+
+    ax = plt.subplot(122)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*',
+                       showLegend=False)
+
+    plt.text(0.5, 1.1,    # 1.3
+            t2,
+            horizontalalignment='center',
+            fontsize=20,
+            transform=ax.transAxes)
+
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    plt.minorticks_on()
+    ax.set_yticklabels([])
+
+    c = np.linspace(min(ncut), max(ncut), 10)
+
+    norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+    _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+    _cmap.set_array([])
+
+    cax = fig.add_axes([0.85, 0.1, 0.01, 0.8])
+    cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                        # ax=axes.ravel().tolist(),
+                        cax=cax)
+    cbar.ax.tick_params(length=6, labelsize=legendFontSize)
+    label = r'$n_{\rm cut}$'
+    cbar.set_label(label, fontsize=cbarLabelSize)
+
+    if saveFig:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.2,
+                            wspace=0.15)
+        name_out = 'alpha_vir_'
+        fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
+    else:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.45,
+                            wspace=0.15)
+        plt.show(block=False)
 
     return fig, ax
 
