@@ -119,9 +119,7 @@ class Cloud(object):
         print "stellar sigma [km/s]: ", np.sqrt(self.sigmaSq_star) / 1.e5    # km/s
         del _velx_star, _vely_star, _velz_star
 
-        self.alpha_total = 5. * (self.sigmaSq_tot + self.sigmaSq_star) * \
-            self.R_cm / (self.G_cgs * (self.mass_Msun + self.mstar_Msun_tot) * self.Msun2g)
-
+        self.alpha_total = 5. * (self.mass_Msun * self.Msun2g * self.sigmaSq_tot + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
 
     # --- star particles ---
     def mass_star_Msun(self):
