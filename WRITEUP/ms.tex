@@ -588,6 +588,7 @@ We also compute the Mach number from turbulent and thermal pressure to determine
 differential rotation in the derived velocity dispersion: 
 \begin{equation}
 \mathcal{M} \equiv \sqrt{\frac{P_{\rm NT} + P}{ P }}\,,
+\label{eqn:MPress}
 \end{equation}
 where $P_{\rm NT}$ is non-thermal pressure and $P$ is thermal pressure.
 
@@ -805,10 +806,14 @@ of a subset of MCCs in the pre-starburst phase are lower than those in the starb
 % None of these MCCs are in the unstable regime ($alpha_{\rm vir} < 2$) because the MCCs are not directly the collapsing structures, 
 % i.e., we haven’t reached those scales where true collapse is happening. 
 % This implication of this is that to examine the truly star-forming structures (cores) will require resolution smaller than ~40 pc.
-As \SF proceed, stellar feedback inject kinetic energy in the form of turbulence. As shown in 
-\Fig{Mach_stellarRatio}, the Mach number of MCCs with a stellar-to-gas mass ratio of $M_\star/M_{\rm gas} \simeq 0.1 - 1$ 
+As shown in \Fig{Mach_stellarRatio}, the Mach number (see Equation~\ref{eqn:MPress}) 
+of MCCs with a stellar-to-gas mass ratio of $M_\star/M_{\rm gas} \simeq 0.1 - 1$ 
 (i.e., excluding the main component of \flower with $M_\star/M_{\rm gas} \gtrsim 1$; see e.g., \Fig{stellarRatio16})
 increases from the pre-starburst phase through the post-starburst phase. 
+This results as stellar feedback injects kinetic energy into the surrounding ISM in the form of turbulence as \SF proceed.
+In the quiescent phase, high Mach number are seen in mostly MCCs identified with the lowest density threshold. These 
+correspond to satellites MCCs in the outskirts of \flower.
+
 
 \subsection{Temporal Evolution and Adopted Density Threshold Dependence}\label{sec:ncut}
 
@@ -884,16 +889,10 @@ episodes of \SF as \flower is assembling its stellar mass --- these MCCs have hi
 %
 In fact, by the accreting stage (see \Fig{SFH}a) at $z\simeq$\,7.2, 
 \flower has assembled a stellar mass of
-$M_\star$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is
-due in part to the stronger stellar feedback \MM{Again, not clear that
-  this is feedback and not potential driven. Can you demonstrate one
-  or the other explicitly?} 
+$M_\star$\eq7.5\E{9}\,\Msun. 
 
-
-The high pressure observed in \flower \MM{Where are pressures shown?
-  You can't just draw them from the virial vs.\ surface density plot
-  because that assumes equilibrium gas clouds, which these are clearly
-  not, given their huge stellar contents.} is comparable to what has been observed in local ultra-luminous IR galaxies (ULIRGs); however, the molecular clouds in the latter are concentrated within their central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun \citep{Downes98a, Sakamoto08a}. In our simulated galaxy, the high pressure MCCs of \flower are found throughout the disk. This difference likely stems from the different physical mechanisms giving rise to the formation (and thus the nature) of these molecular structures.
+The high pressure observed in \flower (see \Fig{Mach_stellarRatio}, see also \citealt{Pallottini17a})
+is comparable to what has been observed in local ultra-luminous IR galaxies (ULIRGs); however, the molecular clouds in the latter are concentrated within their central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun \citep{Downes98a, Sakamoto08a}. In our simulated galaxy, the high pressure MCCs of \flower are found throughout the disk. This difference likely stems from the different physical mechanisms giving rise to the formation (and thus the nature) of these molecular structures.
 %
 For instance, in local ULIRGs, 
 %mm they are likely form 
@@ -982,8 +981,7 @@ stars, exactly what would be expected during a starburst.}
 The largest molecular structure identified is essentially the main
 disk of \flower \MM{Is this consistent with your assertion of no shear
   in a footnote above?} and breaks down into smaller substructures that are
-denser as we increase $n_{\rm cut}$ (see e.g.,
-\Fig{alpha16-28}). Overall, the MCCs we identified are much bigger in
+denser as we increase $n_{\rm cut}$ (see \Sec{ncut}). Overall, the MCCs we identified are much bigger in
 size and mass than nearby giant molecular clouds (GMCs), but comparable to those observed in $z$\,\ssim2$-$4 galaxies based on spatially resolved imaging \citep{Swinbank11a}.
 
 % mass scale
@@ -1063,7 +1061,7 @@ This suggests that MCCs identified in the satellite galaxies are likely to be co
 \caption{
 Surface density maps of the gas (top left) and stellar (top right) components of \flower and
 their radial velocity dispersion maps projected onto the $xy$-plane.
-%
+Center of mass positions of MCCs within $\sim$1.5\,kpc of \flower identified with $n_{\rm cut}$\eq6.81\,\cc are overplotted as star symbols. 
 \label{fig:sigma}}
 \end{figure*}
 
@@ -1126,9 +1124,7 @@ Note that even in stages when \flower~is star forming we find that most of its M
 First, our results are limited by the resolution of the simulation, i.e., in \flower~we do not resolve \SF in {\it cores} and {\it clumps} as in the classical molecular cloud hierarchy. This re-iterates the statement about low $Q$ above.
 %
 Second, due to turbulence dissipation on small-scales, such
-(sub-)structures are no longer supported by large-scale gravitational
-potential and differential rotation.  \MM{Not sure how potential can
-  support, and in that footnote above you asserted that shear was
+(sub-)structures are no longer supported by differential rotation.  \MM{footnote above, you asserted that shear was
   unimportant, contradicting this claim.} This in turn enables sub-regions of the MCCs to collapse and potentially form OB associations out of these unbound MCCs \citep{Clark04a, Clark05a}.
 %
 Further, mechanisms causing non-axisymmetric perturbations (e.g.,
@@ -1150,23 +1146,18 @@ We study the dynamical properties of molecular clouds complexes and their tempor
 at the EoR using the state-of-the-art cosmological zoom-in simulation (\ncode{Serra}),
 which includes a chemical network to determine the formation of molecular
 hydrogen, heating and cooling of the ISM by
-%mm metals
     UV radiation and metal lines, 
 and detailed stellar feedback.
 We use a clump-finding algorithm and a set of H$_2$ volumetric densities
 to identify MCCs and their sub-structures in \flower and its satellites.
 We decompose the molecular structures into non-overlapping 
-%mm tiles
      objects
 by identifying a set of 
-%mm different density contours at different 
      density contours with varying cutoff densities at multiple
 evolutionary stages.
 Such an identification method is 
-%mm similar 
      the three-dimensional analog
 to MCC identification based on 
-%mm contour levels/surfaces of surface brightness maps/cubes 
     intensity levels in surface brightness maps or
     position-position-velocity cubes
 of molecular line tracers (e.g., CO, CS, NH$_3$),
@@ -1174,14 +1165,11 @@ since the line luminosity scales with the molecular gas density (modulo optical 
 
 We extract properties such as mass, size, Mach number, velocity
 dispersion, gas surface density, and virial parameter for each MCC and
-we perform a Toomre-$Q$ stability analysis
-%mm
-    on the galaxy. 
+we perform a Toomre-$Q$ stability analysis on the galaxy. 
 The properties of the MCCs in \flower are compared with observed MCCs in the Milky Way disk, the Galactic center, and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF. This is done for different evolutionary stages of \flower.
 
 We find that the MCCs of \flower 
-%mm are highly supersonic, with high 
-   have highly supersonic
+have highly supersonic
 velocity dispersions ($\sigma\simeq$\,200\,\kms) comparable to
 those observed in $z$\ssim2 starburst galaxies.
 The mass scale of the MCCs is of the order of $10^{5.5-8.5}$\,\Msun,
