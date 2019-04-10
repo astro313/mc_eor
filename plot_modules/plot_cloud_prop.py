@@ -84,15 +84,23 @@ def unpack_xy(ss):
         _mstar2mgas = []
         _SFR_young = []
         _SFR_old = []
-        _alpha = []
+        _alpha = []       # exclude NT Pressure
         _alpha_tot = []   # include stellar
+        #
+        _alpha_NT = []    # exclude bulk
+        _alpha_NT_tot = []
+        #
+        _alpha_bulk_NT = []   # all terms
+        _alpha_all_tot = []
+        #
         _mSD = []
         _sizepc = []
         _R2pc2 = []
         _SFRSD = []
-        _sigmakms = []
-        _tffMyr = []
-        _sigmakms = []
+        _sigmakms = []    # all terms
+        _sigma_bulk = []
+        _sigma_NT = []
+        _rho = []
         _tffMyr = []
         _mSD_cgs = []
         _sigma2oR = []
@@ -112,13 +120,23 @@ def unpack_xy(ss):
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
             _alpha.append(ss[ks][kkk].alpha)
             _alpha_tot.append(ss[ks][kkk].alpha_total)
+            #
+            _alpha_NT.append(ss[ks][kkk].alpha_NT)
+            _alpha_NT_tot.append(ss[ks][kkk].alpha_NT_total)
+            #
+            _alpha_bulk_NT.append(ss[ks][kkk].alpha_bulk_NT)
+            _alpha_all_tot.append(ss[ks][kkk].alpha_all_total)
+            #
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
             _R2pc2.append((ss[ks][kkk].R_pc * 2.0) ** 2.0)
             _SFRSD.append((ss[ks][kkk].SFR) / 1.0e6 /
                           (np.pi * ss[ks][kkk].R_pc * pc2kpc)**2)
             _sigmakms.append(np.sqrt(ss[ks][kkk].sigmaSq) * cm2km)
+            _sigma_bulk.append(np.sqrt(ss[ks][kkk].sigma_bulk) * cm2km)
+            _sigma_NT.append(np.sqrt(ss[ks][kkk].sigmaSq_NT) * cm2km)
             _tffMyr.append(ss[ks][kkk].tff_Myr)
+            _rho.append(ss[ks][kkk].avg_density)    # 1/cc
             _mSD_cgs.append(ss[ks][kkk].massSD *
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
             _sigma2oR.append(ss[ks][kkk].sigmaSq / (1.e5)**2 /
@@ -137,11 +155,22 @@ def unpack_xy(ss):
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
         to_plot[ks]['alpha vir total'] = _alpha_tot
+        #
+        to_plot[ks]['alpha vir NT'] = _alpha_NT
+        to_plot[ks]['alpha vir NT total'] = _alpha_NT_tot
+        #
+        to_plot[ks]['alpha vir bulk NT'] = _alpha_bulk_NT
+        to_plot[ks]['alpha vir all total'] = _alpha_all_tot
+        #
+        to_plot[ks]['density'] = _rho
         to_plot[ks]['gas sd'] = _mSD
         to_plot[ks]['sfr sd'] = _SFRSD
         to_plot[ks]['size pc'] = _sizepc
         to_plot[ks]['R2 pc2'] = _R2pc2
         to_plot[ks]['sigma kms'] = _sigmakms
+        to_plot[ks]['sigma kms bulk'] = _sigma_bulk
+        to_plot[ks]['sigma kms NT'] = _sigma_NT
+        #
         to_plot[ks]['tff Myr'] = _tffMyr
         to_plot[ks]['gas sd cgs'] = _mSD_cgs
         to_plot[ks]['sigmaSq over size'] = _sigma2oR
