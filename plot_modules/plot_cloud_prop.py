@@ -1465,6 +1465,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
             horizontalalignment='center',
             fontsize=16,
             transform=ax.transAxes)
+    plt.text(0.07, 0.08,
+            "(a)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
 
     ax = plt.subplot(422)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -1476,6 +1481,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax.set_xlabel('')
     ax.set_yticklabels([])
     ax.set_xticklabels([])
+    plt.text(0.07, 0.08,
+            "(e)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
 
     ax = plt.subplot(423)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -1486,6 +1496,12 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_xticklabels([])
+    plt.text(0.07, 0.08,
+            "(b)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
 
     ax = plt.subplot(424)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -1502,6 +1518,12 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax.set_xlabel('')
     ax.set_yticklabels([])
     ax.set_xticklabels([])
+    plt.text(0.07, 0.08,
+            "(f)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
 
     ax = plt.subplot(425)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
@@ -1512,6 +1534,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_xticklabels([])
+    plt.text(0.07, 0.08,
+            "(c)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
 
 
     ax = plt.subplot(426)
@@ -1529,6 +1556,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
             horizontalalignment='center',
             fontsize=16,
             transform=ax.transAxes)
+    plt.text(0.07, 0.08,
+            "(g)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
 
 
     ax = plt.subplot(427)
@@ -1537,6 +1569,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     plot_alphavir_Mass(fig, ax, to_plot7, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
                        showLegend=False)
+    plt.text(0.07, 0.08,
+            "(d)",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
 
 
     ax = plt.subplot(428)
@@ -1547,6 +1584,11 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
                        showLegend=False)
     plt.text(0.3, 0.9,
             "Post-starburst Phase",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+    plt.text(0.07, 0.08,
+            "(h)",
             horizontalalignment='center',
             fontsize=16,
             transform=ax.transAxes)
