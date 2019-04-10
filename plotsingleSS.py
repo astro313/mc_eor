@@ -158,8 +158,8 @@ if __name__ == '__main__':
     ss6, to_plot6, leafdir_out6 = load_pickleTOplot(21)  # Pre-SB
     ss7, to_plot7, leafdir_out7 = load_pickleTOplot(22)  # SB
     ss8, to_plot8, leafdir_out8 = load_pickleTOplot(23)
-    fig, ax = plot_alpha_vir_8ss(to_plot1, to_plot5, to_plot2, to_plot4,
-                                     to_plot3, to_plot6, to_plot4, to_plot8,
+    fig, ax = plot_alpha_vir_8ss(to_plot1, to_plot5, to_plot2, to_plot6,
+                                     to_plot3, to_plot7, to_plot4, to_plot8,
                                      ls='',
                                      markersize=10,
                                      marker='*',
