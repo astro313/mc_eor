@@ -1045,52 +1045,11 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                  markerfacecolor=(1, 0.7, 0.7),
                  zorder=10, label='')
 
-        # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-        #          '+',
-        #          markersize=13.,
-        #          markeredgecolor='blue', markeredgewidth=6.,
-        #          markerfacecolor=(1, 0.7, 0.7),
-        #          zorder=10, label='')
-
-        # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-        #          '+',
-        #          markersize=13.,
-        #          markeredgecolor='white', markeredgewidth=2.,
-        #          markerfacecolor=(1, 0.7, 0.7),
-        #          zorder=10, label='Sgr D outside CMZ')
-
         ax.annotate(s='"clumps"',
                     xy=[5.0E3, 0.7],
                     color='blue',
                     ha='left',
                     fontsize=15)
-
-        # # estimate for dense cores
-        # ax.fill_between([1.0E2, 1.0E3],
-        #                 1.2 * 0.6**2. * 0.1 /
-        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
-        #                 1.2 * 2.2**2. * 0.1 /
-        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
-        #                 facecolor='blue', edgecolor='none', alpha=0.3,
-        #                 zorder=3)
-        # plt.plot([1.0E2, 1.0E3],
-        #          1.2 * 0.6**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
-        #          color='blue',
-        #          linewidth=3.)
-        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{0.6 \, km \, s^{-1}}$',
-        #          xy=[300., 1. / 1.5 * 1.2 * 0.6**2. * 0.1 / (300. / 1.0E3)],
-        #          color='blue',
-        #          ha='right')
-        # plt.plot([1.0E2, 1.0E3],
-        #          1.2 * 2.2**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
-        #          color='blue',
-        #          linewidth=3.)
-        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{2.2 \, km \, s^{-1}}$',
-        #          xy=[100, 1.2 * 1.2 * 2.2**2. * 0.1 / (100. / 1.0E3)],
-        #          color='blue',
-        #          ha='center')
 
         # CMZ data: entire clouds
         EntireCloudData = pd.DataFrame()
