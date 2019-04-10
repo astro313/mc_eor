@@ -153,6 +153,7 @@ def unpack_xy(ss):
 def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                leglabel='', tag='',
                to_plot=None, save=True, outdir='./',
+               showLegend=True,
                sfrlabel=False):
     """
 
@@ -711,7 +712,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 #       ax.set_xlim(-2.2, 5)
         ax.minorticks_on()
 
-    if leglabel is not '':
+    if leglabel is not '' and showLegend:
         if xstr == "size pc" and ystr == "sigma kms":
                 # Shrink current axis by 20%
             box = ax.get_position()
@@ -986,147 +987,148 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
 
 def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
-                       markersize=10, marker='*',
+                       markersize=10, marker='*', xaxis='mass',
                        showLegend=False, legendFontSize=None):
 
-    # Kauffmann+17 Figure 4
-    # read data from old Kauffmann paper
-    CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
-                              header=0,
-                              delim_whitespace=True)
+    if xaxis == 'mass':
+        # Kauffmann+17 Figure 4
+        # read data from old Kauffmann paper
+        CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
+                                  header=0,
+                                  delim_whitespace=True)
 
-    # CMZ data: GCMS dendrograms
-    DataTable = pd.DataFrame()
-    LinewidthSizeFiles = glob.glob(
-        litpath + './Kauffmann17/Clumps_*.pickle')
-    for File in LinewidthSizeFiles:
-        DataTable = DataTable.append(pd.read_pickle(File))
+        # CMZ data: GCMS dendrograms
+        DataTable = pd.DataFrame()
+        LinewidthSizeFiles = glob.glob(
+            litpath + './Kauffmann17/Clumps_*.pickle')
+        for File in LinewidthSizeFiles:
+            DataTable = DataTable.append(pd.read_pickle(File))
 
-    DataTable['mass'] = 224.46 * (2.0E23 / 1.0E22) * \
-        np.pi * (DataTable['r_eff'])**2.
-    DataTable['alpha'] = 1.2 * (DataTable['v_rms'])**2. * \
-        DataTable['r_eff'] * \
-        (DataTable['mass'] / 1.0E3)**(-1)
-    DataTable['Mach'] = DataTable['v_rms'] / \
-        (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+        DataTable['mass'] = 224.46 * (2.0E23 / 1.0E22) * \
+            np.pi * (DataTable['r_eff'])**2.
+        DataTable['alpha'] = 1.2 * (DataTable['v_rms'])**2. * \
+            DataTable['r_eff'] * \
+            (DataTable['mass'] / 1.0E3)**(-1)
+        DataTable['Mach'] = DataTable['v_rms'] / \
+            (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
 
-    np.unique(CloudData['Sample'])
+        np.unique(CloudData['Sample'])
 
-    # show instability range
-    ax.fill_between([1.0E-9, 1.0E9],
-                    [1.0E-9, 1.0E-9],
-                    [2., 2.],
-                    facecolor='0.9', edgecolor='none',
-                    zorder=0)
-    ax.annotate(s='unstable',
-                 xy=[9.e5, 0.2],
-                 color='0.3', size=20.,
-                 ha='left')
+        # show instability range
+        ax.fill_between([1.0E-9, 1.0E9],
+                        [1.0E-9, 1.0E-9],
+                        [2., 2.],
+                        facecolor='0.9', edgecolor='none',
+                        zorder=0)
+        ax.annotate(s='unstable',
+                     xy=[9.e5, 0.2],
+                     color='0.3', size=20.,
+                     ha='left')
 
-    COFilterArray = (CloudData['Sample'] == 'DuvalGRS')
-    CloudData.loc[CloudData['Sample'] == 'HeyerGRS'] = 'NaN'
+        COFilterArray = (CloudData['Sample'] == 'DuvalGRS')
+        CloudData.loc[CloudData['Sample'] == 'HeyerGRS'] = 'NaN'
 
-    # plot reference data
-    ax.plot(CloudData['Mass'][COFilterArray],
-             CloudData['Alpha'][COFilterArray],
-             'p', markeredgecolor='palegreen', markeredgewidth=2.,
-             markersize=7., markerfacecolor='none', label='CO-based MW')
-            # Heyer+09, Roman-Duval+10
+        # plot reference data
+        ax.plot(CloudData['Mass'][COFilterArray],
+                 CloudData['Alpha'][COFilterArray],
+                 'p', markeredgecolor='palegreen', markeredgewidth=2.,
+                 markersize=7., markerfacecolor='none', label='CO-based MW')
+                # Heyer+09, Roman-Duval+10
 
-    ax.plot(CloudData['Mass'][np.invert(COFilterArray)],
-             CloudData['Alpha'][np.invert(COFilterArray)],
-             'o', color='limegreen', markeredgewidth=0., label='Clumps \& Cores in MW Clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
+        ax.plot(CloudData['Mass'][np.invert(COFilterArray)],
+                 CloudData['Alpha'][np.invert(COFilterArray)],
+                 'o', color='limegreen', markeredgewidth=0., label='Clumps \& Cores in MW Clouds') # Lada+08, Enoch+06, Li+13, Tan+13, Sridharan+05, Wienen+12
 
-    # CMZ data: GCMS dendrograms
-    ax.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
-             DataTable[DataTable['Target'] != 'SgrD']['alpha'],
-             '+',
-             markersize=13.,
-             markeredgecolor='blue', markeredgewidth=3.,
-             markerfacecolor=(1, 0.7, 0.7),
-             zorder=10, label='')
+        # CMZ data: GCMS dendrograms
+        ax.plot(DataTable[DataTable['Target'] != 'SgrD']['mass'],
+                 DataTable[DataTable['Target'] != 'SgrD']['alpha'],
+                 '+',
+                 markersize=13.,
+                 markeredgecolor='blue', markeredgewidth=3.,
+                 markerfacecolor=(1, 0.7, 0.7),
+                 zorder=10, label='')
 
-    # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-    #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-    #          '+',
-    #          markersize=13.,
-    #          markeredgecolor='blue', markeredgewidth=6.,
-    #          markerfacecolor=(1, 0.7, 0.7),
-    #          zorder=10, label='')
+        # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+        #          '+',
+        #          markersize=13.,
+        #          markeredgecolor='blue', markeredgewidth=6.,
+        #          markerfacecolor=(1, 0.7, 0.7),
+        #          zorder=10, label='')
 
-    # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
-    #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
-    #          '+',
-    #          markersize=13.,
-    #          markeredgecolor='white', markeredgewidth=2.,
-    #          markerfacecolor=(1, 0.7, 0.7),
-    #          zorder=10, label='Sgr D outside CMZ')
+        # ax.plot(DataTable[DataTable['Target'] == 'SgrD']['mass'],
+        #          DataTable[DataTable['Target'] == 'SgrD']['alpha'],
+        #          '+',
+        #          markersize=13.,
+        #          markeredgecolor='white', markeredgewidth=2.,
+        #          markerfacecolor=(1, 0.7, 0.7),
+        #          zorder=10, label='Sgr D outside CMZ')
 
-    ax.annotate(s='"clumps"',
-                xy=[5.0E3, 0.7],
-                color='blue',
-                ha='left',
-                fontsize=15)
+        ax.annotate(s='"clumps"',
+                    xy=[5.0E3, 0.7],
+                    color='blue',
+                    ha='left',
+                    fontsize=15)
 
-    # # estimate for dense cores
-    # ax.fill_between([1.0E2, 1.0E3],
-    #                 1.2 * 0.6**2. * 0.1 /
-    #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
-    #                 1.2 * 2.2**2. * 0.1 /
-    #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
-    #                 facecolor='blue', edgecolor='none', alpha=0.3,
-    #                 zorder=3)
-    # plt.plot([1.0E2, 1.0E3],
-    #          1.2 * 0.6**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
-    #          color='blue',
-    #          linewidth=3.)
-    # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{0.6 \, km \, s^{-1}}$',
-    #          xy=[300., 1. / 1.5 * 1.2 * 0.6**2. * 0.1 / (300. / 1.0E3)],
-    #          color='blue',
-    #          ha='right')
-    # plt.plot([1.0E2, 1.0E3],
-    #          1.2 * 2.2**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
-    #          color='blue',
-    #          linewidth=3.)
-    # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{2.2 \, km \, s^{-1}}$',
-    #          xy=[100, 1.2 * 1.2 * 2.2**2. * 0.1 / (100. / 1.0E3)],
-    #          color='blue',
-    #          ha='center')
+        # # estimate for dense cores
+        # ax.fill_between([1.0E2, 1.0E3],
+        #                 1.2 * 0.6**2. * 0.1 /
+        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #                 1.2 * 2.2**2. * 0.1 /
+        #                 (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #                 facecolor='blue', edgecolor='none', alpha=0.3,
+        #                 zorder=3)
+        # plt.plot([1.0E2, 1.0E3],
+        #          1.2 * 0.6**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #          color='blue',
+        #          linewidth=3.)
+        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{0.6 \, km \, s^{-1}}$',
+        #          xy=[300., 1. / 1.5 * 1.2 * 0.6**2. * 0.1 / (300. / 1.0E3)],
+        #          color='blue',
+        #          ha='right')
+        # plt.plot([1.0E2, 1.0E3],
+        #          1.2 * 2.2**2. * 0.1 / (np.array([1.0E2, 1.0E3]) / 1.0E3),
+        #          color='blue',
+        #          linewidth=3.)
+        # annotate(s=r'$\sigma_{\mathdefault{v}} = \mathdefault{2.2 \, km \, s^{-1}}$',
+        #          xy=[100, 1.2 * 1.2 * 2.2**2. * 0.1 / (100. / 1.0E3)],
+        #          color='blue',
+        #          ha='center')
 
-    # CMZ data: entire clouds
-    EntireCloudData = pd.DataFrame()
-    EntireCloudData['Target'] = [
-        'SgrC', '20kms', '50kms', 'G0.253', 'SgrB1']
-    EntireCloudData['Mass'] = [2.5E4, 33.9E4, 6.5E4, 9.3E4, 14.5E4]
-    EntireCloudData['Size'] = [1.7, 5.1, 2.7, 2.8, 3.6]
-    EntireCloudData['VelocityDispersion'] = [6.5, 10.2, 13.9, 16.4, 13.1]
-    EntireCloudData['VirialParameter'] = 1.2 * EntireCloudData['VelocityDispersion']**2. * \
-        EntireCloudData['Size'] * \
-        (EntireCloudData['Mass'] / 1000.)**-1.
-    EntireCloudData['Mach'] = \
-        EntireCloudData['VelocityDispersion'] / \
-        (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
-    EntireCloudData['MeanDensity'] = \
-        3.5E4 * (EntireCloudData['Mass'] / 1.0E4) / \
-        EntireCloudData['Size']**3.
-    EntireCloudData['ThresholdDensitySF'] = \
-        EntireCloudData['VirialParameter'] * \
-        EntireCloudData['Mach']**2. * \
-        EntireCloudData['MeanDensity']
+        # CMZ data: entire clouds
+        EntireCloudData = pd.DataFrame()
+        EntireCloudData['Target'] = [
+            'SgrC', '20kms', '50kms', 'G0.253', 'SgrB1']
+        EntireCloudData['Mass'] = [2.5E4, 33.9E4, 6.5E4, 9.3E4, 14.5E4]
+        EntireCloudData['Size'] = [1.7, 5.1, 2.7, 2.8, 3.6]
+        EntireCloudData['VelocityDispersion'] = [6.5, 10.2, 13.9, 16.4, 13.1]
+        EntireCloudData['VirialParameter'] = 1.2 * EntireCloudData['VelocityDispersion']**2. * \
+            EntireCloudData['Size'] * \
+            (EntireCloudData['Mass'] / 1000.)**-1.
+        EntireCloudData['Mach'] = \
+            EntireCloudData['VelocityDispersion'] / \
+            (0.288 / 2.33**0.5 * (50. / 10.)**0.5)
+        EntireCloudData['MeanDensity'] = \
+            3.5E4 * (EntireCloudData['Mass'] / 1.0E4) / \
+            EntireCloudData['Size']**3.
+        EntireCloudData['ThresholdDensitySF'] = \
+            EntireCloudData['VirialParameter'] * \
+            EntireCloudData['Mach']**2. * \
+            EntireCloudData['MeanDensity']
 
-    ax.plot(EntireCloudData['Mass'],
-             EntireCloudData['VirialParameter'],
-             'D',
-             markersize=13.,
-             markeredgecolor='blue', markeredgewidth=3.,
-             markerfacecolor='none',
-             zorder=10, label='')
+        ax.plot(EntireCloudData['Mass'],
+                 EntireCloudData['VirialParameter'],
+                 'D',
+                 markersize=13.,
+                 markeredgecolor='blue', markeredgewidth=3.,
+                 markerfacecolor='none',
+                 zorder=10, label='')
 
-    ax.annotate(s='entire clouds',
-                 xy=[1.0E5, 18.],
-                 color='blue',
-                 ha='center',
-                 fontsize=15)
+        ax.annotate(s='entire clouds',
+                     xy=[1.0E5, 18.],
+                     color='blue',
+                     ha='center',
+                     fontsize=15)
 
     psuedo_keys = []
     if not sfrlabel:
@@ -1143,7 +1145,10 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         psuedo_keys = [psuedo_keys[i] for i in _idx]
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
-        _x = to_plot[ks]["cloud mass"]
+        if xaxis == 'mass':
+            _x = to_plot[ks]["cloud mass"]
+        elif xaxis == 'massRatio':
+            _x = to_plot[ks]['stellar to gas mass']
         _y = to_plot[ks]["alpha vir"]
         _y2 = to_plot[ks]["alpha vir total"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
@@ -1170,8 +1175,12 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         #           bbox_to_anchor=(0.5, 0.9))
 
     ax.set_xscale("log")
-    ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
-    ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
+
+    if xaxis == 'mass':
+        ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+        ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
+    elif xaxis == 'massRatio':
+        ax.set_xlabel(r"$M_\star / M_{\rm cl}$")
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\alpha_{\rm vir}$")
@@ -1275,10 +1284,12 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
 def plot_alpha_vir_2ss(to_plot1, to_plot2,
                        ls='', markersize=10, marker='*',
-                       tag='',
+                       tag='', xaxis='mass',    # xaxis=massRatio
                        t1='Pre-starburst Phase',
                        t2='Starburst Phase',
                        cbarLabelSize=16,
+                       showtitle=True,
+                       showcbar=True,
                        outdir='./',
                        legendFontSize=16,
                        saveFig=False):
@@ -1295,6 +1306,11 @@ def plot_alpha_vir_2ss(to_plot1, to_plot2,
     sfr = None
     sfrlabel = None
 
+    if xaxis == 'mass':
+        showLegend = True
+    else:
+        showLegend = False
+
     plt.close('all')
     cm = plt.get_cmap()
     NUM_COLORS = max(len(to_plot1), len(to_plot2))
@@ -1309,65 +1325,64 @@ def plot_alpha_vir_2ss(to_plot1, to_plot2,
         ncut.append(float(kkk))
     ncut = sorted(ncut)
 
-    # if saveFig:
-    #     figsize= (22, 20)
-    #     dpi = 120
-    # else:
-    #     figsize = (150/10., 300/10.)
-    #     dpi = 100           # otherwise mpl won't let me have a figure bigger than my screen size
-
-
     fig = plt.figure(figsize=(19, 6))
     ax = plt.subplot(121)
     fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
-                      markersize=10, marker='*',
-                       showLegend=True, legendFontSize=legendFontSize)
-    plt.text(0.5, 1.1,
-            t1,
-            horizontalalignment='center',
-            fontsize=20,
-            transform=ax.transAxes)
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=showLegend, legendFontSize=legendFontSize)
+
+    if showtitle:
+        plt.text(0.5, 1.1,
+                t1,
+                horizontalalignment='center',
+                fontsize=20,
+                transform=ax.transAxes)
 
     ax = plt.subplot(122)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
-                      markersize=10, marker='*',
+                      markersize=10, marker='*', xaxis=xaxis,
                        showLegend=False)
 
-    plt.text(0.5, 1.1,    # 1.3
-            t2,
-            horizontalalignment='center',
-            fontsize=20,
-            transform=ax.transAxes)
+    if showtitle:
+        plt.text(0.5, 1.1,
+                t2,
+                horizontalalignment='center',
+                fontsize=20,
+                transform=ax.transAxes)
 
     ax.set_ylabel('')
     ax.set_xlabel('')
     plt.minorticks_on()
     ax.set_yticklabels([])
 
-    c = np.linspace(min(ncut), max(ncut), 10)
+    if showcbar:
+        c = np.linspace(min(ncut), max(ncut), 10)
 
-    norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
-    _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
-    _cmap.set_array([])
+        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+        _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+        _cmap.set_array([])
 
-    cax = fig.add_axes([0.85, 0.1, 0.01, 0.8])
-    cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
-                        # ax=axes.ravel().tolist(),
-                        cax=cax)
-    cbar.ax.tick_params(length=6, labelsize=legendFontSize)
-    label = r'$n_{\rm cut}$'
-    cbar.set_label(label, fontsize=cbarLabelSize)
+        cax = fig.add_axes([0.85, 0.1, 0.01, 0.8])
+        cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                            # ax=axes.ravel().tolist(),
+                            cax=cax)
+        cbar.ax.tick_params(length=6, labelsize=legendFontSize)
+        label = r'$n_{\rm cut}$'
+        cbar.set_label(label, fontsize=cbarLabelSize)
 
     if saveFig:
         fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
                             bottom=0.1, hspace=0.2,
                             wspace=0.15)
-        name_out = 'alpha_vir_'
+        if xaxis == 'mass':
+            name_out = 'alpha_vir_'
+        elif xaxis == 'massRatio':
+            name_out = 'alpha_vir-stellar_to_gas_'
         fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
     else:
         fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
