@@ -34,6 +34,11 @@ def plotting_procedure(minss, maxss, pattern):
     fname = pattern + '_10_fields.p'
     ss, to_plot, leafdir_out = load_pickleTOplot(minss, maxss, fname)
 
+    plot_stuff("stellar to gas mass", "cloud mass", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+    plot_stuff("stellar to gas mass", "alpha vir", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
+
     plot_stuff("alpha vir", "SFR young", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("cloud mass", "mass over jeans mass", leglabel="sfr: ",
@@ -74,12 +79,12 @@ def plotting_procedure(minss, maxss, pattern):
                     leglabel="sfr: ", to_plot=to_plot,
                     outdir=leafdir_out, sfrlabel=True)
 
-    from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential, CMF
-    allmass = get_masses_all_clouds(ss)
-    massFuncUnbinnedCDF(allmass, outdir=leafdir_out)
-    massFuncPDF(allmass, outdir=leafdir_out)
-    massFuncDifferential(allmass, outdir=leafdir_out)
-    CMF(allmass, outdir=leafdir_out)
+    # from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential, CMF
+    # allmass = get_masses_all_clouds(ss)
+    # massFuncUnbinnedCDF(allmass, outdir=leafdir_out)
+    # massFuncPDF(allmass, outdir=leafdir_out)
+    # massFuncDifferential(allmass, outdir=leafdir_out)
+    # CMF(allmass, outdir=leafdir_out)
 
 
 def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
@@ -213,7 +218,6 @@ if __name__ == '__main__':
 
     # for paper
     plot_dis_allSS()
-    import sys; sys.exit()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _, _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
