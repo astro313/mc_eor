@@ -121,11 +121,11 @@ Early galaxies have higher star formation rates \citep[SFR; ][]{Behroozi13b, Spa
 %
 As a consequence, we expect them to be significantly more ionized, and have intense and hard interstelar radiation fields (ISRF). Since their metallicity and dust content are also expected to be lower in these early evolutionary stages, shielding of UV photons---responsible for the photoheating of the gas---  is strongly reduced. Such differences in turn affect the regulation of the thermal and chemical state of the multi-phase interstellar medium (ISM). Studying ISM properties of early galaxies is essential for understanding how \SF proceeds under more extreme conditions.
 %
-Even in the local Universe, where detailed \obs can be made, variations in 
-%mm cloud
-     MCC  \MM{do Hughes et al. study cloud complexes, as you do, or can you derive info about complexes from their data?}
-     \DL{This is just a statement to say there are variations among local GMCs. Together with the different galaxy properties found for early galaxies, it is interesting to study properties of molecular structures at earlier epochs. }
-properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of MCCs in early galaxies, and how do they differ from those found in local \galpop?}
+Even in the local Universe, where detailed \obs can be made, variations in molecular cloud 
+%       \MM{do Hughes et al. study cloud complexes, as you do, or can you derive info about complexes from their data?}
+%     \DL{This is just a statement to say there are variations among local GMCs. Together with the different galaxy properties found for early galaxies, it is interesting to study properties of molecular structures at earlier epochs. }
+properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of 
+molecular cloud structures in early galaxies, and how do they differ from those found in local \galpop?}
 %
 
 FIR fine-structure lines (e.g., \cii, \nii, and \oiii), and CO and [\ci]~lines are key diagnostics for constraining the ISM conditions of galaxies. They also provide highly complementary information on different ISM phases (ionized, atomic, molecular; e.g., \citealt{Scoville74a, Rubin85a, Malhotra01a}).
@@ -208,9 +208,10 @@ Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
 \begin{equation}
 \alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm cl} \sigma^2 + M_{\star} \sigma_\star^2}
-					       {M_{\rm cl} + M_{\star} }\,.
+					       {M_{\rm cl} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
+where $M_\star$ is the stellar mass within the MCC volume.
 
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
@@ -351,8 +352,7 @@ Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kenni
 %mm and OB/AGB stars. 
    as well as winds from OB and asymptotic giant branch stars.
 Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).  
-%mm
-%   \MM{confirm:} 
+\DL{AP: please elaborate non-thermal pressure here..}
 Photoionization from local sources is neglected in this simulation
 \citep[see][for its effect]{pallottini:2019,decataldo:2019}. 
 %mm \AP{modified accordingly}
@@ -373,7 +373,7 @@ $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of
 $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm
   H2}\simeq$\,5\E{7}\,\Msun, and a SFR of
 %mm $\simeq$\,100\,\Msun\,yr\pmOne. [for consistency with the next subsection] 
-   30--80 \Msun\,yr\pmOne. 
+   30\,--\,80\,\Msun\,yr\pmOne. 
 %mm \MM{What is its gas fraction?  I ask because its molecular gas
 %mass is minuscule, particularly for such a high SFR: this is a
 %depletion time of only 0.5 Myr, while modern galaxies usually have
@@ -415,16 +415,13 @@ The \SF history\footnote{Note that here the SFR is calculated based on
   the virial radius ($\approx$15\,kpc).} of \flower is shown in
 \Fig{SFH}. The SFR of \flower varies between $\sim$30--80 \Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
 
-Given \flower's SF stochastic nature, in this work we mostly focus on
-the analysis of two of its most extreme evolutionary stages (see
-\Sec{singless}). The two phases correspond to (a) intense accretion
-(b) starburst (\Fig{SFH}). We are interesting in determining whether
+Given the stochastic nature of \flower in its star formation history, we mostly focus on
+two of its most extreme evolutionary stages in this work (see \Sec{singless}).
+The two phases correspond to (a) an intensely accreting phase and
+(b) a starburst phase (\Fig{SFH}). We are interested in determining whether 
 MCC properties are sensitive to these different dynamical
-conditions. For completeness, for the other evolutionary stages traced
-in the simulation we only show scaling relations (see 
-%mm [Figures must be numbered and placed in order cited.  Better to
-%cite to the section and leave the figure in its proper place.] \Fig{alpha16-28}).
-     Sect.~\ref{sec:ncut}).
+conditions. For completeness, we also show the scaling relations examined for the other evolutionary stages traced
+in the simulation (see \Sec{ncut}).
 
 Throughout this paper, we 
 %mm dub as ``satellite galaxies'' the dense gas regions outside the
@@ -548,7 +545,7 @@ parameter space of cloud complexes of
 radius $R\gtrsim 40$\,pc,
 because of the resolution limit of the simulation.
 
-\subsection{Molecular Cloud Complex Properties}
+\subsection{Molecular Cloud Complex Properties} \label{sec:distribution}
 
 % Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
 % the mechanisms and physics of formation and evolution of molecular structures and \SF.
@@ -573,19 +570,27 @@ the right-hand side of Equation~\ref{eqn:veldisp} as a density-weighted quantity
 \sigma_{\rm NT}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
 \end{equation}
 where the sum is done for the cells composing each MCC.
-%
+
 The local sound speed of all identified molecular complexes is much
 smaller than their turbulent velocities\footnote{Velocity dispersions
   calculated from velocity field are comparable to those calculated
   from the pressure field 
-%mm
     \MM{The turbulent pressure field has not been
     mentioned in section 3, so you'll need to add a sentence there
     mentioning its presence and behavior to mention it here}, 
-indicating that contribution from shear is unlikely to dominate the velocity dispersions reported here.\label{ftn:veldisp}}. 
+    \DL{AP: also mention turbulent pressure found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a} here?}
+indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially 
+at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}. 
 On average, the Mach number of the MCCs identified at the highest density threshold is $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$, 
 but this depends on the evolutionary stage of \flower.  % see e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
 This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
+We also compute the Mach number from turbulent and thermal pressure to determine the importance of 
+differential rotation in the derived velocity dispersion: 
+\begin{equation}
+\mathcal{M} \equiv \sqrt{\frac{P_{\rm NT} + P}{ P }}\,,
+\end{equation}
+where $P_{\rm NT}$ is non-thermal pressure and $P$ is thermal pressure.
+
 
 The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to 
 a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure.
@@ -593,9 +598,8 @@ However, not all evolutionary stages considered have at least one MCC at this hi
 we therefore consider MCCs identified with the second highest density threshold ($n_{\rm cut}$\eq18.96\,\cc) in the following. 
 We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
-f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_\star\right)},
+f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_\star\right)}.
 \end{equation}
-where $M_\star$ is the stellar mass within the MCC volume.
 %
 We note that the distributions vary for different evolutionary stages of \flower. 
 %
@@ -603,11 +607,22 @@ The massive ($M_{\rm cl}>$10$^8$\,\Msun)
 clouds identified at low density cut (see top left panel of \Fig{dist})  
 correspond to the molecular disk of the
 galaxy, which is identified as a single component for low $n_{\rm
-  cut}$. The mass of the MCCs identified ranges between $M_{\rm
+  cut}$. Overall, the mass of all MCCs identified ranges between $M_{\rm
   cl}\simeq$10$^{5.5-8.5}$\,\Msun, which is comparable to those observed in
 \z$\sim$2 galaxies in rest-frame UV and optical light
-\citep{Elmegreen07a, Elmegreen09a}. The stellar-to-gas mass ratio ranges ($M_{\star}/M_{\rm cl}$) between $<$\,0.1 to 70 over all the
-MCCs identified across all evolutionary stages of \flower.
+\citep{Elmegreen07a, Elmegreen09a}. The stellar-to-gas mass ratio ranges between $M_{\star}/M_{\rm cl} \simeq$\,0.1\,--\,100 over all the
+MCCs identified across all evolutionary stages of \flower (see e.g., \Fig{stellarRatio16}).
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_stellar-to-gas-mass_ss16.png}
+\caption{Cloud mass and stellar-to-gas mass ratio of MCCs identified in the accreting phase of \flower.
+The most massive MCCs have the highest stellar-to-gas mass ratio ($\gtrsim$\,1) as they correspond to a large part of \flower, and thus, 
+include a large number of stellar mass already ensembled in \flower. 
+\label{fig:stellarRatio16}}
+\end{figure}
+
 
 \begin{figure*}[htbp]
 \centering
@@ -651,6 +666,15 @@ gas in equilibrium, see Equation~\ref{eqn:v0}.
 
 \begin{figure*}
 \centering
+\includegraphics[width=\textwidth]{\figpath/alpha_vir_ss21-ss22.png}
+\caption{$\alpha_{\rm vir}$-mass relation for pre-starburst (left) and starburst phase. 
+Definition of the symbol shown are the same as in \Fig{larsons_single}.
+Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$ of MCCs in \flower. 
+\label{fig:alpha21-22}}
+\end{figure*}
+
+\begin{figure*}
+\centering
 \includegraphics[trim=0 0 0 0, clip, width=1.05\textwidth]{\figpath/3by2_clumpProp_allss}
 \caption{Same as \Fig{larsons_single}, except star symbols are showing MCCs identified across all evolutionary stages traced in our simulation, which are color-coded by the SFR of \flower in those stages (see colorbar). Left panels show MCCs identified using a low density threshold of $n_{\rm cut}$\eq0.53\,\cc and right panels show MCCs 
 identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
@@ -658,9 +682,9 @@ identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
 \end{figure*}
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
-\AF{Description of the results is very chaotic. You mix evol. phases, properties, ncut, that is physical and numerical issues. Please reorder and make it more logical.}
-We first focus on the two most extreme evolutionary stages of \flower---the accreting and starburst phases (see \Sec{sfh}), 
-and identify a set of MCCs in each of them. \DL{note that delay in cloud properties and SFR.}
+
+We present results on the two most extreme evolutionary stages of \flower\ --- the accreting and starburst phases (see \Sec{sfh}), 
+and identify a set of MCCs in each of them. 
 Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accreting (left panels) and starburst phase (right panels), respectively. 
 
 Focusing on the accreting phase, MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) 
@@ -670,31 +694,29 @@ such as the nearby gas-rich galaxy M64 and
 % Spiral gal, appears to have accreted a gas-rich companion in the recent past, 
 % with the inner gas disk the remnant of the
 % original disk (Braun et al. 1992; Rubin 1994; Rix et al. 1995). 
-the z\ssim2 starbursting disk galaxy SMM\,J2135-0102 % SFR: 400, fgas ~ 0.6.
-\citep{Rosolowsky05a, Swinbank11a}.
-Since the sizes are somewhat dependent on the choice of $n_{\rm cut}$, as such, 
-some of the MCCs within the main disk break into multiple sub-MCCs at higher $n_{\rm cut}$. 
-In this way, we identify a population of denser molecular structures (see \Fig{MCC}). 
-On the other hand, the gas velocity dispersion $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$. 
+the $z$\ssim2 starbursting disk galaxy SMM\,J2135-0102 % SFR: 400, fgas ~ 0.6.
+\citep{Rosolowsky05a, Swinbank11a}, but are higher than those found in the Milky Way and extragalactic GMCs \citep{Heyer04a, Bolatto08a}.
 
-%Now discuss sigma - R relation; poor statistcis. But how many MCCs do we have?
+% middle
+While the virial parameter is typically defined as Equation~\ref{eqn:alpha} in observational studies, as they probes structures that are 
+mainly composed of molecular gas only, we also calculate the total virial parameter ($\alpha_{\rm vir, tot}$; Equation~\ref{eqn:alpha_tot}) 
+for MCCs of \flower, given the high stellar-to-gas mass ratios of some of them (see \Fig{stellarRatio16}). 
+MCCs with the highest stellar-to-gas mass ratio ($\gtrsim$\,1) correspond to the central main disk of \flower (see top panels of 
+\Fig{MCC} and \Sec{distribution}), which includes a large fraction of stellar mass that are already assembled in \flower. 
+This explains the low total virial parameter seen in the most massive MCCs of \flower in this phase, as shown in
+the middle left panel of \Fig{larsons_single}, where the stellar gravitational potential influence the overall stability of such MCCs.
 
-
-% Starburst 
-In the starburst phase, some MCCs have lower velocity dispersion, virial parameter, 
-and $\sigma^2/R$ compared to the accreting phase. \DL{Is this significant enough to say something physical? If so, not immediately clear to me what cause the differences.}
 % PVE
-We also compare the MCCs identified in our simulations to those observed in the Milky Way in the context of the $\sigma^2/R - \Sigma$ relation (see bottom panels of \Fig{larsons_single}). Dashed lines in the figure show the loci along which the given external pressures are needed for MCCs to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
+Motivated by observational studies, we also plot the $\sigma^2/R$ ratio and gas surface density of MCCs in the bottom left panel of \Fig{larsons_single}.
+In the same plot, we show those observed in the Galactic Ring Survey (GRS) of the Milky Way \citep{Heyer09a} for comparison.
+Dashed lines in the figure show the loci along which the corresponding external pressures are needed for MCCs in equilibrium to have certain 
+linewidths for a given set of surface densities (see \Sec{PVE}).
 % (Rice+16) find variation in $V_0^2$, where they find larger linewidths for GMCCs in inner galactic disk, but they find that the clouds in the Galactic disk are still consistent with SVE (see also Solomon87a ; cf. Heyer+09).
-The MCCs in the satellite galaxies are found to follow the locus of
-$\log{(P/\textrm{K cm}^{-3})}$\eq6, \MM{This is not shown in the
-  figure.  If you want to claim it, it needs to be shown somewhere.} which
-is consistent with that found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a}.
 
 % cloud structures at large and small scale
 % Larson's: m = 460 M_sun (r_pc)^1.9 for structure w/in molecular clouds. --> $m \propto r^2$ \citep{McKee07a} (law of constant
 % column density) as fundamental properties of molecular cloud structure.
-Larson's third relation relates MCCs structures on small and large
+Larson's third relation relates MCC structures on small and large
 scales via two physical properties: mass and size \citep{Larson81a,
   McKee07a}. This is also known as the constant column density
 relation,
@@ -704,26 +726,27 @@ relation,
   suggests that the mass-size relation is just an artifact of the
   narrow range of column densities observed with $^{12}CO$, as
   suggested among others by \citet{Ballesteros11}.}
- since cloud mass in \obs is sometimes derived by integrating over the mass surface density, which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with Milky Way-like dust can be written as 
+since cloud mass in observational studies is sometimes derived by integrating over the mass surface density, 
+which is related to the column density ($N_H$) obtainable from extinction maps ($A_V$). 
+% Motivated by \obs, we overplot lines of constants $A_V$ in the mass-size relation shown in \Fig{MR}.
+By assuming dust properties from \citet[][]{weingartner:2001}, extinction for a cloud with Milky Way-like dust can be written as 
 \begin{equation}
-A_v = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
+A_V = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
 \end{equation}
-then, assuming spherical symmetry, the mass of an MCC can be expressed as a function of $A_v$ and its size $R$
+Assuming spherical symmetry, the mass of an MCC can then be expressed as a function of $A_V$ and its size $R$
 \begin{equation}\label{eqn:constantcolumndensity}
 M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154~A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
 \end{equation}
-where we have taken $\mu = 2.5$ as the mean molecular weight.  
+where we adopt $\mu = 2.5$ as the mean molecular weight.  
 
-We show in \Fig{MR} the size-mass relation of the MCCs of \flower compared to observational data of molecular clouds in the Milky Way that are found to be associated with massive \SF \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870(R/{\rm pc})^{4/3} M_\odot$.
-%
-In the same plot, we also show loci of constant surface densities,
-which are parameterized through the visual extinction $A_V$. \MM{Why
-  do you go through $A_v$ rather than just using surface densities
-  directly?} As shown
-in \Fig{MR}, the MCCs identified in \flower lie above this relation,
-along the locus of $A_v \simeq 8.9$ clouds observed by
-\citet{Lombardi10a} in the MW. \MM{Does the variation in surface
-  density seen in Figure 6 correspond to the variation in $A_V$ seen
+We show in \Fig{MR} the size-mass relation of the MCCs of \flower compared to observational data of molecular clouds associated with massive \SF in the 
+Milky Way \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical relation obtained for massive \SF based on Milky Way clouds ($<$10\,\Msun; \citealt{Kauffmann10b, Kauffmann10c} and references therein): $M \gtrsim 870(R/{\rm pc})^{4/3} M_\odot$.
+Motivated by \obs, we overplot lines of constants $A_V$ in the same plot.
+MCCs of \flower spans a 
+ lie along the locus of $A_V \simeq 8.9$ clouds observed by
+\citet{Lombardi10a} in the MW. 
+\MM{Does the variation in surface
+  density seen in Figure 7 correspond to the variation in $A_V$ seen
   here?}
 %
 %The values of $A_V$ inferred from http://adsabs.harvard.edu/abs/2017MNRAS.471.5018Fthe $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
@@ -747,141 +770,84 @@ relation down to 1\,pc are comparable  to those  of  the  cores  found  in regio
 %mm}
 \end{figure*}
 
+
+% Starburst 
+In the starburst phase, MCCs have velocity dispersion, sizes,
+and virial parameter comparable to those in the accreting phase; however, the MCCs in the starburst phase span 
+a wider range in $\sigma^2/R$ and gas surface density. 
+Due to a time delay between cloud collapse and \SF, we also examine the virial parameter of MCCs in the pre-starburst phase. 
+As shown in \Fig{alpha21-22}, the total virial parameter (blue dots in the figure) 
+of a subset of MCCs in the pre-starburst phase are lower than those in the starburst phase of the same mass range. which is as expected.
+% None of these MCCs are in the unstable regime ($alpha_{\rm vir} < 2$) because the MCCs are not directly the collapsing structures, 
+% i.e., we haven’t reached those scales where true collapse is happening. 
+% This implication of this is that to examine the truly star-forming structures (cores) will require resolution smaller than ~40 pc.
+
+
 \subsection{Temporal Evolution and Adopted Density Threshold Dependence}\label{sec:ncut}
-% single Snapshot
-We investigate possible variations in the dynamics of the molecular structures of \flower and its satellites to test the robustness of our results against the choice of density threshold by adopting different sets of $n_{\rm cut}$ in identifying the MCCs. That is, how sensitive are the structure properties, and thus, the results presented in \Sec{singless} dependent on the choice of density thresholds.
-%
-We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results, i.e., inferences on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of cloud scaling relations.
-%
-In addition, for the densest MCC in the main disk of \flower, we find that while its size decreases as we increase $n_{\rm cut}$ --- as one would intuitively expect, the velocity dispersion remain approximately $\sigma\simeq$\,200\,\kms (see also \Fig{larsons_single}).
-%
-This lack of variation is reassuring, i.e. the dynamics of the MCCs are not artifacts or biased by our choice of $n_{\rm cut}$ on the scales studied in the present work. Our results are therefore robust to the various density cuts of choice.
+
+We investigate possible variations in the dynamics of the molecular structures of \flower to test the robustness of our results against the 
+choice of density threshold by adopting different sets of $n_{\rm cut}$ in identifying the MCCs. That is, how sensitive are the structure properties, and thus, 
+the results presented in \Sec{singless} dependent on the choice of density thresholds.
+The sizes of MCCs are dependent on the choice of $n_{\rm cut}$, 
+and thus, some of the MCCs within the main disk break into multiple sub-MCCs at higher $n_{\rm cut}$. 
+For instance, the cluster of points found at the lowest density threshold, 
+occupying the top right corner of the linewidth-size relation in the top left panel of \Fig{alpha16-28}, 
+are broken down into sub-MCCs at the highest density threshold (see top right panel of the same figure\footnote{Note
+that while the biggest MCCs are broken into sub-MCCs at higher $n_{\rm cut}$, MCCs identified at lower density in the outskirts of \flower
+typically do not reach the density thresholds as $n_{\rm cut}$ increases. Hence, there are fewer MCCs at the highest density threshold.} ). 
+These sub-MCCs are smaller in size, and thus, are shifted leftward in the top right panel. 
+In this way, we identify a population of denser molecular structures (see \Fig{MCC}). 
+On the other hand, the gas velocity dispersion $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$.
+%% 
+%We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results, i.e., inferences on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of cloud scaling relations.
+%%
+%In addition, for the densest MCC in the main disk of \flower, we find that while its size decreases as we increase $n_{\rm cut}$ --- as one would intuitively expect, the velocity dispersion remain approximately $\sigma\simeq$\,200\,\kms (see also \Fig{larsons_single}).
+%%
+This lack of variation is reassuring, i.e., our inferences on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in 
+nearby and \z$\sim$2 galaxies in the context of linewidth-size relations are not artifacts or biased by our choice of $n_{\rm cut}$ in this work. 
+
+%Comparing the left and right panels, the mass range of MCCs identified at the highest density threshold 
+%is narrower by about an order of magnitude compared to those identified at the lowest density threshold.
+%MCCs identified in the lowest $n_{\rm cut} also have a wider gas surface density. These are a direct manifestation of the decrease in MCC size  
+%at increasing $n_{\rm cut}$.
+
 
 % temporal evolution in Cloud Dynamics
-We show the properties of all MCCs identified across all evolutionary stages in \Fig{alpha16-28}. We find no quantitative differences in the cloud properties over the 700\,Myr traced in our simulation.
+We show the properties of all MCCs identified across all evolutionary stages in \Fig{alpha16-28}. 
+We find no quantitative differences in the cloud properties over the 700\,Myr traced in our simulation. 
 
-%
-%\begin{comment}
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss16_larsons.png}
-%\includegraphics[trim=0 0 0 0, clip, width=0.85\textwidth]{\figpath/ss27_larsons.png}
-%\caption{
-%Larson's (linewidth-size) relation of \flower in
-%accretion phase (top) and
-%starburst phase (bottom) compared to
-%those observed in nearby and the \z$\sim$2 star-forming galaxy.
-%% Red lines show the relation obtained from \citet{}.
-%Observed data and empirical relations are compiled from \citet{Larson81a, Heyer04a, Rosolowsky05a, Bolatto08a, Swinbank11a, Leroy15a}.
-%\label{fig:larsons_single}}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/ss16_alphavir.png}
-%\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/ss27_alphavir.png}
-%\caption{
-%Virial parameter and cloud mass of \flower (star symbols) in the accretion phase (top panel)
-%and the starburst phase (bottom panel) compared to the
-%Milky Way (other symbols).
-%Literature data are compiled from \citealt{Kauffmann17b} and references therein.
-%Star symbols are color-coded by $n_{\rm cut}$.
-%Star symbols lying close to $\alpha_{\rm vir}\simeq2$ correspond to MCCs in the satellite galaxies.
-%\label{fig:alpha16}}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/ss16_PVE.png}
-%\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/ss27_PVE.png}
-%\caption{
-%$\sigma^2/R - \Sigma_{\rm gas}$ relation of the MCCs identified in our simulation (star symbols)
-%in the accretion phase (top panel) and the starburst phase (bottom panel)
-%compared to those observed in the Milky Way (black dot markers; \citealt{Heyer09a}).
-%The V-shaped dashed lines show the loci along which the given external pressures
-%are needed for MCCs to have linewidth $\sigma$ for a given set of surface densities (see \Sec{PVE}).
-%Similar to \Fig{alpha16}, star symbols are color-coded by $n_{\rm cut}$.
-%Star symbols along the locus of $\log{(P/\textrm{K cm}^{-3}) = 6}$
-%correspond to MCCs in the satellite galaxies.
-%\label{fig:alpha27}}
-%\end{figure*}
-%\end{comment}
+% Also mentioned in \Sec{sfh}, we will frame the remainder of this work focusing on the properties of MCCs identified in the two most extreme 
+% evolutionary stages of \flower.
 
-%
-%\begin{comment}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_0_zoom_2.0_kpc}.png}
-%\caption{
-%Maps of the total gas surface density (top left),
-%velocity dispersion (top right),
-%epicyclic frequency (bottom left),
-%and Toomre $Q$ parameter (bottom right) in the $xy$-plane.
-%Modest smoothing has been applied to the maps.
-%A divergent colormap is used for the Toomre $Q$ map to facilitate
-%identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
-%Crosses correspond to positions of MCCs identified using the lowest $n_{\rm cut}$. % using 0.32
-%Positions of sub-MCCs are not shown (but see top row of \Fig{Qeff} for an example).
-%\label{fig:Q}}
-%\addtocounter{figure}{-1}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_gas_toomre_proj_1_zoom_2.0_kpc}.png}
-%\caption{Continued. Maps showing the various quantities projected on the $xz$-plane.}
-%\addtocounter{figure}{-1}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{{\figpath/ss16_gas_toomre_proj_2_zoom_2.0_kpc}.png}
-%\caption{Continued. Maps show the various quantities projected on the $yz$-plane.}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 20 30 30, clip, width=0.7\textwidth]{\figpath/{ss16_star_toomre_proj_0_zoom_2.0_kpc}.png}
-%\caption{
-%Same as \Fig{Q} but for the stellar component, projected in the $xy$-plane.
-%\label{fig:Qstar}}
-%% \addtocounter{figure}{-1}
-%\end{figure*}
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=10 0 100 20, clip, width=0.35\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_0.32}.png}
-%\includegraphics[trim=30 0 10 20, clip, width=0.425\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_2.0_kpc_6.81}.png}  \\
-%\includegraphics[trim=10 0 0 10, clip, width=0.425\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_2.0_kpc}.png} \\
-%\includegraphics[trim=30 25 30 20, clip, width=0.4\textwidth]{\figpath/{ss16_toomreEff_proj_0_zoom_0.8_kpc_6.81}.png}
-%\includegraphics[trim=10 0 0 0, clip, width=0.38\textwidth]{\figpath/{ss16_gas_SD_proj_0_zoom_0.8_kpc}.png}
-%\caption{
-%Effective two-component Toomre $Q_{\rm eff}$ (top row)
-%and gas surface density (middle) maps projected onto the $xy$-plane.
-%Positions of MCCs identified using the lowest $n_{\rm cut}$\eq0.32\,cm$^{-3}$ (top left; same as \Fig{Q})
-%and $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (top right) are overplotted as crosses.
-%Bottom row: Effective $Q_{\rm eff}$ (left) and gas surface density (right) maps zoomed in on the central 1.5\,kpc region.
-%Cross markers indicate positions of MCCs identified with $n_{\rm cut}$\eq6.81\,cm$^{-3}$ (same as top right).
-%Modest smoothing has been applied to the maps.
-%A divergent colormap is used for the Toomre $Q$ map to facilitate
-%identification of regions above and below $\log{Q_{\rm gas}}$\eq0.
-%Some MCCs lie in regions of $\log{Q_{\rm eff}}\gtrsim0$, whereas regions of $\log{Q_{\rm eff}}\lesssim0$
-%are likely gravitationally unstable.
-%\label{fig:Qeff}}
-%% \addtocounter{figure}{-1}
-%\end{figure*}
-%%\clearpage
-%
-%\end{comment}
 
 %--------------------------------------------------------------------------
 %                                Discussion
 %--------------------------------------------------------------------------
 \section{Discussions and Implications}\label{sec:diss}
 
+\DL{
+1) Note becasuse some MCCs have high stellar-to-gas mass ratios, we plot both gas-only virial parameter 
+and the total virial parameter (eqn xx) on the alphavir-mass plots in \Fig{}. The former is used in \obs since 
+the quantities are measured using gas tracers. On the other hand, because our MCs are identified with gas density and 
+some have high stellar-to-gas mass ratio, influence from the stellar component plays a non-negligible role, as seen in Toomre Q analysis.
+% 
+2) TODO: Add a plot showing the different alphavir over time. Add a line somewhere that feedback plays in important role in the virial parameter, as 
+can be seen in the strong variation in alphavir across the different evolutionary stages of \flower. 
+% 
+3) add alphavir versus stellar-to-gas mass ratio, 
+which shows in the pre-SB phase, we see overall lower alphavir. 
+We interpret the alphavir versus stellar-to-gas mass ratio plot as 
+1) the general trend is consistent with physics -- alphavir of MCCs are lower compared to other snapshots in the pre-SB phase.  
+The reason that we don’t see any MCCs with alphavir $<$ 2 can be understood by realizing that the MCCs are not 
+directly the collapsing structures, i.e., we haven’t reached those scales where true collapse is happening.
+This implication of this is that to examine the truly star-forming structures (cores) will require resolution smaller than ~40 pc.
+}
+
 \subsection{Placing Results in the Context of Existing Observations} \label{sec:diss1}
 
+Excluding the biggest MCC identified in each evolutionary stage (i.e., the top right cluster of points in the 
+linewidth-size relation of \Fig{larsons_single} and the top left panel of \Fig{alpha16-28}), which correspond to 
+mostly the main disk of \flower.......{\DL blah}.
 The MCCs of \flower have dynamics largely similar to those observed in
 $z$\ssim2 spatially resolved studies of gas-rich star-forming
 galaxies, in terms of their velocity dispersions, sizes, and gas
@@ -936,23 +902,20 @@ The presence of such extra-planar flows may \MM{Do we have any
   evidence for or against this speculation?} also be the 
 dominant mode for forming the highly supersonic massive MCCs observed
 in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g.,
-\citealt{Swinbank11a}) --- but the observed size scales could also
-result from the resolution limit, while the true physical scales of
-MCCs in $z$\,\ssim2 galaxies could be smaller.
-%mm in reality.
-%
+\citealt{Swinbank11a}) --- but the observed size scales could also be biased 
+high due to the resolution limit.
 The constant inter-cloud collisions as gas is being accreted onto the
-main galaxy \MM{This is a highly dissipative process.  Hennebelle \&
-  Klessen found it could only be important in rather small galaxies.
-  Does \flower qualify?} would also render
-the MCCs 
-%mm to be 
-gravitationally unbound (see e.g., \citealt{Dobbs11a}), \MM{Dobbs
-  started with a low-density disk, and got low-density clouds. I don't
-  think that's what you have here.  Do you have any evidence for
-  inter-cloud collisions being important?}
-\DL{think okay to state as speculation since we are not drawing conclusions based on this?} 
-which is consistent with the high $\alpha_{\rm vir}$ found for the MCCs in the main disk of \flower.
+main galaxy 
+%\MM{This is a highly dissipative process.  Hennebelle \&
+%  Klessen found it could only be important in rather small galaxies.
+%  Does \flower qualify?} 
+would also render the MCCs gravitationally unbound (see e.g., \citealt{Dobbs11a}), 
+%\MM{Dobbs
+%  started with a low-density disk, and got low-density clouds. I don't
+%  think that's what you have here.  Do you have any evidence for
+%  inter-cloud collisions being important?}
+%\DL{think okay to state as speculation since we are not drawing conclusions based on this?} 
+which would be consistent with the high $\alpha_{\rm vir}$ found for the MCCs in the main disk of \flower.
 
 % mass-size relation
 The MCCs of \flower lie below the locus of $A_V$\eq100\,mag followed
