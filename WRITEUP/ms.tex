@@ -686,20 +686,36 @@ relation down to 1\,pc are comparable  to those  of  the  cores  found  in regio
 
 
 
-\begin{figure*}
-% \centering
-\includegraphics[width=\textwidth]{\figpath/alpha_vir_ss21-ss22.png}
-% \includegraphics[width=0.925\textwidth]{\figpath/alpha_vir-stellar_to_gas_ss21-ss22.png}
-\caption{
-% Top: 
-Virial parameter and mass of MCCs in the pre-starburst (left) and starburst phase (right) of \flower. 
-% Bottom: $\alpha_{\rm vir}$ and stellar-to-gas mass ratio of MCCs.
-Definition of the symbol shown are the same as in \Fig{larsons_single}.
-Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$ of MCCs in \flower. 
-Excluding the biggest MCCs, MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
-% Overall, the stellar-to-gas mass ratio of MCCs in the starburst phase is higher. 
-\label{fig:alpha21-22}}
+%\begin{figure*}
+%% \centering
+%\includegraphics[width=\textwidth]{\figpath/alpha_vir_ss21-ss22.png}
+%% \includegraphics[width=0.925\textwidth]{\figpath/alpha_vir-stellar_to_gas_ss21-ss22.png}
+%\caption{
+%% Top: 
+%Virial parameter and mass of MCCs in the pre-starburst (left) and starburst phase (right) of \flower. 
+%% Bottom: $\alpha_{\rm vir}$ and stellar-to-gas mass ratio of MCCs.
+%Definition of the symbol shown are the same as in \Fig{larsons_single}.
+%Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$ of MCCs in \flower. 
+%Excluding the biggest MCCs, MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
+%% Overall, the stellar-to-gas mass ratio of MCCs in the starburst phase is higher. 
+%\label{fig:alpha21-22}}
+%\end{figure*}
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/alpha_vir_ss16-ss23.png}
+\caption{Virial parameter as a function of MCC mass for different evolutionary stages of \flower, beginning from the accreting phase (top left).
+Evolutionary stages are shown chronologically from top left to bottom left, followed by top right to bottom right.
+Definition of symbols shown are the same as in \Fig{larsons_single}.
+Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$.
+Excluding the biggest MCCs (see \Fig{stellarRatio16} and \Sec{singless}), 
+MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
+The virial parameter vary over the $\sim$300\,Myr shown here, as \flower\ evolves.
+The variation is clearly seen between the pre-starburst through post-starburst phase. 
+\label{fig:alphaEvol}}
 \end{figure*}
+{\bf CHECK if I am plotting the righ alphaVIR snapshots../.}
+
 
 \begin{figure}[htbp]
 \centering
@@ -711,7 +727,6 @@ The Mach number of MCCs with $M_\star/M_{\rm cl} \simeq 0.1 - 1$ increases as \S
 light blue symbols correspond to MCCs in the satellites in the outskirt of \flower and are identified with low $n_{\rm cut}$.
 \label{fig:Mach_stellarRatio}}
 \end{figure}
-
 
 \begin{figure*}
 \centering
@@ -799,7 +814,7 @@ In the starburst phase, MCCs have velocity dispersion, sizes,
 and virial parameter comparable to those in the accreting phase; however, the MCCs in the starburst phase span 
 a wider range in $\sigma^2/R$ and gas surface density. 
 Due to a time delay between cloud collapse and \SF, we also examine the virial parameter of MCCs in the pre-starburst phase. 
-As shown in \Fig{alpha21-22}, the total virial parameter (blue dots in the figure) 
+As shown in \Fig{alphaEvol}, the total virial parameter (blue dots in the figure) 
 of a subset of MCCs in the pre-starburst phase are lower than those in the starburst phase of the same mass range, which is as expected.
 %Similarly, the stellar-to-gas mass ratio of MCCs in the starburst phase is higher overall (see bottom panels of \Fig{alpha21-22}).
 %These trends are as expected in the MCC properties prior to and during a starburst. 
@@ -865,7 +880,7 @@ influence from the stellar component plays a non-negligible role, as seen in Too
 can be seen in the strong variation in alphavir across the different evolutionary stages of \flower. 
 and also the increase in $M$ as \SF proceed in \flower, see \Fig{Mach_stellarRatio}.
 % 
-3) overall lower alphavir in the pre-SB phase in \Fig{alpha21-22}. 
+3) overall lower alphavir in the pre-SB phase in \Fig{alphaEvol}. 
 1) the general trend is consistent with physics -- alphavir of MCCs are lower compared to other snapshots in the pre-SB phase.  
 The reason that we don’t see any MCCs with alphavir $<$ 2 can be understood by realizing that the MCCs are not 
 directly the collapsing structures, i.e., we haven’t reached those scales where true collapse is happening.
