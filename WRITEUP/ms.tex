@@ -490,6 +490,7 @@ properties extracted in PPV- versus PPP-space
 \label{fig:h2density}}
 \end{figure}
 
+% This is the messy stage 
 \begin{figure*}[htbp]
  \centering
   \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_0.53}.pdf}
@@ -499,10 +500,28 @@ properties extracted in PPV- versus PPP-space
   \includegraphics[scale=0.6]{\figpath/{dual_16_ncut_18.96}.pdf}
 \caption{
 Examples of MCCs (white contours) identified by the clump finder in
-\flower during its  accreting phase. The color bar shows the mean
+\flower during its accreting phase, where \flower is dispersion-dominated.
+Colorbar on the right shows the mean
 H$_2$ number density, weighted by gas mass. Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$ as shown by the label. Left and right panels show the galaxy from different viewing angles.
 \label{fig:MCC}}
 \end{figure*}
+
+% Add a figure that shows \flower in "disky" stage. We are interested in exploring whether the MCC properties are dependent on the disk properties. 
+% In other words, if the nature of the MCCs we are identifying are large chucks of arms/disk in \flower, then its dynamics that we are deriving will be dominated by 
+% large-scale shear.
+\begin{figure*}[htbp]
+ \centering
+  \includegraphics[scale=0.6]{\figpath/{dual_28_ncut_0.53}.pdf}
+  \\ [-2.7em]
+  \includegraphics[scale=0.6]{\figpath/{dual_28_ncut_6.81}.pdf}
+  \\ [-2.7em]
+  \includegraphics[scale=0.6]{\figpath/{dual_28_ncut_18.96}.pdf}
+\caption{
+Same as \Fig{MCC}, except we show the quiescent phase of \flower, which is supported by rotation. 
+\label{fig:MCC28}}
+\end{figure*}
+
+
 
 In \Fig{h2density}, we show the distribution of H$_2$
 number density $n_{\rm H2}$ for \flower~ during its accreting phase,
@@ -518,8 +537,7 @@ are found based on morphological analysis\footnote{For $n_{\rm
   \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCCs by
 applying 10 equally-spaced volumetric H$_2$ density cuts of ${(n_{\rm
     cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08,
-5.81, 11.36, 18.96, 31.62]$ to each snapshot. 
-%mm [I moved the next sentence into the main text from the footnote.]
+6.81, 11.36, 18.96, 31.62]$ to each snapshot. 
 We also tested variations in
   $n_{\rm cut}$ range and found no qualitative differences (see
   \Sec{ncut}).
