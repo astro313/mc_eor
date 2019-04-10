@@ -120,7 +120,7 @@ if __name__ == '__main__':
     plt.close('all')
 
     from plotsingleSS import load_pickleTOplot
-    from plot_modules.plot_cloud_prop import plot_alpha_vir_2ss
+    # from plot_modules.plot_cloud_prop import plot_alpha_vir_2ss, plot_Mach_massRatio_4ss
     ss1, to_plot1, leafdir_out1 = load_pickleTOplot(21)
     ss2, to_plot2, leafdir_out2 = load_pickleTOplot(22)
     fig, ax = plot_alpha_vir_2ss(to_plot1, to_plot2, ls='',
@@ -148,6 +148,23 @@ if __name__ == '__main__':
                               showcbar=False,
                               legendFontSize=16,
                               saveFig=True)
+
+    # Mach - stellar-to-gas mass ratio
+    ss1, to_plot1, leafdir_out1 = load_pickleTOplot(21)
+    ss2, to_plot2, leafdir_out2 = load_pickleTOplot(22)   # SB
+    ss3, to_plot3, leafdir_out3 = load_pickleTOplot(23)
+    ss4, to_plot4, leafdir_out4 = load_pickleTOplot(27)
+    fig, ax = plot_Mach_massRatio_4ss(to_plot1, to_plot2, to_plot3, to_plot4,
+                                      ls='', markersize=10, marker='*',
+                                      tag='',
+                                      t1='Pre-starburst Phase',
+                                      t2='Starburst Phase',
+                                      t3='Post-starburst Phase',
+                                      t4='Quiescent Phase',
+                                      cbarLabelSize=20,
+                                      outdir='./',
+                                      legendFontSize=16,
+                                      saveFig=True)
 
     # for paper, 3x2 panel for just ss16 and ss22!!!!
     from plot_modules.plot_cloud_prop import plot_stuff_3by2

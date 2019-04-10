@@ -856,9 +856,6 @@ def load_Heiderman10():
     return Heinerman_mass, Heinerman_SigmaGas, Heinerman_SFR, Heinerman_SigmaSFR
 
 
-
-
-
 def set_minorticks(fig, ax):
     from matplotlib.ticker import AutoMinorLocator, MultipleLocator
 
@@ -1181,6 +1178,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
     elif xaxis == 'massRatio':
         ax.set_xlabel(r"$M_\star / M_{\rm cl}$")
+        ax.set_xlim(0.07, 2e2)
 
     ax.set_yscale("log")
     ax.set_ylabel(r"$\alpha_{\rm vir}$")
@@ -1278,6 +1276,181 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
+                       markersize=10, marker='*'):
+
+    psuedo_keys = []
+    if not sfrlabel:
+        for kkk in to_plot.iterkeys():
+            psuedo_keys.append(float(kkk))
+        psuedo_keys = sorted(psuedo_keys)
+        psuedo_keys = map(str, psuedo_keys)
+    else:
+        sfr_ = []
+        for kkk in to_plot.iterkeys():
+            sfr_.append(sfr[kkk])
+            psuedo_keys.append(kkk)
+        _idx = np.argsort(sfr_)
+        psuedo_keys = [psuedo_keys[i] for i in _idx]
+    for ks in psuedo_keys:
+        # ks = numerical value of ncut or sfr
+        _x = to_plot[ks]['stellar to gas mass']
+        _y = to_plot[ks]["Mach pressure"]
+        h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
+                     marker=marker,
+                     markeredgecolor='gray',
+                     markeredgewidth=0.5)
+
+    ax.set_xscale("log")
+    ax.set_xlabel(r"$M_\star/M_{\rm cl}$")
+    ax.set_xlim(0.005, 2e2)
+
+    ax.set_ylabel(r"$\mathcal{M}$")
+    ax.set_ylim(0.0, 105)
+
+    ax.tick_params(axis='both', which='both')   # direction='in'
+    fig, ax = set_minorticks(fig, ax)
+
+    return fig, ax
+
+
+def plot_Mach_massRatio_4ss(to_plot1, to_plot2, to_plot3, to_plot4,
+                            ls='', markersize=10, marker='*',
+                            tag='',
+                            t1='Pre-starburst Phase',
+                            t2='Starburst Phase',
+                            t3='Post-starburst Phase',
+                            t4='Quiescent Phase',
+                            cbarLabelSize=16,
+                            showtitle=True,
+                            showcbar=True,
+                            outdir='./',
+                            legendFontSize=16,
+                            saveFig=False):
+
+    """
+    Plot Mach (Pressure) versus stellar-to-gas ratio in 4x1 for ss21,22 (SB),23, 27 to illustrate how the MCCs w/ low stellar-to-gas ratio increases Mach as SF takes place.
+
+    """
+
+    import matplotlib as mpl
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+    sfr = None
+    sfrlabel = None
+
+    lll = [len(to_plot1), len(to_plot2), len(to_plot3), len(to_plot4)]
+
+    plt.close('all')
+    cm = plt.get_cmap()
+    NUM_COLORS = max(lll)
+
+    # get ncut calues
+    ncut = []
+    iii = np.argmax(lll)
+    _to_plot = eval('to_plot' + str(iii + 1))
+
+    for kkk in _to_plot.iterkeys():
+        ncut.append(float(kkk))
+    ncut = sorted(ncut)
+
+    fig = plt.figure(figsize=(6, 15))
+    ax = plt.subplot(411)
+    fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_Mach_massRatio(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticklabels([])
+    if showtitle:
+        plt.text(0.5, 0.9,
+                t1,
+                horizontalalignment='center',
+                fontsize=17,
+                transform=ax.transAxes)
+    plt.minorticks_on()
+
+    ax = plt.subplot(412)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_Mach_massRatio(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*')
+
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_xticklabels([])
+    if showtitle:
+        plt.text(0.5, 0.9,
+                t2,
+                horizontalalignment='center',
+                fontsize=17,
+                transform=ax.transAxes)
+    plt.minorticks_on()
+
+    ax = plt.subplot(413)
+    fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_Mach_massRatio(fig, ax, to_plot3, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*')
+    ax.set_xlabel('')
+    ax.set_ylabel('')
+    ax.set_xticklabels([])
+    if showtitle:
+        plt.text(0.5, 0.9,
+                t3,
+                horizontalalignment='center',
+                fontsize=17,
+                transform=ax.transAxes)
+    plt.minorticks_on()
+
+    ax = plt.subplot(414)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_Mach_massRatio(fig, ax, to_plot4, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*')
+
+    if showtitle:
+        plt.text(0.5, 0.9,
+                t4,
+                horizontalalignment='center',
+                fontsize=17,
+                transform=ax.transAxes)
+    plt.minorticks_on()
+
+
+    if showcbar:
+        c = np.linspace(min(ncut), max(ncut), 10)
+
+        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+        _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+        _cmap.set_array([])
+
+        cax = fig.add_axes([0.9, 0.1, 0.04, 0.83])
+        cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                            # ax=axes.ravel().tolist(),
+                            cax=cax)
+        cbar.ax.tick_params(length=6, labelsize=legendFontSize)
+        label = r'$n_{\rm cut}$'
+        cbar.set_label(label, fontsize=cbarLabelSize)
+
+    if saveFig:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.95,
+                            bottom=0.1, hspace=0.2,
+                            wspace=0.15)
+        name_out = 'Mach_pressure-stellar-to-gas_'
+        fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
+    else:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.95,
+                            bottom=0.1, hspace=0.45,
+                            wspace=0.15)
+        plt.show(block=False)
 
     return fig, ax
 
