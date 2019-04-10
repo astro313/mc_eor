@@ -120,7 +120,7 @@ if __name__ == '__main__':
     plt.close('all')
 
     from plotsingleSS import load_pickleTOplot
-    # from plot_modules.plot_cloud_prop import plot_alpha_vir_2ss, plot_Mach_massRatio_4ss
+    from plot_modules.plot_cloud_prop import plot_alpha_vir_2ss, plot_Mach_massRatio_4ss, plot_alpha_vir_8ss
     ss1, to_plot1, leafdir_out1 = load_pickleTOplot(21)
     ss2, to_plot2, leafdir_out2 = load_pickleTOplot(22)
     fig, ax = plot_alpha_vir_2ss(to_plot1, to_plot2, ls='',
@@ -149,6 +149,27 @@ if __name__ == '__main__':
                               legendFontSize=16,
                               saveFig=True)
 
+    # 4x2 alpha_vir - cloud mass
+    ss1, to_plot1, leafdir_out1 = load_pickleTOplot(16)
+    ss2, to_plot2, leafdir_out2 = load_pickleTOplot(17)
+    ss3, to_plot3, leafdir_out3 = load_pickleTOplot(18)
+    ss4, to_plot4, leafdir_out4 = load_pickleTOplot(19)
+    ss5, to_plot5, leafdir_out5 = load_pickleTOplot(20)
+    ss6, to_plot6, leafdir_out6 = load_pickleTOplot(21)  # Pre-SB
+    ss7, to_plot7, leafdir_out7 = load_pickleTOplot(22)  # SB
+    ss8, to_plot8, leafdir_out8 = load_pickleTOplot(23)
+    fig, ax = plot_alpha_vir_8ss(to_plot1, to_plot5, to_plot2, to_plot4,
+                                     to_plot3, to_plot6, to_plot4, to_plot8,
+                                     ls='',
+                                     markersize=10,
+                                     marker='*',
+                                     tag='ss16-ss23',
+                                     cbarLabelSize=20,
+                                     outdir='./',
+                                     showcbar=True,
+                                     legendFontSize=16,
+                                     saveFig=True)
+
     # Mach - stellar-to-gas mass ratio
     ss1, to_plot1, leafdir_out1 = load_pickleTOplot(21)
     ss2, to_plot2, leafdir_out2 = load_pickleTOplot(22)   # SB
@@ -156,7 +177,7 @@ if __name__ == '__main__':
     ss4, to_plot4, leafdir_out4 = load_pickleTOplot(27)
     fig, ax = plot_Mach_massRatio_4ss(to_plot1, to_plot2, to_plot3, to_plot4,
                                       ls='', markersize=10, marker='*',
-                                      tag='',
+                                      tag='ss21-ss27',
                                       t1='Pre-starburst Phase',
                                       t2='Starburst Phase',
                                       t3='Post-starburst Phase',

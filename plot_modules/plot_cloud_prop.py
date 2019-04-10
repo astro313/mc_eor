@@ -1413,6 +1413,181 @@ def plot_Mach_massRatio_4ss(to_plot1, to_plot2, to_plot3, to_plot4,
 
     return fig, ax
 
+def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
+                       to_plot5, to_plot6, to_plot7, to_plot8,
+                       ls='', markersize=10, marker='*',
+                       tag='', xaxis='mass',    # xaxis=massRatio
+                       cbarLabelSize=16,
+                       showcbar=True,
+                       outdir='./',
+                       legendFontSize=16,
+                       saveFig=False):
+
+    """
+    Plot alpha_vir for eight snapshot in 4x2
+
+    """
+    import matplotlib as mpl
+    from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+    sfr = None
+    sfrlabel = None
+
+    lll = [len(to_plot1), len(to_plot2), len(to_plot3), len(to_plot4), len(to_plot5), len(to_plot6), len(to_plot7), len(to_plot8)]
+
+    plt.close('all')
+    cm = plt.get_cmap()
+    NUM_COLORS = max(lll)
+
+    # get ncut calues
+    ncut = []
+    iii = np.argmax(lll)
+    _to_plot = eval('to_plot' + str(iii + 1))
+
+    for kkk in _to_plot.iterkeys():
+        ncut.append(float(kkk))
+    ncut = sorted(ncut)
+
+    fig = plt.figure(figsize=(12, 16))
+    ax = plt.subplot(421)
+    fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False, legendFontSize=legendFontSize)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_xticklabels([])
+
+    plt.text(0.3, 0.9,
+            "Accreting Phase",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
+    ax = plt.subplot(422)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
+
+    ax = plt.subplot(423)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot3, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_xticklabels([])
+
+    ax = plt.subplot(424)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot4, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    plt.text(0.3, 0.9,
+            "Pre-starburst Phase",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
+
+    ax = plt.subplot(425)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot5, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_xticklabels([])
+
+
+    ax = plt.subplot(426)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot6, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
+    plt.text(0.3, 0.9,
+            "Starburst Phase",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
+
+    ax = plt.subplot(427)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot7, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+
+
+    ax = plt.subplot(428)
+    ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+    plot_alphavir_Mass(fig, ax, to_plot8, sfrlabel, sfr, ls=ls,
+                      markersize=10, marker='*', xaxis=xaxis,
+                       showLegend=False)
+    plt.text(0.3, 0.9,
+            "Post-starburst Phase",
+            horizontalalignment='center',
+            fontsize=16,
+            transform=ax.transAxes)
+
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    plt.minorticks_on()
+    ax.set_yticklabels([])
+
+    if showcbar:
+        c = np.linspace(min(ncut), max(ncut), 10)
+
+        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+        _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+        _cmap.set_array([])
+
+        cax = fig.add_axes([0.85, 0.1, 0.02, 0.75])
+        cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                            # ax=axes.ravel().tolist(),
+                            cax=cax)
+        cbar.ax.tick_params(length=6, labelsize=legendFontSize)
+        label = r'$n_{\rm cut}$'
+        cbar.set_label(label, fontsize=cbarLabelSize)
+
+    if saveFig:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.2,
+                            wspace=0.1)
+        if xaxis == 'mass':
+            name_out = 'alpha_vir_'
+        elif xaxis == 'massRatio':
+            name_out = 'alpha_vir-stellar_to_gas_'
+        fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
+    else:
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+                            bottom=0.1, hspace=0.45,
+                            wspace=0.1)
+        plt.show(block=False)
+
+    return fig, ax
+
 
 def plot_alpha_vir_2ss(to_plot1, to_plot2,
                        ls='', markersize=10, marker='*',
