@@ -79,6 +79,7 @@ class Cloud(object):
         self.sigmaSq_3()
         self.sigmaSq()
         self.sigmaSq_2()
+        self.sigmaSq_NT()
         self.tot_veldisp()
         self.tff()
         self.tff_Myr()
@@ -94,6 +95,42 @@ class Cloud(object):
         self.young_SFR()
         self.old_SFR()
         self.alphaVir_total()
+
+
+    def tot_veldisp(self):
+        """ non-thermal, turbulent + bulk + average mass-weighted sound speed"""
+        x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.density
+        self.cs_avg = np.sqrt(np.sum(self.density * x)/np.sum(self.density))
+
+        self.sigmaSq_bulk_cs = self.sigmaSq + self.cs_avg**2
+        self.sigmaSq_tot = self.sigmaSq_bulk_cs + self.sigmaSq_NT
+
+        print "sigma^2 total before and including pressure: "
+        print np.sqrt(self.sigmaSq_bulk_cs)/1.e5, np.sqrt(self.sigmaSq_tot)/1.e5
+
+
+    def alphaVir(self):
+        """
+
+        Cloud's alpha virial, Bertoldi & McKee 1992.
+
+                   5 * sigma ^ 2 * R
+          alpha =  ------------------
+                        G * M
+
+        """
+
+        # bulk velo and cs only, excluding NT pressure
+        self.alpha = 5. * (self.sigmaSq_bulk_cs) * \
+            self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
+
+        # sigma from NT and cs only, excluding bulk
+        self.alpha_NT = 5. * (self.sigmaSq_NT + self.cs_avg**2) * \
+            self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
+
+        # sigma from all terms
+        self.alpha_bulk_NT = 5. * (self.sigmaSq_tot) * \
+            self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
 
 
     def alphaVir_total(self):
@@ -119,7 +156,11 @@ class Cloud(object):
         print "stellar sigma [km/s]: ", np.sqrt(self.sigmaSq_star) / 1.e5    # km/s
         del _velx_star, _vely_star, _velz_star
 
-        self.alpha_total = 5. * (self.mass_Msun * self.Msun2g * self.sigmaSq_tot + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
+        self.alpha_total = 5. * (self.mass_Msun * self.Msun2g * self.sigmaSq_bulk_cs + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
+
+        self.alpha_NT_total = 5. * (self.mass_Msun * self.Msun2g * (self.sigmaSq_NT + self.cs_avg**2) + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
+
+        self.alpha_all_total = 5. * (self.mass_Msun * self.Msun2g * self.sigmaSq_tot + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
 
     # --- star particles ---
     def mass_star_Msun(self):
@@ -193,7 +234,7 @@ class Cloud(object):
             (self.density * ((_velx)**2 + (_vely) **
                              2 + (_velz)**2)).sum() / self.density.sum()
 
-        print "sigma [km/s]: ", np.sqrt(self.sigmaSq) / 1.e5    # km/s
+        print "sigma from vmean = np.mean() [km/s]: ", np.sqrt(self.sigmaSq) / 1.e5    # km/s
         del _velx, _vely, _velz
 
     def sigmaSq_2(self):
@@ -211,18 +252,14 @@ class Cloud(object):
                                             (_vely)**2 +
                                             (_velz)**2)).sum() / self.density.sum()
         # km/s
-        print "sigma calculated slightly different [km/s]: ", np.sqrt(sigmaSq) / 1.e5
+        print "sigma calculated with mass-weighted vmean [km/s]: ", np.sqrt(sigmaSq) / 1.e5
         del _x_mean, _y_mean, _z_mean, _velx, _vely, _velz
 
-    def tot_veldisp(self):
-        """ non-thermal, turbulent + average mass-weighted sound speed"""
 
-        # cs_avg = np.sqrt(np.mean(self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density)
+    def sigmaSq_NT(self):
+        x = (self.P_nt * self.k_B_erg / C.m_p.cgs.value) / self.density
+        self.sigmaSq_NT = np.sum(self.density * x) / np.sum(self.density)
 
-        x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density
-        self.cs_avg = np.sqrt(np.sum(self.density * x)/np.sum(self.density))
-
-        self.sigmaSq_tot = self.sigmaSq + self.cs_avg**2
 
     def tff(self):
         self.tff = (3. * np.pi / 32.0 / self.G_cgs / (self.avg_density * C.m_p.value * self.kg2g))**0.5
@@ -253,23 +290,14 @@ class Cloud(object):
         self.M_jeans = (self.avg_density * C.m_p.cgs.value) * \
             (np.average(self.L_jeans_pc) * self.pc2cm)**3 * self.g2Msun
 
-    def alphaVir(self):
-        """
-
-        Cloud's alpha virial, Bertoldi & McKee 1992.
-
-                   5 * sigma ^ 2 * R
-          alpha =  ------------------
-                        G * M
-
-        """
-
-        self.alpha = 5. * (self.sigmaSq_tot) * \
-            self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
 
     def Mach(self):
 
-        self.Mach = np.sqrt(self.sigmaSq) / self.cs_avg
+        # print "mass-weighted before: ",
+        # Mach = np.sqrt(self.sigmaSq_NT) / self.cs_avg
+
+        print "mass-weighted after",
+        self.Mach = (self.density * np.sqrt(self.sigmaSq_NT) / self.cs_avg).sum()/self.density.sum()
 
 
     def Mach_vec(self):
@@ -278,17 +306,11 @@ class Cloud(object):
         Calculate from mass-weighted NT and thermal pressure.
 
         """
-        print "Mach, not mass weighted: "
-        M = np.sqrt((self.Pressure + self.P_nt)/self.Pressure)
-        # print M.mean()
-        # print M.max(), M.min()
-        self.Mach_vec = M.mean()
+        print "Mass-weighted Mach from pressure: "
+        mach = np.sqrt(1 +  self.P_nt/self.Pressure)
+        self.Mach_vec = np.sqrt((self.density * mach).sum()/self.density.sum())
+        print self.Mach_vec
 
-        # # mass-weighted
-        # print "Mach, mass weighted: "
-        # mach = np.sqrt(1 +  self.P_nt/self.Pressure)
-        # self.Mach_vec = np.sqrt((self.density * mach).sum()/self.density.sum())
-        print self.Mach, self.Mach_vec
 
     def SFR_per_tff(self):
         """ Find the star formation  per free fall time of the cloud. As in  Krumholz, Matzner & McKee 2006. Eqn 40 and 41.
@@ -322,14 +344,20 @@ class Cloud(object):
 
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
         print("cs avg       = {:.2f} [km/s]").format(self.cs_avg/1.e5)
-        print("sigma turb   = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
+        print("sigma from velo   = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
+        print("sigma from NT Pressure = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq_NT)/1.e5)
+        print("sigma tot before adding NT Pressure = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq_bulk_cs)/1.e5)
         print("sigma tot    = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq_tot)/1.e5)
         print("Jeans length = {:.2f} [pc]").format(np.mean(self.L_jeans_pc))
         print("Jeans Mass   = {:.2f} [Msun]").format(self.M_jeans)
 
         print "*" * 10 + "   Star Formation rate calculation:   " + "*" * 10
-        print("alpha virial  = {:.2f}").format(self.alpha)
-        print("alpha virial incl. stellar  = {:.2f}").format(self.alpha_total)
+        print("alpha virial from bulk velo + cs only = {:.2f}").format(self.alpha)
+        print("alpha virial from bulk velo incl. stellar  = {:.2f}").format(self.alpha_total)
+        print("alpha virial from NT velo + cs only = {:.2f}").format(self.alpha_NT)
+        print("alpha virial from NT velo + incl. stellar  = {:.2f}").format(self.alpha_NT_total)
+        print("alpha virial from all sigma, exclude star = {:.2f}").format(self.alpha_bulk_NT)
+        print("alpha virial from all sigma, incl. star = {:.2f}").format(self.alpha_all_total)
         print("Mach number   = {:.2f} ").format(self.Mach)
         print("Mach number from NT pressure = {:.2f} ").format((np.mean(self.Mach_vec)))
         print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
