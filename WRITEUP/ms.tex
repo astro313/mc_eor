@@ -664,14 +664,53 @@ gas in equilibrium, see Equation~\ref{eqn:v0}.
 \label{fig:larsons_single}}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure*}[htbp]
 \centering
+\includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
+\caption{
+Size-mass relation of MCCs identified in the accreting phase of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the 
+mass-size relation found for regions in the Milky Way with massive \SF
+reported by \citet{Kauffmann10b}. Star symbols are color-coded by
+increasing $n_{\rm cut}$, same as the colorbar shown in \Fig{larsons_single}.
+Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}. 
+Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), which correspond to lines of
+constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
+%mm [redundant] The star symbols are color-coded by $n_{\rm cut}$,
+%same as \Fig{larsons_single}.  
+Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b} 
+relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF.
+\label{fig:MR}}
+%mm}
+\end{figure*}
+
+
+
+\begin{figure*}
+% \centering
 \includegraphics[width=\textwidth]{\figpath/alpha_vir_ss21-ss22.png}
-\caption{$\alpha_{\rm vir}$-mass relation for pre-starburst (left) and starburst phase. 
+% \includegraphics[width=0.925\textwidth]{\figpath/alpha_vir-stellar_to_gas_ss21-ss22.png}
+\caption{
+% Top: 
+Virial parameter and mass of MCCs in the pre-starburst (left) and starburst phase (right) of \flower. 
+% Bottom: $\alpha_{\rm vir}$ and stellar-to-gas mass ratio of MCCs.
 Definition of the symbol shown are the same as in \Fig{larsons_single}.
 Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$ of MCCs in \flower. 
+Excluding the biggest MCCs, MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
+% Overall, the stellar-to-gas mass ratio of MCCs in the starburst phase is higher. 
 \label{fig:alpha21-22}}
 \end{figure*}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/Mach_pressure-stellar-to-gas_ss21-ss27.png}
+\caption{
+Mach number derived from the pressure of MCCs as a function of their stellar-to-gas mass ratio in four evolutionary stages, as denoted in the panels.
+% ss20,21,22,27
+The Mach number of MCCs with $M_\star/M_{\rm cl} \simeq 0.1 - 1$ increases as \SF proceed in \flower. In that bottom panel, the 
+light blue symbols correspond to MCCs in the satellites in the outskirt of \flower and are identified with low $n_{\rm cut}$.
+\label{fig:Mach_stellarRatio}}
+\end{figure}
+
 
 \begin{figure*}
 \centering
@@ -680,6 +719,8 @@ Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show 
 identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
 \label{fig:alpha16-28}}
 \end{figure*}
+
+
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
 
@@ -751,25 +792,6 @@ MCCs of \flower spans a
 %
 %The values of $A_V$ inferred from http://adsabs.harvard.edu/abs/2017MNRAS.471.5018Fthe $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
 
-\begin{figure*}[htbp]
-\centering
-\includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
-\caption{
-Size-mass relation of MCCs identified in the accreting phase of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the 
-mass-size relation found for regions in the Milky Way with massive \SF
-reported by \citet{Kauffmann10b}. Star symbols are color-coded by
-increasing $n_{\rm cut}$, same as the colorbar shown in \Fig{larsons_single}.
-Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}. 
-Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), which correspond to lines of
-constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
-%mm [redundant] The star symbols are color-coded by $n_{\rm cut}$,
-%same as \Fig{larsons_single}.  
-Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b} 
-relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF.
-\label{fig:MR}}
-%mm}
-\end{figure*}
-
 
 % Starburst 
 In the starburst phase, MCCs have velocity dispersion, sizes,
@@ -777,11 +799,16 @@ and virial parameter comparable to those in the accreting phase; however, the MC
 a wider range in $\sigma^2/R$ and gas surface density. 
 Due to a time delay between cloud collapse and \SF, we also examine the virial parameter of MCCs in the pre-starburst phase. 
 As shown in \Fig{alpha21-22}, the total virial parameter (blue dots in the figure) 
-of a subset of MCCs in the pre-starburst phase are lower than those in the starburst phase of the same mass range. which is as expected.
+of a subset of MCCs in the pre-starburst phase are lower than those in the starburst phase of the same mass range, which is as expected.
+%Similarly, the stellar-to-gas mass ratio of MCCs in the starburst phase is higher overall (see bottom panels of \Fig{alpha21-22}).
+%These trends are as expected in the MCC properties prior to and during a starburst. 
 % None of these MCCs are in the unstable regime ($alpha_{\rm vir} < 2$) because the MCCs are not directly the collapsing structures, 
 % i.e., we haven’t reached those scales where true collapse is happening. 
 % This implication of this is that to examine the truly star-forming structures (cores) will require resolution smaller than ~40 pc.
-
+As \SF proceed, stellar feedback inject kinetic energy in the form of turbulence. As shown in 
+\Fig{Mach_stellarRatio}, the Mach number of MCCs with a stellar-to-gas mass ratio of $M_\star/M_{\rm gas} \simeq 0.1 - 1$ 
+(i.e., excluding the main component of \flower with $M_\star/M_{\rm gas} \gtrsim 1$; see e.g., \Fig{stellarRatio16})
+increases from the pre-starburst phase through the post-starburst phase. 
 
 \subsection{Temporal Evolution and Adopted Density Threshold Dependence}\label{sec:ncut}
 
@@ -826,17 +853,14 @@ We find no quantitative differences in the cloud properties over the 700\,Myr tr
 \section{Discussions and Implications}\label{sec:diss}
 
 \DL{
-1) Note becasuse some MCCs have high stellar-to-gas mass ratios, we plot both gas-only virial parameter 
-and the total virial parameter (eqn xx) on the alphavir-mass plots in \Fig{}. The former is used in \obs since 
-the quantities are measured using gas tracers. On the other hand, because our MCs are identified with gas density and 
-some have high stellar-to-gas mass ratio, influence from the stellar component plays a non-negligible role, as seen in Toomre Q analysis.
+1) Add to discussion in Sec 6.3? As shown in alphavir total, the high stellar-to-gas mass ratio, 
+influence from the stellar component plays a non-negligible role, as seen in Toomre Q analysis.
 % 
 2) TODO: Add a plot showing the different alphavir over time. Add a line somewhere that feedback plays in important role in the virial parameter, as 
 can be seen in the strong variation in alphavir across the different evolutionary stages of \flower. 
+and also the increase in $M$ as \SF proceed in \flower, see \Fig{Mach_stellarRatio}.
 % 
-3) add alphavir versus stellar-to-gas mass ratio, 
-which shows in the pre-SB phase, we see overall lower alphavir. 
-We interpret the alphavir versus stellar-to-gas mass ratio plot as 
+3) overall lower alphavir in the pre-SB phase in \Fig{alpha21-22}. 
 1) the general trend is consistent with physics -- alphavir of MCCs are lower compared to other snapshots in the pre-SB phase.  
 The reason that we don’t see any MCCs with alphavir $<$ 2 can be understood by realizing that the MCCs are not 
 directly the collapsing structures, i.e., we haven’t reached those scales where true collapse is happening.
@@ -847,38 +871,23 @@ This implication of this is that to examine the truly star-forming structures (c
 
 Excluding the biggest MCC identified in each evolutionary stage (i.e., the top right cluster of points in the 
 linewidth-size relation of \Fig{larsons_single} and the top left panel of \Fig{alpha16-28}), which correspond to 
-mostly the main disk of \flower.......{\DL blah}.
-The MCCs of \flower have dynamics largely similar to those observed in
+the main disk of \flower, the MCCs of \flower have dynamics largely similar to those observed in
 $z$\ssim2 spatially resolved studies of gas-rich star-forming
 galaxies, in terms of their velocity dispersions, sizes, and gas
 surface densities (\Fig{larsons_single}; see e.g.,
 \citealt{Swinbank11a}), with sizes of the order of $R\simeq$\,100\,pc
 and velocity dispersions of $\sigma\simeq$\,20$-$80\,\kms. 
-\MM{They agree in $\sigma$ vs.\ $R$, but their virial parameters seem
-  high compared to the data sets provided, particularly for their
-  relatively low surface densities (Figs.\ 5, 6).}
-%
-% velocity dispersion, larsons
-%
 Their velocity dispersions are also comparable to those observed in the inner Milky way and nearby gas-rich galaxies (e.g., M64; \citealt{Oka01a, Rosolowsky05a, Heyer09a}), which lies along the locus of $\sigma\propto R^{0.56}$. Such high velocity dispersions and surface densities are expected since they are located in the nuclear regions of the galaxy, where the potential well is also deep. The higher velocity dispersions
 (see footnote~\ref{ftn:veldisp} on page \pageref{ftn:veldisp}) of
 these MCCs can also be understood as they have experienced more recent
-episodes of \SF as \flower is assembling its stellar mass (these MCCs
-also have higher stellar-to-gas mass ratios of $\sim$60). \MM{This is
-  an enormous stellar to gas mass ratio, suggesting the clouds are
-  completely controlled by the gravitational potential of the stars.
-h  A normal molecular cloud would have a ratio of < 0.1!  The
-  implications of this for the apparent virial parameters and velocity
-dispersions need to be considered much more carefully than they have been.}
+episodes of \SF as \flower is assembling its stellar mass --- these MCCs have higher stellar-to-gas mass ratios of $M_\star/M_{\rm gas}\simeq0.1 - 1$ (\Fig{stellarRatio16}) and high turbulent pressure as shown by the high $\mathcal{M}$ in \Fig{Mach_stellarRatio}.  
 %
 In fact, by the accreting stage (see \Fig{SFH}a) at $z\simeq$\,7.2, 
 \flower has assembled a stellar mass of
 $M_\star$\eq7.5\E{9}\,\Msun. Thus, the higher velocity dispersion is
 due in part to the stronger stellar feedback \MM{Again, not clear that
   this is feedback and not potential driven. Can you demonstrate one
-  or the other explicitly?} compared to e.g., MCCs in
-its satellites ($\sigma\simeq$10\,\kms) \MM{This needs to be shown in
-  a Figure, not just asserted}.
+  or the other explicitly?} 
 
 
 The high pressure observed in \flower \MM{Where are pressures shown?
