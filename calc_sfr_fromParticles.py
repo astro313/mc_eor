@@ -88,6 +88,20 @@ if __name__ == '__main__':
                                },
                                verbose=debug)
 
+        # lookbackTimeGyr = parts_inside_camera_vec[
+        #     "epoch"] * ro.info['unit_time'].express(C.Gyr)
+
+        # UniverseAgeStarFormationMyr = calculate_age_stars(
+        #     ro_in=ro, dset_in=parts_inside_camera_vec)
+
+        # GalaxyAgeFirstStarFormationMyr = UniverseAgeStarFormationMyr - \
+        #     np.min(UniverseAgeStarFormationMyr)
+
+        # ii = np.argsort(GalaxyAgeFirstStarFormationMyr)
+        # x = np.copy(GalaxyAgeFirstStarFormationMyr[ii])
+        # print (x.max(), UniverseAgeStarFormationMyr[ii].max())
+        # continue
+
         if debug:
           xx = parts_inside_camera_vec.points[:,0]
           xx = xx*ro.info['unit_length'].express(C.kpc)
