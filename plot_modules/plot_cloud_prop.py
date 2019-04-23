@@ -963,8 +963,6 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         print psuedo_keys
         _idx = np.argsort(sfr_)
         psuedo_keys = [psuedo_keys[i] for i in _idx]
-        print psuedo_keys
-        import pdb; pdb.set_trace()
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["size pc"]
@@ -1117,8 +1115,6 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
             psuedo_keys.append(kkk)
         _idx = np.argsort(sfr_)
         psuedo_keys = [psuedo_keys[i] for i in _idx]
-        print(psuedo_keys)
-        import pdb; pdb.set_trace()
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         if xaxis == 'mass':
