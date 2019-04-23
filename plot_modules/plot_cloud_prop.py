@@ -84,7 +84,7 @@ def unpack_xy(ss):
         _SFR_young = []
         _SFR_old = []
         #
-        _alpha_tot = []
+        _alpha = []
         #
         _mSD = []
         _sizepc = []
@@ -122,8 +122,7 @@ def unpack_xy(ss):
             _sigma_NT.append(ss[ks][kkk].mean_sigma_NT_mass_avg/1.e5)
             _sigma_bulk.append(ss[ks][kkk].v_disp)
             _sigmakms.append(np.sqrt(ss[ks][kkk].sigma_gas_tot))
-            print(_sigma_NT, _sigma_bulk, _sigmakms) # check units
-            _alpha_tot.append(ss[ks][kkk].alpha_vir_summed)
+            _alpha.append(ss[ks][kkk].alpha_vir_summed)
 
             _tffMyr.append(ss[ks][kkk].tff_Myr)
             _rho.append(ss[ks][kkk].avg_density)    # 1/cc
@@ -131,7 +130,7 @@ def unpack_xy(ss):
 
             _mSD_cgs.append(ss[ks][kkk].massSD *
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
-            _sigma2oR.append(ss[ks][kkk].sigmaSq / (1.e5)**2 /
+            _sigma2oR.append(ss[ks][kkk].sigma_gas_tot /
                              (ss[ks][kkk].R_pc * 2.0))
             _mSD_per_ff.append(ss[ks][kkk].massSD / (ss[ks][kkk].R_pc)**2 / ss[ks][kkk].tff_Myr)
 
@@ -622,6 +621,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         ax.set_xlabel("Cloud Size [pc]")
         ax.set_xlim(1.0, 2.e3)
 
+        if 'density' in ystr:
+            ax.set_xlim(50, 700)
+
     if xstr == 'R2 pc2':
         ax.set_xscale("log")
         ax.set_xlim(10.0, 1.e8)
@@ -664,6 +666,10 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         ax.set_yscale("log")
         ax.set_ylabel(r"$\sigma_{\rm NT}$ [km s$^{-1}$]")
         ax.set_ylim(0.1, 7e2)
+
+    if "sigma kms" in xstr and "sigma kms" in ystr:
+        ax.set_xlim(3., 250)
+        ax.set_ylim(3., 250)
 
     if 'density' in ystr:
         ax.set_yscale('log')
@@ -1111,6 +1117,8 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
             psuedo_keys.append(kkk)
         _idx = np.argsort(sfr_)
         psuedo_keys = [psuedo_keys[i] for i in _idx]
+        print(psuedo_keys)
+        import pdb; pdb.set_trace()
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         if xaxis == 'mass':
@@ -1276,7 +1284,7 @@ def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     ax.set_xlim(0.005, 2e2)
 
     ax.set_ylabel(r"$\mathcal{M}$")
-    ax.set_ylim(0.0, 105)
+    ax.set_ylim(0.0, 15)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     fig, ax = set_minorticks(fig, ax)
@@ -1454,7 +1462,6 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     for kkk in _to_plot.iterkeys():
         ncut.append(float(kkk))
     ncut = sorted(ncut)
-    import pdb; pdb.set_trace()
 
     fig = plt.figure(figsize=(12, 16))
     ax = plt.subplot(421)
@@ -2032,6 +2039,14 @@ def get_fgas_all_clouds(ss):
             fgas = np.array(ss[snap][snapleafs].mass_Msun) / (np.array(ss[snap][snapleafs].mass_Msun) + np.array(ss[snap][snapleafs].mstar_Msun_tot))
             allfgas.append(fgas)
     return np.array(allfgas)
+
+
+def get_Mach_all_clouds(ss):
+    allMach = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            allMach.append(np.mean(ss[snap][snapleafs].Mach_vec))
+    return np.array(allMach)
 
 
 def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
