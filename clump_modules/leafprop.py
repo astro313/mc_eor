@@ -72,6 +72,7 @@ class Cloud(object):
         self.vol_pc3()
         self.vol_cc()
         self.mass_Msun()
+        self.mass_star_Msun()
         self.spherical_radius()
 
         self.temp()
@@ -81,18 +82,17 @@ class Cloud(object):
         self.massSD()
         self.Mjeans()
         self.Mach_vec()
+        self.mean_NT_sigma_mass_avg()
+        self.mean_bulk_veldisp_mass_avg()
+        self.mean_star_veldisp_mass_avg()
+        self.alpha_vir()
 
-        self.mass_star_Msun()
         self.young_SFR()
         self.old_SFR()
-
-        self.mean_sigma_NT_mass_avg()
-        self.mean_veldisp_mass_avg()
-        self.mean_veldisp_mass_avg_stars()
-        self.alpha_vir_summed()
+        self.SFR_per_tff()
 
 
-    def mean_veldisp_mass_avg_stars(self):
+    def mean_star_veldisp_mass_avg(self):
 
         # mass weighted stellar velocity dispersion
         # cm/s
@@ -109,8 +109,14 @@ class Cloud(object):
 
         self.mean_veldisp_mass_avg_stars = np.array(std)
 
+        v_disp_stars = 0.0
+        for i,x in enumerate(['x','y','z']):
+          print(" v disp stars {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg_stars[i]/1.e+5) # 1d bulk motion mass weighted std(v)
+          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
+        self.v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
 
-    def mean_veldisp_mass_avg(self):
+
+    def mean_bulk_veldisp_mass_avg(self):
 
         # mass weighted bulk gas velocity dispersion
         # cm/s
@@ -127,12 +133,19 @@ class Cloud(object):
 
         self.mean_veldisp_mass_avg = np.array(std)
 
-    def mean_sigma_NT_mass_avg(self):
+        v_disp = 0.0
+        for i,x in enumerate(['x','y','z']):
+          print(" v bulk disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
+          v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
+        self.v_disp = (1.0/3.0)*np.sqrt(v_disp)
+
+
+    def mean_NT_sigma_mass_avg(self):
         x     =  (self.P_nt * self.k_B_erg / C.m_p.cgs.value) / self.density
         x     =  np.sqrt(x)
         self.mean_sigma_NT_mass_avg =  np.sum(self.density * x) / np.sum(self.density)
 
-    def alpha_vir_summed(self, include_bulk=True, include_starVel=True):
+    def alpha_vir(self, include_bulk=True, include_starVel=True):
 
       x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.density
       self.cs_avg = np.sqrt(np.sum(self.density * x)/np.sum(self.density))
@@ -146,9 +159,9 @@ class Cloud(object):
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
 
-        sigma_2_tot = v_NT**2 + v_cs**2 + v_disp**2
+        self.sigma_gas_tot = v_NT**2 + v_cs**2 + v_disp**2
       else:
-        sigma_2_tot = v_NT**2 + v_cs**2
+        self.sigma_gas_tot = v_NT**2 + v_cs**2
 
       if include_starVel:
         v_disp_stars = 0.0
@@ -156,7 +169,7 @@ class Cloud(object):
           v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
         v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
 
-        sigma_2_tot  = (self.mass_Msun*sigma_2_tot + self.mstar_Msun_tot*v_disp_stars**2)/(self.mstar_Msun_tot + self.mass_Msun)
+        sigma_2_tot  = (self.mass_Msun*self.sigma_gas_tot + self.mstar_Msun_tot*v_disp_stars**2)/(self.mstar_Msun_tot + self.mass_Msun)
 
       from astropy import units,constants
       conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
@@ -164,7 +177,7 @@ class Cloud(object):
 
       mass = self.mstar_Msun_tot + self.mass_Msun
 
-      self.alpha_vir_summed  = 5.0 * sigma_2_tot * conv * self.R_pc/mass
+      self.alpha_vir_summed = 5.0 * sigma_2_tot * conv * self.R_pc/mass
 
 
     # --- star particles ---
@@ -181,6 +194,21 @@ class Cloud(object):
         """ calculate the SFR based on old stars [Msun/yr]
         """
         self.old_SFR_MsunPyr = self.mstar_old.sum() / 100.0e6
+
+    def SFR_per_tff(self):
+        """ Find the star formation  per free fall time of the cloud. As in  Krumholz, Matzner & McKee 2006. Eqn 40 and 41.
+                                     -0.68        -0.32
+        sfr_ff = 0.073 * alpha_vir ^       Mach ^
+        SFR = Mdot = sfr_ff * M_cl / t_ff
+        """
+        self.sfr_ff = 0.073 * self.alpha_vir_summed**(-0.68) * np.mean(self.Mach_vec)**(-0.32)
+        self.SFR = self.sfr_ff * self.mass_Msun / self.tff_Myr
+
+        # Star formation rate as in Joung & Mac Low 2006.
+        if (self.mass_Msun / self.M_jeans > 1.0):
+            self.SFR_JML = 0.3 * self.mass_Msun / self.tff_Myr
+        else:
+            self.SFR_JML = 0.0e6
 
     # --- AMR ----
     def vol_pc3(self):
@@ -265,18 +293,9 @@ class Cloud(object):
         print(" density          = {:.2f} cm-3").format(self.mean_density_mass_avg)           # mass weighted density
         print(" Mach             = {:.2f} ").format((np.mean(self.Mach_vec)))                 # as in vallini+18
         print(" v turb           = {:.2f} km/s").format(self.mean_sigma_NT_mass_avg/1.e+5)    # velocity from  non thermal pressure component
-        v_disp = 0.0
-        for i,x in enumerate(['x','y','z']):
-          print(" v disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
-          v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
-        v_disp = (1.0/3.0)*np.sqrt(v_disp)
-        v_disp_stars = 0.0
-        for i,x in enumerate(['x','y','z']):
-          print(" v disp stars {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg_stars[i]/1.e+5) # 1d bulk motion mass weighted std(v)
-          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
-        v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
-        print(" bulk dispersion stars  = {:.2f} km/s").format(v_disp_stars)
+        print(" v bulk           = {:.2f} km/s").format(self.v_disp)
 
+        print(" bulk dispersion stars  = {:.2f} km/s").format(self.v_disp_stars)
         print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)
         print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
 

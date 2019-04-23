@@ -79,19 +79,12 @@ def unpack_xy(ss):
         _MMj = []
         _m = []
         _mach = []
-        _mach_pressure = []
         _mstar = []
         _mstar2mgas = []
         _SFR_young = []
         _SFR_old = []
-        _alpha = []       # exclude NT Pressure
-        _alpha_tot = []   # include stellar
         #
-        _alpha_NT = []    # exclude bulk
-        _alpha_NT_tot = []
-        #
-        _alpha_bulk_NT = []   # all terms
-        _alpha_all_tot = []
+        _alpha_tot = []
         #
         _mSD = []
         _sizepc = []
@@ -100,7 +93,9 @@ def unpack_xy(ss):
         _sigmakms = []    # all terms
         _sigma_bulk = []
         _sigma_NT = []
+
         _rho = []
+        _rho_mass_wei = []
         _tffMyr = []
         _mSD_cgs = []
         _sigma2oR = []
@@ -111,32 +106,29 @@ def unpack_xy(ss):
             _Mj.append(ss[ks][kkk].M_jeans)
             MMj = ss[ks][kkk].mass_Msun / ss[ks][kkk].M_jeans
             _MMj.append(MMj)
-            _mach.append(ss[ks][kkk].Mach)
-            _mach_pressure.append(np.mean(ss[ks][kkk].Mach_vec))
+            _mach.append(np.mean(ss[ks][kkk].Mach_vec))
             _m.append(ss[ks][kkk].mass_Msun)
             _mstar.append(ss[ks][kkk].mstar_Msun_tot)
             _mstar2mgas.append(ss[ks][kkk].s2gR)
             _SFR_young.append(ss[ks][kkk].young_SFR_MsunPyr)
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
-            _alpha.append(ss[ks][kkk].alpha)
-            _alpha_tot.append(ss[ks][kkk].alpha_total)
-            #
-            _alpha_NT.append(ss[ks][kkk].alpha_NT)
-            _alpha_NT_tot.append(ss[ks][kkk].alpha_NT_total)
-            #
-            _alpha_bulk_NT.append(ss[ks][kkk].alpha_bulk_NT)
-            _alpha_all_tot.append(ss[ks][kkk].alpha_all_total)
             #
             _mSD.append(ss[ks][kkk].massSD)
             _sizepc.append(ss[ks][kkk].R_pc * 2.0)
             _R2pc2.append((ss[ks][kkk].R_pc * 2.0) ** 2.0)
             _SFRSD.append((ss[ks][kkk].SFR) / 1.0e6 /
                           (np.pi * ss[ks][kkk].R_pc * pc2kpc)**2)
-            _sigmakms.append(np.sqrt(ss[ks][kkk].sigmaSq) * cm2km)
-            _sigma_bulk.append(np.sqrt(ss[ks][kkk].sigma_bulk) * cm2km)
-            _sigma_NT.append(np.sqrt(ss[ks][kkk].sigmaSq_NT) * cm2km)
+
+            _sigma_NT.append(ss[ks][kkk].mean_sigma_NT_mass_avg/1.e5)
+            _sigma_bulk.append(ss[ks][kkk].v_disp)
+            _sigmakms.append(np.sqrt(ss[ks][kkk].sigma_gas_tot))
+            print(_sigma_NT, _sigma_bulk, _sigmakms) # check units
+            _alpha_tot.append(ss[ks][kkk].alpha_vir_summed)
+
             _tffMyr.append(ss[ks][kkk].tff_Myr)
             _rho.append(ss[ks][kkk].avg_density)    # 1/cc
+            _rho_mass_wei.append(ss[ks][kkk].mean_density_mass_avg)    # 1/cc
+
             _mSD_cgs.append(ss[ks][kkk].massSD *
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
             _sigma2oR.append(ss[ks][kkk].sigmaSq / (1.e5)**2 /
@@ -146,7 +138,6 @@ def unpack_xy(ss):
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
         to_plot[ks]['Mach'] = _mach
-        to_plot[ks]['Mach pressure'] = _mach_pressure
         to_plot[ks]['cloud stellar mass'] = _mstar
         to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
@@ -154,15 +145,8 @@ def unpack_xy(ss):
         to_plot[ks]['jeans mass'] = _Mj
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
-        to_plot[ks]['alpha vir total'] = _alpha_tot
-        #
-        to_plot[ks]['alpha vir NT'] = _alpha_NT
-        to_plot[ks]['alpha vir NT total'] = _alpha_NT_tot
-        #
-        to_plot[ks]['alpha vir bulk NT'] = _alpha_bulk_NT
-        to_plot[ks]['alpha vir all total'] = _alpha_all_tot
-        #
         to_plot[ks]['density'] = _rho
+        to_plot[ks]['weighted density'] = _rho_mass_wei
         to_plot[ks]['gas sd'] = _mSD
         to_plot[ks]['sfr sd'] = _SFRSD
         to_plot[ks]['size pc'] = _sizepc
@@ -179,7 +163,7 @@ def unpack_xy(ss):
     return to_plot
 
 
-def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
+def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='*',
                leglabel='', tag='',
                to_plot=None, save=True, outdir='./',
                showLegend=True,
@@ -193,6 +177,9 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     ystr: str
         something like 'cloud mass', 'alpha vir'
+
+    compareAlphaVir: bool
+        if True, plot different alpha_vir w/ different definition of sigma in it as different symbols.
 
     leglabel: str
          something like "ncut: ", or "snapshot: " for legend
@@ -293,7 +280,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                     color='green', fmt='D', markersize=3.5,
                     markeredgewidth=0.6, mfc='none', zorder=0.5, alpha=0.56, elinewidth=0.5)
 
-    if ystr == "alpha vir" and xstr == "cloud mass":
+    if "alpha vir" in ystr and xstr == "cloud mass":
         # Kauffmann+17 Figure 4
         # read data from old Kauffmann paper
         CloudData = pd.read_table(litpath + './Kauffmann17/filter_alpha_vp-paper.dat',
@@ -445,7 +432,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         legend_h.append(h)
 
 
-    if xstr == "size pc" and ystr == "sigma kms":
+    if xstr == "size pc" and "sigma kms" in ystr:
 
         # Solomon+87: slope=0.5, based on 273 GMCs (superceeded by Heyer+09):
         # y = 0.72 * x**0.5
@@ -588,20 +575,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
                          markeredgewidth=0.5)
             legend_h.append(h)
 
-            if ystr == "alpha vir":
-                # plot also total virial
-                _y2 = to_plot[ks]["alpha vir total"]
-                ax.plot(_x, _y2, ls=ls, markersize=markersize,
-                             marker='o',
-                             markeredgecolor='black',
-                             markeredgewidth=0.5)
-            elif xstr == "alpha vir":
-                _x2 = to_plot[ks]["alpha vir total"]
-                ax.plot(_x2, _y, ls=ls, markersize=markersize,
-                             marker='o',
-                             markeredgecolor='black',
-                             markeredgewidth=0.5)
-
         else:
             if xstr == "gas sd per ff" and ystr == "sfr sd":
                 _x = np.log10(_x)
@@ -615,19 +588,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
             legend_h.append(h)
 
-            if ystr == "alpha vir":
-                # plot also total virial
-                _y2 = to_plot[ks]["alpha vir total"]
-                ax.plot(_x, _y2, ls=ls, markersize=markersize,
-                             marker='o',
-                             markeredgecolor='black',
-                             markeredgewidth=0.5)
-            elif xstr == "alpha vir":
-                _x2 = to_plot[ks]["alpha vir total"]
-                ax.plot(_x2, _y, ls=ls, markersize=markersize,
-                             marker='o',
-                             markeredgecolor='black',
-                             markeredgewidth=0.5)
 
     # name_out = ystr.replace(' ', '-') + '_' + \
     #     xstr.replace(' ', '-')
@@ -645,10 +605,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.set_xlim(1.0e5, 1.0e10)
 
     if xstr == "Mach":
-        ax.set_xlabel("Mach From velocity")
-
-    if xstr == "Mach pressure":
-        ax.set_xlabel("Mach From Total Pressure")
+        ax.set_xlabel("Mach")
 
     if xstr == "stellar to gas mass":
         # ax.set_xlim(0.0, 0.5)
@@ -677,19 +634,41 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     if xstr == 'alpha vir':
         ax.set_xscale("log")
-        ax.set_xlabel(r"$\alpha_{\rm vir}$")
+        ax.set_xlabel(r"$\alpha_{\rm vir, bulk}$")
         ax.set_xlim(0.02, 2.e2)
 
-    if ystr == "Mach":
-        ax.set_ylabel("Mach From velocity")
+    if xstr == "sigma kms bulk":
+        ax.set_xscale("log")
+        ax.set_xlabel(r"$\sigma_{\rm bulk}$ [km s$^{-1}$]")
+        ax.set_xlim(0.1, 7e2)
 
-    if ystr == "Mach pressure":
-        ax.set_ylabel("Mach From Total Pressure")
+    if xstr == "sigma kms NT":
+        ax.set_xscale("log")
+        ax.set_xlabel(r"$\sigma_{\rm NT}$ [km s$^{-1}$]")
+        ax.set_xlim(0.1, 7e2)
+
+    if ystr == "Mach":
+        ax.set_ylabel("Mach")
 
     if ystr == 'sigma kms':
         ax.set_yscale("log")
         ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
         ax.set_ylim(0.1, 7.e2)
+
+    if ystr == "sigma kms bulk":
+        ax.set_yscale("log")
+        ax.set_ylabel(r"$\sigma_{\rm bulk}$ [km s$^{-1}$]")
+        ax.set_ylim(0.1, 7e2)
+
+    if ystr == "sigma kms NT":
+        ax.set_yscale("log")
+        ax.set_ylabel(r"$\sigma_{\rm NT}$ [km s$^{-1}$]")
+        ax.set_ylim(0.1, 7e2)
+
+    if 'density' in ystr:
+        ax.set_yscale('log')
+        ax.set_ylabel(r'$<\rho>$ [cm$^{-3}]$')
+        # ax.set_ylim() # TBD
 
     if ystr == "SFR young":
         ax.set_yscale("log")
@@ -715,7 +694,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
 
     if(ystr == 'alpha vir'):
         ax.set_yscale("log")
-        ax.set_ylabel(r"$\alpha_{\rm vir}$")
+        ax.set_ylabel(r"$\alpha_{\rm vir, bulk}$")
         ax.set_ylim(0.02, 2.e2)
 
         if(xstr == 'cloud mass'):
@@ -742,7 +721,7 @@ def plot_stuff(xstr, ystr, ls='', markersize=10, marker='*',
         ax.minorticks_on()
 
     if leglabel is not '' and showLegend:
-        if xstr == "size pc" and ystr == "sigma kms":
+        if xstr == "size pc" and "sigma kms" in ystr:
                 # Shrink current axis by 20%
             box = ax.get_position()
             # ax.set_position([box.x0, box.y0 + 0.25, box.width, box.height])
@@ -974,8 +953,12 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         for kkk in to_plot.iterkeys():
             sfr_.append(sfr[kkk])
             psuedo_keys.append(kkk)
+        print sfr_
+        print psuedo_keys
         _idx = np.argsort(sfr_)
         psuedo_keys = [psuedo_keys[i] for i in _idx]
+        print psuedo_keys
+        import pdb; pdb.set_trace()
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]["size pc"]
@@ -1135,15 +1118,10 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         elif xaxis == 'massRatio':
             _x = to_plot[ks]['stellar to gas mass']
         _y = to_plot[ks]["alpha vir"]
-        _y2 = to_plot[ks]["alpha vir total"]
+
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
                      markeredgecolor='gray',
-                     markeredgewidth=0.5)
-        # alpha_virial total
-        ax.plot(_x, _y2, ls=ls, markersize=markersize,
-                     marker='o',
-                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     # shrink
@@ -1287,7 +1265,7 @@ def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         _x = to_plot[ks]['stellar to gas mass']
-        _y = to_plot[ks]["Mach pressure"]
+        _y = to_plot[ks]["Mach"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
                      markeredgecolor='gray',
@@ -1476,6 +1454,7 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     for kkk in _to_plot.iterkeys():
         ncut.append(float(kkk))
     ncut = sorted(ncut)
+    import pdb; pdb.set_trace()
 
     fig = plt.figure(figsize=(12, 16))
     ax = plt.subplot(421)
