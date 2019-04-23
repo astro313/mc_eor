@@ -49,8 +49,6 @@ def plotting_procedure(minss, maxss, pattern):
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("size pc", "sigma kms", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("Mach", "Mach pressure", leglabel="sfr: ",
-                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("Mach", "SFR young", leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("Mach", "SFR old", leglabel="sfr: ",
@@ -66,7 +64,9 @@ def plotting_procedure(minss, maxss, pattern):
                 to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff("cloud mass", "Mach", leglabel="sfr: ",
                 to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff("cloud mass", "Mach pressure", leglabel="sfr: ",
+    plot_stuff("size pc", "weighted density", leglabel="sfr: ",
+               to_plot=to_plot, outdir=leafdir_out,  sfrlabel=True)
+    plot_stuff('sigma kms NT', 'sigma kms bulk', leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
 
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass", leglabel="sfr: ",
@@ -75,9 +75,7 @@ def plotting_procedure(minss, maxss, pattern):
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
     plot_stuff('alpha vir', 'sigmaSq over size', leglabel="sfr: ",
                to_plot=to_plot, outdir=leafdir_out, sfrlabel=True)
-    plot_stuff_3dim("Mach" ,"Mach pressure", "cloud mass",
-                    leglabel="sfr: ", to_plot=to_plot,
-                    outdir=leafdir_out, sfrlabel=True)
+
 
     # from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential, CMF
     # allmass = get_masses_all_clouds(ss)
@@ -216,8 +214,8 @@ if __name__ == '__main__':
     from plot_modules.plot_cloud_prop import setup_plot
     cm = setup_plot()
 
-    # for paper
-    plot_dis_allSS()
+    # # for paper
+    # plot_dis_allSS()
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _, _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")

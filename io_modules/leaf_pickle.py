@@ -43,6 +43,7 @@ def load_in_pickled_leaf_singleSS(directory, snapshot_num, pattern="*_10*.p"):
             Cloud_dict[kkk] = Cloud(get_dx(snapshot_num), leaf_fields[kkk],
                                     int(kkk))
             print Cloud_dict[kkk]
+            # import pdb; pdb.set_trace()      # pause after printing prop of each MC
         ss[ncut_str] = Cloud_dict
 
     return ss
