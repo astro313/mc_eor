@@ -423,18 +423,18 @@ class Cloud(object):
         """
 
         print "*" * 10 + " mass weighted averages: " + "*" * 10
-        print(" gas     mass     = {:.2f} x 10^7 [Msun]").format(self.mass_Msun/1.e7)
-        print(" stellar mass     = {:.2f} x 10^7 [Msun]").format(self.mstar_Msun_tot/1.e7)
-        print(" density          = {:.2f} cm-3").format(self.mean_density_mass_avg)
-        print(" Mach             = {:.2f} ").format((np.mean(self.Mach_vec)))
-        print(" v turb           = {:.2f} km/s").format(self.mean_sigma_NT_mass_avg/1.e+5)
+        print(" gas     mass     = {:.2f} x 10^7 [Msun]").format(self.mass_Msun/1.e7)         # gas mass
+        print(" stellar mass     = {:.2f} x 10^7 [Msun]").format(self.mstar_Msun_tot/1.e7)    # stellar masss
+        print(" density          = {:.2f} cm-3").format(self.mean_density_mass_avg)           # mass weighted density
+        print(" Mach             = {:.2f} ").format((np.mean(self.Mach_vec)))                 # as in vallini+18
+        print(" v turb           = {:.2f} km/s").format(self.mean_sigma_NT_mass_avg/1.e+5)    # velocity from  non thermal pressure component
         v_disp = 0.0
         for i,x in enumerate(['x','y','z']):
-          print(" v disp {}         = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5)
+          print(" v disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
-        print(" v disp tot       = {:.2f} km/s").format(v_disp)
-        print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)
+        print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                                   # 3d bulk motion mass weighted std
+        print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)                       
         print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
 
         return '=' * 100
