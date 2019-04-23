@@ -151,6 +151,20 @@ class Cloud(object):
       else:
         sigma_2_tot = v_NT**2 + v_cs**2
 
+      if True:
+        mean_x = np.sum(self.velx_star*self.mstar)/np.sum(self.mstar)
+        mean_y = np.sum(self.vely_star*self.mstar)/np.sum(self.mstar)
+        mean_z = np.sum(self.velz_star*self.mstar)/np.sum(self.mstar)
+
+        # mass-weighted stellar velo disp
+        disp_x = np.sum(self.mstar*(self.velx_star - mean_x)**2)/np.sum(self.mstar)
+        disp_y = np.sum(self.mstar*(self.vely_star - mean_y )**2)/np.sum(self.mstar)
+        disp_z = np.sum(self.mstar*(self.velz_star - mean_z )**2)/np.sum(self.mstar)
+
+        disp_stars = (disp_x + disp_y + disp_z)/3.
+        disp_stars = disp_stars* self.km2cm**2
+        sigma_2_tot  = sigma_2_tot + disp_stars
+
 
       from astropy import units,constants
       conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
@@ -171,11 +185,15 @@ class Cloud(object):
                         G * M
 
         """
+ 
+        mean_x = np.sum(self.velx_star*self.mstar)/np.sum(self.mstar)
+        mean_y = np.sum(self.vely_star*self.mstar)/np.sum(self.mstar)
+        mean_z = np.sum(self.velz_star*self.mstar)/np.sum(self.mstar)
 
         # mass-weighted stellar velo disp
-        _velx_star = (self.velx_star - np.mean(self.velx_star)) * self.km2cm
-        _vely_star = (self.vely_star - np.mean(self.vely_star)) * self.km2cm
-        _velz_star = (self.velz_star - np.mean(self.velz_star)) * self.km2cm
+        _velx_star = (self.velx_star - mean_x ) * self.km2cm
+        _vely_star = (self.vely_star - mean_y ) * self.km2cm
+        _velz_star = (self.velz_star - mean_z ) * self.km2cm
 
         self.sigmaSq_star = 1. / 3 * \
             (self.mstar * ((_velx_star)**2 + (_vely_star) **
@@ -433,7 +451,7 @@ class Cloud(object):
           print(" v disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
-        print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                                   # 3d bulk motion mass weighted std
+        print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                               # 3d bulk motion mass weighted std
         print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)                       
         print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
 
