@@ -162,7 +162,7 @@ class Cloud(object):
         disp_z = np.sum(self.mstar*(self.velz_star - mean_z )**2)/np.sum(self.mstar)
 
         disp_stars = (disp_x + disp_y + disp_z)/3.
-        disp_stars = disp_stars* self.km2cm**2
+        disp_stars = disp_stars
         sigma_2_tot  = sigma_2_tot + disp_stars
 
 
