@@ -98,6 +98,7 @@ class Cloud(object):
 
         self.mean_sigma_NT_mass_avg()
         self.mean_veldisp_mass_avg()
+        self.mean_veldisp_mass_avg_stars()
         self.alpha_vir_summed()
 
     def tot_veldisp(self):
@@ -151,19 +152,12 @@ class Cloud(object):
         sigma_2_tot = v_NT**2 + v_cs**2
 
       if True:
-        mean_x = np.sum(self.velx_star*self.mstar)/np.sum(self.mstar)
-        mean_y = np.sum(self.vely_star*self.mstar)/np.sum(self.mstar)
-        mean_z = np.sum(self.velz_star*self.mstar)/np.sum(self.mstar)
+        v_disp_stars = 0.0
+        for i,x in enumerate(['x','y','z']):
+          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
+        v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
 
-        # mass-weighted stellar velo disp
-        disp_x = np.sum(self.mstar*(self.velx_star - mean_x)**2)/np.sum(self.mstar)
-        disp_y = np.sum(self.mstar*(self.vely_star - mean_y )**2)/np.sum(self.mstar)
-        disp_z = np.sum(self.mstar*(self.velz_star - mean_z )**2)/np.sum(self.mstar)
-
-        disp_stars = (disp_x + disp_y + disp_z)/3.
-        disp_stars = disp_stars
-        sigma_2_tot  = sigma_2_tot + disp_stars
-
+        sigma_2_tot  = sigma_2_tot + v_disp_stars**2
 
       from astropy import units,constants
       conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
@@ -305,6 +299,26 @@ class Cloud(object):
         x = (self.P_nt * self.k_B_erg / C.m_p.cgs.value) / self.density
         self.sigmaSq_NT = np.sum(self.density * x) / np.sum(self.density)
 
+    def mean_veldisp_mass_avg_stars(self):
+
+        # mass weighted velocity dispersion
+        # cm/s
+
+        mean  = []
+        for vec in [self.velx_star,self.vely_star,self.velz_star]:
+          xx    = np.sum(self.mstar*vec)/np.sum(self.mstar)
+          mean.append(xx)
+
+        std  = []
+        for ii,vec in enumerate([self.velx_star,self.vely_star,self.velz_star]):
+          xx   = np.sum(self.mstar*(vec[:]-mean[ii])**2)/np.sum(self.mstar)
+          std.append(1.e+5*np.sqrt(xx))
+
+        self.mean_veldisp_mass_avg_stars = np.array(std)
+
+
+
+
     def mean_veldisp_mass_avg(self):
 
         # mass weighted velocity dispersion
@@ -440,9 +454,14 @@ class Cloud(object):
           print(" v disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
-        print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                                   # 3d bulk motion mass weighted std
+        v_disp_stars = 0.0
+        for i,x in enumerate(['x','y','z']):
+          print(" v disp stars {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg_stars[i]/1.e+5) # 1d bulk motion mass weighted std(v)
+          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
+        v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
+        print(" bulk dispersion stars  = {:.2f} km/s").format(v_disp_stars)
+
         print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)
-        print("old alpha = {:.2f}".format(self.alpha_all_total))
         print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
 
         return '=' * 100
