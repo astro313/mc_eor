@@ -88,7 +88,6 @@ class Cloud(object):
         self.turb_KE()
         self.Mjeans()
         self.alphaVir()
-        self.Mach()
         self.Mach_vec()
         self.SFR_per_tff()
 
@@ -146,7 +145,7 @@ class Cloud(object):
         for i,x in enumerate(['x','y','z']):
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
-        
+
         sigma_2_tot = v_NT**2 + v_cs**2 + v_disp**2
       else:
         sigma_2_tot = v_NT**2 + v_cs**2
@@ -340,15 +339,6 @@ class Cloud(object):
             (np.average(self.L_jeans_pc) * self.pc2cm)**3 * self.g2Msun
 
 
-    def Mach(self):
-
-        # print "mass-weighted before: ",
-        # Mach = np.sqrt(self.sigmaSq_NT) / self.cs_avg
-
-        #print "mass-weighted after",
-        self.Mach = (self.density * np.sqrt(self.sigmaSq_NT) / self.cs_avg).sum()/self.density.sum()
-
-
     def Mach_vec(self):
         """
 
@@ -392,7 +382,7 @@ class Cloud(object):
         print("Velocity disp 3D         = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
 
         """
-        
+
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
         print("cs avg       = {:.2f} [km/s]").format(self.cs_avg/1.e5)
         print("sigma from velo   = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
@@ -409,7 +399,6 @@ class Cloud(object):
         print("alpha virial from NT velo + incl. stellar  = {:.2f}").format(self.alpha_NT_total)
         print("alpha virial from all sigma, exclude star = {:.2f}").format(self.alpha_bulk_NT)
         print("alpha virial from all sigma, incl. star = {:.2f}").format(self.alpha_all_total)
-        print("Mach number   = {:.2f} ").format(self.Mach)
         print("Mach number from NT pressure = {:.2f} ").format((np.mean(self.Mach_vec)))
         print("sfr_tff       = {:.2f} ").format(self.sfr_ff)
         print("SFR          = {:.2f} [Msun/yr] ").format(self.SFR / 1.e6)
@@ -434,7 +423,7 @@ class Cloud(object):
           v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
         v_disp = (1.0/3.0)*np.sqrt(v_disp)
         print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                                   # 3d bulk motion mass weighted std
-        print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)                       
+        print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)
         print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
 
         return '=' * 100
