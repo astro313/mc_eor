@@ -48,7 +48,8 @@ class Cloud(object):
         self.density = leaf_0_dict['density']      # 1/cc
         self.avg_density = np.mean(self.density)   # 1/cc
         self.avg_density_Msun = self.avg_density * C.m_p * self.kg2Msun
-        print self.avg_density_Msun
+        self.mean_density_mass_avg = np.sum(self.density *self.density )/np.sum(self.density)   # 1/cc
+        #print self.avg_density_Msun
         self.H2density = leaf_0_dict['H2density']  # 1/cc
         self.Pressure = leaf_0_dict['Pressure']    # K cm-3
         self.P_nt = leaf_0_dict['P_nt']            # K cm-3
@@ -96,6 +97,10 @@ class Cloud(object):
         self.old_SFR()
         self.alphaVir_total()
 
+        self.mean_sigma_NT_mass_avg()
+        self.mean_veldisp_mass_avg()
+        self.mean_veldisp_mass_avg_stars()
+        self.alpha_vir_summed()
 
     def tot_veldisp(self):
         """ non-thermal, turbulent + bulk + average mass-weighted sound speed"""
@@ -105,8 +110,8 @@ class Cloud(object):
         self.sigmaSq_bulk_cs = self.sigmaSq + self.cs_avg**2
         self.sigmaSq_tot = self.sigmaSq_bulk_cs + self.sigmaSq_NT
 
-        print "sigma^2 total before and including pressure: "
-        print np.sqrt(self.sigmaSq_bulk_cs)/1.e5, np.sqrt(self.sigmaSq_tot)/1.e5
+        #print "sigma^2 total before and including pressure: "
+        #print np.sqrt(self.sigmaSq_bulk_cs)/1.e5, np.sqrt(self.sigmaSq_tot)/1.e5
 
 
     def alphaVir(self):
@@ -132,6 +137,37 @@ class Cloud(object):
         self.alpha_bulk_NT = 5. * (self.sigmaSq_tot) * \
             self.R_cm / (self.G_cgs * self.mass_Msun * self.Msun2g)
 
+    def alpha_vir_summed(self):
+
+      v_NT = self.mean_sigma_NT_mass_avg/1.e+5
+      v_cs = self.cs_avg/1.e5
+
+      if True:
+        v_disp = 0.0
+        for i,x in enumerate(['x','y','z']):
+          v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
+        v_disp = (1.0/3.0)*np.sqrt(v_disp)
+        
+        sigma_2_tot = v_NT**2 + v_cs**2 + v_disp**2
+      else:
+        sigma_2_tot = v_NT**2 + v_cs**2
+
+      if True:
+        v_disp_stars = 0.0
+        for i,x in enumerate(['x','y','z']):
+          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
+        v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
+
+        sigma_2_tot  = (self.mass_Msun*sigma_2_tot + self.mstar_Msun_tot*v_disp_stars**2)/(self.mstar_Msun_tot + self.mass_Msun)
+
+      from astropy import units,constants
+      conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
+      conv = conv.to(1).value
+
+      mass = self.mstar_Msun_tot + self.mass_Msun
+
+      self.alpha_vir_summed  = 5.0 * sigma_2_tot * conv * self.R_pc/mass
+
 
     def alphaVir_total(self):
         """
@@ -143,17 +179,21 @@ class Cloud(object):
                         G * M
 
         """
+ 
+        mean_x = np.sum(self.velx_star*self.mstar)/np.sum(self.mstar)
+        mean_y = np.sum(self.vely_star*self.mstar)/np.sum(self.mstar)
+        mean_z = np.sum(self.velz_star*self.mstar)/np.sum(self.mstar)
 
         # mass-weighted stellar velo disp
-        _velx_star = (self.velx_star - np.mean(self.velx_star)) * self.km2cm
-        _vely_star = (self.vely_star - np.mean(self.vely_star)) * self.km2cm
-        _velz_star = (self.velz_star - np.mean(self.velz_star)) * self.km2cm
+        _velx_star = (self.velx_star - mean_x ) * self.km2cm
+        _vely_star = (self.vely_star - mean_y ) * self.km2cm
+        _velz_star = (self.velz_star - mean_z ) * self.km2cm
 
         self.sigmaSq_star = 1. / 3 * \
             (self.mstar * ((_velx_star)**2 + (_vely_star) **
                              2 + (_velz_star)**2)).sum() / self.mstar.sum()
 
-        print "stellar sigma [km/s]: ", np.sqrt(self.sigmaSq_star) / 1.e5    # km/s
+        #print "stellar sigma [km/s]: ", np.sqrt(self.sigmaSq_star) / 1.e5    # km/s
         del _velx_star, _vely_star, _velz_star
 
         self.alpha_total = 5. * (self.mass_Msun * self.Msun2g * self.sigmaSq_bulk_cs + self.mstar_Msun_tot *self.Msun2g * self.sigmaSq_star) / self.G_cgs / ((self.mass_Msun * self.Msun2g)**2 / self.R_cm + (self.mstar_Msun_tot * self.Msun2g)**2 / self.R_cm)
@@ -221,7 +261,7 @@ class Cloud(object):
     def sigmaSq_3(self):
         sss = 1. / 3 * (self.density * (self.xdisp**2 + self.ydisp **
                                         2 + self.zdisp**2)).sum() / self.density.sum()
-        print "sigma calculated slightly different [km/s]: ", np.sqrt(sss) / 1.e5
+        #print "sigma calculated slightly different [km/s]: ", np.sqrt(sss) / 1.e5
 
     def sigmaSq(self):
         """ mass-weighted 1-D sigmaSq """
@@ -234,7 +274,7 @@ class Cloud(object):
             (self.density * ((_velx)**2 + (_vely) **
                              2 + (_velz)**2)).sum() / self.density.sum()
 
-        print "sigma from vmean = np.mean() [km/s]: ", np.sqrt(self.sigmaSq) / 1.e5    # km/s
+        #print "sigma from vmean = np.mean() [km/s]: ", np.sqrt(self.sigmaSq) / 1.e5    # km/s
         del _velx, _vely, _velz
 
     def sigmaSq_2(self):
@@ -252,7 +292,7 @@ class Cloud(object):
                                             (_vely)**2 +
                                             (_velz)**2)).sum() / self.density.sum()
         # km/s
-        print "sigma calculated with mass-weighted vmean [km/s]: ", np.sqrt(sigmaSq) / 1.e5
+        #print "sigma calculated with mass-weighted vmean [km/s]: ", np.sqrt(sigmaSq) / 1.e5
         del _x_mean, _y_mean, _z_mean, _velx, _vely, _velz
 
 
@@ -260,6 +300,47 @@ class Cloud(object):
         x = (self.P_nt * self.k_B_erg / C.m_p.cgs.value) / self.density
         self.sigmaSq_NT = np.sum(self.density * x) / np.sum(self.density)
 
+    def mean_veldisp_mass_avg_stars(self):
+
+        # mass weighted velocity dispersion
+        # cm/s
+
+        mean  = []
+        for vec in [self.velx_star,self.vely_star,self.velz_star]:
+          xx    = np.sum(self.mstar*vec)/np.sum(self.mstar)
+          mean.append(xx)
+
+        std  = []
+        for ii,vec in enumerate([self.velx_star,self.vely_star,self.velz_star]):
+          xx   = np.sum(self.mstar*(vec[:]-mean[ii])**2)/np.sum(self.mstar)
+          std.append(1.e+5*np.sqrt(xx))
+
+        self.mean_veldisp_mass_avg_stars = np.array(std)
+
+
+
+
+    def mean_veldisp_mass_avg(self):
+
+        # mass weighted velocity dispersion
+        # cm/s
+
+        mean  = []
+        for vec in [self.velx,self.vely,self.velz]:
+          xx    = np.sum(self.density*vec)/np.sum(self.density)
+          mean.append(xx)
+
+        std  = []
+        for ii,vec in enumerate([self.velx,self.vely,self.velz]):
+          xx   = np.sum(self.density*(vec[:]-mean[ii])**2)/np.sum(self.density)
+          std.append(1.e+5*np.sqrt(xx))
+
+        self.mean_veldisp_mass_avg = np.array(std)
+
+    def mean_sigma_NT_mass_avg(self):
+        x     =  (self.P_nt * self.k_B_erg / C.m_p.cgs.value) / self.density
+        x     =  np.sqrt(x)
+        self.mean_sigma_NT_mass_avg =  np.sum(self.density * x) / np.sum(self.density)
 
     def tff(self):
         self.tff = (3. * np.pi / 32.0 / self.G_cgs / (self.avg_density * C.m_p.value * self.kg2g))**0.5
@@ -296,7 +377,7 @@ class Cloud(object):
         # print "mass-weighted before: ",
         # Mach = np.sqrt(self.sigmaSq_NT) / self.cs_avg
 
-        print "mass-weighted after",
+        #print "mass-weighted after",
         self.Mach = (self.density * np.sqrt(self.sigmaSq_NT) / self.cs_avg).sum()/self.density.sum()
 
 
@@ -306,10 +387,10 @@ class Cloud(object):
         Calculate from mass-weighted NT and thermal pressure.
 
         """
-        print "Mass-weighted Mach from pressure: "
+        #print "Mass-weighted Mach from pressure: "
         mach = np.sqrt(1 +  self.P_nt/self.Pressure)
         self.Mach_vec = np.sqrt((self.density * mach).sum()/self.density.sum())
-        print self.Mach_vec
+        #print self.Mach_vec
 
 
     def SFR_per_tff(self):
@@ -342,6 +423,8 @@ class Cloud(object):
         print("Velocity disp            = {:.2f}, {:.2f}, {:.2f} [km/s]").format(self.xdisp/1.e5, self.ydisp/1.e5, self.zdisp/1.e5)
         print("Velocity disp 3D         = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
 
+        """
+        
         print "*" * 10 + "   Jeans Mass Calculation:   " + "*" * 10
         print("cs avg       = {:.2f} [km/s]").format(self.cs_avg/1.e5)
         print("sigma from velo   = {:.2f} [km/s]").format(np.sqrt(self.sigmaSq)/1.e5)
@@ -369,6 +452,31 @@ class Cloud(object):
         print ("SFR based on young stars in structure: {:.4f} [Msun/yr] ").format(self.young_SFR_MsunPyr)
         print ("SFR based on old stars in structure: {:.4f} [Msun/yr] ").format(self.old_SFR_MsunPyr)
 
+        """
+
+        print "*" * 10 + " mass weighted averages: " + "*" * 10
+        print(" gas     mass     = {:.2f} x 10^7 [Msun]").format(self.mass_Msun/1.e7)         # gas mass
+        print(" stellar mass     = {:.2f} x 10^7 [Msun]").format(self.mstar_Msun_tot/1.e7)    # stellar masss
+        print(" density          = {:.2f} cm-3").format(self.mean_density_mass_avg)           # mass weighted density
+        print(" Mach             = {:.2f} ").format((np.mean(self.Mach_vec)))                 # as in vallini+18
+        print(" v turb           = {:.2f} km/s").format(self.mean_sigma_NT_mass_avg/1.e+5)    # velocity from  non thermal pressure component
+        v_disp = 0.0
+        for i,x in enumerate(['x','y','z']):
+          print(" v disperison {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg[i]/1.e+5) # 1d bulk motion mass weighted std(v)
+          v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
+        v_disp = (1.0/3.0)*np.sqrt(v_disp)
+        print(" bulk dispersion  = {:.2f} km/s").format(v_disp)                               # 3d bulk motion mass weighted std
+
+        v_disp_stars = 0.0
+        for i,x in enumerate(['x','y','z']):
+          print(" v disp stars {}  = {:.2f} km/s").format(x,self.mean_veldisp_mass_avg_stars[i]/1.e+5) # 1d bulk motion mass weighted std(v)
+          v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
+        v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
+        print(" bulk dispersion stars  = {:.2f} km/s").format(v_disp_stars)
+
+        print(" cs               = {:.2f} [km/s]").format(self.cs_avg/1.e5)                       
+        print(" alpha            = {:.2f} ").format(self.alpha_vir_summed)
+
         return '=' * 100
 
 
@@ -384,7 +492,9 @@ if __name__ == '__main__':
 
     snapshot_num = 16
     leafdir = 'test_brute/leaf_fields_' + str(snapshot_num) + '/'
+
     fname = "0.32_10_fields.p"
+    #fname = "6.81_10_fields.p"
 
     leaf_fields = pickle.load(open(leafdir + fname, "rb"))
 
