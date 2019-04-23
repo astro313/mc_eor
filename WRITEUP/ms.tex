@@ -312,7 +312,7 @@ $Q_{\rm crit}$, more-so if the stars have low velocity dispersion.
 As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67 * 2
 
 % ------------------
-\section{Numerical simulations}\label{sec:sim}
+\section{Numerical Simulations}\label{sec:sim}
 The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
 %
 \ncode{Serra}\footnote{Greenhouse in Italian.} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
@@ -603,15 +603,36 @@ smaller than their turbulent velocities\footnote{Velocity dispersions
     \DL{AP: also mention turbulent pressure found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a} here?}
 indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially 
 at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}. 
-On average, the Mach number of the MCCs identified at the highest density threshold is $\mathcal{M} = \sigma_{\rm NT}/c_s\simeq 50$, 
-but this depends on the evolutionary stage of \flower.  % see e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
-This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
-We also compute the Mach number from turbulent and thermal pressures following
+We compute the Mach number from turbulent and thermal pressures following
 \begin{equation}
 \mathcal{M} \equiv \sqrt{\frac{P_{\rm NT} + P}{ P }}.
 \label{eqn:MPress}
 \end{equation}
-% to track its variation over the evolutionary stages of \flower.
+On average, the Mach number of the MCCs identified at the highest density threshold is $\mathcal{M} \simeq6$,
+% allss: 0.32 
+% In [13]: print(get_Mach_all_clouds(ss11))
+%[10.62623949  3.10713402  7.0525831   3.336829   10.36052827  7.24157821
+%  7.12323137  6.75282955  9.94086767  7.47769907  3.39894958  3.27304956
+%  6.69290803 11.44844494  7.03862716  3.16574077  5.1015787   5.67749554
+%  7.35946615  6.89475134  7.2433421  10.57019778 11.78414139  3.93499799
+%  6.86173652  7.39686112  8.37197686  6.71749578  2.65304172  6.49617895
+%  5.15095491  5.6606244   2.98923849  3.65475035  7.37703114  4.5669722
+%  7.18720926  7.35017082  6.03000248  6.36373235 10.16701766  8.3894084
+%  3.09284034  4.37994321  4.46497953  5.264101    8.11686     3.05183157
+%  7.10365783  6.09513017  8.72517656  5.59659665  3.95290202  9.22726672
+%  4.94960657  6.19757621  4.63335759  3.32670022  3.46706217  5.58358069
+%  3.41808098  8.31386962  4.26357159  3.684986    4.01853538  3.62917357
+%  6.05586465  9.82127908  6.68366736 11.0791874  13.28965621 10.42021747
+%  3.04409362  7.21509021  3.63699627  8.12503492  3.20158298]
+% allss: 18.96
+%In [15]: print(get_Mach_all_clouds(ss12))
+%[15.25049689  6.74580503  6.98246499  5.17070655  6.470997    7.02626558
+%  4.42663778  6.34460542  4.90603266  3.66900884  4.03260414  6.9539893
+%  8.36247744  4.89164338  4.12695121  6.55187227  6.15391173  3.56580625
+%  5.74818066  3.81067175  6.65393948  9.10100946  6.35039889  4.78667156
+%  5.05517168  6.93886988  5.4830306 ]
+but this depends on the evolutionary stage of \flower.  % see also e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
+% This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
 
 The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to 
@@ -672,8 +693,6 @@ MCCs (star symbols) identified in the two most extreme evolutionary
 stages of \flower\ --- accreting phase (left) and starburst phase
 (right). Star symbols are color-coded by the density thresholds
 $n_{\rm cut}$, as illustrated by the colorbar.
-Blue circular symbols shown in the $\alpha_{\rm vir}$-mass plot shows the total virial parameters, including
-the stellar contribution (see Equation~\ref{eqn:alpha_tot}).
 Literature data in the linewidth-size plots are from \citet{Heyer04a, Rosolowsky05a, Bolatto08a, 
 % black dot = extragalactic GMCs in quiescent environments
 Leroy15a}, and \citet{Swinbank11a}, and the empirical scaling relations are 
@@ -764,8 +783,9 @@ the $z$\ssim2 starbursting disk galaxy SMM\,J2135-0102 % SFR: 400, fgas ~ 0.6.
 
 % middle
 While the virial parameter is typically defined as Equation~\ref{eqn:alpha} in observational studies, as they probes structures that are 
-mainly composed of molecular gas only, we also calculate the total virial parameter ($\alpha_{\rm vir, tot}$; Equation~\ref{eqn:alpha_tot}) 
-for MCCs of \flower, given the high stellar-to-gas mass ratios of some of them (see \Fig{stellarRatio16}). 
+mainly composed of molecular gas only, we calculate the virial parameter including the influence from the stellar component 
+for MCCs of \flower (i.e., $\alpha_{\rm vir, tot}$ via Equation~\ref{eqn:alpha_tot}) given the high stellar-to-gas mass ratios of 
+some of them (see \Fig{stellarRatio16}). 
 MCCs with the highest stellar-to-gas mass ratio ($\gtrsim$\,1) correspond to the central main disk of \flower (see top panels of 
 \Fig{MCC} and \Sec{distribution}), which includes a large fraction of stellar mass that are already assembled in \flower. 
 This explains the low total virial parameter seen in the most massive MCCs of \flower in this phase, as shown in
@@ -956,6 +976,33 @@ between the accreting phase and the starburst phase of \flower in terms of the L
 However, MCCs in the pre-\SB phase have lower $\alpha_{\rm vir}$ and pressure compared to the starburst phase. 
 Similarly, we see that MCCs .... in the post-starburst phase. 
 This is expected for \SF.
+
+\subsection{Importance of Bulk Motions in Measured Velocity Dispersion}
+
+\begin{figure}
+\centering
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-sigma-kms-bulk_sigma-kms-NT} \\
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss28-sigma-kms-bulk_sigma-kms-NT}
+\caption{Velocity dispersions from bulk motions and turbulent motions of \flower in accreting phase (top) and 
+quiescent phase (bottom). The accreting phase (\Fig{MCC}) displays a more disturbed morphology compared to the 
+quiescent phase, which displays a disk-like morphology (\Fig{MCC28}). 
+Most MCCs in the accreting phase have velocity dispersions from turbulent motions higher than those from bulk motions. 
+The opposite trend is true in the quiescent phase.
+\label{fig:vv}}
+\end{figure}
+
+We compare the velocity dispersion from bulk motions versus turbulent motions in \Fig{vv}, for the accreting phase
+and the quiescent phase. The accreting phase has a disturbed morphology while the quiescent phase 
+displays a disk-like morphology (see \Fig{MCC} and \Fig{MCC28}). 
+Most MCCs in the accreting phase have turbulent velocity dispersions higher than the bulk motion velocity dispersions. The opposite is true for the 
+quiescent phase. Second, the two velocity dispersions are of the same order of magnitude. 
+This indicates that the .... have an important contribution from large-scale rotation.
+\DL{ rewrite: This also poses challenge to measurements and interpretation of .... from existing observations of 
+molecular ``clouds'' observed with 
+ALMA and VLA. 
+n, and so comparison of their dynamics with local clouds via e.g., Larsons relations is not straightforward, and thus, the interpretation of such. 
+Meaning a lot of the sigma people infer at the sub-pc scale have a non-negligible contribution from rotation (cf. solely random motion), so it's not immediately fair for observations to say that higher redshift molecular gas are more turbulent based on solely measured velocity dispersion. 
+}
 
 
 
