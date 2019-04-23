@@ -158,7 +158,7 @@ class Cloud(object):
           v_disp_stars = v_disp_stars + (self.mean_veldisp_mass_avg_stars[i]/1.e+5)**2
         v_disp_stars = (1.0/3.0)*np.sqrt(v_disp_stars)
 
-        sigma_2_tot  = sigma_2_tot + v_disp_stars**2
+        sigma_2_tot  = (self.mass_Msun*sigma_2_tot + self.mstar_Msun_tot*v_disp_stars**2)/(self.mstar_Msun_tot + self.mass_Msun)
 
       from astropy import units,constants
       conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
