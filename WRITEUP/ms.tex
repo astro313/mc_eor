@@ -963,7 +963,6 @@ and the comparison and interpretation of the dynamics of gas structures with loc
 
 
 \subsection{Is the Mass-Size Relation an Observational Artifact?} \label{sec:MR}
-\DL{To be rewritten later.}
 The MCCs of \flower lie below the locus of $A_V$\eq100\,mag followed
 by Milky Way clouds in the mass-size relation shown in \Fig{MR}. This
 can be understood by acknowledging the fact that a given MCC in \flower 
@@ -1085,8 +1084,8 @@ In the outer regions of \flower, on the other hand, $Q_{\rm eff}$ resembles $Q_{
 both $\log{Q_{\rm gas}}$ and $\log{Q_{\rm eff}} < -1$. 
 Notably, these are the more gas-rich regions (see \Fig{sigma}).
 
-The apparently large virial parameters seen in the MCCs of \flower can be understood using the Toomre $Q$ parameter (see \Fig{Qeff}). 
-We first note that fragmentation {\it can} happen in regions of low $Q$ 
+The large virial parameters seen in some MCCs of \flower can be understood 
+by first noting that fragmentation {\em can} happen in regions of low $Q$ 
 (if we only consider instability against axisymmetric perturbations), 
 but further evolution/collapse depends on the dynamics or equation of state of the gas.
 %
@@ -1096,9 +1095,9 @@ Second, this fragmentation scale is greater than the typical size of GMCs.
 This could be interpreted as a result of instability setting the scales for fragmentation, 
 {\em but the truly star-forming regions correspond to the collapsing, denser, and cooler molecular structures that are on smaller scales}.
 %
-Thus, the high virial parameter found for most MCCs in \flower 
-indicates that some of them are not collapsing structures (but the virial parameter varies depending on the evolutionary stage 
-of \flower). Hence, some MCCs are found to lie in regions of $Q_{\rm eff}>1$.
+Thus, the high virial parameter found for some MCCs in \flower 
+indicates that they are not the collapsing structures (but the virial parameter varies depending on the evolutionary stage 
+of \flower) and are found in regions of $Q_{\rm eff}>1$.
 On the other hand, MCCs in (the denser) regions with a lower Toomre $Q_{\rm eff}$ parameter are unstable
 and \SF is expected to take place within its star-forming {\it clumps} and {\it cores} on smaller scales, 
 where energy quickly dissipates. % with low virial parameters.
@@ -1124,118 +1123,114 @@ Further, the SFR of \flower is very bursty and high SFR stages are only transien
 %--------------------------------------------------------------------------
 %                                Conclusions
 %--------------------------------------------------------------------------
-\section{Summary}      \label{sec:conclusion}
+\section{Summary and Conclusions}      \label{sec:conclusion}
 
-\DL{Note to self: New observations that are now routinely obtained with ALMA provides 
-sensitive and high fidelity images revealing the morphology of gas and dust in \highz galaxies, and possibly on sub-kpc scales. However, 
-as shown here, prototypical galaxies at such high redshift with properties similar to \flower\ will have molecular gas structures
-on sub-kpc scales, but they are not the truly star-forming clumps. As illustrated by studies in local galaxies, \SF proceed on smaller scales than 
-what existing \obs are reaching. While the properties of galaxies at EoR differ from nearby galaxies, we argue that 
-the physics behind \SF is the same, and so regions of where \SF truly takes places/unstable to collapse is on even smaller scales. 
-This results means that caution should be taken when interpreting observational data, albeit the impressive resolution and sensitivity that are unprecedented. 
-Careful consideration of large-scale motions is required when interpreting the observed data in order to understand the origin of star formation activity 
-in galaxies at EoR. 
-}
+Properties of the star-forming ISM of galaxies near the Epoch of Reionization are now within reach with ALMA. 
+While it is possible to obtain sensitive and high fidelity imaging that reveals their gas and dust morphology 
+on sub-kpc scales and even smaller, such \obs remain time-consuming; logistically, data from multiple cycles pushing to increasing resolution
+and sensitivity are needed. As such, observational studies on such scales are still missing in the literature. 
+In this work, we aim to understand the origin and dynamical properties of molecular clouds complexes 
+in prototypical galaxies at the EoR in numerical simulations 
+to provide a framework within which upcoming \obs can be compared against to aid in the interpretation.
 
-\MM{Each item in the summary needs to refer to definite results and
-  analysis in the previous paper.  I have noted the items that don't
-  seem to me to have that necessary support.}
-We study the dynamical properties of molecular clouds complexes and their temporal evolution in a \z$\sim$\,6 prototypical galaxy, \flower,
-at the EoR using the state-of-the-art cosmological zoom-in simulation (\ncode{Serra}),
-which includes a chemical network to determine the formation of molecular
-hydrogen, heating and cooling of the ISM by
-    UV radiation and metal lines, 
-and detailed stellar feedback.
-We use a clump-finding algorithm and a set of H$_2$ volumetric densities
-to identify MCCs and their sub-structures in \flower and its satellites.
-We decompose the molecular structures into non-overlapping 
-     objects
-by identifying a set of 
-     density contours with varying cutoff densities at multiple
-evolutionary stages.
-Such an identification method is 
-     the three-dimensional analog
-to MCC identification based on 
-    intensity levels in surface brightness maps or
-    position-position-velocity cubes
-of molecular line tracers (e.g., CO, CS, NH$_3$),
-since the line luminosity scales with the molecular gas density (modulo optical depth effects).
-
+We study the dynamics of MCCs in a \z$\sim$\,6 prototypical galaxy, \flower,
+and their temporal evolution using the state-of-the-art cosmological zoom-in simulations (\ncode{Serra}),
+which include a chemical network to determine the formation of molecular hydrogen, heating and cooling of the ISM by
+UV radiation and metal lines, and detailed stellar feedback.
+Properties of \flower are briefly summarized in \Sec{sim}.
+We use a three-dimensional clump-finding algorithm to identify MCCs and their sub-structures. 
+We decompose the molecular structures into non-overlapping objects by identifying a set of 
+density contours with varying cutoff densities at multiple evolutionary stages. 
+Most notably, the accreting phase, starburst phase, and quiescent phase. 
 We extract properties such as mass, size, Mach number, velocity
-dispersion, gas surface density, and virial parameter for each MCC and
-we perform a Toomre-$Q$ stability analysis on the galaxy. 
-The properties of the MCCs in \flower are compared with observed MCCs in the Milky Way disk, the Galactic center, and gas-rich starburst galaxies in the local Universe and at the peak epoch of cosmic \SF. This is done for different evolutionary stages of \flower.
+dispersion, gas surface density, and virial parameter ($M_{\rm cl}, R, \mathcal{M}, 
+\sigma, \Sigma_{\rm gas}, \alpha_{\rm vir}$) for each MCC and perform a Toomre-$Q$ stability analysis on \flower.
 
-We find that the MCCs of \flower 
-have highly supersonic
-velocity dispersions ($\sigma\simeq$\,200\,\kms) comparable to
-those observed in $z$\ssim2 starburst galaxies.
-The mass scale of the MCCs is of the order of $10^{5.5-8.5}$\,\Msun,
-depending on the chosen H$_{2}$ density cut. 
+
+The sizes of MCCs are dependent on the choice of $n_{\rm cut}$, 
+and thus, some of the MCCs within the main disk break into multiple sub-MCCs at higher $n_{\rm cut}$. 
 The $\sim$200\,pc-scale MCCs found with a low density threshold
-correspond to the arms of the disk of \flower. These break down into smaller $\lesssim$100\,pc-scale MCCs at higher density thresholds.
-The more massive and bigger MCCs in \flower compared to the Milky Way
-likely result from the higher gas mass fraction, surface density, and velocity dispersion,
-which set the scale for fragmentation. \MM{This could be quantified in
-  the discussion by calculating the Jeans scale for the disk conditions.}
-This physical scale is
-consistent with what has been found in higher resolution idealized
-simulation of isolated galaxies. \MM{Perhaps this could be shown more explicitly?}
-Our simulation here confirms these results at EoR and under
-the influence of continuous gas accretion from the surrounding IGM (see e.g., \citealt{Klessen10a, Goldbaum11a}).
+correspond to the arms of the disk of \flower and break down into smaller $\lesssim$100\,pc-scale MCCs at higher density thresholds.
+Overall, the mass of MCCs ranges between $10^{5.5-8.5}$\,\Msun, depending on the chosen density threshold.
+This mass range is comparable to those observed in \z\ssim2 galaxies in rest-frame UV and optical wavelengths.
+Similarly massive molecular structures (few times 10$^7$\,\Msun) have been 
+reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., $l_{\rm cell}\simeq3$\,pc in the 
+48\,kpc box studied by \citealt{Behrendt16a}). 
+However, the IGM and merger and accretion histories are not properly modeled in such simulations. 
+That said, the similar mass range found in MCCs of \flower\ is
+reassuring --- our results are not far off despite the resolution limit ($l_{\rm cell}\simeq$\,30\,pc).
+On the other hand, the gas velocity dispersion $\sigma$ is rather insensitive to the adopted density threshold.
 
-We compare the dynamics of MCCs in \flower to \obs in the context of
-the Larson's relation. \MM{Which one?}
-The MCCs of \flower are found to have higher $\sigma$ and $\Sigma$
-\MM{compared to Milky Way clouds?}
-systematically regardless of the 
-density threshold $n_{\rm cut}$ adopted in identifying the structures.
-The scaling relations found are insensitive to the various density
-cuts.  \MM{This point needs to be made more clearly, probably by
-  defining the colors that correspond to the density cuts in the figures.} \DL{They are color-coded by ncut in Fig 5 and 7.}
- The velocity dispersion remains $\gtrsim$100\,\kms even when we increase the density threshold and 
- even for the molecular substructures.  \MM{You never clearly identify
-   what you mean by ``molecular substructures.''  Do you just mean
-   objects found with high $n_{\rm cut}$?}
- Such a high velocity dispersion likely results from the strong supernova and stellar feedback \flower experienced 
- over the multiple episodes of bursty \SF.   \MM{Or is it from the
-   deep potential?  Feedback-driven turbulence famously decays quickly.}
+We compare several observable quantities that reflect the dynamics of MCCs in \flower to those
+observed in the Milky Way disk, the Galactic center, and 
+gas-rich starburst galaxies in the local Universe, and at the peak epoch of cosmic \SF in the context of the Larson's relations. 
+This comparison is done for different evolutionary stages of \flower.
 
-Virial analysis indicates that MCC/arms of the main disk of \flower are unbound, but substructures have
-lower virial parameter.
-\MM{where is this explicitly discussed?}
- Some of these sub-MCCs have Toomre $Q_{\rm eff}$ parameters consistent with being
-gravitationally unstable.  \MM{I don't see this looking at Figure 9.
-  Rather the opposite if anything.} This is consistent with the notion that collapsing structures resulting from
+MCCs of \flower are found to have velocity dispersion and gas surface density systematically higher than 
+Milky Way clouds regardless of the density threshold $n_{\rm cut}$ adopted. 
+These MCCs are, in fact, highly supersonic (with high Mach numbers).
+Their velocity dispersions are comparable to those observed in $z$\ssim2 starburst galaxies ($\sigma\simeq200$\,\kms); however, 
+comparing the velocity dispersions of MCCs from bulk motions versus turbulence 
+indicates that large-scale rotation is an important contributor, even in the 
+accreting phase of \flower, which displays a highly disturbed morphology. 
+This poses a challenge to the interpretation of spatially resolved molecular gas structures observed in \highz galaxies to-date. 
+In particular, any velocity dispersions measured on similar scales as here (even down to $\sim$\,40\,pc) 
+should {\em not} be taken as a direct evidence that \highz molecular gas structures are intrinsically more turbulent than those in the local ISM, 
+unless contributions from bulk motions are properly accounted for.
+%This means that a lot of the velocity dispersion infer on even the few-tens of parsec scales have a non-negligible contribution 
+%from rotation (cf. solely random motion). Therefore it is not fair to say that \highz molecular gas ``clumps`` (or whatever name used 
+%for structures in the literature) are more turbulent based on solely measured velocity dispersion. 
+
+We do not observe any significant temporal variations in the MCC dynamics over the course of 700\,Myr
+traced in our simulation, except in the virial parameter, which is the lowest in the pre-starburst phase. 
+The virial parameter increases after a starburst as gas is self-regulated by feedback.
+
+% Toomre:
+Close resemblance of $Q_{\rm eff}$ and $Q_{\rm star}$ maps 
+indicates that contributions from the stellar component play an important role in governing the stability of the MCCs against
+axisymmetric perturbations, especially in the central part of \flower. Similarly, stabilizing effect due to the thickness of its disk is also 
+non-negligible. Our Toomre-Q analysis thus illustrates the importance of accounting for stellar contribution 
+and disk thickness when examining the stability of 
+molecular gas structures, especially in relatively evolved and enriched systems at high redshift that are preferentially being observed now.
+ 
+We perform virial analysis, as motivated by \obs, where the virial parameter is used as a surrogate to comparing the potential to kinetic energies of 
+molecule gas structures. The high virial parameter found for some MCCs in \flower 
+indicates that they are not the collapsing structures and are found in regions of $Q_{\rm eff}>1$.
+On the other hand, MCCs in (the denser) regions with a lower Toomre $Q_{\rm eff}$ parameter are unstable
+and \SF is expected to take place within its star-forming {\it clumps} and {\it cores} on smaller scales, 
+where energy quickly dissipates. % with low virial parameters.
+This is consistent with the notion that collapsing structures resulting from
 gravitational instability occur within globally stable structures, which are
 supported by turbulence and rotation on large scale.
-We also find $\alpha_{\rm vir}\simeq$\,2 for MCCs in the satellite
-galaxies, \MM{I didn't see any explicit discussion of the MCCs in
-  satellite galaxies.} which we interpret as
-result of the weaker/delayed stellar feedback compared to \flower. 
-In particular, some of the MCCs in the satellites are collapsing structures that have not yet formed stars, as confirmed by their
-higher gas-to-stellar fractions. \MM{Also not shown so far as I can see.}
-In terms of the scaling relations examined, we do not observe any significant
-temporal variations in the MCC dynamics over the course of 700\,Myr
-traced in our simulation. 
+%% 
+%Our results suggest that the more massive and bigger MCCs compared to the Milky Way
+%manifest from the higher gas mass fraction, surface density, and velocity dispersion, but \SF takes place on much smaller scales. 
+%Low-$Q$ sets the regions that fragments 
+%and within those regions where alphavir is low enough is where structures to further collapse to form stars. 
+This also implies \obs on spatially resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores),
+and thus, \SF in the first galaxies.
 
+% end
 Determining the multi-phase ISM properties of early galaxies
 is a critical piece to understanding the evolution and
 assembly history of galaxies, since they set the pace
 for chemical reactions and excitation rates for the coolants in the ISM (and subsequent star formation).
-Observations leveraging the combination of spatial-spectral imaging of
-multi-band continuum and spectral line emission are crucial for better understanding
-the role of \highz galaxy populations
-in the context of galaxy evolution and the ISM physics behind their intense star formation in the early Universe.
-Cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
-statistics and are subject to the sub-grid models adopted,
-serve as a useful tool for examining and making predictions on the
-morphology and dynamics of 
-the molecular ISM of the first galaxies.
-%Future higher resolution zoom-in simulations would certainly be useful to understand
-%the evolving dynamical properties of the lower-mass molecular structures in
-%galaxies at EoR under the influence of gas inflow/outflow (i.e., accounting for energy injection at large scale due to infall/outflow).
-These predictions can in turn be
+While observations leveraging the combination of spatial-spectral imaging of
+multi-band continuum and spectral line emission are crucial, 
+we shown in this work that prototypical galaxies at the EoR with properties similar to \flower
+are expected to have molecular gas structures on sub-kpc scales; however, these are not 
+the truly star-forming regions. The linewidth of molecular gas structures probed on these scales partially results from 
+large-scale motions even in the dispersion dominated stage. 
+This results means that caution should be taken when interpreting observational data, albeit the impressive resolution and sensitivity that are unprecedented. 
+Careful consideration of large-scale motions is required when interpreting the observed data in order to understand the origin of star formation activity 
+in galaxies at EoR. 
+It is thus currently unclear whether \highz molecular gas structures are intrinsically more turbulent than those in the local ISM. 
+This will become clearer in the next few years as deep and high resolution imaging of molecular gas at \highz are obtained with ALMA and NOEMA. 
+
+On the other hand, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy
+statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining 
+and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
+These predictions can in turn be 
 tested with high resolution imaging of the gas content in the first galaxies with telescopes such as ALMA and the ngVLA, thereby
 enabling us to test our findings and refine future simulations to shed light on the physical processes behind
 \SF since the cosmic dark ages.
