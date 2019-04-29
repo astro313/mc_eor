@@ -422,30 +422,33 @@ The mass of an MCC is calculated from the uniformly-gridded 3D density field, in
 %
 The full velocity dispersion of MCCs is calculated from the bulk velocity field ($\sigma_{\rm bulk}$), thermal sound speed ($c_s$), and the non-thermal velocity dispersion ($\sigma_{\rm NT}$)
 \begin{equation}
-\sigma{\rm gas}^2 = \sigma_{\rm bulk}^2 + c_s^2 + \sigma_{\rm NT}^2.
+\sigma_{\rm gas}^2 = \sigma_{\rm bulk}^2 + c_s^2 + \sigma_{\rm NT}^2.
 \label{eqn:veldisp}
 \end{equation}
 %
-In \obs of MCCs, the linewidth contribution of dense gas exceeds that from the diffuse gas. We therefore calculate each term on the right-hand side of Equation~\ref{eqn:veldisp} as a mass-weighted quantity.
-%
-The bulk velocity dispersion is then
-\begin{equation}
-\sigma_{\rm bulk}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
+In \obs of MCCs, the linewidth contribution of dense gas exceeds that from the diffuse gas. Therefore, when calculating global quantities for MCS, we always perform a mass-weighting. Since we operate on data on a unigrid, this is equivalent to density averaged quantities. In general, for the quantity $x$ in a MCC we write
+\begin{equation}\label{eqn:defineaverage}
+\langle x \rangle \equiv \frac{\sum_{i} \rho_i x_i }{\sum_i \rho_i}\,,
 \end{equation}
-where the sum is done for the cells composing each MCC\footnote{Since we are calculating quantities on unigridded data, mass-weighted averages can be written as density weighted averages}.
+where the sum is done for the cells indexed by $i$ composing the MCC. We can use the defintion \Eq{defineaverage} to write each term of the right-hand side of Equation~\ref{eqn:veldisp} as follows.
+%
+The bulk velocity dispersion is
+\begin{equation}
+\sigma_{\rm bulk}^2 = \frac{1}{{3}} \langle \left|\mathbf{v} - \langle \mathbf{v} \rangle  \right|^2\rangle \,.
+\end{equation}
 %
 The thermal sound speed is calculated from the thermal pressure ($P_{\rm TH}$) through
 \begin{equation}
-c_s^2 = \frac{\sum_{i} \rho_i \left(P_i~{\rm k_B} / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,,
+c_s^2 = \left\langle \left( \frac{{\rm k_B} ~P_{\rm TH}}{{\rm m_p}\, n} \right)^2 \right\rangle\,,
 \end{equation}
 where the pressure is in units of [K\,\cc], $\rm k_B$ is the Boltzmann constant, $m_p$ is the mass of a proton. Similarly, the contribution from the non-thermal energy is calculated from the non-thermal pressure ($P_{\rm NT}$) as follows
 \begin{equation}
-\sigma_{\rm NT}^2 = \frac{\sum_{i} \rho_i \left(P_{\rm NT, i}~k_B / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,.
+\sigma_{\rm NT}^2 = \left\langle \left( \frac{{\rm k_B} ~P_{\rm NT}}{{\rm m_p}\, n} \right)^2 \right\rangle\,.
 \end{equation}
 %
-Finally, the Mach number can expressed as follows
+It is also convenient to write the Mach number
 \begin{equation}
-\mathcal{M} \equiv \frac{\sum_{i} \rho_i \sqrt{ 1 + \frac{P_{\rm NT}}{P_{\rm TH}}}}{\sum_{i} \rho_i}.
+\mathcal{M} = \left\langle \sqrt{ 1 + \frac{P_{\rm NT}}{P_{\rm TH}}} \right\rangle.
 \label{eqn:MPress}
 \end{equation}
 \AP{in the following two paragraphs we are mixing results and expectations. The might be moved to th result section}
@@ -489,13 +492,13 @@ We note that the distributions vary for different evolutionary stages of \flower
 %
 The most massive ($M_{\rm gas}>$10$^8$\,\Msun) cloud identified at each density threshold (see top right corner of \Fig{stellarRatio16} and top left panel of \Fig{dist}) corresponds to the molecular disk of the galaxy, which is identified as a single component for low $n_{\rm cut}$. 
 %
-Overall, the mass of all MCCs identified ranges between $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun, which is comparable to those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. The gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,100 over all the MCCs identified across all evolutionary stages of \flower (see e.g., \Fig{stellarRatio16}). The main disk occupying the top right corner of \Fig{stellarRatio16} has a stellar-to-gas mass ratio of $\simeq$\,50--100.
+Overall, the mass of all MCCs identified ranges between $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun, which is comparable to those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. The gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,100 over all the MCCs identified across all evolutionary stages of \flower (see e.g., \Fig{stellarRatio16}). The main disk occupying the top right corner of \Fig{stellarRatio16} has a \AP{do we really need both $f_{\rm gas}$ and $M_\star/M_{\rm gas}$?} stellar-to-gas mass ratio of $\simeq$\,50--100.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_stellar-to-gas-mass_ss16.png}
 \caption{Cloud mass and stellar-to-gas mass ratio of MCCs identified in the accreting phase of \flower.
-The most massive MCCs have the highest stellar-to-gas mass ratio ($\gtrsim$\,1) as they correspond to a large part of \flower, and thus, 
+The most massive MCCs have the highest stellar-to-gas mass ratio ($\gtrsim$\,1) \AP{do we really need both $f_{\rm gas}$ and $M_\star/M_{\rm gas}$?} as they correspond to a large part of \flower, and thus, 
 include a large number of stellar mass already ensembled in \flower \AP{please change $M_{cl}$ to $M_{\rm gas}$ in the figure}. 
 \label{fig:stellarRatio16}}
 \end{figure}
@@ -535,7 +538,7 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from
 \citet{Kauffmann17a} and \citet{Kauffmann17b} and references therein
 (see Fig 4 of \citealt{Kauffmann17b}).   
 The gray dotted lines shown in the bottom panels correspond to the various external pressures for 
-gas in equilibrium, see Equation~\ref{eqn:v0}.
+gas in equilibrium, see Equation~\ref{eqn:v0}. \AP{$\sigma$ should be $\sigma_{\rm gas}$}
 \label{fig:larsons_single}}
 \end{figure*}
 
@@ -553,7 +556,7 @@ constant surface density (i.e., Larson's third relation). This representation is
 %mm [redundant] The star symbols are color-coded by $n_{\rm cut}$,
 %same as \Fig{larsons_single}.  
 Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b} 
-relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF.
+relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF \AP{please change y label to $M_{\rm gas}$; note that in Fig. \ref{fig:dist} R instead of cloud size is used; we have to pick one}.
 \label{fig:MR}}
 %mm}
 \end{figure*}
@@ -572,7 +575,7 @@ the unstable region as \flower\ accretes materials to being stable (e.g., panel 
 post-starburst phase.
 The variation is clearly seen between the pre-starburst through post-starburst phase. 
 Excluding the biggest MCCs (see \Fig{stellarRatio16} and \Sec{singless}), 
-MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
+MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. \AP{please change x label to $M_{\rm gas}$; note that this plot seems a bit redundant}
 \label{fig:alphaEvol}}
 \end{figure*}
 
@@ -583,7 +586,7 @@ MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the 
 \caption{Same as \Fig{larsons_single}, except star symbols are showing MCCs identified across all evolutionary stages traced in our simulation, which are color-coded by the SFR of \flower in those stages (see colorbar). Left panels show MCCs identified using a low density threshold of $n_{\rm cut}$\eq0.53\,\cc and right panels show MCCs 
 identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
 The biggest MCCs identified at lowest density threshold, occupying the top right corner of the top left panel), are broken into smaller MCCs at higher 
-density thresholds (top right panel).
+density thresholds (top right panel). \AP{please change x labels of the middle panels to $M_{\rm gas}$; $\sigma$ should be $\sigma_{\rm gas}$}
 \label{fig:alpha16-28}}
 \end{figure*}
 
@@ -609,7 +612,7 @@ While the virial parameter defined as Equation~\ref{eqn:alpha} is typically used
 composed of mainly molecular gas only, we calculate the virial parameter of MCCs including the influence from the stellar component 
 (i.e., $\alpha_{\rm vir, tot}$ via Equation~\ref{eqn:alpha_tot}) given the high stellar-to-gas mass ratios of 
 some of them (see \Fig{stellarRatio16}). 
-MCCs with the highest stellar-to-gas mass ratio ($\gtrsim$\,1) correspond to the central main disk of \flower (see top panels of 
+MCCs with the highest \AP{do we really need both $f_{\rm gas}$ and $M_\star/M_{\rm gas}$?} stellar-to-gas mass ratio ($\gtrsim$\,1) correspond to the central main disk of \flower (see top panels of 
 \Fig{MCC} and \Fig{MCC28}, see also \Sec{distribution}), which includes a large fraction of stellar mass that are already assembled in \flower. 
 This explains the low total virial parameter seen in the most massive MCCs of \flower in this phase, as shown in
 the middle left panel of \Fig{larsons_single}, where the stellar gravitational potential influence the overall stability of such MCCs.
@@ -739,21 +742,9 @@ interpreting observational results is further discussed in the next subsection (
 The high pressure observed in \flower (see \citealt{Pallottini17a})
 is comparable to what has been observed in local ultra-luminous IR galaxies (ULIRGs); however, the molecular clouds in the latter are concentrated within their central regions and have typical sizes of $\sim$70-100\,pc and masses on the order of $\sim$10$^9$\,\Msun \citep{Downes98a, Sakamoto08a}. In our simulated galaxy, the high pressure MCCs of \flower are found throughout the disk. This difference likely stems from the different physical mechanisms giving rise to the formation (and thus the nature) of these molecular structures.
 %
-For instance, in local ULIRGs, MCCs are likely formed
-by shock compression and cloud-cloud collisions 
- that funnel large amounts of gas from the progenitor galaxies
- towards the central region
-\citep{Tan00a, Wu18a}.
+For instance, in local ULIRGs, MCCs are likely formed by shock compression and cloud-cloud collisions that funnel large amounts of gas from the progenitor galaxies towards the central region \citep{Tan00a, Wu18a}.
 % Tasker09a
-On the other hand, the highly turbulent structures of \flower likely result from 
-extra-planar flows that are due to gas accretion onto the galaxy and SN-driven outflows \citep{gallerani:2018,kohandel:2019}.
-The presence of such extra-planar flows may \MM{Do we have any
-  evidence for or against this speculation? Clarify citations and
-  mergers vs accretion...} also be the 
-dominant mode for forming the highly supersonic massive MCCs observed
-in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g.,
-\citealt{Swinbank11a}) --- but the observed size scales could also be biased 
-high due to the resolution limit.
+On the other hand, the highly turbulent structures of \flower are the result of extra-planar flows \citep{kohandel:2019} and to higher velocity the accretion/SN-driven outflows \citep{gallerani:2018}. The presence of extra-planar flows may also be the dominant mode for forming the highly supersonic massive MCCs observed in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}) --- but the observed size scales could also be biased high due to the resolution limit.
 
 % different evolutionary stages
 In terms of the Larson's linewidth-size relation, we do not find any major quantitative differences
@@ -776,7 +767,7 @@ quiescent phase, which displays a disk-like morphology (\Fig{MCC28}).
 The velocity dispersion from turbulent motions is higher than that from bulk motions for most MCCs in the accreting phase, but 
 the opposite is true in the quiescent phase. Thus, large-scale motion plays an important role in contributing to the total velocity dispersion. 
 This implies that the velocity dispersion measured in molecular gas structures from \obs on similar physical scales 
-should not be taken as direct evidence that these structures at high redshifts are intrinsically more turbulent than those in the local ISM.
+should not be taken as direct evidence that these structures at high redshifts are intrinsically more turbulent than those in the local ISM. \AP{to guide the eye, I would draw the $x=y$ line in both panels}
 % either higher resolution, or properly accounting for large scale motions. 
 \label{fig:vv}}
 \vspace{0.5em}
@@ -852,7 +843,7 @@ even though we are identifying the structures in 3D just like what BM02 did.}
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/weighted-density_size-pc_ss16} 
 \caption{Density and size of MCCs in the accreting phase of \flower.
 At higher $n_{\rm cut}$, MCCs are broken into smaller MCCs and 
-form the cluster of points that are to the top left of the parent MCC identified at a lower density threshold.
+form the cluster of points that are to the top left of the parent MCC identified at a lower density threshold. \AP{$\rho \rightarrow n$; this should stay close to Fig. \ref{fig:MR}}
 \label{fig:rho}}
 \vspace{0.5em}
 \end{figure}
