@@ -192,11 +192,11 @@ which further reduces to
 \end{equation}
 if the external pressure $P_{\rm ext}=0$. For this case (often referred to as simple virial equilibrium) from the balance between kinetic and gravity terms we can define the virial parameter as 
 \begin{equation}
-\alpha_{\rm vir} \equiv  \frac{5\sigma^2R}{GM_{\rm cl}} = \frac{5\sigma^2}{\pi G \Sigma R}\,,
+\alpha_{\rm vir} \equiv  \frac{5\sigma^2R}{GM_{\rm cl}} = \frac{5\sigma_{\rm gas}^2}{\pi G \Sigma R}\,,
 \label{eqn:alpha}
 \end{equation}
 
-Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
+Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma_{\rm gas}^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma_{\rm gas}^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
 
 Summarizing, the virial parameter can be used to quantify the stability/boundedness of 
 %mm an MCC. 
@@ -207,10 +207,20 @@ Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 
 In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
 \begin{equation}
-\alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm cl} \sigma^2 + M_{\star} \sigma_\star^2}
+\alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm cl} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
 					       {M_{\rm cl} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
+
+\AP{shouldn t it be something like}
+\begin{equation}
+\alpha_{\rm vir, tot} \equiv \frac{5 R}{G (M_{\rm cl} + M_{\star})} \frac{M_{\rm cl} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
+					       {M_{\rm cl} + M_{\star} }\,,
+\label{eqn:alpha_tot}
+\end{equation}
+\AP{? Additionally, I am still unsure if the stellar dispersion should give a contribution to the alpha parameter.}
+
+
 where $M_\star$ is the stellar mass within the MCC volume.
 
 
@@ -232,40 +242,20 @@ where $k$ is the wavenumber and $\kappa$ is the epicyclic frequency, defined as:
 \label{eqn:kappa}
 \end{equation}
 \citep{Romeo92a}.
-In Equation~\ref{eqn:3Ddisp} the terms on the right hand side are related to rotation, self-gravity and internal pressure, respectively. 
-%mm
-    Heuristically, the instability can be understood by considering the scale
- at which gravitational potential overcomes the internal energy. Gravity dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, 
-%mm centrifugal forces resulting from
-   shearing by 
-differential rotation in disk galaxies can stabilize perturbations 
-%mm even on these scales. 
-    that might otherwise collapse for $L > L_{\rm rot}$, where $L_{\rm rot}$ is set by $\kappa$.
-%mm As a result, a disk is thought to be unstable on
-    As a result, disks are unstable to gravitational collapse on 
-scales between $L_J < L < L_{\rm rot}$.  
+In Equation~\ref{eqn:3Ddisp} the terms on the right hand side are related to rotation, self-gravity and internal pressure, respectively. Heuristically, the instability can be understood by considering the scale at which gravitational potential overcomes the internal energy. Gravity dominates at scales $L > L_J$, where $L_J$ is the Jeans length. However, differential rotation in disk galaxies can stabilize perturbations that might otherwise collapse for $L > L_{\rm rot}$, where $L_{\rm rot}$ is set by $\kappa$. As a result, disks are unstable to gravitational collapse on scales between $L_J < L < L_{\rm rot}$.  
 
-From the dispersion relation, a parameter $Q$ can be derived such that $Q < 1$ when instability occurs, that reproduces this inequality to order unity.
-For a collisionless fluid---such as an ensemble of stars--- this parameter is \citep{Toomre64a}
+From the dispersion relation, a parameter $Q$ can be derived such that $Q < 1$ when instability occurs, that reproduces this inequality to order unity. For a collisionless fluid---such as an ensemble of stars--- this parameter is \citep{Toomre64a}
 \begin{equation}
 Q_{\star} \equiv\frac{\sigma_{\star}\kappa}{3.36 G \Sigma_{\star}}\,.
 \end{equation}
-The equivalent parameter for a collisional gas was derived by
-%mm [corrected from Toomre64a to Goldreich65a (not Goldreich65b, which is about spiral arm formation)]
-    \citep{Goldreich65a}
+The equivalent parameter for a collisional gas was derived by \citet{Goldreich65a}
 \begin{equation}
 Q_{\rm gas}\equiv\frac{\sigma_{\rm gas}\kappa}{\pi G \Sigma_{\rm gas}}\,.
 \label{eqn:Q}
 \end{equation}
-In the thin disk approximation ($kh\ll1$), instability ($\omega^2 < 0$ in  \Eq{3Ddisp}) occurs on scales $k$ such that $Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). 
-%mm  In theoretical and observational works, gravitational instability has been widely discussed in the context of the Toomre $Q$ stability criterion \citep{Toomre64a, Goldreich65b} or its observable proxy
-     A frequently used observable proxy for $Q$ is the ratio of disk circular velocity to root-mean-square velocity dispersion
-$v_{\rm circ}/\sigma_{\rm disk}$
-%mm , i.e., the circular velocity to the disk r.m.s. velocity dispersion \AF{This is not exactly the same $\sigma$ as before} \MM{see above} ratio 
-\citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
+In the thin disk approximation ($kh\ll1$), instability ($\omega^2 < 0$ in  \Eq{3Ddisp}) occurs on scales $k$ such that $Q < Q_{\rm crit}\simeq1$ (or equivalently $\omega^2 < 0$). A frequently used observable proxy for $Q$ is the ratio of disk circular velocity to root-mean-square velocity dispersion $v_{\rm circ}/\sigma_{\rm disk}$ \citep[e.g.,][]{GarciaBurillo03a, Genzel11a, Kassin12a, Leung19a}.
 % https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
-% from linear analysis
 
 In our stability analysis, we account for the combined effect of gas and stars 
 %mm 
@@ -317,71 +307,16 @@ The simulations used in this work are described by \citealt{Pallottini17a, Pallo
 %
 \ncode{Serra}\footnote{Greenhouse in Italian.} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
-In particular, it uses a modified version of \ncode{ramses}
-\citep{Teyssier02a} as the AMR backend. The simulation used here
-covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation
-zooms in on a target halo of mass $M_{\rm DM}\simeq10^{11} \Msun$. The Lagrangian
-region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter
-%mm (equivalent baryonic) 
-mass resolution of $\simeq 6\times 10^4 \Msun$, 
-%mm ($1.2 \times 10^4 \Msun$) [expanded out the meaning, but check if
-%I have it right]  Such
-     equivalent at initial density to a baryonic mass resolution of $1.2
-     \times 10^4 \Msun$.  This 
-region is spatially refined with a quasi-Lagrangian criterion based on
-a mass threshold, so that a cell is refined if its total dark matter
-plus baryonic mass exceeds the mass resolution by a factor of
-eight. The final finest refined cell in the zoom in region has size
-$l_{\rm cell}\simeq$\,30\,pc (at $z = 6$). 
-%mm
-%    \MM{Is this really the resolution of dark matter particles?  The baryonic mass (i.e.\ gas) resolution depends on the 
-%    local density, which would have to be specified here.} \AP{the setting description has been extended}
-     Cell sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
-%mm 
-%     \MM{Nota Bene!} \AP{This note is discussed in details in the following section. In the simulation we do not treat 5--10 cells as MCs, so I would remove the point from the present} although the resolved scale of 5--10 cells is rather larger.
-The models include a chemical network 
-following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and
-H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is
-that abundances are calculated using an on-the-fly non-equilibrium
-formation of molecular hydrogen scheme  
-%mm following \citet{Pallotini17b} [the order had to be reversed for alphabetization]
-    described by \citet{Pallottini17a}.
+In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation zooms in on a target halo of mass $M_{\rm DM}\simeq10^{11} \Msun$. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter mass resolution of $\simeq 6\times 10^4 \Msun$, equivalent at initial density to a baryonic mass resolution of $1.2 \times 10^4 \Msun$. This region is spatially refined with a quasi-Lagrangian criterion based on a mass threshold, so that a cell is refined if its total (dark+baryionic) mass exceedes the mass resolution by a factor of eight. The finest refined cell allowed in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$), i.e. sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
+The models include a non-equilibrium chemical network following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme described by \citet{Pallottini17a}.
 
-% radiative feedback --> NT pressure
-Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) 
-%mm and OB/AGB stars. 
-   as well as winds from OB and asymptotic giant branch stars.
-Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details).  
-\DL{AP: please elaborate non-thermal pressure here..}
-Photoionization from local sources is neglected in this simulation
-\citep[see][for its effect]{pallottini:2019,decataldo:2019}. 
+Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) as well as winds from OB and asymptotic giant branch stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details). Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{pallottini:2019,decataldo:2019}. 
 
-The simulation zooms in on a galaxy named after the flower 
-\flower whose properties are given in 
-%mm \citet{Pallottini17b} 
-      \citet{Pallottini17a} 
-and are briefly summarized in the following. \flower is a Lyman-break galaxy 
-that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm
-  DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and
-accretes mass from the IGM mainly via three filaments of length
-$\simeq$\,100\,kpc. \flower has a stellar mass of
-$M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of
-$Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm
-  H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne. 
-%mm \MM{What is its gas fraction?  I ask because its molecular gas
-%mass is minuscule, particularly for such a high SFR: this is a
-%depletion time of only 0.5 Myr, while modern galaxies usually have
-%depletion times more like 0.5--2~Gyr!} \AP{the gas fraction is very
-%flickering and depends on which radius we are considering, as the
-%galaxy is actively accreating material and merging; depletion time
-%are low, see the ssfr note added considering that $ssfr \propto
-%t_{depletion}^{-1}$} 
-The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star}
-\simeq$~4--40 ~Gyr\pmOne, compatible with the sSFR vs.\ $M_{\star}$
-relation observed at high redshift \citep{Jiang2016}, which is higher
-than normal local galaxies. The effective stellar radius of \flower
-is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm
-  200}\simeq$\,15\,kpc. 
+Note that in the simulation the gas acquire energy from feedback processes in both thermal and non-thermal form \citep{agertz:2013}, with the latter being a term that mimics unresolved turbulence; the non-thermal energy is not affected by cooling but rather is dissipated on the eddy turn-over time scale \citep{maclow1999turb}; see \citet{Pallottini17b} for further details.
+
+The simulation zooms in on a galaxy named after the flower \flower whose properties are given in \citet{Pallottini17a} and are briefly summarized in the following. \flower is a Lyman-break galaxy that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne. 
+%
+The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star} \simeq$~4--40 ~Gyr\pmOne, compatible with the sSFR vs.\ $M_{\star}$ relation observed at high redshift \citep{Jiang2016}, which is higher than normal local galaxies. The effective stellar radius of \flower is $\sim$0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc. 
 
 \subsection{Star Formation History} \label{sec:sfh}
 
