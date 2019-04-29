@@ -112,7 +112,7 @@ present-day galaxies.
 Such massive gas inflows trigger gravitational instabilities that lead to the formation of molecular 
 %mm complexes [first use of this term; did you want "cloud complexes" instead of "complexes" for agreement with abstract?] 
    cloud complexes (MCCs) 
-that are typically more massive ($M_{\rm cl}\simeq 10^9$\,\Msun) and extended ($\simeq$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
+that are typically more massive ($M_{\rm gas}\simeq 10^9$\,\Msun) and extended ($\simeq$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}).
 %
 Some theoretical works argue that the migration of such giant massive clumps are largely responsible for the buildup of the bulges of massive galaxies at redshift \z$\sim$\,0 \citep[e.g.,][]{Ceverino10a}.
 
@@ -168,11 +168,11 @@ The virial theorem for a distribution of unmagnetized gas can be written as \cit
 \end{equation}
 where $\ddot{\mathcal{I}}$ is the second time derivative of the Lagrangian moment of inertia, $\mathcal{T}$ is the internal energy of the gas, $\mathcal{T}_{\rm ext}$ is external pressure support, and $\mathcal{W}$ is the gravitational energy.
 %
-Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm cl}$, radius $R$, and root-mean-square velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions. 
+Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm gas}$, radius $R$, and root-mean-square velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions. 
 %mm Neglecting magnetic field and 
 Defining $P_{\rm ext}$ as the external pressure, \Eq{virial_th_general} can be written as
 \begin{equation}
-\frac{1}{2}{\ddot{\mathcal{I}}} = 3 M_{\rm cl} \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM_{\rm cl}^2}{R}\,,
+\frac{1}{2}{\ddot{\mathcal{I}}} = 3 M_{\rm gas} \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM_{\rm gas}^2}{R}\,,
 \label{eqn:virial}
 \end{equation}
 where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the terms on the right-hand side represent the
@@ -192,7 +192,7 @@ which further reduces to
 \end{equation}
 if the external pressure $P_{\rm ext}=0$. For this case (often referred to as simple virial equilibrium) from the balance between kinetic and gravity terms we can define the virial parameter as 
 \begin{equation}
-\alpha_{\rm vir} \equiv  \frac{5\sigma^2R}{GM_{\rm cl}} = \frac{5\sigma_{\rm gas}^2}{\pi G \Sigma R}\,,
+\alpha_{\rm vir} \equiv  \frac{5\sigma^2R}{GM_{\rm gas}} = \frac{5\sigma_{\rm gas}^2}{\pi G \Sigma R}\,,
 \label{eqn:alpha}
 \end{equation}
 
@@ -207,19 +207,22 @@ Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 
 In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
 \begin{equation}
-\alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm cl} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
-					       {M_{\rm cl} + M_{\star} }\,,
+\alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm gas} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
+					       {M_{\rm gas} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
 
 \AP{shouldn t it be something like}
 \begin{equation}
-\alpha_{\rm vir, tot} \equiv \frac{5 R}{G (M_{\rm cl} + M_{\star})} \frac{M_{\rm cl} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
-					       {M_{\rm cl} + M_{\star} }\,,
+\alpha_{\rm vir, tot} \equiv \frac{5 R}{G (M_{\rm gas} + M_{\star})} \frac{M_{\rm gas} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
+					       {M_{\rm gas} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
-\AP{? Additionally, I am still unsure if the stellar dispersion should give a contribution to the alpha parameter.}
-
+\AP{? Additionally, I am still unsure if the stellar dispersion should give a contribution to the alpha parameter, naively I would write it as}
+\begin{equation}
+\alpha_{\rm vir, tot} \equiv \frac{5 R \sigma_{\rm gas}^2}{G (M_{\rm gas} + M_{\star})}
+\label{eqn:alpha_tot}
+\end{equation}
 
 where $M_\star$ is the stellar mass within the MCC volume.
 
@@ -227,11 +230,7 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
 
-The onset of gravitational instability is 
-%mm considered to be 
-tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. 
-%mm [rearranged to put derivation before result]
-For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by
+The onset of gravitational instability is tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by \AP{there might be too many $\sigma$}
 \begin{equation}
 \omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma_{\rm disk}^2 k^2\,,
 \label{eqn:3Ddisp}
@@ -257,10 +256,7 @@ In the thin disk approximation ($kh\ll1$), instability ($\omega^2 < 0$ in  \Eq{3
 % https://ned.ipac.caltech.edu/level5/March15/Glazebrook/Glazebrook5.html
 %
 
-In our stability analysis, we account for the combined effect of gas and stars 
-%mm 
-     \citep[derived exactly by][]{Rafikov01}, 
-and for the non-negligible disk thickness. This is done by adopting an approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
+In our stability analysis, we account for the combined effect of gas and stars \citep[derived exactly by][]{Rafikov01}, and for the non-negligible disk thickness. This is done by adopting an approximation for an effective two-component $Q_{\rm eff}$ parameter \citep[i.e.,][see also \citealt{Inoue16a}]{Romeo11a}.
 %
 The effect of disk thickness modifies the $Q$ parameter for gas and stars by accounting for the vertical velocity dispersion
 \begin{equation}
@@ -292,10 +288,7 @@ where the relative weight $w$ is defined as
 \begin{equation}
 w\equiv\frac{2 \sigma_{\star} \sigma_{\rm gas}}{\sigma_{\star}^2 + \sigma_{\rm gas}^2},
 \end{equation}
-Conceptually, the finite disk thickness reduces the gravity in the vertical direction, thereby making it easier for a system to
-maintain 
-stability, and thus lowering the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 
-0.67 \citep{Goldreich65a}.
+Conceptually, the finite disk thickness reduces the gravity in the vertical direction, thereby making it easier for a system to maintain stability, and thus lowering the critical Toomre $Q_{\rm crit}$ from $\simeq$\,1 to 0.67 \citep{Goldreich65a}.
 %
 On the other hand, including the contribution of the stellar component promotes gravitational instability, and thus increases
 $Q_{\rm crit}$, more-so if the stars have low velocity dispersion.
@@ -303,16 +296,16 @@ As a rule of thumb, $Q_{\rm crit}\eq1.34$ for $Q_{\rm gas}$\eq$Q_\star$.  % 0.67
 
 % ------------------
 \section{Numerical Simulations}\label{sec:sim}
-The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are only briefly summarized here.
+The simulations used in this work are described by \citealt{Pallottini17a, Pallottini17b} and are briefly summarized here.
 %
 \ncode{Serra}\footnote{Greenhouse in Italian.} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
 In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation zooms in on a target halo of mass $M_{\rm DM}\simeq10^{11} \Msun$. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter mass resolution of $\simeq 6\times 10^4 \Msun$, equivalent at initial density to a baryonic mass resolution of $1.2 \times 10^4 \Msun$. This region is spatially refined with a quasi-Lagrangian criterion based on a mass threshold, so that a cell is refined if its total (dark+baryionic) mass exceedes the mass resolution by a factor of eight. The finest refined cell allowed in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$), i.e. sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
 The models include a non-equilibrium chemical network following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$, and H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme described by \citet{Pallottini17a}.
 
-Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) as well as winds from OB and asymptotic giant branch stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included (see \citealt{Pallottini17a} for details). Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{pallottini:2019,decataldo:2019}. 
-
-Note that in the simulation the gas acquire energy from feedback processes in both thermal and non-thermal form \citep{agertz:2013}, with the latter being a term that mimics unresolved turbulence; the non-thermal energy is not affected by cooling but rather is dissipated on the eddy turn-over time scale \citep{maclow1999turb}; see \citet{Pallottini17b} for further details.
+Star formation is modeled using an H$_2$-based prescription of the Schmidt-Kennicutt relation \citep{Krumholz09a}. We adopt stellar tracks from \ncode{starburst99} and include stellar feedback from supernovae (SNe) as well as winds from OB and asymptotic giant branch stars. Coupling to the gas is implemented via a sub-grid model for blastwaves, which accounts for radiative energy losses inside the cell. The remaining energy is injected into the ISM in kinetic and thermal energy forms. Radiation pressure on dust and gas is also included. Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{pallottini:2019,decataldo:2019}.
+%
+Via feedback processes the gas can acquire energy both thermal and non-thermal form \citep{agertz:2013}; the latter is a term that mimics unresolved turbulence: such non-thermal energy is not affected by cooling but rather is dissipated on the eddy turn-over time scale \citep{maclow1999turb}. See \citet{Pallottini17b} for further details.
 
 The simulation zooms in on a galaxy named after the flower \flower whose properties are given in \citet{Pallottini17a} and are briefly summarized in the following. \flower is a Lyman-break galaxy that at $z\simeq 6$ is hosted by a dark matter halo of mass $M_{\rm DM}\simeq$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne. 
 %
@@ -337,27 +330,16 @@ is interesting in order to understand the physical processes that determine the 
 %
 %This is advantageous especially at early cosmic epochs, when the densest structures are beginning to form; gas is constantly being accreted onto the central galaxy from the cosmic web and satellite galaxies, thereby leading to bursts of \SF. Meanwhile, tidal forces resulting from interactions with these surrounding galaxies can disrupt the main disk and arms, likely leading to different dynamical states for the molecular structures compared to more evolved galaxies found at a later cosmic time (e.g., some molecular structures may disperse while others may agglomerate into more massive ones). % mainly expecting differences in alpha_vir, sigma, M_cl.
 %mm [delete para break]
-The \SF history\footnote{Note that here the SFR is calculated based on
-  the stellar mass formed in the last 4 Myr within 3.5 kpc from the
-  galaxy center of mass. The SFR plotted in Figure 2 of
-  \citet{Pallottini17b} is a factor of two higher since there the SFR
-  accounts for the contribution from massive satellite galaxies within
-  the virial radius ($\approx$15\,kpc).} of \flower is shown in
-\Fig{SFH}. The SFR of \flower varies between $\sim$30--80 \Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
+The \SF history\footnote{Note that here the SFR is calculated based on the stellar mass formed in the last 4 Myr within 3.5 kpc from the galaxy center of mass. The SFR plotted in Figure 2 of \citet{Pallottini17b} is a factor of two higher since there the SFR accounts for the contribution from massive satellite galaxies within the virial radius ($\approx$15\,kpc).} of \flower is shown in \Fig{SFH}. The SFR of \flower varies between $\sim$30--80 \Msun\,yr\pmOne as it evolves from an actively accreting phase to a starburst phase after a merger, and then back to a relatively quiescent phase, over the simulated $\approx 700$ Myr.
 
-Given the stochastic nature of \flower in its star formation history, we mostly focus on
-two of its most extreme evolutionary stages in this work (see \Sec{singless}).
-These phases correspond to (a) an intensely accreting phase and
-(b) a starburst phase (\Fig{SFH}). We are interested in determining whether 
-MCC properties are sensitive to these different dynamical
-conditions. For completeness, we also show the scaling relations examined for the other evolutionary stages 
-traced in the simulation (see \Sec{ncut}). 
+Given the stochastic nature of \flower in its star formation history, we mostly focus on few of its most extreme evolutionary stages in this work (see \Sec{singless}).
+%
+These phases correspond to (a) an intensely accreting phase and (b) a starburst phase (\Fig{SFH}). We are interested in determining whether MCC properties are sensitive to these different dynamical conditions. For completeness, we also show the scaling relations examined for the other evolutionary stages traced in the simulation (see \Sec{ncut}).
+
 In \Sec{rot}, we investigate the importance of rotation support from large-scale motions in the MCC dynamics by comparing their properties 
 in the disturbed phase of \flower and in the disk-like ordered phase. 
 
-Throughout this paper, we describe the dense gas regions outside the main disk of \flower as satellite galaxies.
-The distinction between clumps and satellites is admittedly somewhat
-ambiguous, though, and we consider it only as a working one.
+Throughout this paper, we describe the dense gas regions outside the main disk of \flower as satellite galaxies. The distinction between clumps and satellites is admittedly somewhat ambiguous, though, and we consider it only as a working one.
 
 \AF{To be discussed at the end}
 
@@ -365,49 +347,19 @@ ambiguous, though, and we consider it only as a working one.
 
 \subsection{Identification}\label{sec:method}
 
-To identify the molecular complexes, we use a customized version of
-the clump-finding algorithm available in the \ncode{python} package
-\ncode{yt} \citep{Turk11a}, which was initially described in
-\citet{Smith09a}, 
-%mm but this function has been modified since then.
-     and modified since.
-The latest version of the default \ncode{yt} clump finder decomposes
-the zones of the simulation into non-overlapping tiles, which are
-stored in a 
-%mm $k$-dimensional tree ($k$-D tree). [unused acronym]
-     three-dimensional tree that can be processed using $k$-dimensional tree algorithms.
-It then identifies the contours of a variable field (here, the density
-field) within a tile and connects them across the tiles. In the
-customized version used for this study, we
-%mm modify the function to enhance 
-     enhanced
-the stability of the code.
+To identify the molecular complexes, we use a customized version of the clump-finding algorithm available in the \ncode{python} package \ncode{yt} \citep{Turk11a}, which was initially described in \citet{Smith09a} and modified since.
+%
+The latest version of the default \ncode{yt} clump finder decomposes the zones of the simulation into non-overlapping tiles, which are stored in a three-dimensional tree that can be processed using $k$-dimensional tree algorithms. It then identifies the contours of a variable field (here, the density field) within a tile and connects them across the tiles. In the customized version used for this study, we enhanced the stability of the code.
 %
 Due to the nature of our AMR simulation, we regrid the simulation data into uniform grids. The grid size is defined based on the highest resolution of the simulation data, i.e., the less refined regions are supersampled in the resulting uniform grids.
 
-In the clump-finding process (in position-position-position space; PPP), we employ a set of different density
-thresholds defined based on the molecular hydrogen density of \flower
-at different evolutionary stages ($z=6.0$--7.2).
+In the clump-finding process (in position-position-position space; PPP), we employ a set of different density thresholds defined based on the molecular hydrogen density of \flower at different evolutionary stages ($z=6.0$--7.2).
 %
-We note that this process is 
-the three-dimensional analog
-to identifying molecular structures based on the noise levels 
-     in position-position-velocity (PPV) maps that
-observers obtain with telescopes, using molecular line tracers such as
-CO, CS, and HCN.
-%mm , as commonly adopted in observational studies (e.g., 
-     This is commonly done by 
+We note that this process is the three-dimensional analog to identifying molecular structures based on the noise levels in position-position-velocity (PPV) maps that observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN. This is commonly done by 
 identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a}).
 %
 %We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
-Existing studies find a good correspondence in the dynamical
-properties extracted in PPV- versus PPP-space 
-%mm
-   for well-isolated structures 
-(\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see
-%mm
-    \citealt{Ballesteros-Paredes02a} and 
-\citealt{Shetty10a} for a discussion on caveats and limitations).
+Existing studies find a good correspondence in the dynamical properties extracted in PPV- versus PPP-space for well-isolated structures (\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see \citealt{Ballesteros-Paredes02a} and \citealt{Shetty10a} for a discussion on caveats and limitations).
 % large scale structure in PPP may be identified as numerous lower mass structures in the PPV cube due to gradients in the LOS and conversly, superposition when spatially distinct components with the same velocity are "merged" into one component in the PPV space when observed along the LOS (see Fig. 1 of Beaumount13a). (may be worth putting more thoughts on this after the report is due).
 
 \begin{figure}[htbp]
@@ -449,101 +401,60 @@ Same as \Fig{MCC}, except we show the quiescent phase of \flower, which is suppo
 \label{fig:MCC28}}
 \end{figure*}
 
-
-
-In \Fig{h2density}, we show the distribution of H$_2$
-number density $n_{\rm H2}$ for \flower~ during its accreting phase,
-including the contribution from the gas within 3.5 kpc from the
-galaxy center. 
+In \Fig{h2density}, we show the distribution of H$_2$ number density $n_{\rm H2}$ for \flower~ during its accreting phase, including the contribution from the gas within 3.5 kpc from the galaxy center. 
 %
-We note that the distribution is almost flat for $n_{\rm
-  H2}\gtrsim1$\,\cc and it samples the range of densities where clumps
-are found based on morphological analysis\footnote{For $n_{\rm
-    H2}\gtrsim1$\,\cc, the fourth Minkowski functional of the H$_{2}$
-  density field is significantly larger than zero. This implies that
-  the field is made of isolated components. See Fig. 6 in
-  \citet{Pallottini17b}.} \citep{Pallottini17b}. We identify MCCs by
-applying 10 equally-spaced volumetric H$_2$ density cuts of ${(n_{\rm
-    cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08,
-6.81, 11.36, 18.96, 31.62]$ to each snapshot. 
-We also tested variations in
-  $n_{\rm cut}$ range and found no qualitative differences (see
-  \Sec{ncut}).
-%mm
-\MM{I am confused how H$_2$ can survive at such low number
-  densities.  Is there some sort of hidden clumping factor at work
-  here? Or is this due to the neglect of local photodissociating
-  radiation? Either way, the point should be mentioned in section 3, I
-guess.}
-\DL{ncut should be more like molecular gas density, and H2 fraction in each molecular gas is not 100\%, so the ncut here are lower than
- what one expects for purely H2 regions. No clumping factor.}
+We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and it samples the range of densities where clumps are found based on morphological analysis\footnote{For $n_{\rm H2}\gtrsim1$\,\cc, the fourth Minkowski functional of the H$_{2}$ density field is significantly larger than zero. This implies that the field is made of isolated components. See Fig. 6 in \citet{Pallottini17b}.} \citep{Pallottini17b}.
+%
+In each evolutionary stage, we identify MCCs by applying density cuts to the H$_2$ density distriution, i.e. $n_{\rm H2}\geq n_{\rm cut}$. We select 10 equally-spaced cuts in log scale: ${(n_{\rm cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]$. We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}). Note that with these choice we are including in the MCC also material that is not fully molecular ($n = 0.5 n_{\rm H2}$).
 
-To visually display 
-the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}).
-Since the molecular structures identified could easily appear as overlapping structures depending on the viewing angle, we also plot them in different three-dimensional projections (right panels of \Fig{MCC}) so that one can more easily see that they are collections of disjoint structures.
+To visually display the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}). Since the molecular structures are identified in the 3D H2 density field, they can appear as overlapping structures depending on the viewing angle; thus we also plot them in different projections (right panels of \Fig{MCC}) so that the identification can be more easily appreciated.
 %
 We repeat this identification process for 14 evolutionary stages between redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq15\,Myr.
 
-Note that we impose the additional constraint that an identified
-structure must be composed of at least 10 cells. We caution that an
-important caveat of such a constraint is that we can only examine the
-parameter space of cloud complexes of 
-radius $R\gtrsim 40$\,pc,
-because of the resolution limit of the simulation.
+We impose the additional constraint that an identified structure must be composed of at least 10 cells. We caution that an important caveat of such a constraint is that we can only examine the parameter space of cloud complexes of radius $R\gtrsim 40$\,pc, because of the resolution limit of the simulation.
 
 \subsection{Molecular Cloud Complex Properties} \label{sec:distribution}
 
-% Molecular clouds are the natal place for \SF, their structure and dynamics hold important clues to understanding
-% the mechanisms and physics of formation and evolution of molecular structures and \SF.
-Upon identifying the molecular structures, we extract properties such
-as the gas mass $M_{\rm cl}$, effective size $R$, Mach number
-$\mathcal{M}$, velocity dispersion $\sigma$
-, and gas surface density $\Sigma_{\rm gas}$ to examine their dynamics.
+Upon identifying the molecular structures, we extract properties such as the gas mass $M_{\rm gas}$, effective size $R$, Mach number
+$\mathcal{M}$, velocity dispersion $\sigma_{\rm gas}$, and gas surface density $\Sigma_{\rm gas}$ to examine their dynamics.
 
 The mass of an MCC is calculated from the uniformly-gridded 3D density field, integrating over the MCC volume $V$. The effective size is defined assuming spherical geometry, i.e. $R \equiv (3 V /4 \pi)^{1/3}$.
-The full velocity dispersion of MCCs is calculated from 
-the bulk velocity field $\sigma_{\rm bulk}$, non-thermal velocity dispersion $\sigma_{\rm NT}$, and thermal sound speed $c_s$, following
+%
+The full velocity dispersion of MCCs is calculated from the bulk velocity field ($\sigma_{\rm bulk}$), thermal sound speed ($c_s$), and the non-thermal velocity dispersion ($\sigma_{\rm NT}$)
 \begin{equation}
-\sigma^2 = \sigma_{\rm NT}^2 + \sigma_{\rm bulk}^2 + c_s^2.
+\sigma{\rm gas}^2 = \sigma_{\rm bulk}^2 + c_s^2 + \sigma_{\rm NT}^2.
 \label{eqn:veldisp}
 \end{equation}
 %
-In \obs of MCCs, the linewidth contribution of dense gas 
-exceeds that from the diffuse gas. We therefore calculate each term on
-the right-hand side of Equation~\ref{eqn:veldisp} as a density-weighted quantity. 
-For instance, the bulk velocity dispersion is calculated as follows
+In \obs of MCCs, the linewidth contribution of dense gas exceeds that from the diffuse gas. We therefore calculate each term on the right-hand side of Equation~\ref{eqn:veldisp} as a mass-weighted quantity.
+%
+The bulk velocity dispersion is then
 \begin{equation}
 \sigma_{\rm bulk}^2 = \frac{1}{{3}}\frac{\sum_{i} \rho_i \left|\mathbf{v}_i - \mathbf{\bar v}\right|^2}{\sum_i \rho_i}\,,
 \end{equation}
-where the sum is done for the cells composing each MCC.
-Similarly, the non-thermal velocity dispersion is calculated as follows
+where the sum is done for the cells composing each MCC\footnote{Since we are calculating quantities on unigridded data, mass-weighted averages can be written as density weighted averages}.
+%
+The thermal sound speed is calculated from the thermal pressure ($P_{\rm TH}$) through
 \begin{equation}
-\sigma_{\rm NT}^2 = \frac{\sum_{i} \rho_i \left(P_{\rm NT, i}~k_B / M_p / {\bar \rho_i} \right)^2}{\sum_i \rho_i}\,,
+c_s^2 = \frac{\sum_{i} \rho_i \left(P_i~{\rm k_B} / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,,
 \end{equation}
-and the thermal sound speed is calculated through
+where the pressure is in units of [K\,\cc], $\rm k_B$ is the Boltzmann constant, $m_p$ is the mass of a proton. Similarly, the contribution from the non-thermal energy is calculated from the non-thermal pressure ($P_{\rm NT}$) as follows
 \begin{equation}
-%        x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.avg_density
-c_s^2 = \frac{\sum_{i} \rho_i \left(P_i~k_B / M_p / {\bar \rho_i} \right)^2}{\sum_i \rho_i}\,,   % so that cs^2 has dimension of [erg/g]
+\sigma_{\rm NT}^2 = \frac{\sum_{i} \rho_i \left(P_{\rm NT, i}~k_B / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,.
 \end{equation}
-where $P_{\rm NT, i}$ and $P_i$ are the non-thermal and thermal pressures of cell $i$ in units of [K\,\cc], respectively, $k_B$ is the Boltzmann constant, and 
-$M_p$ is the mass of a proton. 
-
-The local sound speed of all identified molecular complexes is much
-smaller than their turbulent velocities\footnote{Velocity dispersions
-  calculated from velocity field are comparable to those calculated
-  from the pressure field 
-    \MM{The turbulent pressure field has not been
-    mentioned in section 3, so you'll need to add a sentence there
-    mentioning its presence and behavior to mention it here}, 
-    \DL{AP: also mention turbulent pressure found for the bulk of dense gas in the simulation in the phase-space analysis presented in \citet{Pallottini17a} here?}
-indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially 
-at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}. 
-We compute the Mach number from turbulent and thermal pressures following
+%
+Finally, the Mach number can expressed as follows
 \begin{equation}
-\mathcal{M} \equiv \sqrt{\frac{P_{\rm NT} + P}{ P }}.
+\mathcal{M} \equiv \frac{\sum_{i} \rho_i \sqrt{ 1 + \frac{P_{\rm NT}}{P_{\rm TH}}}}{\sum_{i} \rho_i}.
 \label{eqn:MPress}
 \end{equation}
-On average, the Mach number of the MCCs identified at the highest density threshold is $\mathcal{M} \simeq6$,
+\AP{in the following two paragraphs we are mixing results and expectations. The might be moved to th result section}
+As the non-thermal pressure contribution dominates the thermal one for dense gas \citet{Pallottini17b}, the local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$. In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds $\mathcal{M} \sim 10$ for \flower.
+%
+Note that the bulk velocity dispersion $\sigma_{\rm bulk}$ is typically comparable to $\sigma_{\rm NT}$, as the two are connected via the Euler equation \AP{do we want to add a plot here to showw the point?}, but this depends on the evolutionary stage of \flower.
+%
+%\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}.
+
 % allss: 0.32 
 % In [13]: print(get_Mach_all_clouds(ss11))
 %[10.62623949  3.10713402  7.0525831   3.336829   10.36052827  7.24157821
@@ -566,40 +477,26 @@ On average, the Mach number of the MCCs identified at the highest density thresh
 %  8.36247744  4.89164338  4.12695121  6.55187227  6.15391173  3.56580625
 %  5.74818066  3.81067175  6.65393948  9.10100946  6.35039889  4.78667156
 %  5.05517168  6.93886988  5.4830306 ]
-but this depends on the evolutionary stage of \flower.  % see also e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
+% see also e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
 % This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
-
-The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to 
-a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure.
-However, not all evolutionary stages considered have at least one MCC at this highest density threshold, 
-we therefore consider MCCs identified with the second highest density threshold ($n_{\rm cut}$\eq18.96\,\cc) in the following. 
-We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
+The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure. However, not all evolutionary stages considered have at least one MCC at this highest density threshold,  we therefore consider MCCs identified with the second highest density threshold ($n_{\rm cut}$\eq18.96\,\cc) in the following. We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
-f_{\rm gas} = \frac{M_{\rm cl}} {\left(M_{\rm cl} + M_\star\right)}.
+f_{\rm gas} = \frac{M_{\rm gas}} {\left(M_{\rm gas} + M_\star\right)}.
 \end{equation}
 %
-We note that the distributions vary for different evolutionary stages of \flower. 
+We note that the distributions vary for different evolutionary stages of \flower.
 %
-The most massive ($M_{\rm cl}>$10$^8$\,\Msun) 
-cloud identified at each density threshold (see top right corner of \Fig{stellarRatio16} and top left panel of \Fig{dist})  
-corresponds to the molecular disk of the
-galaxy, which is identified as a single component for low $n_{\rm
-  cut}$. Overall, the mass of all MCCs identified ranges between $M_{\rm
-  cl}\simeq$10$^{5.5-8.5}$\,\Msun, which is comparable to those observed in
-\z$\sim$2 galaxies in rest-frame UV and optical light
-\citep{Elmegreen07a, Elmegreen09a}. 
-The stellar-to-gas mass ratio ranges between $M_{\star}/M_{\rm cl} \simeq$\,0.1\,--\,100 over all the
-MCCs identified across all evolutionary stages of \flower (see e.g., \Fig{stellarRatio16}). 
-The main disk occupying the top right corner of \Fig{stellarRatio16} has a stellar-to-gas mass ratio of $\simeq$\,50--100.
-
+The most massive ($M_{\rm gas}>$10$^8$\,\Msun) cloud identified at each density threshold (see top right corner of \Fig{stellarRatio16} and top left panel of \Fig{dist}) corresponds to the molecular disk of the galaxy, which is identified as a single component for low $n_{\rm cut}$. 
+%
+Overall, the mass of all MCCs identified ranges between $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun, which is comparable to those observed in \z$\sim$2 galaxies in rest-frame UV and optical light \citep{Elmegreen07a, Elmegreen09a}. The gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,100 over all the MCCs identified across all evolutionary stages of \flower (see e.g., \Fig{stellarRatio16}). The main disk occupying the top right corner of \Fig{stellarRatio16} has a stellar-to-gas mass ratio of $\simeq$\,50--100.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_stellar-to-gas-mass_ss16.png}
 \caption{Cloud mass and stellar-to-gas mass ratio of MCCs identified in the accreting phase of \flower.
 The most massive MCCs have the highest stellar-to-gas mass ratio ($\gtrsim$\,1) as they correspond to a large part of \flower, and thus, 
-include a large number of stellar mass already ensembled in \flower. 
+include a large number of stellar mass already ensembled in \flower \AP{please change $M_{cl}$ to $M_{\rm gas}$ in the figure}. 
 \label{fig:stellarRatio16}}
 \end{figure}
 
@@ -738,7 +635,7 @@ A_V = \frac{N_H}{1.8 \times 10^{21} {\rm cm}^{-2}}\,,
 \end{equation}
 Assuming spherical symmetry, the mass of an MCC can then be expressed as a function of $A_V$ and its size $R$
 \begin{equation}\label{eqn:constantcolumndensity}
-M_{\rm cl} = \frac{4\pi}{3} \mu m_p n R^3 = 154~A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
+M_{\rm gas} = \frac{4\pi}{3} \mu m_p n R^3 = 154~A_v \left(\frac{R}{\rm pc}\right)^2 \Msun \,,
 \end{equation}
 where we adopt $\mu = 2.5$ as the mean molecular weight.  
 
@@ -749,7 +646,7 @@ As shown in the figure, MCCs of \flower lie along the locus of $A_V \simeq 8.9$ 
 \citet{Lombardi10a} in the MW. 
 %
 %The values of $A_V$ inferred from http://adsabs.harvard.edu/abs/2017MNRAS.471.5018F
-%the $M_{\rm cl}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
+%the $M_{\rm gas}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
 
 % Starburst 
 Focusing on MCCs in the starburst phase, they have similar velocity dispersion and sizes 
@@ -814,7 +711,7 @@ for the virial parameter, where the most relevant phases are shown in \Fig{alpha
 
 \subsection{Comparing MCC Observable Quantities to Observations} \label{sec:diss1}
 
-In this section, we compare the observable quantities of MCCs obtained from the simulations (e.g., $\sigma$, $R$, $M_{\rm cl}$, 
+In this section, we compare the observable quantities of MCCs obtained from the simulations (e.g., $\sigma$, $R$, $M_{\rm gas}$, 
 $\Sigma{\rm gas}$) with those of molecular gas structures from \obs at.
 Excluding the biggest MCC identified in each evolutionary stage (i.e., the top right cluster of points in the 
 linewidth-size relation of \Fig{larsons_single} and the top left panel of \Fig{alpha16-28}), which correspond to 
@@ -1078,7 +975,7 @@ We decompose the molecular structures into non-overlapping objects by identifyin
 density contours with varying cutoff densities at multiple evolutionary stages. 
 Most notably, the accreting phase, starburst phase, and quiescent phase. 
 We extract properties such as mass, size, Mach number, velocity
-dispersion, gas surface density, and virial parameter ($M_{\rm cl}, R, \mathcal{M}, 
+dispersion, gas surface density, and virial parameter ($M_{\rm gas}, R, \mathcal{M}, 
 \sigma, \Sigma_{\rm gas}, \alpha_{\rm vir}$) for each MCC and perform a Toomre-$Q$ stability analysis on \flower.
 
 
