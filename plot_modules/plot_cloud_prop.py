@@ -577,7 +577,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
                          label="SFR: " + "{0:d}".format(int(sfr[ks])),
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
-            legend_h.append(h)
+            # uncomment below to get ncut in legend
+            # for paper, we commented this out since we show it as colorbar in other figures.
+            # legend_h.append(h)
 
         else:
             if xstr == "gas sd per ff" and ystr == "sfr sd":
@@ -590,6 +592,8 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
+            # uncomment below to get ncut in legend
+            # for paper, we commented this out since we show it as colorbar in other figures.
             # legend_h.append(h)
 
 
@@ -669,7 +673,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
 
         if xstr == "sigma kms NT":
             # 1-1 line
-            xx = np.arange(np.min((_x, _y)), np.max((_x, _y)))
+            xx = np.arange(1., 500.)
             h, = ax.plot(xx, xx, ls='--',
                          label='', lw=2, color='k')
 

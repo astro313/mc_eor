@@ -86,23 +86,23 @@ def plotting_procedure(snapshot_num, legendFontSize=13):
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("size pc", "cloud mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out, legendFontSize=12)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=10)
     plot_stuff("cloud mass", "Mach", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("size pc", "weighted density",  leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff('sigma kms NT', 'sigma kms bulk', leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
+               to_plot=to_plot, outdir=leafdir_out, showLegend=False)
 
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass",
                     leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
 
-    # from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
-    # allmass = get_masses_all_clouds(ss)
-    # tag = 'ss' + str(snapshot_num) + 'diffncuts'
-    # massFuncUnbinnedCDF(allmass, outdir=leafdir_out, tag=tag)
-    # massFuncPDF(allmass, outdir=leafdir_out, tag=tag)
-    # massFuncDifferential(allmass, outdir=leafdir_out, tag=tag)
+    from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
+    allmass = get_masses_all_clouds(ss)
+    tag = 'ss' + str(snapshot_num) + 'diffncuts'
+    massFuncUnbinnedCDF(allmass, outdir=leafdir_out, tag=tag)
+    massFuncPDF(allmass, outdir=leafdir_out, tag=tag)
+    massFuncDifferential(allmass, outdir=leafdir_out, tag=tag)
 
 
 
