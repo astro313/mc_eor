@@ -218,7 +218,6 @@ In cases where stellar component plays an important role in the dynamics, the vi
 					       {M_{\rm gas} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
-\AP{? Additionally, I am still unsure if the stellar dispersion should give a contribution to the alpha parameter, naively I would write it as}
 \begin{equation}
 \alpha_{\rm vir, tot} \equiv \frac{5 R \sigma_{\rm gas}^2}{G (M_{\rm gas} + M_{\star})}
 \label{eqn:alpha_tot}
@@ -230,7 +229,7 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
 
-The onset of gravitational instability is tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by \AP{there might be too many $\sigma$}
+The onset of gravitational instability is tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by
 \begin{equation}
 \omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma_{\rm disk}^2 k^2\,,
 \label{eqn:3Ddisp}
@@ -407,7 +406,7 @@ We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and i
 %
 In each evolutionary stage, we identify MCCs by applying density cuts to the H$_2$ density distriution, i.e. $n_{\rm H2}\geq n_{\rm cut}$. We select 10 equally-spaced cuts in log scale: ${(n_{\rm cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]$. We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}). Note that with these choice we are including in the MCC also material that is not fully molecular ($n = 0.5 n_{\rm H2}$).
 
-To visually display the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}). Since the molecular structures are identified in the 3D H2 density field, they can appear as overlapping structures depending on the viewing angle; thus we also plot them in different projections (right panels of \Fig{MCC}) so that the identification can be more easily appreciated.
+To visually display the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}). Since the molecular structures are identified in the 3D H$_2$ density field, they can appear as overlapping structures depending on the viewing angle; thus we also plot them in different projections (right panels of \Fig{MCC}) so that the identification can be more easily appreciated.
 %
 We repeat this identification process for 14 evolutionary stages between redshift \z$\in$[6.0, 7.2], spaced by $\Delta t$\eq15\,Myr.
 
@@ -422,7 +421,7 @@ The mass of an MCC is calculated from the uniformly-gridded 3D density field, in
 %
 The full velocity dispersion of MCCs is calculated from the bulk velocity field ($\sigma_{\rm bulk}$), thermal sound speed ($c_s$), and the non-thermal velocity dispersion ($\sigma_{\rm NT}$)
 \begin{equation}
-\sigma{\rm gas}^2 = \sigma_{\rm bulk}^2 + c_s^2 + \sigma_{\rm NT}^2.
+\sigma_{\rm gas}^2 = \sigma_{\rm bulk}^2 + c_s^2 + \sigma_{\rm NT}^2.
 \label{eqn:veldisp}
 \end{equation}
 %
@@ -436,22 +435,29 @@ where the sum is done for the cells composing each MCC\footnote{Since we are cal
 %
 The thermal sound speed is calculated from the thermal pressure ($P_{\rm TH}$) through
 \begin{equation}
-c_s^2 = \frac{\sum_{i} \rho_i \left(P_i~{\rm k_B} / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,,
+c_s^2 = \frac{\sum_{i} \rho_i \left(P_{{\rm TH}, i}~{\rm k_B} / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,,
 \end{equation}
-where the pressure is in units of [K\,\cc], $\rm k_B$ is the Boltzmann constant, $m_p$ is the mass of a proton. Similarly, the contribution from the non-thermal energy is calculated from the non-thermal pressure ($P_{\rm NT}$) as follows
+where the pressure is in units of K\,\cc, $\rm k_B$ is the Boltzmann constant, $m_p$ is the mass of a proton. Similarly, contribution from non-thermal energy is calculated from non-thermal pressure ($P_{\rm NT}$) as follows
 \begin{equation}
 \sigma_{\rm NT}^2 = \frac{\sum_{i} \rho_i \left(P_{\rm NT, i}~k_B / m_p / \rho_i \right)^2}{\sum_i \rho_i}\,.
 \end{equation}
 %
-Finally, the Mach number can expressed as follows
+Finally, the Mach number is related to the pressure terms as follows
 \begin{equation}
 \mathcal{M} \equiv \frac{\sum_{i} \rho_i \sqrt{ 1 + \frac{P_{\rm NT}}{P_{\rm TH}}}}{\sum_{i} \rho_i}.
 \label{eqn:MPress}
 \end{equation}
-\AP{in the following two paragraphs we are mixing results and expectations. The might be moved to th result section}
-As the non-thermal pressure contribution dominates the thermal one for dense gas \citet{Pallottini17b}, the local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$. In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds $\mathcal{M} \sim 10$ for \flower.
+
+
+\section{Results}\label{sec:results}
+
+\subsection{Distributions of MCC Basic Properties}
+
+The local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities, 
+as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallottini17b}, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$.
+ In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds a global Mach number of $\mathcal{M} \sim 10$ for \flower.
 %
-Note that the bulk velocity dispersion $\sigma_{\rm bulk}$ is typically comparable to $\sigma_{\rm NT}$, as the two are connected via the Euler equation \AP{do we want to add a plot here to showw the point?}, but this depends on the evolutionary stage of \flower.
+Note that the bulk velocity dispersion $\sigma_{\rm bulk}$ is typically comparable to the non-thermal term $\sigma_{\rm NT}$, as the two are connected via the Euler equation \AP{do we want to add a plot here to show the point?}\DL{This is currently shown in \Fig{vv}}, but this depends on the evolutionary stage of \flower.
 %
 %\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}.
 
@@ -515,7 +521,7 @@ and bottom panels, as fewer MCCs are identified at higher $n_{\rm
 \end{figure*}
 
 
-\section{Results}\label{sec:results}
+
 
 \begin{figure*}
 \centering
@@ -681,7 +687,7 @@ resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}).
 However, the IGM and merger and accretion histories are not properly modeled in such simulations since 
 they adopt non-cosmological initial conditions. That said, the similar mass range found in MCCs of \flower\ is
 reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
-The gas velocity dispersion $\sigma$ is rather insensitive to the actual value of $n_{\rm cut}$.
+The gas velocity dispersion $\sigma_{\rm gas}$ is rather insensitive to the actual value of $n_{\rm cut}$.
 %% 
 %We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results, i.e., inferences on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of cloud scaling relations.
 %%
