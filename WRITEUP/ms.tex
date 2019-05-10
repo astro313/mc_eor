@@ -172,7 +172,7 @@ Let us specialize to the case of a spherical self-gravitating molecular cloud of
 %mm Neglecting magnetic field and
 Defining $P_{\rm ext}$ as the external pressure, \Eq{virial_th_general} can be written as
 \begin{equation}
-\frac{1}{2}{\ddot{\mathcal{I}}} = 3 M_{\rm gas} \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM_{\rm gas}^2}{R}\,,
+\frac{1}{2}{\ddot{\mathcal{I}}} = 3 M \sigma^2 - 4\pi P_{\rm ext} R^3 - \Gamma\frac{GM^2}{R}\,,
 \label{eqn:virial}
 \end{equation}
 where $\Gamma$ is a geometrical factor that is equal to 3/5 for a uniform sphere; in \Eq{virial} the terms on the right-hand side represent the
@@ -207,23 +207,12 @@ Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 
 In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
 \begin{equation}
-\alpha_{\rm vir, tot} \equiv \frac{5 R}{G} \frac{M_{\rm gas} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
-					       {M_{\rm gas} + M_{\star} }\,,
-\label{eqn:alpha_tot}
-\end{equation}
-
-\AP{shouldn t it be something like}
-\begin{equation}
 \alpha_{\rm vir, tot} \equiv \frac{5 R}{G (M_{\rm gas} + M_{\star})} \frac{M_{\rm gas} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
 					       {M_{\rm gas} + M_{\star} }\,,
 \label{eqn:alpha_tot}
 \end{equation}
-\begin{equation}
-\alpha_{\rm vir, tot} \equiv \frac{5 R \sigma_{\rm gas}^2}{G (M_{\rm gas} + M_{\star})}
-\label{eqn:alpha_tot}
-\end{equation}
-
 where $M_\star$ is the stellar mass within the MCC volume.
+\DL{Should we leave out $\sigma_{\star}$ since stellar motions shouldn't affect the gas?}
 
 
 %\subsection{Gravitational Instabilities}\label{sec:Q}
@@ -400,11 +389,14 @@ Same as \Fig{MCC}, except we show the quiescent phase of \flower, which is suppo
 \label{fig:MCC28}}
 \end{figure*}
 
-In \Fig{h2density}, we show the distribution of H$_2$ number density $n_{\rm H2}$ for \flower~ during its accreting phase, including the contribution from the gas within 3.5 kpc from the galaxy center.
+In \Fig{h2density}, we show the distribution of H$_2$ number density $n_{\rm H2}$ for \flower during its accreting phase, including the contribution from the gas within 3.5 kpc from the galaxy center.
 %
 We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and it samples the range of densities where clumps are found based on morphological analysis\footnote{For $n_{\rm H2}\gtrsim1$\,\cc, the fourth Minkowski functional of the H$_{2}$ density field is significantly larger than zero. This implies that the field is made of isolated components. See Fig. 6 in \citet{Pallottini17b}.} \citep{Pallottini17b}.
 %
-In each evolutionary stage, we identify MCCs by applying density cuts to the H$_2$ density distriution, i.e. $n_{\rm H2}\geq n_{\rm cut}$. We select 10 equally-spaced cuts in log scale: ${(n_{\rm cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]$. We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}). Note that with these choice we are including in the MCC also material that is not fully molecular ($n = 0.5 n_{\rm H2}$).
+In each evolutionary stage, we identify MCCs by applying density cuts to the {\em H$_2$ density} distribution, i.e., MCCs 
+are selected at $n_{\rm cut} \leq n_{\rm H2}$. We select 10 equally-spaced cuts in H$_2$ density in log scale: ${(n_{\rm cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]$. 
+% We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}). 
+Note that with these choice we are including MCCs that are not fully molecular ($n = 0.5 n_{\rm H2}$).
 
 To visually display the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}). Since the molecular structures are identified in the 3D H$_2$ density field, they can appear as overlapping structures depending on the viewing angle; thus we also plot them in different projections (right panels of \Fig{MCC}) so that the identification can be more easily appreciated.
 %
