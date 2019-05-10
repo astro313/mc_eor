@@ -44,58 +44,58 @@ def load_pickleTOplot(snapshot_num, pattern=None):
     return ss, to_plot, leafdir_out
 
 
-def plotting_procedure(snapshot_num):
+def plotting_procedure(snapshot_num, legendFontSize=13):
     from plot_modules.plot_cloud_prop import plot_stuff, plot_stuff_3dim
 
     ss, to_plot, leafdir_out = load_pickleTOplot(snapshot_num)
 
     plot_stuff("stellar to gas mass", "cloud mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("stellar to gas mass", "alpha vir", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("stellar to gas mass", "Mach", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("gas sd per ff", "sfr sd", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)    # SK
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff('gas sd cgs', 'sigmaSq over size', leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff('alpha vir', 'sigmaSq over size', leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("alpha vir", "SFR young", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("cloud mass", "mass over jeans mass",
-               leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+               leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("cloud mass", "jeans mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("cloud mass", "alpha vir", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     # alpha_vir w/ different definition of sigma in it
     plot_stuff("cloud mass", "alpha vir", compareAlphaVir=True,
                leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("size pc", "sigma kms", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("Mach", "SFR young", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("Mach", "SFR old", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("stellar to gas mass", "sigma kms", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("gas sd", "sigma kms", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("R2 pc2", "cloud mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("size pc", "cloud mass", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=12)
     plot_stuff("cloud mass", "Mach", leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("size pc", "weighted density",  leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff('sigma kms NT', 'sigma kms bulk', leglabel="ncut: ",
-               to_plot=to_plot, outdir=leafdir_out)
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
 
     plot_stuff_3dim("tff Myr", "size pc", "cloud mass",
-                    leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out)
+                    leglabel="ncut: ", to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
 
     # from plot_modules.plot_cloud_prop import get_masses_all_clouds, massFuncUnbinnedCDF, massFuncPDF, massFuncDifferential
     # allmass = get_masses_all_clouds(ss)
@@ -178,9 +178,9 @@ if __name__ == '__main__':
                                       t2='Starburst Phase',
                                       t3='Post-starburst Phase',
                                       t4='Quiescent Phase',
-                                      cbarLabelSize=20,
+                                      cbarLabelSize=23,
                                       outdir='./',
-                                      legendFontSize=16,
+                                      legendFontSize=18,
                                       saveFig=True)
 
     # for paper, 3x2 panel for just ss16 and ss22!!!!
@@ -194,7 +194,7 @@ if __name__ == '__main__':
                               tag='ss16-ss22',
 #                              cmap=cm,
                               sfrlabel=False,
-                              cbarLabelSize=20,
+                              cbarLabelSize=23,
                               outdir='./',
-                              legendFontSize=16,
+                              legendFontSize=18,
                               saveFig=True)

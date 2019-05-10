@@ -19,7 +19,7 @@ def setup_plot():
     # print(matplotlib.matplotlib_fname())
 
     matplotlib.rcParams.update({'figure.figsize': (8, 5)    # inches
-                                , 'font.size': 16      # points
+                                , 'font.size': 18      # points
                                 , 'legend.fontsize': 10      # points
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
@@ -33,8 +33,8 @@ def setup_plot():
                                 , 'ytick.major.size': 13     # length, points
                                 , 'ytick.major.width': 1     # points
                                 , 'ytick.minor.size': 8     # length, points
-                                , 'xtick.labelsize': 14
-                                , 'ytick.labelsize': 14
+                                , 'xtick.labelsize': 16
+                                , 'ytick.labelsize': 16
                                 , 'ytick.minor.width': 1     # points
                                 , 'font.serif': ("times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
@@ -162,9 +162,11 @@ def unpack_xy(ss):
     return to_plot
 
 
-def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='*',
+def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
+               marker='*',
                leglabel='', tag='',
                to_plot=None, save=True, outdir='./',
+               legendFontSize=10,
                showLegend=True,
                sfrlabel=False):
     """
@@ -181,9 +183,12 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         if True, plot different alpha_vir w/ different definition of sigma in it as different symbols.
 
     leglabel: str
-         something like "ncut: ", or "snapshot: " for legend
+        something like "ncut: ", or "snapshot: " for legend
 
     to_plot: dict
+
+    legendFontSize: int
+        fontsize of legend
 
     sfrlabel: bool
         if true, will label marker using SFR instead of snapshot number
@@ -440,19 +445,19 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         x = np.logspace(1, 3, 10)
         yH04 = 0.9 * x**0.56
         h, = ax.plot(x, yH04, linestyle='-.', color='r', linewidth=2,
-                label=r'Heyer \& Brunt 2004 $\sigma \propto R^{0.56}$')
+                label=r'Heyer \& Brunt 2004 $\sigma_{\rm gas} \propto R^{0.56}$')
         legend_h.append(h)
 
         # Bolatto+08: sigma = 0.44 * R^0.6 km/s; eqn 9
         yB08 = 0.44 * x**0.60
         h, = ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
-                label=r'Bolatto+08 $\sigma \propto R^{0.60}$')
+                label=r'Bolatto+08 $\sigma_{\rm gas} \propto R^{0.60}$')
         legend_h.append(h)
 
         # Larson81
         y = 1.10 * x**0.38       # Larson81 Eqn 1
         h, = ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
-                label=r'Larson 1981 $\sigma \propto R^{0.38}$')
+                label=r'Larson 1981 $\sigma_{\rm gas} \propto R^{0.38}$')
         legend_h.append(h)
 
         # More data from literature
@@ -585,7 +590,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
-            legend_h.append(h)
+            # legend_h.append(h)
 
 
     # name_out = ystr.replace(' ', '-') + '_' + \
@@ -595,12 +600,12 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
 
     if(xstr == 'cloud mass'):
         ax.set_xscale("log")
-        ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+        ax.set_xlabel(r"$M_{\rm gas}$ [M$_{\odot}$]")
         ax.set_xlim(1.0e3, 1.0e8)
 
     if(xstr == 'cloud stellar mass'):
         ax.set_xscale("log")
-        ax.set_xlabel(r"$M_{\rm cl}^*$ [M$_{\odot}$]")
+        ax.set_xlabel(r"$M_{\rm gas}^*$ [M$_{\odot}$]")
         ax.set_xlim(1.0e5, 1.0e10)
 
     if xstr == "Mach":
@@ -618,7 +623,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
 
     if xstr == 'size pc':
         ax.set_xscale("log")
-        ax.set_xlabel("Cloud Size [pc]")
+        ax.set_xlabel("R [pc]")
         ax.set_xlim(1.0, 2.e3)
 
         if 'density' in ystr:
@@ -662,6 +667,12 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         ax.set_ylabel(r"$\sigma_{\rm bulk}$ [km s$^{-1}$]")
         ax.set_ylim(0.1, 7e2)
 
+        if xstr == "sigma kms NT":
+            # 1-1 line
+            xx = np.arange(np.min((_x, _y)), np.max((_x, _y)))
+            h, = ax.plot(xx, xx, ls='--',
+                         label='', lw=2, color='k')
+
     if ystr == "sigma kms NT":
         ax.set_yscale("log")
         ax.set_ylabel(r"$\sigma_{\rm NT}$ [km s$^{-1}$]")
@@ -671,9 +682,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
         ax.set_xlim(3., 250)
         ax.set_ylim(3., 250)
 
-    if 'density' in ystr:
+    if ystr == 'weighted density':
         ax.set_yscale('log')
-        ax.set_ylabel(r'$<\rho>$ [cm$^{-3}]$')
+        ax.set_ylabel(r'$< n >$ [cm$^{-3}]$')
         # ax.set_ylim() # TBD
 
     if ystr == "SFR young":
@@ -690,12 +701,12 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
 
     if(ystr == 'cloud mass'):
         ax.set_yscale("log")
-        ax.set_ylabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+        ax.set_ylabel(r"$M_{\rm gas}$ [M$_{\odot}$]")
         ax.set_ylim(1.0e3, 1.0e8)
 
     if(ystr == 'mass over jeans mass'):
         ax.set_yscale("log")
-        ax.set_ylabel(r"$M_{\rm cl} / $M$_J$")
+        ax.set_ylabel(r"$M_{\rm gas} / $M$_J$")
 #        ax.set_ylim(10.0, 5.e6)
 
     if(ystr == 'alpha vir'):
@@ -734,24 +745,27 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
             # ax.legend(loc="upper center", ncol=4, fontsize=9,
             #           bbox_to_anchor=(0.5, -0.18))
             ax.legend(handles=legend_h, loc="upper center", ncol=4,
-                      fontsize=9,
+                      fontsize=10,
                       bbox_to_anchor=(0.5, -0.18),
                       markerscale=3)
         elif xstr == "size pc" and ystr == "cloud mass":
             ax.legend(handles=legend_h, loc="best",
-                      fontsize=10,
-                      markerscale=3)
+                      fontsize=legendFontSize,
+                      markerscale=2,
+                      frameon=False,
+                      fancybox=False)
+
         elif xstr == "cloud mass" and ystr == 'alpha vir':
-            ax.legend(loc='best', ncol=2, fontsize=10,
+            ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                       markerscale=3)
         elif xstr == "gas sd per ff" and ystr == "sfr sd":
-            ax.legend(loc='best', ncol=2, fontsize=10,
+            ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                                       markerscale=3)
         elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
-            ax.legend(loc='best', ncol=2, fontsize=10,
+            ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                                       markerscale=3)
         else:
-            ax.legend(loc='best', fontsize=10,                       markerscale=3)
+            ax.legend(loc='best', fontsize=legendFontSize,                       markerscale=3)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.minorticks_on()
@@ -769,7 +783,8 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10, marker='
 
 def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
                     leglabel='', tag='',
-                    to_plot=None, save=True, outdir='./', sfrlabel=False):
+                    to_plot=None, save=True, outdir='./', sfrlabel=False,
+                    legendFontSize=13):
     from matplotlib.ticker import NullFormatter
 
     if sfrlabel:
@@ -815,7 +830,7 @@ def plot_stuff_3dim(xstr, ystr, zstr, ls='', markersize=7, marker='*',
         ax.yaxis.set_minor_formatter(NullFormatter())
 
     if leglabel is not '':
-        ax.legend(loc='best')
+        ax.legend(loc='best', fontsize=legendFontSize)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.minorticks_on()
@@ -896,19 +911,19 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     x = np.logspace(1, 3, 10)
     yH04 = 0.9 * x**0.56
     h, = ax.plot(x, yH04, linestyle='-.', color='r', linewidth=2,
-            label=r'Heyer \& Brunt 2004 $\sigma \propto R^{0.56}$')
+            label=r'Heyer \& Brunt 2004 $\sigma_{\rm gas} \propto R^{0.56}$')
     legend_h.append(h)
 
     # Bolatto+08: sigma = 0.44 * R^0.6 km/s
     yB08 = 0.44 * x**0.60
     h, = ax.plot(x, yB08, linestyle=':', color='b', linewidth=1.5,
-            label=r'Bolatto+08 $\sigma \propto R^{0.60}$')
+            label=r'Bolatto+08 $\sigma_{\rm gas} \propto R^{0.60}$')
     legend_h.append(h)
 
     # Larson81
     y = 1.10 * x**0.38       # Larson81 Eqn 1
     h, = ax.plot(x, y, color='k', linestyle='--', linewidth=1.5,
-            label=r'Larson 1981 $\sigma \propto R^{0.38}$')
+            label=r'Larson 1981 $\sigma_{\rm gas} \propto R^{0.38}$')
     legend_h.append(h)
 
     # More data from literature
@@ -973,11 +988,11 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
-    ax.set_xlabel("Cloud Size [pc]")
+    ax.set_xlabel("R [pc]")
     ax.set_xlim(2, 2.e3)
 
     ax.set_yscale("log")
-    ax.set_ylabel(r"$\sigma$ [km s$^{-1}$]")
+    ax.set_ylabel(r"$\sigma_{\rm gas}$ [km s$^{-1}$]")
     ax.set_ylim([0.5, 3.e2])
 
     ax.tick_params(axis='both', which='both')   # direction='in'
@@ -991,7 +1006,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         if not legendFontSize:
             legendFontSize = 10
         ax.legend(loc="upper center", ncol=4, fontsize=legendFontSize,
-                  bbox_to_anchor=(1.1, 1.2), markerscale=3)    # 1.28
+                  bbox_to_anchor=(1.1, 1.25), markerscale=3)    # 1.28
         # ax.legend(handles=legend_h, loc="upper center", ncol=2,
         #           fontsize=legendFontSize,
         #           bbox_to_anchor=(0.5, 0.9))
@@ -1144,10 +1159,10 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     ax.set_xscale("log")
 
     if xaxis == 'mass':
-        ax.set_xlabel(r"$M_{\rm cl}$ [M$_{\odot}$]")
+        ax.set_xlabel(r"$M_{\rm gas}$ [M$_{\odot}$]")
         ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
     elif xaxis == 'massRatio':
-        ax.set_xlabel(r"$M_\star / M_{\rm cl}$")
+        ax.set_xlabel(r"$M_\star / M_{\rm gas}$")
         ax.set_xlim(0.07, 2e2)
 
     ax.set_yscale("log")
@@ -1238,11 +1253,11 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_xscale("log")
     ax.set_xlim(10**-2.5, 10**0.3)
-    ax.set_xlabel(r"$\Sigma_{\rm gas}$ [g cm$^{-2}$]")
+    ax.set_xlabel(r"$\Sigma$ [g cm$^{-2}$]")
 
     ax.set_yscale("log")
     ax.set_ylim(10**-1.5, 10**2.5)
-    ax.set_ylabel(r"$\sigma^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
+    ax.set_ylabel(r"$\sigma_{\rm gas}^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     fig, ax = set_minorticks(fig, ax)
@@ -1276,7 +1291,7 @@ def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
-    ax.set_xlabel(r"$M_\star/M_{\rm cl}$")
+    ax.set_xlabel(r"$M_\star/M_{\rm gas}$")
     ax.set_xlim(0.005, 2e2)
 
     ax.set_ylabel(r"$\mathcal{M}$")
@@ -1821,7 +1836,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
                       showLegend=True, legendFontSize=legendFontSize) # ss16
-    plt.text(0.5, 1.2,     # 1.3
+    plt.text(0.5, 1.25,
             t1,
             horizontalalignment='center',
             fontsize=20,
@@ -1836,7 +1851,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     ax.set_ylabel('')
     ax.set_xlabel('')
     # ax.set_yticklabels([])
-    plt.text(0.5, 1.2,    # 1.3
+    plt.text(0.5, 1.25,    # 1.3
             t2,
             horizontalalignment='center',
             fontsize=20,
@@ -2058,7 +2073,7 @@ def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):
     ax.set_xscale("log")
     ax.set_yscale("log")
 
-    ax.set_xlabel(r"$M_{\rm cl}$ [M$_\odot$]")
+    ax.set_xlabel(r"$M_{\rm gas}$ [M$_\odot$]")
     ax.set_ylabel("CDF")
 
     ax.set_xlim(allmasses.min(), allmasses.max())
@@ -2113,7 +2128,7 @@ def CMF(allmasses, save=True, outdir='./', tag=''):
                  color='k',
                  ha='right')
 
-    ax.set_xlabel(r"M$_{\rm cl}\, [{\rm M}_{\odot}]$")
+    ax.set_xlabel(r"M$_{\rm gas}\, [{\rm M}_{\odot}]$")
     ax.set_ylabel("$n(M^{\prime}>M)$")
 
     ax.legend(loc="best")
@@ -2138,7 +2153,7 @@ def massFuncPDF(allmasses, nbins=200, normed=True, save=True, outdir='./', tag='
     ax.set_xscale("log")
     ax.set_yscale("log")
 
-    ax.set_xlabel(r"$M_{\rm cl}$ [M$_\odot$]")
+    ax.set_xlabel(r"$M_{\rm gas}$ [M$_\odot$]")
     ax.set_ylabel("PDF")
 
     ax.set_xlim(allmasses.min(), allmasses.max())
@@ -2187,7 +2202,7 @@ def massFuncDifferential(allmasses, logged=False, nbins=8, save=True, outdir='./
                              logged=logged,
                              nbins=nbins)
     ax.plot(mbin / 1.e7, df)
-    ax.set_xlabel(r"$M_{\rm cl}$ [$\times$ 10$^7$ M$_\odot$]")
+    ax.set_xlabel(r"$M_{\rm gas}$ [$\times$ 10$^7$ M$_\odot$]")
     ax.set_ylabel("dN/d ln M")
 
     # # compare to slope based on obs.
