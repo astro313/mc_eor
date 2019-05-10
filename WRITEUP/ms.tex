@@ -448,39 +448,6 @@ Finally, the Mach number is related to the pressure terms as follows
 
 \subsection{Distributions of MCC Basic Properties}
 
-The local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities,
-as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallottini17b}, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$.
- In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds a global Mach number of $\mathcal{M} \sim 10$ for \flower.
-%
-Note that the bulk velocity dispersion $\sigma_{\rm bulk}$ is typically comparable to the non-thermal term $\sigma_{\rm NT}$, as the two are connected via the Euler equation \AP{do we want to add a plot here to show the point?}\DL{This is currently shown in \Fig{vv}}, but this depends on the evolutionary stage of \flower.
-%
-%\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}.
-
-% allss: 0.32
-% In [13]: print(get_Mach_all_clouds(ss11))
-%[10.62623949  3.10713402  7.0525831   3.336829   10.36052827  7.24157821
-%  7.12323137  6.75282955  9.94086767  7.47769907  3.39894958  3.27304956
-%  6.69290803 11.44844494  7.03862716  3.16574077  5.1015787   5.67749554
-%  7.35946615  6.89475134  7.2433421  10.57019778 11.78414139  3.93499799
-%  6.86173652  7.39686112  8.37197686  6.71749578  2.65304172  6.49617895
-%  5.15095491  5.6606244   2.98923849  3.65475035  7.37703114  4.5669722
-%  7.18720926  7.35017082  6.03000248  6.36373235 10.16701766  8.3894084
-%  3.09284034  4.37994321  4.46497953  5.264101    8.11686     3.05183157
-%  7.10365783  6.09513017  8.72517656  5.59659665  3.95290202  9.22726672
-%  4.94960657  6.19757621  4.63335759  3.32670022  3.46706217  5.58358069
-%  3.41808098  8.31386962  4.26357159  3.684986    4.01853538  3.62917357
-%  6.05586465  9.82127908  6.68366736 11.0791874  13.28965621 10.42021747
-%  3.04409362  7.21509021  3.63699627  8.12503492  3.20158298]
-% allss: 18.96
-%In [15]: print(get_Mach_all_clouds(ss12))
-%[15.25049689  6.74580503  6.98246499  5.17070655  6.470997    7.02626558
-%  4.42663778  6.34460542  4.90603266  3.66900884  4.03260414  6.9539893
-%  8.36247744  4.89164338  4.12695121  6.55187227  6.15391173  3.56580625
-%  5.74818066  3.81067175  6.65393948  9.10100946  6.35039889  4.78667156
-%  5.05517168  6.93886988  5.4830306 ]
-% see also e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
-% This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
-
 The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure. However, not all evolutionary stages considered have at least one MCC at this highest density threshold,  we therefore consider MCCs identified with the second highest density threshold ($n_{\rm cut}$\eq18.96\,\cc) in the following. We show in \Fig{dist} the MCC distribution in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
 f_{\rm gas} = \frac{M_{\rm gas}} {\left(M_{\rm gas} + M_\star\right)}.
@@ -497,7 +464,7 @@ Overall, the mass of all MCCs identified ranges between $M_{\rm gas}\simeq$10$^{
 \includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_stellar-to-gas-mass_ss16.png}
 \caption{Cloud mass and stellar-to-gas mass ratio of MCCs identified in the accreting phase of \flower.
 The most massive MCCs have the highest stellar-to-gas mass ratio ($\gtrsim$\,1) \AP{do we really need both $f_{\rm gas}$ and $M_\star/M_{\rm gas}$?} as they correspond to a large part of \flower, and thus,
-include a large number of stellar mass already ensembled in \flower \AP{please change $M_{cl}$ to $M_{\rm gas}$ in the figure}.
+include a large number of stellar mass already ensembled in \flower 
 \label{fig:stellarRatio16}}
 \end{figure}
 
@@ -509,7 +476,7 @@ include a large number of stellar mass already ensembled in \flower \AP{please c
   fraction (right) of MCCs identified using the lowest $n_{\rm cut}$
   (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels)
  over all times analyzed here.
-Note that the scalesshown on the $y$-axes are different between the top
+Note that the scales shown on the $y$-axes are different between the top
 and bottom panels, as fewer MCCs are identified at higher $n_{\rm
   cut}$.
 \label{fig:dist}}
@@ -536,7 +503,7 @@ Data points in the $\alpha_{\rm vir}$-mass figure are taken from
 \citet{Kauffmann17a} and \citet{Kauffmann17b} and references therein
 (see Fig 4 of \citealt{Kauffmann17b}).
 The gray dotted lines shown in the bottom panels correspond to the various external pressures for
-gas in equilibrium, see Equation~\ref{eqn:v0}. \AP{$\sigma$ should be $\sigma_{\rm gas}$}
+gas in equilibrium, see Equation~\ref{eqn:v0}.
 \label{fig:larsons_single}}
 \end{figure*}
 
@@ -544,19 +511,19 @@ gas in equilibrium, see Equation~\ref{eqn:v0}. \AP{$\sigma$ should be $\sigma_{\
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
 \caption{
-Size-mass relation of MCCs identified in the accreting phase of \flower in our simulation (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. Red line shows the
-mass-size relation found for regions in the Milky Way with massive \SF
-reported by \citet{Kauffmann10b}. Star symbols are color-coded by
+Size-mass relation of MCCs in the accreting phase of \flower (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way. 
+Star symbols are color-coded by
 increasing $n_{\rm cut}$, same as the colorbar shown in \Fig{larsons_single}.
+Red line shows the mass-size relation found for regions in the Milky Way with massive \SF \citep{Kauffmann10b}. 
 Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}.
-Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), which correspond to lines of
-constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see text and e.g., \citealt{Lombardi10a}).
+Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), corresponding to lines of
+constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see \Sec{singless} and e.g., \citealt{Lombardi10a}).
 %mm [redundant] The star symbols are color-coded by $n_{\rm cut}$,
 %same as \Fig{larsons_single}.
-Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b}
-relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF \AP{please change y label to $M_{\rm gas}$; note that in Fig. \ref{fig:dist} R instead of cloud size is used; we have to pick one}.
+%Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b}
+%relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF.
+For interpretation of this figure, see discussion in \Sec{MR}.
 \label{fig:MR}}
-%mm}
 \end{figure*}
 
 
@@ -573,7 +540,7 @@ the unstable region as \flower\ accretes materials to being stable (e.g., panel 
 post-starburst phase.
 The variation is clearly seen between the pre-starburst through post-starburst phase.
 Excluding the biggest MCCs (see \Fig{stellarRatio16} and \Sec{singless}),
-MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. \AP{please change x label to $M_{\rm gas}$; note that this plot seems a bit redundant}
+MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. 
 \label{fig:alphaEvol}}
 \end{figure*}
 
@@ -584,7 +551,7 @@ MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the 
 \caption{Same as \Fig{larsons_single}, except star symbols are showing MCCs identified across all evolutionary stages traced in our simulation, which are color-coded by the SFR of \flower in those stages (see colorbar). Left panels show MCCs identified using a low density threshold of $n_{\rm cut}$\eq0.53\,\cc and right panels show MCCs
 identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
 The biggest MCCs identified at lowest density threshold, occupying the top right corner of the top left panel), are broken into smaller MCCs at higher
-density thresholds (top right panel). \AP{please change x labels of the middle panels to $M_{\rm gas}$; $\sigma$ should be $\sigma_{\rm gas}$}
+density thresholds (top right panel).
 \label{fig:alpha16-28}}
 \end{figure*}
 
@@ -645,6 +612,7 @@ Milky Way \citep{Beuther02a, Mueller02a, Hill05a, Motte07a} and an empirical rel
 Motivated by \obs, we overplot lines of constants $A_V$ in the same plot.
 As shown in the figure, MCCs of \flower lie along the locus of $A_V \simeq 8.9$ clouds observed by
 \citet{Lombardi10a} in the MW.
+Further discussions on the interpretation of this is provided in \Sec{MR}.
 %
 %The values of $A_V$ inferred from http://adsabs.harvard.edu/abs/2017MNRAS.471.5018F
 %the $M_{\rm gas}$-size relation is consistent with the extinction inferred from gas clumps analysing the UV and IR emission of \flower~by calculating the effect of radiative transfer through dust \citep[][in particular see Fig. 5 therein]{Behrens18a}
@@ -676,7 +644,7 @@ typically do not reach the density thresholds as $n_{\rm cut}$ increases. Hence,
 These sub-MCCs are smaller in size, and thus, are shifted leftward in the top right panel.
 In this way, we identify a population of denser molecular structures (see \Fig{MCC}).
 
-We note that similarly massive molecular structures (few times 10$^7$\,\Msun) have been
+We note that similarly massive molecular structures (few times 10$^7$\,\Msun\footnote{See \S{3.1} of \citet{Behrendt16a}.}) have been
 reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum
 resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}).
 However, the IGM and merger and accretion histories are not properly modeled in such simulations since
@@ -742,7 +710,7 @@ is comparable to what has been observed in local ultra-luminous IR galaxies (ULI
 %
 For instance, in local ULIRGs, MCCs are likely formed by shock compression and cloud-cloud collisions that funnel large amounts of gas from the progenitor galaxies towards the central region \citep{Tan00a, Wu18a}.
 % Tasker09a
-On the other hand, the highly turbulent structures of \flower are the result of extra-planar flows \citep{kohandel:2019} and to higher velocity the accretion/SN-driven outflows \citep{gallerani:2018}. The presence of extra-planar flows may also be the dominant mode for forming the highly supersonic massive MCCs observed in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}) --- but the observed size scales could also be biased high due to the resolution limit.
+On the other hand, the highly turbulent structures of \flower are the result of extra-planar flows \citep{kohandel:2019} and higher velocity accretion/SN-driven outflows \citep{gallerani:2018}. The presence of extra-planar flows may also be the dominant mode for forming the highly supersonic massive MCCs observed in gas-rich star-forming galaxies at $z$\ssim2 (see also e.g., \citealt{Swinbank11a}) --- but the observed size scales could also be biased high due to the resolution limit.
 
 % different evolutionary stages
 In terms of the Larson's linewidth-size relation, we do not find any major quantitative differences
@@ -759,17 +727,51 @@ This is expected for \SF to proceed.
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-sigma-kms-bulk_sigma-kms-NT} \\
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss28-sigma-kms-bulk_sigma-kms-NT}
-\caption{Velocity dispersions from bulk motions and turbulent motions of \flower in accreting (top) and
+\caption{Gas velocity dispersions from bulk motions and turbulent motions of \flower in accreting (top) and
 quiescent phase (bottom). The accreting phase (\Fig{MCC}) displays a more disturbed morphology compared to the
 quiescent phase, which displays a disk-like morphology (\Fig{MCC28}).
 The velocity dispersion from turbulent motions is higher than that from bulk motions for most MCCs in the accreting phase, but
 the opposite is true in the quiescent phase. Thus, large-scale motion plays an important role in contributing to the total velocity dispersion.
 This implies that the velocity dispersion measured in molecular gas structures from \obs on similar physical scales
-should not be taken as direct evidence that these structures at high redshifts are intrinsically more turbulent than those in the local ISM. \AP{to guide the eye, I would draw the $x=y$ line in both panels}
+should not be taken as direct evidence that these structures at high redshifts are intrinsically more turbulent than those in the local ISM. 
 % either higher resolution, or properly accounting for large scale motions.
 \label{fig:vv}}
 \vspace{0.5em}
 \end{figure}
+
+The local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities,
+as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallottini17b}, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$.
+ In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds a global Mach number of $\mathcal{M} \sim 10$ for \flower.
+ % 
+ Note that the bulk velocity dispersion $\sigma_{\rm bulk}$ is typically comparable to the non-thermal term $\sigma_{\rm NT}$, 
+as the two are connected via the Euler equation, but this depends on the evolutionary stage of \flower (\Fig{vv}).
+%
+%\footnote{Velocity dispersions calculated from velocity field are comparable to those calculated from the pressure field indicating that contribution from shear is unlikely to dominate the velocity dispersions of the smaller MCCs identified, especially at the highest $n_{\rm ncut}$.\label{ftn:veldisp}}.
+
+% allss: 0.32
+% In [13]: print(get_Mach_all_clouds(ss11))
+%[10.62623949  3.10713402  7.0525831   3.336829   10.36052827  7.24157821
+%  7.12323137  6.75282955  9.94086767  7.47769907  3.39894958  3.27304956
+%  6.69290803 11.44844494  7.03862716  3.16574077  5.1015787   5.67749554
+%  7.35946615  6.89475134  7.2433421  10.57019778 11.78414139  3.93499799
+%  6.86173652  7.39686112  8.37197686  6.71749578  2.65304172  6.49617895
+%  5.15095491  5.6606244   2.98923849  3.65475035  7.37703114  4.5669722
+%  7.18720926  7.35017082  6.03000248  6.36373235 10.16701766  8.3894084
+%  3.09284034  4.37994321  4.46497953  5.264101    8.11686     3.05183157
+%  7.10365783  6.09513017  8.72517656  5.59659665  3.95290202  9.22726672
+%  4.94960657  6.19757621  4.63335759  3.32670022  3.46706217  5.58358069
+%  3.41808098  8.31386962  4.26357159  3.684986    4.01853538  3.62917357
+%  6.05586465  9.82127908  6.68366736 11.0791874  13.28965621 10.42021747
+%  3.04409362  7.21509021  3.63699627  8.12503492  3.20158298]
+% allss: 18.96
+%In [15]: print(get_Mach_all_clouds(ss12))
+%[15.25049689  6.74580503  6.98246499  5.17070655  6.470997    7.02626558
+%  4.42663778  6.34460542  4.90603266  3.66900884  4.03260414  6.9539893
+%  8.36247744  4.89164338  4.12695121  6.55187227  6.15391173  3.56580625
+%  5.74818066  3.81067175  6.65393948  9.10100946  6.35039889  4.78667156
+%  5.05517168  6.93886988  5.4830306 ]
+% see also e.g., test_brute/leaf_fields_ss16-28/18.96_10_fields/Mach_cloud-mass.png
+% This is consistent with the global analysis done on \flower by \citet{Vallini18a}.
 
 We compare the gas velocity dispersion from bulk motions versus turbulent motions for MCCs in the accreting
 and quiescent phase in \Fig{vv}. We note that \flower displays a disturbed morphology in the accreting phase
@@ -777,6 +779,10 @@ but a disk-like morphology in the quiescent phase
 (see \Fig{MCC} and \Fig{MCC28}).
 Most MCCs in the accreting phase have turbulent velocity dispersions higher than the bulk motion velocity dispersions,
 whereas the opposite is true in the quiescent phase. In addition, the two velocity dispersion terms are of the same order of magnitude.
+
+We note that \citet{Behrendt16a} similarly concluded that large scale bulk motion may mimic turbulent velocity dispersion 
+due to beam smearing even though the self-rotation of each individual sub-MCCs is washed out.
+
 {\em This indicates that gas velocity dispersions observed on similar physical scales and resolutions as presented here
 have an important contribution from large-scale rotation.} Hence, the linewidths observed in \highz molecular gas structures
 on these scales should {\em not} be taken as a direct evidence they are intrinsically more turbulent than those in the local ISM,
@@ -841,7 +847,9 @@ even though we are identifying the structures in 3D just like what BM02 did.}
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/weighted-density_size-pc_ss16}
 \caption{Density and size of MCCs in the accreting phase of \flower.
 At higher $n_{\rm cut}$, MCCs are broken into smaller MCCs and
-form the cluster of points that are to the top left of the parent MCC identified at a lower density threshold. \AP{$\rho \rightarrow n$; this should stay close to Fig. \ref{fig:MR}}
+form the cluster of points that are to the top left of the parent MCC identified at a lower density threshold. 
+See also \Fig{MR} for the corresponding mass-size relation of MCCs of \flower. 
+\AP{$\rho \rightarrow n$}
 \label{fig:rho}}
 \vspace{0.5em}
 \end{figure}
@@ -1063,8 +1071,9 @@ and making predictions on the morphology and dynamics of the molecular ISM of th
 %==============================================================================
 % ACKNOWLEDGEMENTS
 %-------------------------------------
-\acknowledgements
+% \acknowledgements
 
+\section*{Acknowledgements}
 We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data, and Jens for useful discussions.
 %
 TKDL acknowledges support by the NSF through award SOSPA4-009 from the NRAO and support from the Simons Foundation.
