@@ -588,7 +588,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
 
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
-                         label=leglabel + ks,
+                         # label=leglabel + ks,         # don't show n cut in legend
                          markeredgecolor='gray',
                          markeredgewidth=0.5)
 
@@ -631,7 +631,39 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
         ax.set_xlim(1.0, 2.e3)
 
         if 'density' in ystr:
-            ax.set_xlim(50, 700)
+            ax.set_xlim(10., 700)
+            xx = np.arange(10., 500.)
+
+            from scipy.optimize import curve_fit as fit
+            logy = lambda x, a, b: a * np.log10(x) + b
+
+            # get normalization offset constant
+            xx = np.array([154.03388287747785,171.55142581874753,184.84825987587666])
+            yy = np.array([523.4370542322141, 499.14952519314403, 467.58350935283244])
+            popt, pcov = fit(logy, xx, np.log10(yy), p0=(-0.1, 10))
+
+            # sanity check
+            # ax.plot(xx, 10**logy(xx, *popt), 'r-', label='fit: a=%5.2f, b=%5.2f' %tuple(popt))
+
+            # plot loci of that
+            xx = np.arange(10.0, 700.)
+            # ax.plot(xx, 10**logy(xx, *popt), 'k--', label=r'$n \propto R^{{:.2f}}$'.format(popt[0]), linewidth=0.5)
+            # for i in np.linspace(3.5, 4.5, 5):
+            #     ax.plot(xx, 10**logy(xx, popt[0], i), 'k--', linewidth=0.5)
+
+            # ranges of index (-0.5 to -1.7) for different power law index in MR relation (M propto 1.3 to 2.5)
+            for i, ee in enumerate(np.linspace(2.5, 4.5, 10)):
+                if i == 0:
+                    ax.plot(xx, 10**logy(xx, -0.5, ee), 'k--', label=r"$n \propto R^{-1/2}$ (If Larson's: $M\propto R^{5/2}$)", linewidth=0.5)
+                else:
+                    ax.plot(xx, 10**logy(xx, -0.5, ee), 'k--', linewidth=0.5)
+
+            for i, ee in enumerate(np.linspace(5, 15.0, 10)):
+                if i == 0:
+                    ax.plot(xx, 10**logy(xx, -5/3, ee), 'k--', label=r"$n \propto R^{-5/3}$ (If Larson's: $M\propto R^{4/3}$)", linewidth=0.5)
+                else:
+                    ax.plot(xx, 10**logy(xx, -5/3, ee), 'k--', linewidth=0.5)
+
 
     if xstr == 'R2 pc2':
         ax.set_xscale("log")
@@ -689,7 +721,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
     if ystr == 'weighted density':
         ax.set_yscale('log')
         ax.set_ylabel(r'$< n >$ [cm$^{-3}]$')
-        # ax.set_ylim() # TBD
+        ax.set_ylim(100., 3e3)
 
     if ystr == "SFR young":
         ax.set_yscale("log")
@@ -768,8 +800,10 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
         elif xstr == "gas sd cgs" and ystr == "sigmaSq over size":
             ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                                       markerscale=3)
+        elif xstr == 'size pc' and ystr == 'weighted density':
+            ax.legend(loc='upper left', fontsize=legendFontSize,                       markerscale=3, frameon=False)
         else:
-            ax.legend(loc='best', fontsize=legendFontSize,                       markerscale=3)
+            ax.legend(loc='best', fontsize=legendFontSize,                       markerscale=3, frameon=False)
 
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.minorticks_on()
