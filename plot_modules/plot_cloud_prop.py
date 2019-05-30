@@ -101,6 +101,8 @@ def unpack_xy(ss):
         _sigma2oR = []
         _mSD_per_ff = []   # Msun/pc^2/Myr
 
+        _P_NT = []
+
         for kkk in ss[ks].iterkeys():
             # print ss[ks][kkk]
             _Mj.append(ss[ks][kkk].M_jeans)
@@ -133,6 +135,7 @@ def unpack_xy(ss):
             _sigma2oR.append(ss[ks][kkk].sigma_gas_tot /
                              (ss[ks][kkk].R_pc * 2.0))
             _mSD_per_ff.append(ss[ks][kkk].massSD / (ss[ks][kkk].R_pc)**2 / ss[ks][kkk].tff_Myr)
+            _P_NT = [].append(ss[ks][kkk].P_nt)
 
         to_plot[ks] = {}
         to_plot[ks]['cloud mass'] = _m
@@ -1460,7 +1463,7 @@ def plot_Mach_massRatio_4ss(to_plot1, to_plot2, to_plot3, to_plot4,
                             # ax=axes.ravel().tolist(),
                             cax=cax)
         cbar.ax.tick_params(length=6, labelsize=legendFontSize)
-        label = r'$n_{\rm cut}$'
+        label = r'$n_{\rm cut}$ [cm$^{-3}$] $\equiv$ Density cut in $n_{\rm H2}$ '
         cbar.set_label(label, fontsize=cbarLabelSize)
 
     if saveFig:
@@ -2096,6 +2099,14 @@ def get_Mach_all_clouds(ss):
         for snapleafs in ss[snap].iterkeys():
             allMach.append(np.mean(ss[snap][snapleafs].Mach_vec))
     return np.array(allMach)
+
+def get_P_NT_all_clouds(ss):
+    allP_NT = []
+    for snap in ss.iterkeys():
+        for snapleafs in ss[snap].iterkeys():
+            allP_NT.append(np.mean(ss[snap][snapleafs].P_nt))
+    return np.array(allP_NT)
+
 
 
 def massFuncUnbinnedCDF(allmasses, save=True, outdir='./', tag=''):

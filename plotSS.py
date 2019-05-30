@@ -210,12 +210,25 @@ if __name__ == '__main__':
     import matplotlib
     matplotlib.use('agg')
 
+    import numpy as np
+
     import matplotlib.pyplot as plt
-    from plot_modules.plot_cloud_prop import setup_plot
+    from plot_modules.plot_cloud_prop import setup_plot, get_P_NT_all_clouds
     cm = setup_plot()
 
     # # for paper
-    # plot_dis_allSS()
+    # minss=16
+    # maxss=28
+    # pattern1='0.32'
+    # pattern2='18.96'
+    # plotdir='./test_brute/leaf_fields_ss16-28/'
+    # plot_dis_allSS(minss, maxss, pattern1, pattern2, plotdir)
+    # ss11, to_plot11, _ = load_pickleTOplot(minss, maxss, \
+    #                                        fname=pattern1 + '_10_fields.p')
+    # ss12, to_plot12, _ = load_pickleTOplot(minss, maxss, \
+    #                                        fname=pattern2 + '_10_fields.p')
+    # print(get_P_NT_all_clouds(ss11).min(), get_P_NT_all_clouds(ss11).max(), np.median(get_P_NT_all_clouds(ss11)))
+    # print(get_P_NT_all_clouds(ss12).min(), get_P_NT_all_clouds(ss12).max(), np.median(get_P_NT_all_clouds(ss12)))
 
     # # of MCs w/ mass > 1e8 Msun (for paper)
     # _, _to, _ = load_pickleTOplot(16, 28, fname="0.32_10_fields.p")
