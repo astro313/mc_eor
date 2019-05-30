@@ -446,7 +446,7 @@ Finally, the Mach number is related to the pressure terms as follows
 
 \section{Results}\label{sec:results}
 
-\subsection{Distributions of MCC Basic Properties and Outlier}
+\subsection{Distributions of MCC Basic Properties and Outlier} \label{sec:dist}
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
@@ -493,9 +493,12 @@ are dominated by turbulent motions.
 On the other hand, $\sigma_{\rm bulk}$ is at least comparable to $\sigma_{\rm NT}$ for almost half the MCCs
 in the quiescent disk-like phase.
 
-The most massive MCC is excluded in the discussion of MCC dynamics in the remainder of this paper.
+The most massive MCC is excluded in the discussion of MCC dynamics in the remainder of this paper
+since its dynamics is dominated by large-scale shear.
 Considering only the MCCs identified at the highest density threshold, the mass of MCCs is $\simeq10^{6.5}$\,\Msun.
-% GMCs in nearby galaxies: 10^5 < M < 1e7 Msun \citep{Rosolowsky03a, Freeman17a}
+We note that similarly massive molecular structures (few times 10$^7$\,\Msun\footnote{See \S{3.1} of \citet{Behrendt16a}.}) 
+have been reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}).
+However, the IGM and merger and accretion histories are not properly modeled in such simulations since they adopt non-cosmological initial conditions. That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
 
 \begin{figure}
 \centering
@@ -514,14 +517,6 @@ in the quiescent disk-like phase.
 
 The local sound speed of all identified molecular complexes is typically much smaller than their non-thermal (turbulent) velocities,
 as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallottini17b}, i.e. $c_s^2 \ll \sigma_{\rm NT}^2$. In particular, the Mach number averaged on the the MCCs distribution at the highest density threshold is $\mathcal{M} \simeq6$; this is consistent with the analysis done in \citep{Vallini18a}, that finds a global Mach number of $\mathcal{M} \sim 10$ for \flower.
-%%
-%This can be further analyzed as follows. In \Fig{vv} we show the gas velocity dispersions from bulk motions versus turbulent motions for MCCs in the accreting and quiescent phase. Recall that \flower displays a disturbed morphology in the accreting phase but a disk-like morphology in the quiescent phase (see \Fig{MCC} and \Fig{MCC28}).
-%%
-%Most MCCs in the accreting phase have turbulent velocity dispersions higher than the bulk motion velocity dispersions, whereas the opposite is true in the quiescent phase. In addition, the two velocity dispersion terms are of the same order of magnitude.
-%% as the two are connected via the Euler equation
-
-
-
 
 \subsection{Single Evolutionary Stage}  \label{sec:singless}
 
@@ -657,14 +652,14 @@ In the starburst phase, MCCs have similar velocity dispersion and sizes as those
 MCCs in the starburst phase span a wider range in gas surface density 
 (bottom panels of \Fig{larsons_single}) and have lower virial parameters, even
 for MCCs with masses $<$\,10$^7$\,\Msun (i.e., excluding the molecular disk of \flower identified).
-That is, more MCCs in the starburst phase of \flower are more susceptible to collapse.
+That is, more MCCs in the starburst phase of \flower are more susceptible to collapse, as expected.
 %
 % Due to a time delay between cloud collapse and \SF, we also compare the virial parameter of MCCs in the pre-starburst phase and post-starburst phase.
 %\Fig{alphaEvol} shows that most MCCs in the pre-starburst phase have even lower virial parameter than in the starburst phase. On the other hand,
 %the virial parameter of MCCs in the post-starburst phase is higher than in both the pre-starburst and the starburst phase.
 %This is consistent with our physical intuition of gas instability leading to \SF.
 
-\subsection{Adopted Density Threshold Dependence and Temporal Evolution}\label{sec:ncut}
+\subsection{Adopted Density Threshold Dependence}\label{sec:ncut}
 
 We investigate possible variations in the dynamics of the molecular structures of \flower 
 by adopting different sets of $n_{\rm cut}$ % in identifying the MCCs
@@ -672,11 +667,14 @@ to test the robustness of our results against the choice of density threshold.
 That is, how sensitive are the structure properties, and thus, the 
 results presented in \Sec{singless} dependent on the choice of density thresholds.
 
-The sizes of MCCs are dependent on the choice of $n_{\rm cut}$. 
-As mentioned in \Sec{}, the most massive cloud identified at low H$_2$ gas density threshold corresponds to the molecular 
-disk of \flower, and is broken down into multiple smaller MCCs at higher 
+The sizes of MCCs are dependent on the choice of $n_{\rm cut}$ in the following ways.
+As mentioned in \Sec{dist}, the most massive cloud identified at low H$_2$ gas density thresholds
+corresponds to the molecular disk of \flower, which is broken down into multiple smaller MCCs at higher 
 $n_{\rm cut}$\footnote{That said, there are fewer MCCs at highest $n_{\rm cut}$ than the lowest $n_{\rm cut}$ 
  since there are fewer cells in the simulations with correspondingly high H$_2$ gas densities.}.
+Second, excluding such structure, some MCCs are further broken down into smaller MCCs at higher $n_{\rm cut}$ 
+(see top panels of \Fig{larsons_single}). 
+At the resolution limit of our simulation, most MCCs studied in this work have $R\simeq$\,100\,pc.
 %
 %For instance, the cluster of points found at the lowest density threshold, 
 %occupying the top right corner of the linewidth-size relation in the top left panel of \Fig{alpha16-28}, 
@@ -687,28 +685,14 @@ $n_{\rm cut}$\footnote{That said, there are fewer MCCs at highest $n_{\rm cut}$ 
 %%
 %These MCCs are smaller in size, and thus, occupy the leftward in the top right panel. 
 
-We note that similarly massive molecular structures (few times 10$^7$\,\Msun\footnote{See \S{3.1} of \citet{Behrendt16a}.}) have been reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}).
 %
-However, the IGM and merger and accretion histories are not properly modeled in such simulations since they adopt non-cosmological initial conditions. That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
-%
-The gas velocity dispersion $\sigma_{\rm gas}$ is rather insensitive to the actual value of $n_{\rm cut}$.
-%%
-%We vary the choice of H$_2$ density for each of the evolutionary stages and find no obvious differences in our results, i.e., inferences on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in nearby and \z$\sim$2 galaxies in the context of cloud scaling relations.
+The gas velocity dispersion $\sigma_{\rm gas}$ of MCCs, on the other hand, is rather insensitive to the actual value of $n_{\rm cut}$.
 %%
 %In addition, for the densest MCC in the main disk of \flower, we find that while its size decreases as we increase $n_{\rm cut}$ --- as one would intuitively expect, the velocity dispersion remain approximately $\sigma\simeq$\,200\,\kms (see also \Fig{larsons_single}).
 %%
-This lack of variation is reassuring. Our inference on the dynamics of \z$\sim$\,6 MCCs in relation to those observed in
-nearby and \z$\sim$2 galaxies in the context of linewidth-size relation is thus not artifacts or biased by our choice of $n_{\rm cut}$ in this work.
+This lack of variation is reassuring: our inference on the velocity dispersion of \z$\sim$\,6 MCCs in relation to those observed in
+nearby and \z$\sim$2 galaxies is not biased by our choice of $n_{\rm cut}$ in this work.
 
-%Comparing the left and right panels, the mass range of MCCs identified at the highest density threshold
-%is narrower by about an order of magnitude compared to those identified at the lowest density threshold.
-%MCCs identified in the lowest $n_{\rm cut} also have a wider gas surface density. These are a direct manifestation of the decrease in MCC size
-%at increasing $n_{\rm cut}$.
-
-% temporal evolution in Cloud Dynamics
-We show the properties of all MCCs identified across all evolutionary stages in \Fig{alpha16-28}.
-One of the most pronounce differences in the dynamics of MCCs traced over the 700\,Myr shown in this work
-is seen in the virial parameter --- the most relevant phases are shown in \Fig{alphaEvol} (see \Sec{singless}).
 
 %--------------------------------------------------------------------------
 %                                Discussion
