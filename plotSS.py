@@ -102,28 +102,30 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     # fig = plt.figure(figsize=(13, 6))
     # ax = fig.subplots(2, 3)
 
-    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(14, 3.5))
-    fig.subplots_adjust(left=0.12, wspace=0.18, bottom=0.1, top=0.95, hspace=0.0)
+    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(16, 5))
+    fig.subplots_adjust(left=0.12, wspace=0.18, bottom=0.1, top=0.95, hspace=0.2)
 
     # # separate allmasses into two color scheme
     # med11 = allmass11.median()
     # mask11_low = allmass11 <= med1
     # mask11_high = allmass11 >= med1
 
-    fig.text(0.05, 0.95, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1, rotation=90)
-    fig.text(0.05, 0.43, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2, rotation=90)
+    fig.text(0.05, 0.95, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1, rotation=90, fontsize=20)
+    fig.text(0.05, 0.43, r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2, rotation=90, fontsize=20)
 
     binwidth = 0.1
     allmass11 = np.log10(get_masses_all_clouds(ss11))
-    ax[0, 0].hist(allmass11, bins=np.arange(min(allmass11), max(allmass11) +binwidth, binwidth))
+    weights = np.ones_like(allmass11)/float(len(allmass11))
+    ax[0, 0].hist(allmass11, bins=np.arange(min(allmass11), max(allmass11) +binwidth, binwidth), weights=weights)
 #     ax[0, 0].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1)
-    ax[0, 0].set_title(r'$\log M_{\rm cl}$ [M$_{\odot}]$')
-    ax[0, 0].set_ylabel(r'$N$')
+    ax[0, 0].set_title(r'$\log M_{\rm cl}$ [M$_{\odot}]$', fontsize=20)
+    ax[0, 0].set_ylabel(r'$N$', fontsize=20)
     ax[0, 0].set_xlim([5.7, 8.5])
     ax[0, 0].set_xticklabels([])
     allmass12 = np.log10(get_masses_all_clouds(ss12))
-    ax[1, 0].hist(allmass12, bins=np.arange(min(allmass12), max(allmass12) +binwidth, binwidth))
-    ax[1, 0].set_ylabel(r'$N$')
+    weights = np.ones_like(allmass12)/float(len(allmass12))
+    ax[1, 0].hist(allmass12, bins=np.arange(min(allmass12), max(allmass12) +binwidth, binwidth), weights=weights)
+    ax[1, 0].set_ylabel(r'$N$', fontsize=20)
     ax[1, 0].set_xlim([5.7, 8.5])
 #     ax[0, 1].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern2)
 #    fig.text(0.51, 0.62, r'$\log $ M$_{\rm cl}$ [M$_{\odot}]$', ha='center', fontsize=20)
@@ -140,12 +142,14 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     # size
     binwidth = 10
     allsizes11 = get_sizes_all_clouds(ss11)
-    ax[0, 1].hist(allsizes11, bins=np.arange(min(allsizes11), max(allsizes11) +binwidth, binwidth))
+    weights = np.ones_like(allsizes11)/float(len(allsizes11))
+    ax[0, 1].hist(allsizes11, bins=np.arange(min(allsizes11), max(allsizes11) +binwidth, binwidth), weights=weights)
     ax[0, 1].set_xlim([0, 260])
     ax[0, 1].set_xticklabels([])
-    ax[0, 1].set_title(r'R [pc]')
+    ax[0, 1].set_title(r'R [pc]', fontsize=20)
     allsizes12 = get_sizes_all_clouds(ss12)
-    ax[1, 1].hist(allsizes12, bins=np.arange(min(allsizes12), max(allsizes12) +binwidth, binwidth))
+    weights = np.ones_like(allsizes12)/float(len(allsizes12))
+    ax[1, 1].hist(allsizes12, bins=np.arange(min(allsizes12), max(allsizes12) +binwidth, binwidth), weights=weights)
     ax[1, 1].set_xlim([0, 260])
 #    fig.text(0.5, 0.33, r'R [pc]', ha='center', fontsize=20)
 
@@ -165,12 +169,14 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     # f_gas
     binwidth = 0.1
     fgas11 = get_fgas_all_clouds(ss11)
-    ax[0, 2].hist(fgas11, bins=np.arange(min(fgas11), max(fgas11) +binwidth, binwidth))
+    weights = np.ones_like(fgas11)/float(len(fgas11))
+    ax[0, 2].hist(fgas11, bins=np.arange(min(fgas11), max(fgas11) +binwidth, binwidth),  weights=weights)
     ax[0, 2].set_xlim([0., 1.0])
     ax[0, 2].set_xticklabels([])
-    ax[0, 2].set_title(r'$f_{\rm gas}$')
+    ax[0, 2].set_title(r'$f_{\rm gas}$', fontsize=20)
     fgas12 = get_fgas_all_clouds(ss12)
-    ax[1, 2].hist(fgas12, bins=np.arange(min(fgas12), max(fgas12) +binwidth, binwidth))
+    weights = np.ones_like(fgas12)/float(len(fgas12))
+    ax[1, 2].hist(fgas12, bins=np.arange(min(fgas12), max(fgas12) +binwidth, binwidth),  weights=weights)
     ax[1, 2].set_xlim([0., 1.0])
 #    fig.text(0.51, 0.03, r'$f_{\rm gas}$', ha='center', fontsize=20)
 
@@ -195,7 +201,6 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     plt.plot(allmass11, fgas11, 'o', label=pattern1 + r' cm$^{-3}$')
     plt.plot(allmass12, fgas12, 'D', label=pattern2 + r' cm$^{-3}$')
     plt.legend(loc='best')
-    plt.xscale('log')
     plt.xlabel(r"M$_{\rm cl}$ [M$_\odot$]",fontsize=20)
     plt.ylabel(r"f$_{\rm gas}$", fontsize=20)
     plt.tight_layout()
@@ -216,7 +221,7 @@ if __name__ == '__main__':
     from plot_modules.plot_cloud_prop import setup_plot, get_P_NT_all_clouds
     cm = setup_plot()
 
-    # # for paper
+    # for paper
     # minss=16
     # maxss=28
     # pattern1='0.32'

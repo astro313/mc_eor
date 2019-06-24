@@ -23,7 +23,7 @@ def setup_plot():
                                 , 'legend.fontsize': 10      # points
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
-                                , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
+                                # , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
                                 , 'text.usetex': True
                                 , 'font.family': "serif"  # Use serifed fonts
                                 , 'xtick.major.size': 13     # length, points
