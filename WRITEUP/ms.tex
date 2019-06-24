@@ -73,13 +73,12 @@ That said, their velocity dispersion and gas surface density are comparable to n
 %
 We identify gravitationally unstable MCCs via Toomre $Q_{\rm eff}$ analysis and
 the more observationally accessible virial parameter ($\alpha_{\rm vir}$) analysis.
-MCCs in the main disk of \flower are globally stable. MCCs in the densest regions have low $\alpha_{\rm vir}$ 
-and $Q_{\rm eff}$ values, indicative of instability to collapse. 
-Star formation is expected to take place within the clumps and cores on smaller scales, where non-thermal energy 
-quickly dissipates and the gas structures are no longer supported by turbulence.
+MCCs in the main disk of \flower are globally stable. MCCs in the densest regions have lower $\alpha_{\rm vir}$ 
+and $Q_{\rm eff}$ values, % indicative of instability to collapse. 
+where star formation is expected to take place within the clumps and cores on even smaller scales, as non-thermal energy 
+quickly dissipates. % and the gas structures are no longer supported by turbulence.
 %
-As such, spatial resolution of $\lesssim$40\,pc 
-is necessary to shed light on the star-forming gas dynamics since the cosmic dark ages which is 
+As such, detailed studies on the star-forming gas dynamics at EoR requires a spatial resolution of $\lesssim$40\,pc, which is 
 within reach with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA).
 \end{abstract}
 \keywords{methods: data analysis --
@@ -114,7 +113,7 @@ Even in the local Universe, where detailed \obs can be made, variations in molec
 %     \DL{This is just a statement to say there are variations among local GMCs. Together with the different galaxy properties found for early galaxies, it is interesting to study properties of molecular structures at earlier epochs. }
 properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: 
 {\it what are the physical properties of
-molecular cloud structures in early galaxies, and how do they differ from those found in local \galpop? }
+molecular cloud structures in early galaxies, and how do they differ from those found in local \galpop?}
 %
 
 FIR fine-structure lines (e.g., \cii, \nii, and \oiii), and CO and [\ci]~lines are key diagnostics for constraining the ISM conditions of galaxies. They also provide highly complementary information on different ISM phases (ionized, atomic, molecular; e.g., \citealt{Scoville74a, Rubin85a, Malhotra01a}).
@@ -128,7 +127,7 @@ Hodge16a, Leung19a}). These studies find that galaxies close to the peak of cosm
 
 Earlier epochs still represent an essentially uncharted territory for ISM investigations. At present, it remains unclear how \SF proceeds in the (sub-)$L^*$ galaxy population at \z$\gtrsim$\,6  which is responsible for producing the bulk of the UV photons that reionized the Universe.
 %
-While ALMA has enabled the detection of \cii158\,$\micron$ and CO line emission in normal (SFR$<$\,100\,\Msun\,yr\pmOne) galaxies at \z$>$\,6 over the past few years \citep[e.g.,][]{Carniani18b, Odorico18a}, the first spatially resolved observations are just starting to become available \citep[e.g., ][]{Jones17a,Smit18a}.
+While ALMA has enabled the detection of \cii158\,$\micron$ and CO line emission in normal (SFR$<$\,100\,\Msun\,yr\pmOne) galaxies at \z$>$\,6 over the past few years \citep[e.g.,][]{Carniani18b, Odorico18a}, the first spatially resolved observations are just starting to become available \citep[e.g., ][]{Jones17a}.
 
 %mm To answer these questions, isolate key issues, and  accompany ongoing/future experimental efforts,
 To understand the physical properties of MCCs in early galaxies,
@@ -138,13 +137,13 @@ in prototypical (i.e., $L^*$) galaxies in the Epoch of Reionization (EoR).
 
 The paper is structured as follows\footnote{Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities in units of the critical density $\Omega_{\Lambda}$\eq0.692, $\Omega_m$\eq0.308, $\Omega_b$\eq0.0481, Hubble constant $H_0$\eq100\,$h$\,km s\pmOne\,Mpc\pmOne with $h$\eq0.678, spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.}. We start by providing some physical background in \Sec{Back}. In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower). In \Sec{eqn}, we describe the method used to identify
 MCCs,
-and present the formalism within which we interpret the results. In \Sec{results}, we present the results and the scaling relations for the MCCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
+and present the formalism within which we interpret the results. In \Sec{results}, we present the results and characteristic properties of the MCCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
 %
 
 \section{Physical Background}\label{sec:Back}
-We begin by introducing some basic material concerning notable physical ("Larson") relations characterizing MCCs, and the gravitational instability of galactic disks, which might be driving MCC formation. Such notions will be used in the subsequent analysis of our simulations.
+We begin by introducing some basic equations concerning the empirical relations commonly mentioned in observational studies of molecular clouds in the literature and the gravitational instability of galactic disks, which might be driving MCC formation. Such notions will be used in the subsequent analysis of our simulations.
 
-\subsection{Larson relations and virial parameter}\label{sec:PVE}
+\subsection{Larson's Relations and Virial Parameter}\label{sec:PVE}
 \citet{Larson81a} discussed a number of relations among Galactic
 molecular cloud
 properties, namely the linewidth-size, density-size, and mass-size relations. Larson relations are routinely used for comparing properties of molecular structures in different galactic environments. They also represent a useful framework to analyze our results as they
@@ -310,7 +309,7 @@ The \SF history\footnote{Note that here the SFR is calculated based on the stell
 
 Given the stochastic nature of \flower in its star formation history, we mostly focus on few of its most extreme evolutionary stages in this work (see \Sec{singless}).
 %
-These phases correspond to (a) an intensely accreting phase and (b) a starburst phase (\Fig{SFH}). We are interested in determining whether MCC properties are sensitive to these different dynamical conditions. For completeness, we also show the scaling relations examined for the other evolutionary stages traced in the simulation (see \Sec{ncut}).
+These phases correspond to (a) an intensely accreting phase and (b) a starburst phase (\Fig{SFH}). We are interested in determining whether MCC properties are sensitive to these different dynamical conditions. For completeness, we also show relationships of MCC properties examined for other evolutionary stages traced in the simulation (see \Sec{ncut}).
 In \Sec{dist}, we show the importance of rotation support from large-scale motions in the MCC dynamics 
 by comparing their properties in the disturbed phase of \flower and in the disk-like ordered phase.
 
@@ -337,8 +336,8 @@ Existing studies find a good correspondence in the dynamical properties extracte
 \begin{figure}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/hist_test_16.pdf}
-\caption{Distribution of molecular gas density of \flower during the accreting phase shown in \Fig{SFH}{\em
-    (b)} \AP{what is the normalization/axis here? I would plot the distribution such that the integral on the function is 1}.
+\caption{Normalized distribution of molecular gas density of \flower during the accreting phase shown in \Fig{SFH}{\em
+    (a)}.
 \label{fig:h2density}}
 \end{figure}
 
@@ -419,8 +418,8 @@ Finally, the Mach number is related to the pressure terms as follows
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
-\caption{Distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest 
-$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. \AP{I would normalize the distributions such that their sum is 100\% (bin width already accounted for), so that the comparison is more direct; on a side, could we use a different shade of blue? (see also \Fig{h2density})} Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$.
+\caption{Normalized distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest 
+$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$.
 \label{fig:dist}}
 \end{figure*}
 
