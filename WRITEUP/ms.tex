@@ -347,7 +347,7 @@ Existing studies find a good correspondence in the dynamical properties extracte
 \caption{
 Examples of MCCs (white contours) identified by the clump finder in
 \flower during its accreting phase (\Fig{SFH}a; left two columns), where \flower display a highly disturbed gas morphology, and 
-its late quiescent phase (right two columns), where \flower shows a rotating disk configuration.
+its quiescent phase (right two columns), where \flower shows a rotating disk configuration.
 Panels in the second and fourth columns show the molecular gas distribution projected along different viewing angles. 
 Colorbar on the right shows the mean H$_2$ number density, weighted by gas mass. 
 Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$ as annotated by the label in the bottom left corners. 
@@ -476,7 +476,7 @@ The accreting phase of \flower displays a more disturbed morphology compared to 
 %
 The dashed black lines show a one-to-one mapping between the axes to facilitate comparison. 
 %
-Velocity dispersion from turbulent motions dominates over bulk motions for MCCs in the accreting phase. On the other hand, 
+Velocity dispersion from turbulent motions dominates over bulk motions for MCCs in the accreting phase, whereas 
 $\sigma_{\rm bulk}$ is comparable to $\sigma_{\rm NT}$ for some MCCs in the quiescent disk-like phase.
 \label{fig:vv}}
 \vspace{0.5em}
@@ -496,7 +496,9 @@ Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation
 MCCs (star symbols) identified in the two most extreme evolutionary
 stages of \flower\ --- accreting phase (left) and starburst phase
 (right). Star symbols are color-coded by the density thresholds
-$n_{\rm cut}$, as illustrated by the colorbar.
+$n_{\rm cut}$, as illustrated by the colorbar on the right.
+We also plot gas-only $\alpha_{\rm vir}$ (orange star symbols), which is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs,
+since they are gas-dominated (see \Fig{stellarRatio16}).
 Literature data in the linewidth-size plots are from \citet{Heyer04a, Rosolowsky05a, Bolatto08a,
 % black dot = extragalactic GMCs in quiescent environments
 Leroy15a}, and \citet{Swinbank11a}, and the empirical scaling relations are
@@ -508,42 +510,6 @@ The gray dotted lines shown in the bottom panels correspond to the various annot
 the gas to be in equilibrium, see Equation~\ref{eqn:v0}.
 \label{fig:larsons_single}}
 \end{figure*}
-
-%
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 0 0 0, clip, width=0.8\textwidth]{\figpath/lf16_cloud-mass_size-pc.png}
-%\caption{
-%Size-mass relation of MCCs in the accreting phase of \flower (star symbols) compared to observational data of molecular clouds in the Milky Way associated with massive \SF (magenta circles, green stars, blue dots, and black triangles) and empirical relations established based on \obs of the Milky Way.
-%Star symbols are color-coded by
-%increasing $n_{\rm cut}$, same as the colorbar shown in \Fig{larsons_single}.
-%Red line shows the mass-size relation found for regions in the Milky Way with massive \SF \citep{Kauffmann10b}.
-%Literature data are compiled from \citet{Beuther02a, Mueller02a, Hill05a, Motte07a}.
-%Colored lines show the loci expected for different visual extinctions ($A_V$, see \Eq{constantcolumndensity}), corresponding to lines of
-%constant surface density (i.e., Larson's third relation). This representation is motivated by observational studies (see \Sec{singless} and e.g., \citealt{Lombardi10a}).
-%%mm [redundant] The star symbols are color-coded by $n_{\rm cut}$,
-%%same as \Fig{larsons_single}.
-%%Extrapolating the masses and sizes of MCCs of \flower along the \citet{Kauffmann10b}
-%%relation down to 1\,pc are comparable  to those  of  the  cores  found  in regions  of high-mass star formation, suggesting that the identified MCCs are capable of high-mass \SF.
-%For interpretation of this figure, see discussion in \Sec{MR}.
-%\label{fig:MR}}
-%\end{figure*}
-
-%\begin{figure*}[htbp]
-%\centering
-%\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/alpha_vir_ss16-ss23.png}
-%\caption{Virial parameter as a function of MCC mass for different evolutionary stages of \flower, beginning from the accreting phase (top left).
-%Evolutionary stages are shown chronologically from panels {\it (a)} through {\it (f)}.
-%Definition of symbols are same as in \Fig{larsons_single}.
-%Blue star symbols show gas-only $\alpha_{\rm vir}$ and blue circulate dots show total $\alpha_{\rm vir, tot}$.
-%The virial parameter vary over the $\sim$300\,Myr shown here as \flower\ evolves. Most notably, the biggest MCCs transition from
-%the unstable region as \flower\ accretes materials to being stable (e.g., panel {\it (c)}), a similar pattern is seen in the pre-starburst through
-%post-starburst phase.
-%The variation is clearly seen between the pre-starburst through post-starburst phase.
-%Excluding the biggest MCCs (see \Fig{stellarRatio16} and \Sec{singless}),
-%MCCs in the pre-starburst phase have a lower $\alpha_{\rm vir}$ compared to the starburst phase. \AP{I still think that this figure might be a bit redundant}
-%\label{fig:alphaEvol}}
-%\end{figure*}
 
 
 \begin{figure*}
@@ -557,7 +523,8 @@ disk and arms of \flower, and are broken down into smaller MCCs at higher densit
 \end{figure*}
 
 
-Here, we focus on the two most extreme evolutionary stages of \flower\ --- the accreting and starburst phases (see \Sec{sfh}). Scaling relations for the MCCs are shown in \Fig{larsons_single} for the accreting (left panels) and starburst phase (right panels), respectively.
+Here, we focus on the MCC properties in the two most extreme evolutionary stages of \flower\ --- the accreting and starburst phases (see \Sec{sfh}). 
+These properties are plotted in \Fig{larsons_single} together with observational results of nearby and $z$\,$\simeq$2 molecular structures for comparison.
 
 During the accreting phase, MCCs in \flower\ are characterized by large velocity dispersions ($\sigma \simeq 100 {\rm km s}^{-1}$) and sizes ($R\simeq 100$\,pc). These values are comparable to those found in starburst galaxies, such as the nearby gas-rich galaxy M64 and the $z$\ssim2 starbursting disk galaxy SMM\,J2135-0102 \citep{Rosolowsky05a, Swinbank11a}, but are higher than those found in the Milky Way and extragalactic GMCs by an order of magnitude \citep{Heyer04a, Bolatto08a}.
 
