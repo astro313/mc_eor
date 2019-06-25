@@ -345,7 +345,11 @@ if __name__ == '__main__':
                               tag='allss',
 #                              cmap=cm,
                               sfrlabel=bubu,
-                              cbarLabelSize=20,
+                              cbarLabelSize=25,
                               outdir='./',
-                              legendFontSize=16,
+                              legendFontSize=20,
+                              axwidth=1.5,
+                              tickwidth=2,
+                              labelsize=25,
+                              ticklabsize=20,
                               saveFig=True)

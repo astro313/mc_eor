@@ -49,6 +49,10 @@ def plotting_procedure(snapshot_num, legendFontSize=13):
 
     ss, to_plot, leafdir_out = load_pickleTOplot(snapshot_num)
 
+    plot_stuff("fgas", "cloud mass", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
+    plot_stuff("fgas", "alpha vir", leglabel="ncut: ",
+               to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("stellar to gas mass", "cloud mass", leglabel="ncut: ",
                to_plot=to_plot, outdir=leafdir_out, legendFontSize=legendFontSize)
     plot_stuff("stellar to gas mass", "alpha vir", leglabel="ncut: ",
@@ -194,7 +198,11 @@ if __name__ == '__main__':
                               tag='ss16-ss22',
 #                              cmap=cm,
                               sfrlabel=False,
-                              cbarLabelSize=23,
+                              cbarLabelSize=25,
                               outdir='./',
-                              legendFontSize=18,
+                              legendFontSize=20,
+                              axwidth=1.5,
+                              tickwidth=2,
+                              labelsize=25,
+                              ticklabsize=20,
                               saveFig=True)
