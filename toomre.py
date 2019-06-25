@@ -1292,8 +1292,8 @@ class ToomreAnalyze_2comp(object):
         list_labels  = list_labels+ [r'$\log Q_{\rm gas}$','$\log Q_{\star}$']
     elif type_plots == '3by1':
 
-      fig = plt.figure(figsize=(9, 3))
-      fig.subplots_adjust(left=0.10, right=0.90, wspace=0.00)
+      fig = plt.figure(figsize=(8, 3))
+      fig.subplots_adjust(left=0.10, right=0.90, wspace=0.00, hspace=-0.1)
 
       list_plt_ids = [131,132,133]
       list_types   = ['Q','Q','Q']
@@ -1424,7 +1424,7 @@ if __name__ == '__main__':
                            clump_list_filename=testfile
                            )
 
-  for type_plots in ['2by2', '3by1']:    #  '3by2',
+  for type_plots in ['2by2', '3by1']:   #  '3by2',
     Q_tot_obj.plots_combined(
                             central_kpc_one_side = size_kpc
                             ,annotate_clump=annotate
@@ -1437,7 +1437,12 @@ if __name__ == '__main__':
                             ,clump_list_filename=testfile
                             ,type_plots= type_plots
                            )
-
+    Q_tot_obj.plots_combined(
+                            central_kpc_one_side=1.2
+                            ,annotate_clump=annotate
+                            ,clump_list_filename=testfile
+                            ,type_plots= type_plots
+                           )
   #Q_tot_obj.plot_Q_eff_zoom(central_kpc_one_side=size_kcp,
   #                          annotate_clump=annotate,
   #                          clump_list_filename=testfile)
