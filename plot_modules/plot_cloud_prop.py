@@ -36,7 +36,7 @@ def setup_plot():
                                 , 'xtick.labelsize': 16
                                 , 'ytick.labelsize': 16
                                 , 'ytick.minor.width': 1     # points
-                                , 'font.serif': ("times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
+                                , 'font.serif': ("Times", "Computer Modern Roman", "New Century Schoolbook", "Bookman"), 'font.sans-serif': ("Helvetica", "Avant Garde", "Computer Modern Sans serif"), 'font.monospace': ("Courier", "Computer Modern Typewriter"), 'font.cursive': "Zapf Chancery"
                                 })
     cm = setup_cmap()
     return cm
@@ -119,8 +119,8 @@ def unpack_xy(ss):
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
             #
             _mSD.append(ss[ks][kkk].massSD)
-            _sizepc.append(ss[ks][kkk].R_pc * 2.0)
-            _R2pc2.append((ss[ks][kkk].R_pc * 2.0) ** 2.0)
+            _sizepc.append(ss[ks][kkk].R_pc * 1.0)
+            _R2pc2.append((ss[ks][kkk].R_pc * 1.0) ** 2.0)
             _SFRSD.append((ss[ks][kkk].SFR) / 1.0e6 /
                           (np.pi * ss[ks][kkk].R_pc * pc2kpc)**2)
 
@@ -136,7 +136,7 @@ def unpack_xy(ss):
             _mSD_cgs.append(ss[ks][kkk].massSD *
                             ss[ks][kkk].Msun2g / (ss[ks][kkk].pc2cm)**2)
             _sigma2oR.append(ss[ks][kkk].sigma_gas_tot /
-                             (ss[ks][kkk].R_pc * 2.0))
+                             (ss[ks][kkk].R_pc * 1.0))
             _mSD_per_ff.append(ss[ks][kkk].massSD / (ss[ks][kkk].R_pc)**2 / ss[ks][kkk].tff_Myr)
             _P_NT = [].append(ss[ks][kkk].P_nt)
 
