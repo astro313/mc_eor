@@ -81,10 +81,12 @@ def unpack_xy(ss):
         _mach = []
         _mstar = []
         _mstar2mgas = []
+        _fgas = []
         _SFR_young = []
         _SFR_old = []
         #
         _alpha = []
+        _alpha_gasOnly = []
         #
         _mSD = []
         _sizepc = []
@@ -111,6 +113,7 @@ def unpack_xy(ss):
             _mach.append(np.mean(ss[ks][kkk].Mach_vec))
             _m.append(ss[ks][kkk].mass_Msun)
             _mstar.append(ss[ks][kkk].mstar_Msun_tot)
+            _fgas.append(ss[ks][kkk].mass_Msun/(ss[ks][kkk].mass_Msun + ss[ks][kkk].mstar_Msun_tot))
             _mstar2mgas.append(ss[ks][kkk].s2gR)
             _SFR_young.append(ss[ks][kkk].young_SFR_MsunPyr)
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
@@ -125,7 +128,7 @@ def unpack_xy(ss):
             _sigma_bulk.append(ss[ks][kkk].v_disp)
             _sigmakms.append(np.sqrt(ss[ks][kkk].sigma_gas_tot))
             _alpha.append(ss[ks][kkk].alpha_vir_summed)
-
+            _alpha_gasOnly.append(ss[ks][kkk].alpha_vir_summed_gasonly)
             _tffMyr.append(ss[ks][kkk].tff_Myr)
             _rho.append(ss[ks][kkk].avg_density)    # 1/cc
             _rho_mass_wei.append(ss[ks][kkk].mean_density_mass_avg)    # 1/cc
@@ -141,12 +144,14 @@ def unpack_xy(ss):
         to_plot[ks]['cloud mass'] = _m
         to_plot[ks]['Mach'] = _mach
         to_plot[ks]['cloud stellar mass'] = _mstar
+        to_plot[ks]['fgas'] = _fgas
         to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
         to_plot[ks]['SFR old'] = _SFR_old
         to_plot[ks]['jeans mass'] = _Mj
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
+        to_plot[ks]['alpha vir gas'] = _alpha_gasOnly
         to_plot[ks]['density'] = _rho
         to_plot[ks]['weighted density'] = _rho_mass_wei
         to_plot[ks]['gas sd'] = _mSD
@@ -578,7 +583,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
                          label="SFR: " + "{0:d}".format(int(sfr[ks])),
-                         markeredgecolor='gray',
+                         markeredgecolor='black',
                          markeredgewidth=0.5)
             # uncomment below to get ncut in legend
             # for paper, we commented this out since we show it as colorbar in other figures.
@@ -592,7 +597,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
                          # label=leglabel + ks,         # don't show n cut in legend
-                         markeredgecolor='gray',
+                         markeredgecolor='black',
                          markeredgewidth=0.5)
 
             # uncomment below to get ncut in legend
@@ -627,6 +632,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
         ax.set_xscale("log")
         ax.set_xlim(1.e2, 1.e3)
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
+
+    if xstr == 'fgas':
+        ax.set_xlabel(r'$f_{\rm gas}$')
 
     if xstr == 'size pc':
         ax.set_xscale("log")
@@ -793,7 +801,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
                       markerscale=2,
                       frameon=False,
                       fancybox=False)
-
+        elif xstr == 'fgas' and ystr == 'cloud mass':
+            ax.legend(loc='best', ncol=4, fontsize=legendFontSize,
+                      markerscale=3)
         elif xstr == "cloud mass" and ystr == 'alpha vir':
             ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                       markerscale=3)
@@ -1025,7 +1035,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["sigma kms"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
@@ -1057,7 +1067,8 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
 def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                        markersize=10, marker='*', xaxis='mass',
-                       showLegend=False, legendFontSize=None):
+                       showLegend=False, legendFontSize=None,
+                       overplotGasAlpha=True):
 
     if xaxis == 'mass':
         # Kauffmann+17 Figure 4
@@ -1181,8 +1192,25 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
+
+        if overplotGasAlpha:
+            plt.set_cmap('Oranges')      # Reds, Purples, Greys
+            cm = plt.get_cmap()
+            NUM_COLORS = len(to_plot)
+            ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
+            _y2 = to_plot[ks]['alpha vir gas']
+            ax.plot(_x, _y2, ls=ls, markersize=markersize,
+                    marker=marker, markeredgecolor='grey',
+                    markeredgewidth=0.5
+                    )
+            # reset back to blue
+            plt.set_cmap('Blues')
+            cm = plt.get_cmap()
+            ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                                for i in range(NUM_COLORS)])
 
     # shrink
     box = ax.get_position()
@@ -1283,7 +1311,7 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["sigmaSq over size"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     if showLegend:
@@ -1328,7 +1356,7 @@ def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["Mach"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
