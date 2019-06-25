@@ -343,7 +343,8 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
     plt.close('all')
     plt.figure()
     toplot = aa[aa>-7]
-    plt.hist(toplot, bins=100) # , normed=True)
+    weights = np.ones_like(toplot) / np.float(len(toplot))
+    plt.hist(toplot, bins=100, weights=weights)
 
     for ele in th_list:
         # plot the ncut positions.
@@ -351,7 +352,7 @@ def check_hist_h2(data, th_list, ss=None, outdir='./'):
         # plt.plot([x, x], [1, 1.e+7], ls='--', color='k')
 
     plt.yscale('log')
-    # plt.ylabel('Counts')
+    plt.ylabel('Normlized')
     plt.xlabel(r"$\log~n_{{\rm H}_2}$ [cm$^{-3}$]")
     plt.minorticks_on()
     plt.tight_layout()

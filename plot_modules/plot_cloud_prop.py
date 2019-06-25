@@ -23,7 +23,7 @@ def setup_plot():
                                 , 'legend.fontsize': 10      # points
                                 , 'lines.linewidth': 2       # points
                                 , 'axes.linewidth': 1       # points
-                                , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
+                                # , 'axes.prop_cycle': cycler('color', 'bgrcmyk')
                                 , 'text.usetex': True
                                 , 'font.family': "serif"  # Use serifed fonts
                                 , 'xtick.major.size': 13     # length, points
@@ -81,10 +81,12 @@ def unpack_xy(ss):
         _mach = []
         _mstar = []
         _mstar2mgas = []
+        _fgas = []
         _SFR_young = []
         _SFR_old = []
         #
         _alpha = []
+        _alpha_gasOnly = []
         #
         _mSD = []
         _sizepc = []
@@ -111,6 +113,7 @@ def unpack_xy(ss):
             _mach.append(np.mean(ss[ks][kkk].Mach_vec))
             _m.append(ss[ks][kkk].mass_Msun)
             _mstar.append(ss[ks][kkk].mstar_Msun_tot)
+            _fgas.append(ss[ks][kkk].mass_Msun/(ss[ks][kkk].mass_Msun + ss[ks][kkk].mstar_Msun_tot))
             _mstar2mgas.append(ss[ks][kkk].s2gR)
             _SFR_young.append(ss[ks][kkk].young_SFR_MsunPyr)
             _SFR_old.append(ss[ks][kkk].old_SFR_MsunPyr)
@@ -125,7 +128,7 @@ def unpack_xy(ss):
             _sigma_bulk.append(ss[ks][kkk].v_disp)
             _sigmakms.append(np.sqrt(ss[ks][kkk].sigma_gas_tot))
             _alpha.append(ss[ks][kkk].alpha_vir_summed)
-
+            _alpha_gasOnly.append(ss[ks][kkk].alpha_vir_summed_gasonly)
             _tffMyr.append(ss[ks][kkk].tff_Myr)
             _rho.append(ss[ks][kkk].avg_density)    # 1/cc
             _rho_mass_wei.append(ss[ks][kkk].mean_density_mass_avg)    # 1/cc
@@ -141,12 +144,14 @@ def unpack_xy(ss):
         to_plot[ks]['cloud mass'] = _m
         to_plot[ks]['Mach'] = _mach
         to_plot[ks]['cloud stellar mass'] = _mstar
+        to_plot[ks]['fgas'] = _fgas
         to_plot[ks]['stellar to gas mass'] = _mstar2mgas
         to_plot[ks]['SFR young'] = _SFR_young
         to_plot[ks]['SFR old'] = _SFR_old
         to_plot[ks]['jeans mass'] = _Mj
         to_plot[ks]['mass over jeans mass'] = _MMj
         to_plot[ks]['alpha vir'] = _alpha
+        to_plot[ks]['alpha vir gas'] = _alpha_gasOnly
         to_plot[ks]['density'] = _rho
         to_plot[ks]['weighted density'] = _rho_mass_wei
         to_plot[ks]['gas sd'] = _mSD
@@ -165,7 +170,7 @@ def unpack_xy(ss):
     return to_plot
 
 
-def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
+def plot_stuff(xstr, ystr, ls='', markersize=10,
                marker='*',
                leglabel='', tag='',
                to_plot=None, save=True, outdir='./',
@@ -181,9 +186,6 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
 
     ystr: str
         something like 'cloud mass', 'alpha vir'
-
-    compareAlphaVir: bool
-        if True, plot different alpha_vir w/ different definition of sigma in it as different symbols.
 
     leglabel: str
         something like "ncut: ", or "snapshot: " for legend
@@ -578,7 +580,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
                          label="SFR: " + "{0:d}".format(int(sfr[ks])),
-                         markeredgecolor='gray',
+                         markeredgecolor='black',
                          markeredgewidth=0.5)
             # uncomment below to get ncut in legend
             # for paper, we commented this out since we show it as colorbar in other figures.
@@ -592,7 +594,7 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
             h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                          marker=marker,
                          # label=leglabel + ks,         # don't show n cut in legend
-                         markeredgecolor='gray',
+                         markeredgecolor='black',
                          markeredgewidth=0.5)
 
             # uncomment below to get ncut in legend
@@ -627,6 +629,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
         ax.set_xscale("log")
         ax.set_xlim(1.e2, 1.e3)
         ax.set_xlabel(r"$\Sigma_{\rm gas}$ [M$_{\odot}$ pc$^{-2}$]")
+
+    if xstr == 'fgas':
+        ax.set_xlabel(r'$f_{\rm gas}$')
 
     if xstr == 'size pc':
         ax.set_xscale("log")
@@ -793,7 +798,9 @@ def plot_stuff(xstr, ystr, compareAlphaVir=False, ls='', markersize=10,
                       markerscale=2,
                       frameon=False,
                       fancybox=False)
-
+        elif xstr == 'fgas' and ystr == 'cloud mass':
+            ax.legend(loc='best', ncol=4, fontsize=legendFontSize,
+                      markerscale=3)
         elif xstr == "cloud mass" and ystr == 'alpha vir':
             ax.legend(loc='best', ncol=2, fontsize=legendFontSize,
                       markerscale=3)
@@ -941,7 +948,9 @@ def set_minorticks(fig, ax):
 def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                       markersize=10, marker='*',
                       showylabel=True,
-                      showLegend=False, legendFontSize=None):
+                      showLegend=False, legendFontSize=None,
+                      labelsize=18,
+                      ticklabsize=18):
 
     legend_h = []
 
@@ -999,7 +1008,7 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                    color='b', marker='o', s=7)
     legend_h.append(h)
 
-    h = ax.scatter(xegc, yegc, label="Bolatto+08: Extra-Galactic GMCs",
+    h = ax.scatter(xegc, yegc, label="Extra-Galactic GMCs",
                    color='k', marker='.', s=10)
     legend_h.append(h)
 
@@ -1025,18 +1034,18 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["sigma kms"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
-    ax.set_xlabel("R [pc]")
+    ax.set_xlabel("R [pc]", fontsize=labelsize)
     ax.set_xlim(2, 2.e3)
 
     ax.set_yscale("log")
-    ax.set_ylabel(r"$\sigma_{\rm gas}$ [km s$^{-1}$]")
+    ax.set_ylabel(r"$\sigma_{\rm gas}$ [km s$^{-1}$]", fontsize=labelsize)
     ax.set_ylim([0.5, 3.e2])
 
-    ax.tick_params(axis='both', which='both')   # direction='in'
+    ax.tick_params(axis='both', which='both', labelsize=ticklabsize)   # direction='in'
 
     fig, ax = set_minorticks(fig, ax)
 
@@ -1057,8 +1066,9 @@ def plot_size_veldisp(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
 def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                        markersize=10, marker='*', xaxis='mass',
-                       showLegend=False, legendFontSize=None):
-
+                       showLegend=False, legendFontSize=None,
+                       overplotGasAlpha=True, NUM_COLORS=None,
+                       labelsize=18, ticklabsize=18):
     if xaxis == 'mass':
         # Kauffmann+17 Figure 4
         # read data from old Kauffmann paper
@@ -1158,6 +1168,9 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                      ha='center',
                      fontsize=15)
 
+    cm = plt.get_cmap('Blues')
+    ax.set_prop_cycle('color', [cm(1. * float(i) / NUM_COLORS)
+                        for i in range(NUM_COLORS)])
     psuedo_keys = []
     if not sfrlabel:
         for kkk in to_plot.iterkeys():
@@ -1171,6 +1184,7 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
             psuedo_keys.append(kkk)
         _idx = np.argsort(sfr_)
         psuedo_keys = [psuedo_keys[i] for i in _idx]
+
     for ks in psuedo_keys:
         # ks = numerical value of ncut or sfr
         if xaxis == 'mass':
@@ -1181,8 +1195,25 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
-                     markeredgewidth=0.5)
+                     markeredgecolor='black',
+                     markeredgewidth=0.5, zorder=100)
+
+    if overplotGasAlpha:
+        assert NUM_COLORS is not None
+        cm = plt.get_cmap('Oranges')  # Reds, Purples, Greys
+        ax.set_prop_cycle('color', [cm(1. * float(i) / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
+        for ks in psuedo_keys:
+            # ks = numerical value of ncut or sfr
+            if xaxis == 'mass':
+                _x = to_plot[ks]["cloud mass"]
+            elif xaxis == 'massRatio':
+                _x = to_plot[ks]['stellar to gas mass']
+            _y2 = to_plot[ks]['alpha vir gas']
+            ax.plot(_x, _y2, ls=ls, markersize=markersize,
+                    marker=marker, markeredgecolor='grey',
+                    markeredgewidth=0.5, zorder=1
+                    )
 
     # shrink
     box = ax.get_position()
@@ -1200,17 +1231,16 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
     ax.set_xscale("log")
 
     if xaxis == 'mass':
-        ax.set_xlabel(r"$M_{\rm gas}$ [M$_{\odot}$]")
+        ax.set_xlabel(r"$M_{\rm gas}$ [M$_{\odot}$]", fontsize=labelsize)
         ax.set_xlim(0.02, 1.0e8)    # to accomodate Kauffmann+17 data
     elif xaxis == 'massRatio':
-        ax.set_xlabel(r"$M_\star / M_{\rm gas}$")
+        ax.set_xlabel(r"$M_\star / M_{\rm gas}$", fontsize=labelsize)
         ax.set_xlim(0.07, 2e2)
-
     ax.set_yscale("log")
-    ax.set_ylabel(r"$\alpha_{\rm vir}$")
+    ax.set_ylabel(r"$\alpha_{\rm vir}$", fontsize=labelsize)
     ax.set_ylim(0.02, 3.e2)
-
-    ax.tick_params(axis='both', which='both')   # direction='in'
+    ax.minorticks_on()
+    ax.tick_params(axis='both', which='both', labelsize=ticklabsize)   # direction='in'
     fig, ax = set_minorticks(fig, ax)
 
     return fig, ax
@@ -1218,7 +1248,8 @@ def plot_alphavir_Mass(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
 def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
                       markersize=10, marker='*',
-                      showLegend=False, legendFontSize=None):
+                      showLegend=False, legendFontSize=None,
+                      labelsize=18, ticklabsize=18):
 
     # Heyer+09 GRS data
     xxx, yyy = np.loadtxt(litpath + "GRS.txt", unpack=True)
@@ -1262,7 +1293,7 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
          xy=[x_text, y_text],
          color='k',
          ha='center',
-         fontsize=12)
+         fontsize=18)
 
     psuedo_keys = []
     if not sfrlabel:
@@ -1283,7 +1314,7 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["sigmaSq over size"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     if showLegend:
@@ -1294,13 +1325,13 @@ def plot_sigmaSqOR_SD(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
 
     ax.set_xscale("log")
     ax.set_xlim(10**-2.5, 10**0.3)
-    ax.set_xlabel(r"$\Sigma$ [g cm$^{-2}$]")
+    ax.set_xlabel(r"$\Sigma$ [g cm$^{-2}$]", fontsize=labelsize)
 
     ax.set_yscale("log")
     ax.set_ylim(10**-1.5, 10**2.5)
-    ax.set_ylabel(r"$\sigma_{\rm gas}^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]")
+    ax.set_ylabel(r"$\sigma_{\rm gas}^2/R$ [km$^2$ s$^{-2}$ pc$^{-1}$]", fontsize=labelsize)
 
-    ax.tick_params(axis='both', which='both')   # direction='in'
+    ax.tick_params(axis='both', which='both', labelsize=ticklabsize)   # direction='in'
     fig, ax = set_minorticks(fig, ax)
 
     return fig, ax
@@ -1328,7 +1359,7 @@ def plot_Mach_massRatio(fig, ax, to_plot, sfrlabel, sfr=None, ls='',
         _y = to_plot[ks]["Mach"]
         h, = ax.plot(_x, _y, ls=ls, markersize=markersize,
                      marker=marker,
-                     markeredgecolor='gray',
+                     markeredgecolor='black',
                      markeredgewidth=0.5)
 
     ax.set_xscale("log")
@@ -1488,7 +1519,8 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
                        showcbar=True,
                        outdir='./',
                        legendFontSize=16,
-                       saveFig=False):
+                       saveFig=False,
+                       overplotGasAlpha=True):
 
     """
     Plot alpha_vir for eight snapshot in 4x2
@@ -1520,9 +1552,18 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                        ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False, legendFontSize=legendFontSize)
+                       showLegend=False, legendFontSize=legendFontSize, overplotGasAlpha=overplotGasAlpha,
+                       ticklabsize=18)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_xticklabels([])
@@ -1541,7 +1582,8 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(422)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                        ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
                        showLegend=False)
     ax.set_ylabel('')
@@ -1557,9 +1599,17 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(423)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot3, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot3, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                        ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False, overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_xticklabels([])
@@ -1573,9 +1623,17 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(424)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot4, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot4, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,               ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False,
+                       overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     plt.text(0.3, 0.9,
             "Pre-starburst Phase",
             horizontalalignment='center',
@@ -1595,9 +1653,17 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(425)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot5, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot5, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,                 ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False,
+                       overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_xticklabels([])
@@ -1611,9 +1677,17 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(426)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot6, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot6, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                       ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False, overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     ax.set_ylabel('')
     ax.set_xlabel('')
     ax.set_yticklabels([])
@@ -1633,9 +1707,17 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(427)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot7, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot7, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,               ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False,
+                       overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     plt.text(0.07, 0.08,
             "(d)",
             horizontalalignment='center',
@@ -1646,9 +1728,18 @@ def plot_alpha_vir_8ss(to_plot1, to_plot2, to_plot3, to_plot4,
     ax = plt.subplot(428)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot8, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot8, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                       ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False,
+                       overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
     plt.text(0.3, 0.9,
             "Post-starburst Phase",
             horizontalalignment='center',
@@ -1708,7 +1799,8 @@ def plot_alpha_vir_2ss(to_plot1, to_plot2,
                        showcbar=True,
                        outdir='./',
                        legendFontSize=16,
-                       saveFig=False):
+                       saveFig=False,
+                       overplotGasAlpha=True):
 
     """
     Plot alpha_vir for two snapshot side by side
@@ -1746,9 +1838,18 @@ def plot_alpha_vir_2ss(to_plot1, to_plot2,
     fig.subplots_adjust(left=0.1, right=0.91, wspace=0.01)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot1, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                      ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=showLegend, legendFontSize=legendFontSize)
+                       showLegend=showLegend, legendFontSize=legendFontSize,
+                       overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
 
     if showtitle:
         plt.text(0.5, 1.1,
@@ -1760,9 +1861,18 @@ def plot_alpha_vir_2ss(to_plot1, to_plot2,
     ax = plt.subplot(122)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plot2, sfrlabel, sfr, NUM_COLORS=NUM_COLORS,
+                       ls=ls,
                       markersize=10, marker='*', xaxis=xaxis,
-                       showLegend=False)
+                       showLegend=False,
+                        overplotGasAlpha=overplotGasAlpha)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        plt.set_cmap('Blues')
+        cm = plt.get_cmap()
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
 
     if showtitle:
         plt.text(0.5, 1.1,
@@ -1813,10 +1923,15 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
                     ls='', markersize=10, marker='*',
                     tag='',
                     sfrlabel=None,
+                    axwidth=1.5,
                     cbarLabelSize=16,
                     outdir='./',
                     legendFontSize=16,
-                    saveFig=False):
+                    saveFig=False,
+                    overplotGasAlpha=True,
+                    ticklabsize=18,
+                    tickwidth=2,
+                    labelsize=22):
     """
 
     plot 3x2 panel of 1) sigma-size; 2) alpha_vir - M; 3) sigma^2/R - Sigma_gas, all sharing one cbar
@@ -1829,7 +1944,7 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     """
     import matplotlib as mpl
     from mpl_toolkits.axes_grid1 import make_axes_locatable
-
+    from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 
     if sfrlabel:
         # load in SFR of each snapshot (averaged over 4 Myr, see load_misc.py)
@@ -1856,8 +1971,8 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         sfr_val = sorted([ii for ii in sfr.itervalues()])
 
     if saveFig:
-        figsize= (22, 20)
-        dpi = 120
+        figsize= (22, 18)
+        dpi = 100
     else:
         figsize = (150/10., 300/10.)
         dpi = 100           # otherwise mpl won't let me have a figure bigger than my screen size
@@ -1872,66 +1987,129 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
         t2 = 'Starburst Phase'
 
     ax = axes[0, 0]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+    ax.xaxis.set_tick_params(width=tickwidth)
+    ax.yaxis.set_tick_params(width=tickwidth)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_size_veldisp(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
-                      showLegend=True, legendFontSize=legendFontSize) # ss16
+                      showLegend=True, legendFontSize=legendFontSize,
+                      labelsize=labelsize,
+                      ticklabsize=ticklabsize) # ss16
     plt.text(0.5, 1.25,
             t1,
             horizontalalignment='center',
-            fontsize=20,
+            fontsize=24,
             transform=ax.transAxes)
 
     ax = axes[0, 1]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+    ax.xaxis.set_tick_params(width=tickwidth)
+    ax.yaxis.set_tick_params(width=tickwidth)
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_size_veldisp(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
-                      showLegend=False)
+                      showLegend=False,
+                      labelsize=labelsize,
+                       ticklabsize=ticklabsize)
     ax.set_ylabel('')
     ax.set_xlabel('')
     # ax.set_yticklabels([])
     plt.text(0.5, 1.25,    # 1.3
             t2,
             horizontalalignment='center',
-            fontsize=20,
+            fontsize=24,
             transform=ax.transAxes)
     plt.minorticks_on()
 
     # second row
     ax = axes[1, 0]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+    ax.xaxis.set_tick_params(width=tickwidth)
+    ax.yaxis.set_tick_params(width=tickwidth)
+    cm = plt.get_cmap('Blues')
+    NUM_COLORS = max(len(to_plotLeft), len(to_plotRight))
+
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plotLeft, sfrlabel, sfr,
+                        NUM_COLORS=NUM_COLORS,ls=ls,
                       markersize=10, marker='*',
-                       showLegend=True, legendFontSize=legendFontSize)    # ss16
+                       showLegend=True, legendFontSize=legendFontSize, overplotGasAlpha=overplotGasAlpha,
+                       labelsize=labelsize,
+                        ticklabsize=ticklabsize)    # ss16
+
+    if overplotGasAlpha:
+        # reset back to blue
+        cm = plt.get_cmap('Blues')
+        NUM_COLORS = max(len(to_plotLeft), len(to_plotRight))
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
+    plt.minorticks_on()
+    ax.minorticks_on()
 
     ax = axes[1, 1]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+    ax.xaxis.set_tick_params(width=tickwidth)
+    ax.yaxis.set_tick_params(width=tickwidth)
+    cm = plt.get_cmap('Blues')
+    NUM_COLORS = max(len(to_plotLeft), len(to_plotRight))
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
-    plot_alphavir_Mass(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
+    plot_alphavir_Mass(fig, ax, to_plotRight, sfrlabel, sfr,
+                        NUM_COLORS=NUM_COLORS,
+                        ls=ls,
                       markersize=10, marker='*',
-                       showLegend=False)
+                       showLegend=False,
+                       overplotGasAlpha=overplotGasAlpha,
+                       labelsize=labelsize,
+                        ticklabsize=ticklabsize)
+
+    if overplotGasAlpha:
+        # reset back to blue
+        cm = plt.get_cmap('Blues')
+        NUM_COLORS = max(len(to_plotLeft), len(to_plotRight))
+        ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
+                            for i in range(NUM_COLORS)])
+    plt.minorticks_on()
+    ax.minorticks_on()
     ax.set_ylabel('')
     ax.set_xlabel('')
-    plt.minorticks_on()
+
     # ax.set_yticklabels([])
 
     # third row
     ax = axes[2, 0]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+    ax.xaxis.set_tick_params(width=tickwidth)
+    ax.yaxis.set_tick_params(width=tickwidth)
+
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_sigmaSqOR_SD(fig, ax, to_plotLeft, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
-                     showLegend=True, legendFontSize=legendFontSize)
+                     showLegend=True, legendFontSize=legendFontSize,
+                     labelsize=labelsize,
+                      ticklabsize=ticklabsize)
 
     ax = axes[2, 1]
+    for axis in ['top','bottom','left','right']:
+      ax.spines[axis].set_linewidth(axwidth)
+
     ax.set_prop_cycle('color', [cm(1. * i / NUM_COLORS)
                                 for i in range(NUM_COLORS)])
     plot_sigmaSqOR_SD(fig, ax, to_plotRight, sfrlabel, sfr, ls=ls,
                       markersize=10, marker='*',
-                      showLegend=False)
+                      showLegend=False,
+                      labelsize=labelsize,
+                       ticklabsize=ticklabsize)
     ax.set_ylabel('')
     ax.set_xlabel('')
     plt.minorticks_on()
@@ -1958,13 +2136,13 @@ def plot_stuff_3by2(to_plotLeft, to_plotRight,
     if sfrlabel:
         label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
     else:
-        label = r'$n_{\rm cut}$'
+        label = r'$n_{\rm cut}$ [cm$^{-3}$]'
     cbar.set_label(label, fontsize=cbarLabelSize)
 
     if saveFig:
-        fig.subplots_adjust(right=0.84, left=0.1, top=0.85,
+        fig.subplots_adjust(right=0.84, left=0.1, top=0.95,
                             bottom=0.1, hspace=0.2,
-                            wspace=0.15)
+                            wspace=0.18)
         name_out = '3by2_clumpProp_'
         fig.savefig(outdir + name_out + tag + '.png', bbox_inches="tight")
     else:

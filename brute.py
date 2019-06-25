@@ -109,7 +109,7 @@ for snapshotnum in range(istart, iend):
                              debug=False)
 
     check_hist_h2(data, th_list, ss=snapshotnum, outdir=outdir)
-    # import pdb; pdb.set_trace()
+    # import sys; sys.exit()
 
     #check_power(data=data, size_kpc = 7., isnap=snapshotnum, outdir = outdir)
 
