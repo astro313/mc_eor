@@ -86,6 +86,7 @@ class Cloud(object):
         self.mean_bulk_veldisp_mass_avg()
         self.mean_star_veldisp_mass_avg()
         self.alpha_vir()
+        self.alpha_vir_gas()
 
         self.young_SFR()
         self.old_SFR()
@@ -178,6 +179,31 @@ class Cloud(object):
       mass = self.mstar_Msun_tot + self.mass_Msun
 
       self.alpha_vir_summed = 5.0 * sigma_2_tot * conv * self.R_pc/mass
+
+
+    def alpha_vir_gas(self, include_bulk=True):
+
+      x = (self.Pressure * self.k_B_erg / C.m_p.cgs.value) / self.density
+      self.cs_avg = np.sqrt(np.sum(self.density * x)/np.sum(self.density))
+
+      v_NT = self.mean_sigma_NT_mass_avg/1.e+5
+      v_cs = self.cs_avg/1.e5
+
+      if include_bulk:
+        v_disp = 0.0
+        for i,x in enumerate(['x','y','z']):
+          v_disp = v_disp + (self.mean_veldisp_mass_avg[i]/1.e+5)**2
+        v_disp = (1.0/3.0)*np.sqrt(v_disp)
+
+        self.sigma_gas_tot = v_NT**2 + v_cs**2 + v_disp**2
+      else:
+        self.sigma_gas_tot = v_NT**2 + v_cs**2
+
+      from astropy import units,constants
+      conv = (units.km/units.s)**2 * constants.pc /( constants.G * constants.M_sun)
+      conv = conv.to(1).value
+
+      self.alpha_vir_summed_gasonly = 5.0 * self.sigma_gas_tot * conv * self.R_pc/self.mass_Msun
 
 
     # --- star particles ---
