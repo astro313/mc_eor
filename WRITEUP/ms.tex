@@ -347,7 +347,7 @@ Existing studies find a good correspondence in the dynamical properties extracte
 \caption{
 Examples of MCCs (white contours) identified by the clump finder in
 \flower during its accreting phase (\Fig{SFH}a; left two columns), where \flower display a highly disturbed gas morphology, and 
-its quiescent phase (right two columns), where \flower shows a rotating disk configuration.
+its late quiescent phase (right two columns), where \flower shows a rotating disk configuration.
 Panels in the second and fourth columns show the molecular gas distribution projected along different viewing angles. 
 Colorbar on the right shows the mean H$_2$ number density, weighted by gas mass. 
 Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$ as annotated by the label in the bottom left corners. 
@@ -447,8 +447,8 @@ in the discussion of MCC dynamics in the remainder of this paper.
 \end{figure}
 
 The most massive ($M_{\rm gas}>$10$^7$\,\Msun) cloud corresponds to the molecular disk of the galaxy (see e.g., \Fig{MCC}), 
-which is identified as a single component at low $n_{\rm cut}$. This main disk component occupy the top right corner of \Fig{stellarRatio16}, with a \AP{do we really need both $f_{\rm gas}$ and $M_\star/M_{\rm gas}$?} 
-stellar-to-gas mass ratio of $\simeq$\,50--100. 
+which is identified as a single component at low $n_{\rm cut}$. This main disk component occupy the top right corner of \Fig{stellarRatio16}, with a 
+low gas mass fraction of $\simeq$\,0.
 The velocity dispersion of such structure is dominated by bulk motions, as shown in \Fig{vv}, where we compare 
 the velocity dispersions of MCCs resulting from bulk ($\sigma_{\rm bulk}$) versus non-thermal turbulent motions ($\sigma_{\rm NT}$) 
 in the accreting and quiescent phases of \flower.
@@ -467,13 +467,17 @@ have been reported in idealized closed-box isolated galaxy simulations done at h
 
 \begin{figure}
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-sigma-kms-bulk_sigma-kms-NT} \\
-\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss28-sigma-kms-bulk_sigma-kms-NT}
-\caption{Gas velocity dispersions resulting from bulk versus turbulent motions for MCCs identified across all $n_{\rm cut}$ (same color-coding as \Fig{stellarRatio16}) in the accreting (top) and quiescent phase (bottom) of \flower.
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-28-veldisp.pdf}
+\caption{Gas velocity dispersions resulting from bulk versus turbulent motions for molecular structures 
+identified across all $n_{\rm cut}$, as shown using the same color-coding as \Fig{stellarRatio16}.
 %
-The accreting phase of \flower displays a more disturbed morphology compared to the quiescent phase, which displays a disk-like morphology (\Fig{MCC}).
+Top and bottom panels show structures identified in the accreting phase and the quiescent phase, respectively.
+The accreting phase of \flower displays a more disturbed morphology compared to the quiescent phase, which displays a disk-like morphology (see \Fig{MCC}).
 %
-Velocity dispersion from turbulent motions dominates over bulk motions for most MCCs in the accreting phase. On the other hand, $\sigma_{\rm bulk}$ is at least comparable to $\sigma_{\rm NT}$ for almost half the MCCs in the quiescent disk-like phase.
+The dashed black lines show a one-to-one mapping between the axes to facilitate comparison. 
+%
+Velocity dispersion from turbulent motions dominates over bulk motions for MCCs in the accreting phase. On the other hand, 
+$\sigma_{\rm bulk}$ is comparable to $\sigma_{\rm NT}$ for some MCCs in the quiescent disk-like phase.
 \label{fig:vv}}
 \vspace{0.5em}
 \end{figure}
@@ -858,7 +862,7 @@ This also implies that \obs on spatially resolution better than $\simeq$40\,pc a
 %% we show in this work that prototypical galaxies at the EoR with properties similar to \flower
 %% are expected to have molecular gas structures on sub-kpc scales. 
 % Higher resolution imaging of molecular gas 
-Such resolution is within reach with ALMA, for which 0.01" resolution images are available for the high freq bands. The Next Generation VLA (ngVLA) in the 2030s will enable deeper imaging of the cold gas down to $\sim$\,200\,pc via \aco line emission. % 0.005" highest freq; ~0.05 for 16 GHz; CO10 for z~6
+Such resolution is within reach with ALMA, for which 0\farcs01 resolution images are available for the high frequency bands. The Next Generation VLA (ngVLA) in the 2030s will enable deeper imaging of the cold gas down to $\sim$\,200\,pc via \aco line emission. % 0.005" highest freq; ~0.05 for 16 GHz; CO10 for z~6
 On the other hand, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 %These predictions can in turn be
 %tested with high resolution imaging of the gas content in the first galaxies with telescopes such as ALMA and the ngVLA, thereby
