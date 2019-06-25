@@ -802,9 +802,14 @@ We use a three-dimensional clump-finding algorithm to identify MCCs. We decompos
 
 The sizes of MCCs are only somewhat dependent on the choice of $n_{\rm cut}$, after excluding the 
 most massive molecular structure identified (which correspond to the main disk of \flower). 
-The main disk is break into multiple MCCs at higher $n_{\rm cut}$. The $\sim$200\,pc-scale MCCs found with a low density threshold correspond to the arms of the disk of \flower and break down into smaller $\lesssim$100\,pc-scale MCCs at higher density thresholds.
+The $\sim$150\,pc-scale structure found with a low density threshold correspond to the main disk of \flower 
+and breaks down into smaller MCCs at higher density thresholds, with a typical size of $R\simeq\,50$\,pc.
 %
-Excluding the biggest MCC, the typical mass of MCCs is $10^{6.5}$\,\Msun. Similarly massive molecular structures have been observed in nearby star-forming and starburst galaxies \citep[e.g.,][]{Keto05a, DonovanMeyer13a, Colombo14a, Leroy15a}, and reported in idealized (no stellar feedback) isolated (no cosmological initial conditions) galaxy simulations done at higher resolution (e.g., $l_{\rm cell}\simeq3$\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}). That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off despite the resolution limit ($l_{\rm cell}\simeq$\,30\,pc). On the other hand, the gas velocity dispersion $\sigma_{\rm gas}$ is rather insensitive to the adopted density threshold.
+The typical mass of MCCs is $10^{6.5}$\,\Msun. Similarly massive molecular structures have been observed in nearby star-forming and starburst galaxies \citep[e.g.,][]{Keto05a, DonovanMeyer13a, Colombo14a, Leroy15a}, and reported in idealized (no stellar feedback) isolated (no cosmological initial conditions) galaxy simulations done at higher resolution (e.g., $l_{\rm cell}\simeq3$\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}). That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off despite the resolution limit ($l_{\rm cell}\simeq$\,30\,pc). On the other hand, the gas velocity dispersion 
+of $\sigma_{\rm gas}\simeq$\,20-10\,\kms is rather insensitive to the adopted density threshold.
+
+Velocity dispersion and gas surface density of MCCs of \flower are systematically higher than Milky Way clouds regardless of the density threshold $n_{\rm cut}$ adopted. These MCCs are, in fact, highly supersonic, with high Mach number of $\bar{\mathcal{M}}\simeq6$. Their velocity dispersions are comparable to those observed in $z$\ssim2 starburst galaxies. A comparison between the bulk and non-thermal velocity dispersions of MCCs indicates that MCCs
+are supported by turbulence motions.
 
 % We compare several observable quantities that reflect the dynamics of MCCs in \flower to those
 %observed in the Milky Way disk, the Galactic center, and
@@ -813,14 +818,9 @@ Excluding the biggest MCC, the typical mass of MCCs is $10^{6.5}$\,\Msun. Simila
 
 The variation in $\sigma_{\rm gas}^2/R$ with $\Sigma$ seen in this work is in line with previous studies, suggesting that ``Larson's third relation'' is an artifact arising from observational bias artifact of the limited range of  column densities a specific molecular line tracer is sensitive to \citep[][]{Ballesteros02a, Ballesteros11a}. This would imply column density is not a fundamental properties of molecular clouds and not all molecular clouds are virialized. 
 
-MCCs of \flower are found to have velocity dispersion and gas surface density systematically higher than Milky Way clouds regardless of the density threshold $n_{\rm cut}$ adopted. These MCCs are, in fact, highly supersonic, with high Mach number of $\bar{\mathcal{M}}\simeq6$. Their velocity dispersions are comparable to those observed in $z$\ssim2 starburst galaxies. A comparison between the bulk and non-thermal velocity dispersions of MCCs indicates that most MCCs, excluding the arms and the disk of \flower, are supported by turbulence motions.
-
 % where the virial parameter is used as a surrogate for comparing the potential to kinetic energies of molecule gas structures. 
-We perform virial analysis, as motivated by \obs, to assess the stability of MCCs. On average, the virial parameter of MCCs in the starburst phase of \flower is lower than in the accreting phase, as expected for \SF. Similarly, the virial parameter of MCCs identified at the highest density thresholds are lower than those identified at lower density thresholds. 
-% Such MCCs are thus susceptible to collapse. 
-% The high virial parameter found for some MCCs are found in regions of $Q_{\rm eff}>1$.
-% On the other hand, 
-Such MCCs identified in (the denser) regions with a lower Toomre $Q_{\rm eff}$ parameter are unstable against collapse.
+We perform virial analysis, as motivated by \obs, to assess the stability of MCCs. On average, the virial parameter of MCCs in the starburst phase of \flower is lower than in the accreting phase, as expected for \SF. Similarly, the virial parameter of MCCs identified at the highest density thresholds are lower than those identified at lower density thresholds. Such MCCs identified in the denser regions with a lower Toomre $Q_{\rm eff}$ parameter are unstable against collapse.
+
 % Toomre:
 Close resemblance of $Q_{\rm eff}$ and $Q_{\rm star}$ maps indicates that contribution from the stellar component plays an important role in governing the stability of the MCCs against axisymmetric perturbations, especially in the central part of \flower. Similarly, stabilizing effect due to the thickness of its disk is also non-negligible. This illustrates the importance of accounting for stellar contribution and disk thickness when examining the stability of molecular gas structures, especially in relatively evolved and enriched systems at high redshift that are preferentially being observed now.
 %
@@ -843,7 +843,9 @@ This also implies that \obs on spatially resolution better than $\simeq$40\,pc a
 %% we show in this work that prototypical galaxies at the EoR with properties similar to \flower
 %% are expected to have molecular gas structures on sub-kpc scales. 
 % Higher resolution imaging of molecular gas 
-Such resolution is within reach with ALMA, for which 0\farcs01 resolution images are available for the high frequency bands. The Next Generation VLA (ngVLA) in the 2030s will enable deeper imaging of the cold gas down to $\sim$\,200\,pc via \aco line emission. % 0.005" highest freq; ~0.05 for 16 GHz; CO10 for z~6
+Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. 
+The Next Generation VLA (ngVLA) in the 2030s could in principle enable imaging of the cold gas down to $\sim$\,200\,pc via \aco line emission. 
+% 0.005" highest freq; ~0.05 for 16 GHz; CO10 for z~6
 On the other hand, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 %These predictions can in turn be
 %tested with high resolution imaging of the gas content in the first galaxies with telescopes such as ALMA and the ngVLA, thereby
