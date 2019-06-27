@@ -183,14 +183,9 @@ if the external pressure $P_{\rm ext}=0$. For this case (often referred to as si
 \label{eqn:alpha}
 \end{equation}
 
-Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma_{\rm gas}^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma_{\rm gas}^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}).
+Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma_{\rm gas}^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma_{\rm gas}^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}). Similar conclusions are also reached from the analysis of clouds forming in Milky-Way like galaxy simulated with a $\simeq 4\,{\rm pc}$ resolution \citep[i.e.][]{grisdale:2018}.
 
-Summarizing, the virial parameter can be used to quantify the stability/boundedness of
-%mm an MCC.
-    a molecular cloud.
-Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{Bertoldi92b}.
-%
-Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
+Summarizing, the virial parameter can be used to quantify the stability/boundedness of a molecular cloud. Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{Bertoldi92b}. Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 
 In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
 \begin{equation}
@@ -345,12 +340,15 @@ Existing studies find a good correspondence in the dynamical properties extracte
  \centering
   \includegraphics[width=\textwidth, trim=25 25 35 30, clip]{\figpath/SS_bigfonts/{combined}.pdf}
 \caption{
-Examples of MCCs (white contours) identified by the clump finder in
-\flower during its accreting phase (\Fig{SFH}a; left two columns), where \flower display a highly disturbed gas morphology, and 
-its quiescent phase (right two columns), where \flower shows a rotating disk configuration.
+Examples of MCCs identified in \flower by our clump finder.
+%
+The identified structures (white contour) are superimposed on the map of the mass weighted $H_2$ density field of the galaxy.
+%
+Two stages of \flower are selected: the accreting phase (left two columns, see \Fig{SFH}a for the definition) and the quiescent phase (right two columns), where \flower display a highly disturbed gas morphology, and a rotating disk configuration, respectively.
+%
 Panels in the second and fourth columns show the molecular gas distribution projected along different viewing angles. 
-Colorbar on the right shows the mean H$_2$ number density, weighted by gas mass. 
-Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$ as annotated by the label in the bottom left corners. 
+%
+Different rows show the results obtained by applying different H$_2$ number density cuts $(n_{\rm cut})$, as annotated in each panel. \AP{please change $\rm Kpc$ to $\rm kpc$}
 \label{fig:MCC}
 }
 \end{figure*}
@@ -419,7 +417,7 @@ Finally, the Mach number is related to the pressure terms as follows
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
 \caption{Normalized distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest 
-$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$.
+$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$. \AP{please change $M_{\rm cl}$ into $M_{\rm gas}$}
 \label{fig:dist}}
 \end{figure*}
 
@@ -446,26 +444,13 @@ in the discussion of MCC dynamics in the remainder of this paper.
 \label{fig:stellarRatio16}}
 \end{figure}
 
-The most massive structures ($M_{\rm gas}>$10$^7$\,\Msun) correspond to the molecular disk of the galaxy (see e.g., \Fig{MCC}), 
-which is identified as a single component at low $n_{\rm cut}$. This main disk component occupy the top right corner of \Fig{stellarRatio16}, with a 
-low gas mass fraction of $f_{\rm gas}\simeq$\,0.
-The velocity dispersion of such structure is dominated by bulk motions, as shown in \Fig{vv}, where we compare 
-the velocity dispersions of MCCs resulting from bulk ($\sigma_{\rm bulk}$) versus non-thermal turbulent motions ($\sigma_{\rm NT}$) 
-in the accreting and quiescent phases of \flower.
-The accreting phase of \flower displays a disturbed morphology, whereas the 
-quiescent phase displays a disk-like morphology (\Fig{MCC}).
-Excluding the structure corresponding to the molecular disk, the 
-velocity dispersions of most MCCs in the accreting phase of \flower are dominated by turbulent motions.
-On the other hand, $\sigma_{\rm bulk}$ is at least comparable to $\sigma_{\rm NT}$ for almost half the MCCs
-in the quiescent disk-like phase.
+The most massive structures ($M_{\rm gas}>$10$^7$\,\Msun) correspond to the molecular disk of the galaxy (see e.g., \Fig{MCC}), which is identified as a single component at low $n_{\rm cut}$. This main disk component occupy the top right corner of \Fig{stellarRatio16}, with a low gas mass fraction of $f_{\rm gas}< 5\%$. The velocity dispersion of such structure is dominated by bulk motions, as shown in \Fig{vv}, where we compare the velocity dispersions of MCCs resulting from bulk ($\sigma_{\rm bulk}$) versus non-thermal turbulent motions ($\sigma_{\rm NT}$) in the accreting and quiescent phases of \flower. The accreting phase of \flower displays a disturbed morphology, whereas the quiescent phase displays a disk-like morphology (\Fig{MCC}).
+%
+Excluding the structure corresponding to the molecular disk, the velocity dispersions of most MCCs in the accreting phase of \flower are dominated by turbulent motions. On the other hand, $\sigma_{\rm bulk}$ is at least comparable to $\sigma_{\rm NT}$ for almost half the MCCs in the quiescent disk-like phase.
+%
+For these reasons, the most massive MCCs are excluded in the discussion of the dynamics (\Sec{diss}), as they are dominated by large-scale shear; however, we include them in the scaling relation plots (\Fig{larsons_single} and \Fig{alpha16-28}), as would be done so for an observational study.
 
-The most massive MCC is excluded in the discussion of MCC dynamics in \Sec{diss} of this paper,
-since its dynamics is dominated by large-scale shear; however, we include them in the scaling relation plots (\Fig{larsons_single} and \Fig{alpha16-28}) 
-as would be done so for an observational study. % where we would plot everything we identify and try to interpret their nature.
-
-Considering only the MCCs identified at the highest density threshold, the mass of MCCs is $\simeq10^{6.5}$\,\Msun.
-We note that similarly massive molecular structures (few times 10$^7$\,\Msun\footnote{See \S{3.1} of \citet{Behrendt16a}.}) 
-have been reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}). However, the stellar feedback, IGM, merger and accretion histories are not properly modeled in such simulations. That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
+Considering only the MCCs identified at the highest density threshold, the mass of MCCs is $\simeq10^{6.5}$\,\Msun. We note that similarly massive molecular structures (few times 10$^7$\,\Msun\footnote{See \S{3.1} of \citet{Behrendt16a}.}) have been reported in idealized closed-box isolated galaxy simulations done at higher resolution (e.g., a maximum resolution of 3\,pc in the 48\,kpc box studied by \citealt{Behrendt16a}). However, the stellar feedback, IGM, merger and accretion histories are not properly modeled in such simulations, e.g. see \citet{grisdale:2017,grisdale:2019} for the importance of feedback in shaping the properties of clouds forming in local simulated galaxies. That said, the similar mass range found in MCCs of \flower\ is reassuring --- our results are not far off in spite of the limited resolution ($l_{\rm cell}\simeq$\,30\,pc).
 
 \begin{figure}
 \centering
@@ -499,7 +484,7 @@ MCCs (star symbols) identified in the two most extreme evolutionary
 stages of \flower\ --- accreting (left) and starburst (right). Star symbols are color-coded by density thresholds
 $n_{\rm cut}$, as illustrated by the colorbar shown on the right.
 Gas-only $\alpha_{\rm vir}$ (orange star symbols) is overplotted, and is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs
-since they are gas-dominated (see \Fig{stellarRatio16}). 
+since they are gas-dominated (see \Fig{stellarRatio16}) \AP{I think the orange points makes the figure more messy, an alternative would to remove them and discuss the point in the text}. 
 Stability of the biggest structures is strongly influenced by the stellar component, given their low $f_{\rm gas}$ (see \Fig{stellarRatio16} and \Sec{dist}).
 The gray dotted lines shown in the bottom panels correspond to the various annotated external pressures needed in order for
 the gas to be in equilibrium, see Equation~\ref{eqn:v0}.
@@ -661,8 +646,7 @@ The pressure of MCCs identified at the highest $n_{\rm cut}$ ranges between $\lo
 In local ULIRGs, MCCs are likely formed by shock compression and cloud-cloud collisions that funnel large amounts of gas from the progenitor galaxies towards the central region \citep{Tan00a, Wu18a}. On the other hand, the highly turbulent structures of \flower are the result of extra-planar flows \citep{Kohandel19a} and higher velocity accretion/SN-driven outflows \citep{Gallerani18a}. The presence of extra-planar flows may also be the dominant mode for forming the highly supersonic massive MCCs observed in gas-rich star-forming galaxies at $z$\ssim2. For instance, \citet{Swinbank11a} report ISM pressure of $P/k_B\sim$10$^7$\,K\,\cc and molecular gas mass of $M_{\rm gas}\simeq10^{8-9}$\,\Msun in the star-forming regions of a gas-rich starburst galaxy at \z\eq2.3 based on spatially resolved CO line \obs.
 
 % different evolutionary stages
-We do not find any major quantitative differences in the MCCs of \flower between its accreting and starburst phase 
-with respect to those observed in the nearby Universe (see \Fig{larsons_single}), which are separated by $\simeq$300\,Myr. However, MCCs in the \SB phase have lower $\alpha_{\rm vir}$ compared to the accreting phase. This is expected for \SF to proceed.
+We do not find any major quantitative differences in the MCCs of \flower between its accreting and starburst phase with respect to those observed in the nearby Universe (see \Fig{larsons_single}), which are separated by $\simeq$300\,Myr. However, MCCs in the \SB phase have lower $\alpha_{\rm vir}$ compared to the accreting phase. This is expected for \SF to proceed.
 
 %\subsection{Is the Mass-Size Relation an Observational Artifact?} \label{sec:MR}
 %The MCCs of \flower lie below the locus of $A_V$\eq100\,mag followed
