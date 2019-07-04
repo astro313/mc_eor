@@ -205,4 +205,4 @@ if __name__ == '__main__':
                               tickwidth=2,
                               labelsize=25,
                               ticklabsize=20,
-                              saveFig=True)
+                              saveFig=True, overplotGasAlpha=False)
