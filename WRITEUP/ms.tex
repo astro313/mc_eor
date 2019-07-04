@@ -477,7 +477,8 @@ Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\
 %
 Star symbols are color-coded by density thresholds $n_{\rm cut}$, as illustrated by the colorbar shown on the right.
 %
-Gas-only $\alpha_{\rm vir}$ (orange star symbols) is overplotted, and is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs since they are gas-dominated (see \Fig{stellarRatio16}) \AP{I think the orange points makes the figure more messy, an alternative would to remove them and discuss the point in the text}.
+% Gas-only $\alpha_{\rm vir}$ (orange star symbols) is overplotted, and is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs since they are gas-dominated (see \Fig{stellarRatio16}) 
+% \AP{I think the orange points makes the figure more messy, an alternative would to remove them and discuss the point in the text}.
 %
 Stability of the biggest structures is strongly influenced by the stellar component, given their low $f_{\rm gas}$ (see \Fig{stellarRatio16} and \Sec{dist}).
 %
@@ -508,12 +509,10 @@ While the virial parameter defined as Equation~\ref{eqn:alpha} is typically used
 The biggest MCC identified at low $n_{\rm cut}$ and with the highest stellar-to-gas mass ratio ($\gtrsim$\,1; \Fig{stellarRatio16}) corresponds to the central main
 disk of \flower (see top panels of \Fig{MCC} and \Sec{distribution}). The large amount of stellar mass already assembled in \flower
 explains the low {\em total} virial parameter seen in the middle left panel of \Fig{larsons_single}, where the stellar gravitational potential
-influences the overall stability. On the other hand, the MCCs in this phase are mostly stable, with
+influences the overall stability. On the other hand, the MCCs in this phase are mostly stable\footnote{We check that the gas-only virial parameter of MCCs is comparable to the {\em total} virial parameter.}, with
 virial parameter comparable to some of the molecular structures
-observed in the Milky Way,
-%mm2 but the former is
-     though the MCCs are
-     more massive.
+observed in the Milky Way, though the MCCs are more massive.
+
 
 % PVE
 Motivated by observational studies, we also plot the $\sigma_{\rm gas}^2/R$ ratio and gas surface density of MCCs in the accreting phase of \flower in the bottom left panels of \Fig{larsons_single}. In the same plot, we show those observed in the Galactic Ring Survey (GRS) of the Milky Way \citep{Heyer09a} for comparison. Dashed lines in the figure show the loci along which the annotated external pressures are needed for any molecular clouds in equilibrium to have certain linewidths for a given set of surface densities (see \Sec{PVE}).
@@ -546,10 +545,7 @@ ultra-luminous IR galaxies \citep[ULIRGS;][]{Boulares90a, Scoville91a, Weiss01a,
 \subsection{Adopted Density Threshold Dependence}\label{sec:ncut}
 
 We investigate possible variations in the dynamics of the molecular structures of \flower
-by adopting different
-%mm2 sets
-    values
-of $n_{\rm cut}$ % in identifying the MCCs
+by adopting different values of $n_{\rm cut}$
 to test the robustness of our results against the choice of density threshold.
 That is, how sensitively are the structure properties, and thus, the
 results presented in \Sec{singless}, dependent on the choice of density thresholds?
@@ -587,7 +583,6 @@ are probably limited by the spatial resolution.
 %
 The velocity dispersions of some MCCs are also comparable to the most turbulent gas clouds observed in the inner Milky way and nearby gas-rich galaxies (e.g., M64; \citealt{Oka01a, Rosolowsky05a, Heyer09a, Leroy15a}), which lie along the locus of $\sigma_{\rm gas}\propto R^{0.56}$. Such high velocity dispersion
 in \flower is dominated by non-thermal energy (\Fig{vv}) and results from the injection of kinetic energy from recent \SF as \flower is assembling its stellar mass (given the high Mach numbers of MCCs; \Sec{distribution}). In fact, by the accreting stage (see \Fig{SFH}a) at $z\simeq$\,7.2, \flower has assembled a stellar mass of $M_\star$\eq7.5\E{9}\,\Msun.
-%mm2
    This contrasts with \citet{Krumholz18a}, who show that numerical models and analytic arguments point to
    feedback generally not being able to produce velocity dispersions of more than 10--20 km~s$^{-1}$, with
    higher velocities likely being produced by Toomre instability driven radial inflow.
@@ -691,7 +686,7 @@ Close resemblance of $Q_{\rm eff}$ and $Q_{\rm star}$ maps indicates that contri
 Star formation is expected to take place within its star-forming {\it clumps} and {\it cores} on smaller scales, where energy quickly dissipates. This is consistent with the notion that collapsing structures result from gravitational instability occurring within globally stable structures, which are supported by turbulence and rotation on large scale.
 This also implies that \obs on spatially resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores), and thus, \SF in the first galaxies.
 Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. 
-With the Next Generation VLA (ngVLA), which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
+With the Next Generation VLA (ngVLA\footnote{\url{http://library.nrao.edu/public/memos/ngvla/NGVLA\_21.pdf}}), which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
 % 0.005" highest freq
 In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 
