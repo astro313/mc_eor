@@ -375,6 +375,7 @@ Given the stochastic nature of \flower in its star formation history, we mostly 
 %
 These phases correspond to (a) an intensely accreting phase and (b) a starburst phase (\Fig{SFH}). We are interested in determining whether MCC properties are sensitive to these different dynamical conditions. For completeness, we also show relationships of MCC properties examined for other evolutionary stages traced in the simulation (see \Sec{ncut}).
 
+
 \section{Molecular Cloud Complexes}\label{sec:eqn}
 
 \subsection{Identification}\label{sec:method}
@@ -388,7 +389,8 @@ Due to the nature of our AMR simulation, we regrid the simulation data into unif
 In the clump-finding process (in position-position-position space; PPP), we employ a set of different density thresholds defined based on the molecular hydrogen density of \flower at different evolutionary stages ($z=6.0$--7.2).
 %
 We note that this process is the three-dimensional analog to identifying molecular structures based on the noise levels in position-position-velocity (PPV) maps that observers obtain with telescopes, using molecular line tracers such as CO, CS, and HCN. This is commonly done by
-identifying clumps based on/after applying S/N-clipping, using tools such as \ncode{aips}'s task \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; e.g., \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a, DonovanMeyer13a}).
+identifying clumps based on/after applying S/N-clipping, using tools
+such as the \ncode{aips} tasks \ncode{serch}, \ncode{clumpfind}, and \ncode{cprops}; (e.g., \citealt{Williams94a, Oka01a, Rosolowsky06a, Rosolowsky08a, DonovanMeyer13a})).
 %
 %We note that, owing to the nature of \obs, such structures are identified in position-position-velocity (PPV) space, whereas in simulations, one has the full 6D spatial-kinematic information, and can therefore cleanly identify structures directly using the density field in position-position-position (PPP) space.
 Existing studies find a good correspondence in the dynamical properties extracted in PPV- versus PPP-space for well-isolated structures (\citealt{Ballesteros-Paredes02a, Heitsch09a, Shetty10a, Beaumont13a, Pan15a}, but see \citealt{Ballesteros-Paredes02a} and \citealt{Shetty10a} for a discussion on caveats and limitations).
@@ -426,7 +428,7 @@ We note that the distribution is almost flat for $n_{\rm H2}\gtrsim1$\,\cc and i
 In each evolutionary stage, we identify MCCs by applying density cuts to the {\em H$_2$ density} distribution, i.e., MCCs
 are selected at $n_{\rm cut} \leq n_{\rm H2}$. We select 10 equally-spaced cuts in H$_2$ density in log scale: ${(n_{\rm cut}/{1 {\rm cm}^{-3})}}\eq[0.32, 0.53, 0.88, 1.45, 2.45, 4.08, 6.81, 11.36, 18.96, 31.62]$.
 % We also tested variations in $n_{\rm cut}$ range and found no qualitative differences (see \Sec{ncut}).
-Note that with these choice we are including MCCs that are not fully molecular ($n = 0.5 n_{\rm H2}$).
+Note that with these choices we are including MCCs that are not fully molecular ($n = 0.5 n_{\rm H2}$).
 
 To visually display the clump finding procedure, we overplot the molecular structures identified using a subset of the H$_2$ density cuts ($n_{\rm cut}$\eq0.53, 5.81, and 18.96\,\cc) on the H$_2$ density maps (\Fig{MCC}). Since the molecular structures are identified in the 3D H$_2$ density field, they can appear as overlapping structures depending on the viewing angle; thus we also plot them in different projections so that the identification can be more easily appreciated.
 %
