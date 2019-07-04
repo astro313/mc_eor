@@ -155,13 +155,20 @@ and present the formalism within which we interpret the results. In \Sec{results
 %
 
 \section{Physical Background}\label{sec:Back}
-We begin by introducing some basic equations concerning the empirical relations commonly mentioned in observational studies of molecular clouds in the literature and the gravitational instability of galactic disks, which might be driving MCC formation. Such notions will be used in the subsequent analysis of our simulations.
+%mm2 [revised paragraph]
+We begin by introducing some empirical relations commonly mentioned in
+observational studies of molecular clouds in the literature, as well
+as describing the gravitational instability of galactic disks, which
+might be driving MCC formation. These concepts will be used in the subsequent analysis of our simulations.
 
 \subsection{Larson's Relations and Virial Parameter}\label{sec:PVE}
 \citet{Larson81a} discussed a number of relations among Galactic
 molecular cloud
 properties, namely the linewidth-size, density-size, and mass-size relations. Larson relations are routinely used for comparing properties of molecular structures in different galactic environments. They also represent a useful framework to analyze our results as they
-have been argued to arise from the interplay between gravity and turbulence encoded in the virial theorem
+have been argued to arise from the interplay between gravity and
+% mm2 turbulence encoded in the
+    velocity dispersion given by
+virial theorem
 (note, however, the alternative interpretation involving gravitational collapse by
 e.g., \citealt{Ballesteros-Paredes11a}).
 
@@ -169,7 +176,10 @@ The virial theorem for a distribution of unmagnetized gas can be written as \cit
 \begin{equation}\label{eqn:virial_th_general}
 \frac{1}{2}\ddot{\mathcal{I}} = 2(\mathcal{T} - \mathcal{T}_{\rm ext}) + \mathcal{W},
 \end{equation}
-where $\ddot{\mathcal{I}}$ is the second time derivative of the Lagrangian moment of inertia, $\mathcal{T}$ is the internal energy of the gas, $\mathcal{T}_{\rm ext}$ is external pressure support, and $\mathcal{W}$ is the gravitational energy.
+where $\ddot{\mathcal{I}}$ is the second time derivative of the
+Lagrangian moment of inertia, $\mathcal{T}$ is the internal energy of
+the gas, $\mathcal{T}_{\rm ext}$ is external pressure support, and
+$\mathcal{W}$ is the gravitational energy.
 %
 Let us specialize to the case of a spherical self-gravitating molecular cloud of mass $M_{\rm gas}$, radius $R$, and root-mean-square velocity dispersion $\sigma$, accounting for both thermal and turbulent contributions.
 %mm Neglecting magnetic field and
@@ -197,11 +207,28 @@ if the external pressure $P_{\rm ext}=0$. For this case (often referred to as si
 \label{eqn:alpha}
 \end{equation}
 
-Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between $\sigma_{\rm gas}^2/R$ and $\Sigma$ is therefore expected for a virialized cloud, since $\sigma_{\rm gas}^2/R\propto\Sigma$. Deviations from this relation are usually attributed to a significant contribution from external pressure as per Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a, Hughes13b, Meidt13a}). Similar conclusions are also reached from the analysis of clouds forming in Milky-Way like galaxy simulated with a $\simeq 4\,{\rm pc}$ resolution \citep[i.e.][]{grisdale:2018}.
+Based on Equation~\ref{eqn:SVE}, a one-to-one mapping between
+$\sigma_{\rm gas}^2/R$ and $\Sigma$ is therefore expected for a
+virialized cloud, since $\sigma_{\rm
+  gas}^2/R\propto\Sigma$.
+% mm2
+    \citep{Heyer09a} pointed out that the original size-linewidth
+    relation implies constant surface density in this interpretation.
+    The limited dynamic range in column density of CO observations
+    appears to account for this \citep[see also][]{Ballesteros-Paredes11a}.
+Deviations from this relation are
+% mm2 usually
+        often
+attributed to a significant contribution from external pressure as per
+Equation~\ref{eqn:v0} (see e.g., \citealt{Heyer09a, Hughes10a,
+  Hughes13b, Meidt13a}). Similar conclusions are also reached from the
+analysis of clouds forming in a Milky-Way like galaxy simulated with a $\simeq 4\,{\rm pc}$ resolution \citep[i.e.][]{grisdale:2018}.
 
 Summarizing, the virial parameter can be used to quantify the stability/boundedness of a molecular cloud. Accounting for the external pressure, a virial parameter of $\alpha_{\rm vir}\lesssim2$ would be unstable \citep{Bertoldi92b}. Such a criterion is often used in \obs \citep[see e.g., ][]{Kauffmann17b}.
 
-In cases where stellar component plays an important role in the dynamics, the virial parameter becomes
+In cases where a stellar component plays an important role in the
+dynamics, the virial parameter becomes
+%mm2 [citation or derivation needed?]   ***********
 \begin{equation}
 \alpha_{\rm vir, tot} \equiv \frac{5 R}{G (M_{\rm gas} + M_{\star})} \frac{M_{\rm gas} \sigma_{\rm gas}^2 + M_{\star} \sigma_\star^2}
 					       {M_{\rm gas} + M_{\star} }\,,
@@ -213,7 +240,9 @@ where $M_\star$ is the stellar mass within the MCC volume.
 %\subsection{Gravitational Instabilities}\label{sec:Q}
 \subsection{Toomre stability analysis}\label{sec:Q}
 
-The onset of gravitational instability is tightly connected to \SF \citep[e.g.,][]{Kennicutt89a, Wang94a, Li05b, Li06a}. For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by
+The onset of gravitational instability is tightly connected to \SF
+%mm2 [added Martin & Kennicutt 2001]
+\citep[e.g.,][]{Kennicutt89a, Martin01, Wang94a, Li05b, Li06a}. For axisymmetric modes, the dispersion relation for the growth of density perturbations in a rotating, turbulent disk of finite thickness $h$ is described by
 \begin{equation}
 \omega^2 = \kappa^2 - \frac{2\pi G \Sigma |k|}{1 + |k| h} + \sigma_{\rm disk}^2 k^2\,,
 \label{eqn:3Ddisp}
