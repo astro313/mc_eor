@@ -585,7 +585,6 @@ def plot_stuff(xstr, ystr, ls='', markersize=10,
             # uncomment below to get ncut in legend
             # for paper, we commented this out since we show it as colorbar in other figures.
             # legend_h.append(h)
-
         else:
             if xstr == "gas sd per ff" and ystr == "sfr sd":
                 _x = np.log10(_x)
@@ -818,6 +817,38 @@ def plot_stuff(xstr, ystr, ls='', markersize=10,
     ax.tick_params(axis='both', which='both')   # direction='in'
     plt.minorticks_on()
     plt.tight_layout()
+
+    if xstr == 'fgas' and ystr == 'cloud mass':
+        # add a cbar to the top of figure
+        abc = np.array(map(float, psuedo_keys))
+
+        if not sfrlabel:
+            c = np.linspace(min(abc), max(abc), 10)
+        else:
+
+            c = np.linspace(min(np.array(sfr.values())), max(sfr.values()))
+
+        import matplotlib as mpl
+        from mpl_toolkits.axes_grid1.axes_divider import make_axes_locatable
+
+        norm = mpl.colors.Normalize(vmin=c.min(), vmax=c.max())
+        _cmap = mpl.cm.ScalarMappable(norm=norm, cmap=cm)
+        _cmap.set_array([])
+
+        ax_divider = make_axes_locatable(ax)
+        cax = ax_divider.append_axes("top", size="7%", pad="2%")
+        cbar = fig.colorbar(_cmap, ticks=c, # fraction=0.04, # aspect=10,
+                            # ax=axes.ravel().tolist(),
+                            orientation="horizontal",
+                            cax=cax)
+        cax.xaxis.set_ticks_position("top")
+        cbar.ax.tick_params(length=6, labelsize=legendFontSize)
+        if sfrlabel:
+            label = r'SFR [M$_{\odot}$~yr$^{-1}$]'
+        else:
+            label = r'$n_{\rm cut}$ [cm$^{-3}$]'
+        cbar.set_label(label, fontsize=20)
+        cbar.ax.xaxis.set_label_position('top')
 
     if save:
         name_out = ystr.replace(' ', '-') + '_' + \
