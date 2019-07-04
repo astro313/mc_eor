@@ -480,27 +480,51 @@ Finally, the Mach number is related to the pressure terms as follows
 
 \section{Results}\label{sec:results}
 
-\subsection{Distributions of MCC Basic Properties and Outlier} \label{sec:dist}
+\subsection{Distributions of MCC Basic Properties
+  % mm2 and Outlier
+} \label{sec:dist}
 \begin{figure*}[htbp]
 \centering
 \includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
 \caption{Normalized distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest 
-$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$. \AP{please change $M_{\rm cl}$ into $M_{\rm gas}$}
+$n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc
+(bottom panels) over all the considered evolutionary stages of \flower
+traced in the simulation. Note that the scales shown on the $y$-axes
+are different between the top and bottom panels, as fewer MCCs are
+identified at higher $n_{\rm cut}$.
+%mm2: [still needs to be done]
+\AP{please change $M_{\rm cl}$ into $M_{\rm gas}$}
 \label{fig:dist}}
 \end{figure*}
 
-We start by considering the MCC distributions in terms of their molecular gas mass, radius, and gas mass fraction, which we define as
+%mm2 We start by considering the MCC distributions in terms of their
+     We start by considering the distributions of MCC
+molecular gas mass, radius, and gas mass fraction, which we define as
 \begin{equation}
 f_{\rm gas} = \frac{M_{\rm gas}} {\left(M_{\rm gas} + M_\star\right)}.
 \end{equation}
 %
-We show in \Fig{dist} the distributions considering all the evolutionary stages of \flower and dividing the sample in a low 
-($n_{\rm cut}$\eq0.32\,\cc, top panels) and a high ($n_{\rm cut}$\eq18.96\,\cc, lower panels) density cuts\footnote{The highest density threshold of $n_{\rm cut}$\eq31.62\,\cc corresponds to a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the densest structure. However, not all evolutionary stages considered have at least one MCC at this highest density threshold, we therefore consider MCCs identified with the second highest density threshold ($n_{\rm cut}$\eq18.96\,\cc).}.
+We show in \Fig{dist} the distributions
+%mm2 considering all the evolutionary stages of \flower and dividing the sample in
+%a low  ($n_{\rm cut}$\eq0.32\,\cc, top panels) and a high ($n_{\rm
+%cut}$\eq18.96\,\cc, lower panels) density cuts 
+      from the combination of the three considered evolution stages.
+      We show results for a low density cut of $n_{\rm cut}$\eq0.32\,\cc
+      (top panels) and a high cut \footnote{The highest density
+        threshold we used of $n_{\rm cut}$\eq31.62\,\cc corresponds to
+        a minimum MCC mass of the order of 10$^{5.5}$\,\Msun for the
+        densest structure. However, not all evolutionary stages
+        considered have at least one MCC at this highest density
+        threshold, so we consider MCCs identified with the second
+        highest density threshold instead.}.
+ of $n_{\rm cut}$\eq18.96\,\cc, (lower panels).
 %
-Overall, the mass of all MCCs identified ranges between $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun, 
+Overall, the mass of all MCCs identified ranges from $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun, 
 whereas the gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,1.
 
 % address the biggest MCC = molecular disk of \flower
+%mm2 [This figure would be better with a color bar rather than the
+%prominent stars at the bottom...]
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_fgas.pdf}
@@ -512,7 +536,13 @@ in the discussion of MCC dynamics in the remainder of this paper.
 \label{fig:stellarRatio16}}
 \end{figure}
 
-The most massive structures ($M_{\rm gas}>$10$^7$\,\Msun) correspond to the molecular disk of the galaxy (see e.g., \Fig{MCC}), which is identified as a single component at low $n_{\rm cut}$. This main disk component occupy the top right corner of \Fig{stellarRatio16}, with a low gas mass fraction of $f_{\rm gas}< 5\%$. The velocity dispersion of such structure is dominated by bulk motions, as shown in \Fig{vv}, where we compare the velocity dispersions of MCCs resulting from bulk ($\sigma_{\rm bulk}$) versus non-thermal turbulent motions ($\sigma_{\rm NT}$) in the accreting and quiescent phases of \flower. The accreting phase of \flower displays a disturbed morphology, whereas the quiescent phase displays a disk-like morphology (\Fig{MCC}).
+The most massive structures ($M_{\rm gas}>$10$^7$\,\Msun) correspond
+to the molecular disk of the galaxy (see e.g., \Fig{MCC}), which is
+identified as a single component at low $n_{\rm cut}$. This main disk
+component
+% mm2 occupy the top right   [left not right!]
+          occupies the top left
+corner of \Fig{stellarRatio16}, with a low gas mass fraction of $f_{\rm gas}< 5\%$. The velocity dispersion of such structure is dominated by bulk motions, as shown in \Fig{vv}, where we compare the velocity dispersions of MCCs resulting from bulk ($\sigma_{\rm bulk}$) versus non-thermal turbulent motions ($\sigma_{\rm NT}$) in the accreting and quiescent phases of \flower. The accreting phase of \flower displays a disturbed morphology, whereas the quiescent phase displays a disk-like morphology (\Fig{MCC}).
 %
 Excluding the structure corresponding to the molecular disk, the velocity dispersions of most MCCs in the accreting phase of \flower are dominated by turbulent motions. On the other hand, $\sigma_{\rm bulk}$ is at least comparable to $\sigma_{\rm NT}$ for almost half the MCCs in the quiescent disk-like phase.
 %
