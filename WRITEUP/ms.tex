@@ -56,13 +56,15 @@
 \altaffiltext{6}{American Museum of Natural History, 79th St.~at Central Park West, New York, NY 10024, USA}
 
 \begin{abstract}
-We study the properties of molecular cloud complexes (MCCs) at the Epoch of Reionization (EoR) using cosmological zoom-in simulations. We identify MCCs in a $z\simeq 6$ prototypical galaxy (``\flower'') using an H$_2$ density-based clump finder.
+We study the properties of molecular cloud complexes (MCCs) at the epoch of reionization using cosmological zoom-in simulations. We identify MCCs in a $z\simeq 6$ prototypical galaxy (``\flower'') using an H$_2$ density-based clump finder.
 %
 We compare their mass, size, velocity dispersion, gas surface density, and virial parameter ($\alpha_{\rm vir}$) to \obs. In \flower, the typical MCC mass and size are $M_{\rm gas} \simeq 10^{6.5}$\,\Msun and $R\simeq45-100$\,pc, which are comparable to those found in nearby spirals and starburst galaxies. MCCs are highly supersonic and supported by turbulence, with r.m.s velocity dispersions of $\sigma_{\rm gas}\simeq$\,20\,--\,100\,\kms and pressure of $P/{\rm K}_B\simeq 10^{7.6}\,\rm K\,$\cc (i.e., $> 1000 \times$ with respect to the Milky Way), similar to those found in nearby and $z$\ssim2 gas-rich starburst galaxies.
 %
 In addition, we perform stability analysis to understand the origin and dynamical properties of MCCs. We find that MCCs are globally stable in the main disk of \flower. Densest regions where \SF is expected to take place in clumps and cores on even smaller scales instead  have lower $\alpha_{\rm vir}$ and Toomre-$Q$ values.
 %
-Detailed studies of the star-forming gas dynamics at EoR thus requires a spatial resolution of $\lesssim$40\,pc ($\simeq$\,0$\farcs$01), which is within reach with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA).
+Detailed studies of the star-forming gas dynamics at the epoch of reionization thus require a spatial resolution of $\lesssim$40\,pc ($\simeq$\,0$\farcs$01), which is within reach with the Atacama Large (sub-)Millimeter Array %mm2 (ALMA)
+and the Next Generation Very Large Array.
+%mm2 (ngVLA).
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -101,7 +103,7 @@ While ALMA has enabled the detection of \cii158\,$\micron$ and CO line emission 
 %
 On the theoretical side, a schematic investigation by \citet{Behrendt16} revealed that kiloparsec-scale clumps likely consist of many smaller clumps formed by gravitational instability, a hierarchical structure that persists in an idealized disk model by \citet{Behrendt19}.
 
-To understand the physical properties of MCCs in early galaxies, we have undertaken a detailed numerical study whose aim is to characterize the dynamical properties of the star-forming MCCs in prototypical (i.e., $L^*$) galaxies in the Epoch of Reionization (EoR).
+To understand the physical properties of MCCs in early galaxies, we have undertaken a detailed numerical study whose aim is to characterize the dynamical properties of the star-forming MCCs in prototypical (i.e., $L^*$) galaxies in the epoch of reionization (EoR).
 
 The paper is structured as follows\footnote{Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities in units of the critical density $\Omega_{\Lambda}$\eq0.692, $\Omega_m$\eq0.308, $\Omega_b$\eq0.0481, Hubble constant $H_0$\eq100\,$h$\,km s\pmOne\,Mpc\pmOne with $h$\eq0.678, spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.}. We start by providing some physical background in \Sec{Back}. In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower). In \Sec{eqn}, we describe the method used to identify MCCs, and present the formalism within which we interpret the results. In \Sec{results}, we present the results and characteristic properties of the MCCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
 %
@@ -597,11 +599,15 @@ Close resemblance of $Q_{\rm eff}$ and $Q_{\rm star}$ maps indicates that contri
 %
 Star formation is expected to take place within its star-forming {\it clumps} and {\it cores} on smaller scales, where energy quickly dissipates. This is consistent with the notion that collapsing structures result from gravitational instability occurring within globally stable structures, which are supported by turbulence and rotation on large scale.
 
-This also implies that \obs on spatially resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores), and thus, \SF in the first galaxies. Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. With the Next Generation VLA (ngVLA\footnote{\url{http://library.nrao.edu/public/memos/ngvla/NGVLA\_21.pdf}}), which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
+This also implies that \obs with spatial resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores), and thus, \SF in the first galaxies. Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. With the Next Generation VLA%
+%mm2 (ngVLA
+\footnote{\url{http://library.nrao.edu/public/memos/ngvla/NGVLA\_21.pdf}}, which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
 % 0.005" highest freq
-In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
+In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics, and
+% mm2 subject to
+    dependent on
+the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 
-%-------------------------------------------------------
 %                                Back matters
 %-------------------------------------------------------
 % ACKNOWLEDGEMENTS
@@ -628,7 +634,9 @@ We also thank the Center for Cosmology and Particle Physics at the New York Univ
 %
 This research has made use of NASA's Astrophysics Data System Bibliographic Services.
 %
-We acknowledge use of the Python programming language \citep{VanRossum1991}, Astropy \citep{astropy}, Cython \citep{behnel2010cython}, Matplotlib \citep{Hunter2007}, NumPy \citep{VanDerWalt2011}, \ncode{Pymses} \citep{Labadens2012}, SciPy \citep{scipyref}, and \ncode{yt} \citep{Smith09a,Turk11a}.
+% mm2 We acknowledge use of the
+
+\software{Python \citep{VanRossum1991}, Astropy \citep{astropy}, Cython \citep{behnel2010cython}, Matplotlib \citep{Hunter2007}, NumPy \citep{VanDerWalt2011}, \ncode{PyMSES} \citep{Labadens2012}, SciPy \citep{scipyref}, and \ncode{yt} \citep{Smith09a,Turk11a}}
 %
 %and \ncode{yt}, a community-developed Python package for analyzing simulation data in Astronomy.
 
