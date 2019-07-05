@@ -118,7 +118,7 @@ def plot_dis_allSS(minss=16, maxss=28, pattern1='0.32', pattern2='18.96',
     weights = np.ones_like(allmass11)/float(len(allmass11))
     ax[0, 0].hist(allmass11, bins=np.arange(min(allmass11), max(allmass11) +binwidth, binwidth), weights=weights)
 #     ax[0, 0].set_title(r'$n_{\rm cut}$ = %s [cm$^{-3}$]' % pattern1)
-    ax[0, 0].set_title(r'$\log M_{\rm cl}$ [M$_{\odot}]$', fontsize=20)
+    ax[0, 0].set_title(r'$\log M_{\rm gas}$ [M$_{\odot}]$', fontsize=20)
     ax[0, 0].set_ylabel(r'$N$', fontsize=20)
     ax[0, 0].set_xlim([5.7, 8.5])
     ax[0, 0].set_xticklabels([])
@@ -352,4 +352,4 @@ if __name__ == '__main__':
                               tickwidth=2,
                               labelsize=25,
                               ticklabsize=20,
-                              saveFig=True)
+                              saveFig=True, overplotGasAlpha=False)
