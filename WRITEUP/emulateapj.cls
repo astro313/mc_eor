@@ -1041,6 +1041,26 @@
 \newcommand\facility{\@testopt\@facility{[}}%
 \def\@facility[#1]#2{#2}%
 \newcommand\object{\@testopt\@object{[}}%
+%
+\long\def\software{\bgroup\@testopt \@software {[}}
+\def\@software[#1]#2{\vskip 6pt{
+\frenchspacing
+% \iftwelvepoint
+\font\foo=cmr12
+% \else
+% \font\foo=cmr10\fi
+%%
+\fontdimen2\foo=1.5pt
+%%
+{\large \it Software: }
+#2
+%% returning to original fontdimen
+% \iftwelvepoint
+\fontdimen2\foo=3.91663pt
+% \else
+% \fontdimen2\foo=3.33333pt\fi
+}\egroup}
+%
 \def\@object[#1]#2{#2}%
 \newcommand\objectname{\@testopt\@objectname{[]}}%
 \def\@objectname[#1]#2{#2}%

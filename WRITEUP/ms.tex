@@ -1,14 +1,9 @@
 % --------------------------------------------
-%mm2 edits of 3 Jul 19 marked like this M-MML
-% AP: I have some compatibility issues with the new style (i.e. \section does not work)
 \IfFileExists{emulateapjlegacy.cls}{\documentclass[iop]{emulateapjlegacy}}{\documentclass[iop]{emulateapj}}
 
-%\def\altomega{r_{\rm disk}}
+
 \def\altomega{\varpi}
-
 \usepackage{amsmath}
-
-\usepackage{comment}
 
 \input{preamble}
 \slugcomment{To be Submitted.}
@@ -56,13 +51,14 @@
 \altaffiltext{6}{American Museum of Natural History, 79th St.~at Central Park West, New York, NY 10024, USA}
 
 \begin{abstract}
-We study the properties of molecular cloud complexes (MCCs) at the Epoch of Reionization (EoR) using cosmological zoom-in simulations. We identify MCCs in a $z\simeq 6$ prototypical galaxy (``\flower'') using an H$_2$ density-based clump finder.
+We study the properties of molecular cloud complexes (MCCs) at the epoch of reionization using cosmological zoom-in simulations. We identify MCCs in a $z\simeq 6$ prototypical galaxy (``\flower'') using an H$_2$ density-based clump finder.
 %
 We compare their mass, size, velocity dispersion, gas surface density, and virial parameter ($\alpha_{\rm vir}$) to \obs. In \flower, the typical MCC mass and size are $M_{\rm gas} \simeq 10^{6.5}$\,\Msun and $R\simeq45-100$\,pc, which are comparable to those found in nearby spirals and starburst galaxies. MCCs are highly supersonic and supported by turbulence, with r.m.s velocity dispersions of $\sigma_{\rm gas}\simeq$\,20\,--\,100\,\kms and pressure of $P/{\rm K}_B\simeq 10^{7.6}\,\rm K\,$\cc (i.e., $> 1000 \times$ with respect to the Milky Way), similar to those found in nearby and $z$\ssim2 gas-rich starburst galaxies.
 %
 In addition, we perform stability analysis to understand the origin and dynamical properties of MCCs. We find that MCCs are globally stable in the main disk of \flower. Densest regions where \SF is expected to take place in clumps and cores on even smaller scales instead  have lower $\alpha_{\rm vir}$ and Toomre-$Q$ values.
 %
-Detailed studies of the star-forming gas dynamics at EoR thus requires a spatial resolution of $\lesssim$40\,pc ($\simeq$\,0$\farcs$01), which is within reach with the Atacama Large (sub-)Millimeter Array (ALMA) and the Next Generation Very Large Array (ngVLA).
+Detailed studies of the star-forming gas dynamics at the epoch of reionization thus require a spatial resolution of $\lesssim$40\,pc ($\simeq$\,0$\farcs$01), which is within reach with the Atacama Large (sub-)Millimeter Array %mm2 (ALMA)
+and the Next Generation Very Large Array.
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -101,7 +97,7 @@ While ALMA has enabled the detection of \cii158\,$\micron$ and CO line emission 
 %
 On the theoretical side, a schematic investigation by \citet{Behrendt16} revealed that kiloparsec-scale clumps likely consist of many smaller clumps formed by gravitational instability, a hierarchical structure that persists in an idealized disk model by \citet{Behrendt19}.
 
-To understand the physical properties of MCCs in early galaxies, we have undertaken a detailed numerical study whose aim is to characterize the dynamical properties of the star-forming MCCs in prototypical (i.e., $L^*$) galaxies in the Epoch of Reionization (EoR).
+To understand the physical properties of MCCs in early galaxies, we have undertaken a detailed numerical study whose aim is to characterize the dynamical properties of the star-forming MCCs in prototypical (i.e., $L^*$) galaxies in the epoch of reionization (EoR).
 
 The paper is structured as follows\footnote{Throughout this paper, we adopt a concordance cosmology, with total matter, vacuum and baryonic densities in units of the critical density $\Omega_{\Lambda}$\eq0.692, $\Omega_m$\eq0.308, $\Omega_b$\eq0.0481, Hubble constant $H_0$\eq100\,$h$\,km s\pmOne\,Mpc\pmOne with $h$\eq0.678, spectral index $n$\eq0.967 and $\sigma_8$\eq0.826 \citep{Planck14a}.}. We start by providing some physical background in \Sec{Back}. In \Sec{sim}, we describe the setup of our simulation and properties of our main galaxy (\flower). In \Sec{eqn}, we describe the method used to identify MCCs, and present the formalism within which we interpret the results. In \Sec{results}, we present the results and characteristic properties of the MCCs. We then interpret the results and discuss the implications of our findings in \Sec{diss}, and give our conclusions in \Sec{conclusion}.
 %
@@ -387,13 +383,10 @@ We show in \Fig{dist} the distributions from the combination of the three consid
 Overall, the mass of all MCCs identified ranges from $M_{\rm gas}\simeq$10$^{5.5-8.5}$\,\Msun,
 whereas the gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,1.
 
-% address the biggest MCC = molecular disk of \flower
-%mm2 [This and following figures would be better with the  color bar
-%from Figure 7 rather than the prominent stars at the bottom...]
 \begin{figure}
 \centering
 \includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_fgas.pdf}
-\caption{Cloud mass and stellar-to-gas mass ratio of MCCs identified in the accreting phase of \flower with different $n_{\rm cut}$. The most massive structures identified with a low $f_{\rm gas}$ correspond to the molecular disk/arms of \flower (see also \Fig{vv}).
+\caption{Cloud mass and gas mass ratio of MCCs identified in the accreting phase of \flower using different $n_{\rm cut}$ (see colorbar). The most massive structures identified with a low $f_{\rm gas}$ correspond to the molecular disk/arms of \flower (see also \Fig{vv}).
 %
 Thus, these structures encompass a large amount of stellar mass that is already assembled in \flower. These disk/arm structures are excluded in the discussion of MCC dynamics in the remainder of this paper.
 \label{fig:stellarRatio16}}
@@ -436,9 +429,6 @@ as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallotti
 Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\sigma_{\rm gas}^2/R$-$\Sigma_{\rm gas}$ relation (bottom) for MCCs (star symbols) identified in the two most extreme evolutionary stages of \flower\ --- accreting (left) and starburst (right).
 %
 Star symbols are color-coded by density thresholds $n_{\rm cut}$, as illustrated by the colorbar shown on the right.
-%
-% Gas-only $\alpha_{\rm vir}$ (orange star symbols) is overplotted, and is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs since they are gas-dominated (see \Fig{stellarRatio16}) 
-% \AP{I think the orange points makes the figure more messy, an alternative would to remove them and discuss the point in the text}.
 %
 Stability of the biggest structures is strongly influenced by the stellar component, given their low $f_{\rm gas}$ (see \Fig{stellarRatio16} and \Sec{dist}).
 %
@@ -494,10 +484,9 @@ That is, MCCs in the starburst phase are more susceptible to collapse, as expect
 
 \subsection{Adopted Density Threshold Dependence}\label{sec:ncut}
 
-\AP{let us recall to make the note about different molecular tracers also here}
-
 We investigate possible variations in the dynamics of the molecular structures of \flower by adopting different values of $n_{\rm cut}$ to test the robustness of our results against the choice of density threshold.
-That is, how sensitively are the structure properties, and thus, the results presented in \Sec{singless}, dependent on the choice of density thresholds?
+That is, how sensitively are the structure properties, and thus, the results presented in \Sec{singless}, dependent on the choice of density thresholds? 
+Observationally, this effect would be mimicked by e.g., adopting different molecular gas tracers since they have different critical densities. 
 
 The sizes of MCCs are dependent on the choice of $n_{\rm cut}$ in the following ways. As mentioned in \Sec{dist}, the most massive cloud identified at low H$_2$ gas density thresholds corresponds to the molecular disk of \flower, which is broken down into multiple smaller MCCs at higher $n_{\rm cut}$\footnote{That said, there are fewer MCCs at highest $n_{\rm cut}$ than the lowest $n_{\rm cut}$ since there are fewer cells in the simulations with correspondingly high H$_2$ gas densities.}.
 %
@@ -601,13 +590,14 @@ Close resemblance of $Q_{\rm eff}$ and $Q_{\rm star}$ maps indicates that contri
 %
 Star formation is expected to take place within its star-forming {\it clumps} and {\it cores} on smaller scales, where energy quickly dissipates. This is consistent with the notion that collapsing structures result from gravitational instability occurring within globally stable structures, which are supported by turbulence and rotation on large scale.
 
-This also implies that \obs on spatially resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores), and thus, \SF in the first galaxies. Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. With the Next Generation VLA (ngVLA\footnote{\url{http://library.nrao.edu/public/memos/ngvla/NGVLA\_21.pdf}}), which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
+This also implies that \obs with spatial resolution better than $\simeq$40\,pc are needed to examine the truly star-forming structures (cores), and thus, \SF in the first galaxies. Such resolution is in principle within reach using ALMA, for which 0\farcs01 resolution images can be attained using the high frequency bands. With the Next Generation VLA\footnote{\url{http://library.nrao.edu/public/memos/ngvla/NGVLA\_21.pdf}}, which is approximately ten times more sensitive than ALMA, direct observations of molecular gas clouds in galaxies at the EoR on cloud scales will be possible via the higher-$J$ rotational transitions of CO in the 2030s.
 % 0.005" highest freq
-In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and are subject to the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
+In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and depend on
+the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 
-%-------------------------------------------------------
+% ------------------------------------------------------------------------
 %                                Back matters
-%-------------------------------------------------------
+%--------------------------------------------------------------------------
 % ACKNOWLEDGEMENTS
 %-------------------------------------
 % \acknowledgements
@@ -630,11 +620,10 @@ We thank the KSPA Scientific and Local Organizing Committees, and the program fo
 %
 We also thank the Center for Cosmology and Particle Physics at the New York University for their hospitality in hosting us after the steam pipe explosion in NYC during the KSPA.
 %
+The Flatiron Institute is funded by the Simons Foundation.
 This research has made use of NASA's Astrophysics Data System Bibliographic Services.
 %
-We acknowledge use of the Python programming language \citep{VanRossum1991}, Astropy \citep{astropy}, Cython \citep{behnel2010cython}, Matplotlib \citep{Hunter2007}, NumPy \citep{VanDerWalt2011}, \ncode{Pymses} \citep{Labadens2012}, SciPy \citep{scipyref}, and \ncode{yt} \citep{Smith09a,Turk11a}.
-%
-%and \ncode{yt}, a community-developed Python package for analyzing simulation data in Astronomy.
+\software{Python \citep{VanRossum1991}, Astropy \citep{astropy}, Cython \citep{behnel2010cython}, Matplotlib \citep{Hunter2007}, NumPy \citep{VanDerWalt2011}, \ncode{PyMSES} \citep{Labadens2012}, SciPy \citep{scipyref}, and yt \citep{Smith09a,Turk11a}}
 
 \bibliographystyle{yahapj}
 \bibliography{master_cleanup,codes}
