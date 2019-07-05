@@ -1,33 +1,18 @@
 % --------------------------------------------
-\IfFileExists{emulateapjlegacy.cls}{\documentclass[iop]{emulateapjlegacy}}{\documentclass[iop]{emulateapj}}
-
+\documentclass[iop]{emulateapj}
 
 \def\altomega{\varpi}
 \usepackage{amsmath}
+\usepackage{xcolor}
 
 \input{preamble}
-\slugcomment{To be Submitted.}
+\slugcomment{Submitted to ApJ.}
 
 \makeatletter
 \renewcommand\normalsize{\@setfontsize\normalsize\@xpt{12.5}}
 % \renewcommand\normalsize{\@setfontsize\normalsize{10.56}{11.4}}      % 11.5, 12.5
 \makeatother
 
-\usepackage{xcolor}
-\definecolor{apcolor}{HTML}{b3003b}
-\definecolor{dlcolor}{HTML}{FF7F00}
-\newcommand{\AP}[1]{({\bf \color{apcolor} AP: #1})}
-\newcommand{\DL}[1]{({\bf \color{dlcolor} DL: #1})}
-\definecolor{afcolor}{HTML}{b3443c}
-\newcommand{\AF}[1]{({\bf \color{afcolor} AF: #1})}
-\definecolor{mmcolor}{HTML}{006600}
-\newcommand{\MM}[1]{({\bf \color{mmcolor} MM: #1})}
-
-
-% it can be instead included as
-% \graphicspath{{Fig/}}
-% so that plots are automatically searched for in the given path
-\def\figpath{./Fig}
 
 \citestyle{aa}
 \shorttitle{Dynamical Properties of MCCs in Galaxies at the EoR}
@@ -247,7 +232,7 @@ The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star} \simeq$~4-
 
 \begin{figure*}[hptb]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{\figpath/sfh.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=0.65\textwidth]{sfh.pdf}
 \caption{
     {\it Top}: Star formation history of \flower. {\it Bottom}: projected stellar mass distribution during {\it (a)} an early accreting phase;
     %
@@ -288,7 +273,7 @@ Existing studies find a good correspondence in the dynamical properties extracte
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/hist_test_16.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{hist_test_16.pdf}
 \caption{Normalized distribution of molecular gas density of \flower during the accreting phase shown in \Fig{SFH}{\em
     (a)}.
 \label{fig:h2density}}
@@ -296,12 +281,12 @@ Existing studies find a good correspondence in the dynamical properties extracte
 
 \begin{figure*}[htbp]
  \centering
-  \includegraphics[width=\textwidth, trim=25 25 35 30, clip]{\figpath/SS_bigfonts/{combined}.pdf}
+  \includegraphics[width=\textwidth, trim=25 25 35 30, clip]{combined.pdf}
 \caption{
 Examples of MCCs identified in \flower by our clump finder.
 %
 The identified structures (white contour) are superimposed on the map of the mass weighted $H_2$ density field of the galaxy.
-%!TEX encoding = UTF-8 Unicode
+%
 Two stages of \flower are selected: the accreting phase (left two columns, see \Fig{SFH}a for the definition) and the quiescent phase (right two columns), where \flower display a highly disturbed gas morphology, and a rotating disk configuration, respectively.
 %
 Panels in the second and fourth columns show the molecular gas distribution projected along different viewing angles.
@@ -368,7 +353,7 @@ Finally, the Mach number is related to the pressure terms as follows
 \subsection{MCC Basic Properties} \label{sec:dist}
 \begin{figure*}[htbp]
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/minmaxNcut_basicDistributions.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{minmaxNcut_basicDistributions.pdf}
 \caption{Normalized distributions of mass (left), size (middle), and gas mass fraction (right) of MCCs identified using the lowest $n_{\rm cut}$\eq0.32\,\cc (top panels) and $n_{\rm ncut}$\eq18.96\,\cc (bottom panels) over all the considered evolutionary stages of \flower traced in the simulation. Note that the scales shown on the $y$-axes are different between the top and bottom panels, as fewer MCCs are identified at higher $n_{\rm cut}$.
 \label{fig:dist}}
 \end{figure*}
@@ -385,7 +370,7 @@ whereas the gas fraction ranges from $f_{\rm gas} \simeq$\,0.1\,--\,1.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\textwidth]{\figpath/cloud-mass_fgas.pdf}
+\includegraphics[width=0.5\textwidth]{cloud-mass_fgas.pdf}
 \caption{Cloud mass and gas mass ratio of MCCs identified in the accreting phase of \flower using different $n_{\rm cut}$ (see colorbar). The most massive structures identified with a low $f_{\rm gas}$ correspond to the molecular disk/arms of \flower (see also \Fig{vv}).
 %
 Thus, these structures encompass a large amount of stellar mass that is already assembled in \flower. These disk/arm structures are excluded in the discussion of MCC dynamics in the remainder of this paper.
@@ -402,7 +387,7 @@ Considering only the MCCs identified at the highest density threshold, the mass 
 
 \begin{figure}
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{\figpath/ss16-28-veldisp.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=0.5\textwidth]{ss16-28-veldisp.pdf}
 \caption{Gas velocity dispersions resulting from bulk versus turbulent motions for molecular structures
 identified across all values of $n_{\rm cut}$, shown using the same color-coding as \Fig{stellarRatio16}.
 %
@@ -424,7 +409,7 @@ as non-thermal pressure dominates thermal pressure for dense gas \citep{Pallotti
 
 \begin{figure*}
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/3by2_clumpProp_ss16-ss22.png}
+\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{3by2_clumpProp_ss16-ss22.png}
 \caption{
 Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\sigma_{\rm gas}^2/R$-$\Sigma_{\rm gas}$ relation (bottom) for MCCs (star symbols) identified in the two most extreme evolutionary stages of \flower\ --- accreting (left) and starburst (right).
 %
@@ -440,7 +425,7 @@ Swinbank11a, Leroy15a, Kauffmann17a}, and \citet{Kauffmann17b}. MCCs in the star
 
 \begin{figure*}
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=1.05\textwidth]{\figpath/3by2_clumpProp_allss}
+\includegraphics[trim=0 0 0 0, clip, width=1.05\textwidth]{3by2_clumpProp_allss}
 \caption{Same as \Fig{larsons_single}, except star symbols are showing molecular gas structures identified across all evolutionary stages traced in our simulation, which are color-coded by the SFR of \flower in those stages (see colorbar on the right). Left panels show structures identified using a low density threshold of $n_{\rm cut}$\eq0.53\,\cc and the right panels show those identified using a high density threshold of $n_{\rm cut}$\eq18.96\,\cc.
 %
 The biggest MCCs identified at lowest density thresholds, occupying the top right corner of the top left panel, correspond to the molecular disk and arms of \flower, and are broken down into smaller MCCs at higher density thresholds (see top right panel).
@@ -525,7 +510,7 @@ We do not find any major quantitative differences (see \Fig{larsons_single}) in 
 
 \begin{figure*}
 \centering
-\includegraphics[width=0.9\textwidth]{\figpath/{ss16_toomre_combined_2by2_0_2.0}.pdf}
+\includegraphics[width=0.9\textwidth]{{ss16_toomre_combined_2by2_0_2.0}.pdf}
 \caption{
 Surface density maps of the gas (top left) and stellar (top right) components of \flower (accreting phase) and their radial velocity dispersion maps projected onto the $xy$-plane (bottom panels). Center of mass positions of MCCs within $\sim$1.5\,kpc of \flower identified with $n_{\rm cut}$\eq6.81\,\cc are overplotted as star symbols as an illustrative example.
 \label{fig:sigma}}
@@ -533,7 +518,7 @@ Surface density maps of the gas (top left) and stellar (top right) components of
 
 \begin{figure*}
 \centering
-\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{\figpath/{ss16_toomre_combined_3by1_0_1.2}.pdf}
+\includegraphics[trim=0 0 0 0, clip, width=\textwidth]{{ss16_toomre_combined_3by1_0_1.2}.pdf}
 \caption{
 Toomre $Q$ maps derived from the central $R$\eq1.2\,kpc of \flower. Contribution from the gas ($Q_{\rm gas}$) and the stellar ($Q_\star$) components is shown in the left and middle panels, respectively. The effective two-component Toomre $Q_{\rm eff}$ parameter map is shown in the right panel.
 %
@@ -581,7 +566,7 @@ Velocity dispersion and gas surface density of MCCs of \flower are systematicall
 are supported by turbulence motions.
 
 High pressure MCCs are found throughout the disk of \flower, with a median pressure of $\bar{P}\simeq10^{7.6}$\,K\,\cc. This is in contrast to the local ULIRGs, where such high pressure has only been observed in molecular clouds concentrated in their central regions \citep{Downes98a, Sakamoto08a}. In ULIRGs, MCCs are formed by shock compression and cloud-cloud collisions that funnel large amounts of gas from progenitor galaxies towards the central region (\citealt{Tan00a, Wu18a}). On the other hand, the highly turbulent MCCs of \flower results from extra-planar flows and high velocity accretion/SN-driven outflows. The presence of such extra-planar flows may also be the dominant mode for forming the highly supersonic massive MCCs observed in gas-rich star-forming galaxies at \z\ssim2, for instance, those reported in \citet{Swinbank11a}.
-%
+
 The variation in $\sigma_{\rm gas}^2/R$ with $\Sigma$ seen in this work is in line with previous studies, suggesting that ``Larson's third relation'' is an artifact arising from observational bias artifact of the limited range of  column densities a specific molecular line tracer is sensitive to \citep[][]{Ballesteros02a, Ballesteros11a}. This would imply column density is not a fundamental properties of molecular clouds and not all molecular clouds are virialized.
 
 We perform virial analysis, as motivated by \obs, to assess the stability of MCCs. On average, the virial parameter of MCCs in the starburst phase of \flower is lower than in the accreting phase, as expected for \SF. Similarly, the virial parameter of MCCs identified at the highest density thresholds are lower than those identified at lower density thresholds.
