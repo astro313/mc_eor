@@ -1,0 +1,226 @@
+% IAU_Sample.tex -- sample pages for Proceedings IAU Symposium document class
+% (based on v1.0 cca2esam.tex)
+% v1.04 released 17 May 2004 by TechBooks
+%% small changes and additions made by KAvdH/IAU 4 June 2004
+% Copyright (2004) International Astronomical Union
+% Minor updates made for WriteLatex.com by Martyn Bristow
+% ...Downloaded from http://www.iau.org/static/scientific_meetings/authors/ June 2014
+\NeedsTeXFormat{LaTeX2e}
+
+\documentclass{iau}
+\usepackage{graphicx}
+\include{preamble}
+
+\title[Dynamical Properties of MC in Galaxies at the EoR] %% give here short title %%
+{Dynamical Properties of Molecular Cloud Complexes at the Epoch of Reionization}
+
+\author[Leung et al.]   %% give here short author list %%
+{T. K. Daisy Leung$^{1, 2}$
+%%  \thanks{Present address: Fluid Mech Inc., 24 The Street, Lagos, Nigeria.},
+Andrea Pallottini$^{3, 4}$, 
+Andrea Ferrara$^{4, 5}$
+\and Mordecai-Mark Mac Low$^{2, 6}$}
+
+\affiliation{
+$^1$ Department of Astronomy, Cornell University, NY, USA; email: {\tt tleung@astro.cornell.edu} \\[\affilskip]
+$^2$ Center for Computational Astrophysics, Flatiron Institute, NY, USA \\ [\affilskip]
+$^3$ Centro Fermi, Rome, Italy \\ [\affilskip]
+$^4$ Scuola Normale Superiore, Pisa, Italy \\[\affilskip]
+$^5$ Kavli Institute for the Physics and Mathematics of the Universe (IPMU), \\
+        University of Tokyo, Japan\\ [\affilskip]
+$^6$ American Museum of Natural History, NY, USA}
+
+\pubyear{2019}
+\volume{352} 
+% \pagerange{??}
+% \date{?? and in revised form ??}
+\setcounter{page}{1}
+\jname{Uncovering early galaxy evolution in the ALMA and JWST era}
+% \editors{A.C. Editor, B.D. Editor \& C.E. Editor, eds.}
+\begin{document}
+
+\maketitle
+
+\vspace{-.2em}
+\begin{abstract}
+The Atacama Large (Sub-)millimeter Array (ALMA) has provided glimpse of the interstellar medium (ISM) properties of galaxies
+at the Epoch of Reionization (EoR); however, detailed understanding of their internal structure is still lacking.
+We present properties of molecular cloud complexes (MCCs) in a prototypical galaxy at this epoch
+studied in cosmological zoom-in simulations \citep{Leung19c}. 
+Typical MCC mass and size are comparable to nearby spirals and starburst galaxies 
+($M_{\rm cl}$\ssim10$^{6.5}$\,\Msun and $R\,\simeq$\,45--100\,pc).
+MCCs are highly supersonic, with velocity dispersion of $\sigma_{\rm gas}\simeq$\,20 -- 100\,\kms and pressure of log($P/k_B$)\,$\simeq$\,7.6\,K\,cm$^{-3}$,
+which are comparable to gas-rich starburst galaxies. 
+ In addition, we perform stability analysis to understand the origin and dynamical properties of MCCs. We find that MCCs are globally stable in the main disk of \flower. Densest regions where \SF is expected to take place in clumps and cores on even smaller scales instead have lower virial parameter and 
+Toomre-$Q$ values. Detailed studies of the star-forming gas dynamics at the EoR thus require a spatial resolution of $<$\,40 pc
+($\simeq$\,0.01$^{\prime\prime}$), which is within reach of ALMA, to complement studies of stellar populations at EoR 
+using the James Webb Space Telescope ({\it JWST}).
+\keywords{galaxies: high-redshift --
+          galaxies: ISM, 
+          galaxies: evolution, 
+          ISM: structure,
+          ISM: kinematics and dynamics
+          ISM: clouds}
+\end{abstract}
+
+\firstsection % if your document starts with a section,
+              % remove some space above using this command.
+\vspace{-.66em}\section{Introduction}
+Early galaxies have higher molecular gas fractions, star formation rate, and smaller sizes 
+than present-day galaxies \citep[e.g.,][]{Bouwens11a, Decarli16a, Decarli17a, Leung19c}. 
+As such, they are expected to be significantly more ionized, with more intense and harder interstellar radiation fields.
+Their metallicity and dust content are also expected to be lower, which 
+in turn affect the thermal and chemical state of the multi-phase ISM. 
+Here, we pose the question: {\it what are the physical properties of molecular cloud structures in early galaxies, and how do they differ from those found in local \galpop?}
+
+\vspace{-1.em}
+\section{Cosmological Zoom-in Simulations: \ncode{Serra} } 
+
+The simulations used are briefly summarized here (see \citealt{Pallottini17a, Pallottini17b} for details).
+\ncode{Serra} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques, 
+covering a comoving box of 20\,Mpc $h$\pmOne in size and zooms in on a target halo of mass $M_{\rm DM}\simeq10^{11} \Msun$. 
+The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter mass resolution of $\simeq 6\times 10^4 \Msun$, 
+and is spatially refined with the finest cell size of $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$), i.e., comparable to the size of local giant molecular clouds.
+Our model includes a non-equilibrium chemical network \citep{Grassi14a,Bovino16a}, where 
+abundances are calculated using an on-the-fly non-equilibrium formation of molecular hydrogen scheme \citep{Pallottini17a}.
+The main zoom galaxy (\flower) is a Lyman-break galaxy at $z\simeq$\,6, with a stellar mass of $M_\star\simeq$\,3\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne.
+
+\vspace{-1.2em}
+\section{Physical Properties and Stability of $z\sim$\,6 Molecular Gas}
+
+The typical size and mass of MCCs are $R\simeq\,50$\,pc and $M_{\rm cl}\simeq10^{6.5}$\,\Msun, comparable to massive molecular structures observed 
+in nearby star-forming and starburst galaxies \citep[e.g.,][]{Leroy15a}.
+MCCs are highly supersonic with an average Mach number of $\bar{\mathcal{M}}\simeq6$.
+Their velocity dispersion and gas surface density are systematically higher than Milky Way clouds, but comparable to $z$\ssim2 starburst galaxies
+\citep[e.g.,][]{Swinbank11a}.
+High pressure ($\bar{P}\simeq10^{7.6}$\,K\,\cc) MCCs are found throughout the disk of \flower and
+result from extra-planar flows and high velocity accretion/SN-driven outflows.
+
+We also perform virial analysis, as motivated by \obs, to assess the stability of MCCs. 
+Virial parameter is lowest for MCCs in the densest regions, some of which are located in regions with 
+Toomre $Q_{\rm eff}\lesssim1$. These MCCs are unstable against collapse, where \SF is expected to take place within 
+their gas {\it clumps} and {\it cores} on scales $\lesssim$\,40\,pc as energy quickly dissipates.
+
+% Toomre:
+Contribution from the stellar component plays an important role in governing the stability of the MCCs against axisymmetric perturbations 
+($Q_{\rm eff}$), especially in the central part of \flower. Similarly, stabilizing effect due to the thickness of its disk is also non-negligible. This illustrates the importance of accounting for both effects when examining the stability of molecular gas structures in relatively evolved and enriched systems at high redshift that are preferentially being observed now.
+%
+
+
+
+\vspace{-1.2em}
+\section{Summary and Outlook}
+
+We study the origin and dynamical properties of MCCs in prototypical galaxies at the EoR in numerical simulations to provide a framework within which upcoming \obs can be compared against to aid in the interpretation. 
+% MCCs in the first galaxies are highly turbulent due to strong stellar feedback and violent cold gas accretion from the IGM --- 
+Details of our findings are reported in \citet{Leung19c}. 
+Concerning the topic of this symposium, our results imply that spatially resolution better than $\simeq$40\,pc are needed to examine 
+the truly star-forming structures, and thus, \SF in the first galaxies. Such resolution is within reach of ALMA and 
+will complement studies of stellar population in the first galaxies using {\it JWST}.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                            Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-1.em}
+\begin{thebibliography}{}
+
+\bibitem[{{Bouwens} {et~al.}(2011){Bouwens}, {Illingworth}, {Labbe}, {Oesch},
+  {Trenti}, {Carollo}, {van Dokkum}, {Franx}, {Stiavelli}, {Gonz{\'a}lez},
+  {Magee}, \& {Bradley}}]{Bouwens11a}
+{Bouwens}, R.~J., {Illingworth}, G.~D., {Labbe}, I., {et~al.} 2011,
+  \href{http://dx.doi.org/10.1038/nature09717}{\JournalTitle{\nat}, 469, 504}
+
+\bibitem[{{Bovino} {et~al.}(2016){Bovino}, {Grassi}, {Capelo}, {Schleicher}, \&
+  {Banerjee}}]{Bovino16a}
+{Bovino}, S., {Grassi}, T., {Capelo}, P.~R., {Schleicher}, D.~R.~G., \&
+  {Banerjee}, R. 2016,
+  \href{http://dx.doi.org/10.1051/0004-6361/201628158}{\JournalTitle{\aap},
+  590, A15}
+
+\bibitem[{{Decarli} {et~al.}(2016){Decarli}, {Walter}, {Aravena}, {Carilli},
+  {Bouwens}, {da Cunha}, {Daddi}, {Ivison}, {Popping}, {Riechers}, {Smail},
+  {Swinbank}, {Weiss}, {Anguita}, {Assef}, {Bauer}, {Bell}, {Bertoldi},
+  {Chapman}, {Colina}, {Cortes}, {Cox}, {Dickinson}, {Elbaz},
+  {G{\'o}nzalez-L{\'o}pez}, {Ibar}, {Infante}, {Hodge}, {Karim}, {Le Fevre},
+  {Magnelli}, {Neri}, {Oesch}, {Ota}, {Rix}, {Sargent}, {Sheth}, {van der Wel},
+  {van der Werf}, \& {Wagg}}]{Decarli16a}
+{Decarli}, R., {Walter}, F., {Aravena}, M., {et~al.} 2016,
+  \href{http://dx.doi.org/10.3847/1538-4357/833/1/69}{\JournalTitle{\apj}, 833,
+  69}
+  
+  \bibitem[{{Decarli} {et~al.}(2017){Decarli}, {Walter}, {Venemans},
+  {Ba{\~n}ados}, {Bertoldi}, {Carilli}, {Fan}, {Farina}, {Mazzucchelli},
+  {Riechers}, {Rix}, {Strauss}, {Wang}, \& {Yang}}]{Decarli17a}
+{Decarli}, R., {Walter}, F., {Venemans}, B.~P., {et~al.} 2017,
+  \href{http://dx.doi.org/10.1038/nature22358}{\JournalTitle{\nat}, 545, 457}
+  
+ \bibitem[{{Grassi} {et~al.}(2014){Grassi}, {Bovino}, {Schleicher}, {Prieto},
+  {Seifried}, {Simoncini}, \& {Gianturco}}]{Grassi14a}
+{Grassi}, T., {Bovino}, S., {Schleicher}, D.~R.~G., {et~al.} 2014,
+  \href{http://dx.doi.org/10.1093/mnras/stu114}{\JournalTitle{\mnras}, 439,
+  2386}
+    
+  \bibitem[{{Leroy} {et~al.}(2015){Leroy}, {Bolatto}, {Ostriker}, {Rosolowsky},
+  {Walter}, {Warren}, {Donovan Meyer}, {Hodge}, {Meier}, {Ott}, {Sandstrom},
+  {Schruba}, {Veilleux}, \& {Zwaan}}]{Leroy15a}
+{Leroy}, A.~K., {Bolatto}, A.~D., {Ostriker}, E.~C., {et~al.} 2015,
+  \href{http://dx.doi.org/10.1088/0004-637X/801/1/25}{\JournalTitle{\apj}, 801,
+  25}
+ 
+\bibitem[{{Leung} {et~al.}(2019){Leung}, {Riechers}, {Baker}, {Clements},
+  {Cooray}, {Hayward}, {Ivison}, {Neri}, {Omont}, {P{\'e}rez-Fournon}, {Scott},
+  \& {Wardlow}}]{Leung19a}
+{Leung}, T.~K.~D., {Riechers}, D.~A., {Baker}, A.~J., {et~al.} 2019a,
+  \href{http://dx.doi.org/10.3847/1538-4357/aaf860}{\JournalTitle{\apj}, 871,
+  85}
+  
+\bibitem[{Leung} {et~al.}(2019c)]{Leung19c}      % \elal\ ()
+{Leung, T.~K.~D., Pallottini, A., Ferrara, A., \& Mac Low, M.-M.} 2019c,
+\href{http://dx.doi.org/0}{\JournalTitle{\apj}}, Submitted
+  
+  
+\bibitem[{{Pallottini} {et~al.}(2017{\natexlab{b}}){Pallottini}, {Ferrara},
+  {Gallerani}, {Vallini}, {Maiolino}, \& {Salvadori}}]{Pallottini17a}
+{Pallottini}, A., {Ferrara}, A., {Gallerani}, S., {et~al.} 2017{\natexlab{b}},
+  \href{http://dx.doi.org/10.1093/mnras/stw2847}{\JournalTitle{\mnras}, 465,
+  2540}
+  
+\bibitem[{{Pallottini} {et~al.}(2017{\natexlab{a}}){Pallottini}, {Ferrara},
+  {Bovino}, {Vallini}, {Gallerani}, {Maiolino}, \& {Salvadori}}]{Pallottini17b}
+{Pallottini}, A., {Ferrara}, A., {Bovino}, S., {et~al.} 2017{\natexlab{a}},
+  \href{http://dx.doi.org/10.1093/mnras/stx1792}{\JournalTitle{\mnras}, 471,
+  4128}
+
+ 
+  
+\bibitem[{{Swinbank} {et~al.}(2011){Swinbank}, {Papadopoulos}, {Cox}, {Krips},
+  {Ivison}, {Smail}, {Thomson}, {Neri}, {Richard}, \& {Ebeling}}]{Swinbank11a}
+{Swinbank}, A.~M., {Papadopoulos}, P.~P., {Cox}, P., {et~al.} 2011,
+  \href{http://dx.doi.org/10.1088/0004-637X/742/1/11}{\JournalTitle{\apj}, 742,
+  11}  
+
+\end{thebibliography}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                            Acknowledgements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{acknowledgements}
+%TKDL acknowledges financial support from the Simons Foundation and the IAU. 
+%\end{acknowledgements}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                            Discussion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{discussion}
+%\discuss{person}{blah}
+%\discuss{person}{Indeed}
+%\end{discussion}
+
+\end{document}
