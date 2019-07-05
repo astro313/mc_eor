@@ -1,14 +1,9 @@
 % --------------------------------------------
-%mm2 edits of 3 Jul 19 marked like this M-MML
-% AP: I have some compatibility issues with the new style (i.e. \section does not work)
 \IfFileExists{emulateapjlegacy.cls}{\documentclass[iop]{emulateapjlegacy}}{\documentclass[iop]{emulateapj}}
 
-%\def\altomega{r_{\rm disk}}
+
 \def\altomega{\varpi}
-
 \usepackage{amsmath}
-
-\usepackage{comment}
 
 \input{preamble}
 \slugcomment{To be Submitted.}
@@ -64,7 +59,6 @@ In addition, we perform stability analysis to understand the origin and dynamica
 %
 Detailed studies of the star-forming gas dynamics at the epoch of reionization thus require a spatial resolution of $\lesssim$40\,pc ($\simeq$\,0$\farcs$01), which is within reach with the Atacama Large (sub-)Millimeter Array %mm2 (ALMA)
 and the Next Generation Very Large Array.
-%mm2 (ngVLA).
 \end{abstract}
 \keywords{methods: data analysis --
           galaxies: high-redshift --
@@ -436,9 +430,6 @@ Linewidth-size relation (top), $\alpha_{\rm vir}$-mass relation (middle), and $\
 %
 Star symbols are color-coded by density thresholds $n_{\rm cut}$, as illustrated by the colorbar shown on the right.
 %
-% Gas-only $\alpha_{\rm vir}$ (orange star symbols) is overplotted, and is of the same order of magnitude as $\alpha_{\rm vir, tot}$ for most MCCs since they are gas-dominated (see \Fig{stellarRatio16}) 
-% \AP{I think the orange points makes the figure more messy, an alternative would to remove them and discuss the point in the text}.
-%
 Stability of the biggest structures is strongly influenced by the stellar component, given their low $f_{\rm gas}$ (see \Fig{stellarRatio16} and \Sec{dist}).
 %
 The gray dotted lines shown in the bottom panels correspond to the various annotated external pressures needed in order for the gas to be in equilibrium, see Equation~\ref{eqn:v0}. Literature data are taken from \citet{Larson81a, Heyer04a, Rosolowsky05a, Bolatto08a,
@@ -604,8 +595,9 @@ This also implies that \obs with spatial resolution better than $\simeq$40\,pc a
 In the meantime, cosmological zoom-in simulations, such as \ncode{Serra}, while inherently limited in galaxy statistics and depend on
 the sub-grid models adopted, serve as a useful tool for examining and making predictions on the morphology and dynamics of the molecular ISM of the first galaxies.
 
+% ------------------------------------------------------------------------
 %                                Back matters
-%-------------------------------------------------------
+%--------------------------------------------------------------------------
 % ACKNOWLEDGEMENTS
 %-------------------------------------
 % \acknowledgements
@@ -628,6 +620,7 @@ We thank the KSPA Scientific and Local Organizing Committees, and the program fo
 %
 We also thank the Center for Cosmology and Particle Physics at the New York University for their hospitality in hosting us after the steam pipe explosion in NYC during the KSPA.
 %
+The Flatiron Institute is funded by the Simons Foundation.
 This research has made use of NASA's Astrophysics Data System Bibliographic Services.
 %
 \software{Python \citep{VanRossum1991}, Astropy \citep{astropy}, Cython \citep{behnel2010cython}, Matplotlib \citep{Hunter2007}, NumPy \citep{VanDerWalt2011}, \ncode{PyMSES} \citep{Labadens2012}, SciPy \citep{scipyref}, and yt \citep{Smith09a,Turk11a}}
