@@ -1,5 +1,7 @@
 # mc_eor
 
+Code and Paper for Paper at arXiv:1907.02972 
+
 See github commit and code doc for other progres.. lazy to update this README file.
 
 Dec 2018 (comments Re ionization rate coefficient)
