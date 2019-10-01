@@ -1,6 +1,27 @@
 # mc_eor
 
-Code and Paper for Paper at arXiv:1907.02972 
+Code and Paper at arXiv:1907.02972 
+
+If you use anything in this repository, please cite 
+```
+@ARTICLE{2019arXiv190702972L,
+       author = {{Leung}, T.~K. Daisy and {Pallottini}, Andrea and {Ferrara}, Andrea and
+         {Mac Low}, Mordecai-Mark},
+        title = "{Dynamical Properties of Molecular Cloud Complexes in Galaxies at the Epoch of Reionization}",
+      journal = {arXiv e-prints},
+     keywords = {Astrophysics - Astrophysics of Galaxies},
+         year = "2019",
+        month = "Jul",
+          eid = {arXiv:1907.02972},
+        pages = {arXiv:1907.02972},
+archivePrefix = {arXiv},
+       eprint = {1907.02972},
+ primaryClass = {astro-ph.GA},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2019arXiv190702972L},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+```
 
 See github commit and code doc for other progres.. lazy to update this README file.
 
