@@ -1,0 +1,71 @@
+We thank the referee for reading the manuscript thoroughly and for providing constructive comments. Our responses to referee's comments are written below each point, beginning with a '#' symbol. Changes to the manuscript content are indicated in bold. 
+
+# -------------------- REFEREE REPORT BEGINS ------------------------
+A Major concern: MCC versus clumps
+
+In the current form, this article focuses on the properties of molecular cloud complexes (MCC) at high-z galaxies. By definition, these are regions that are predominantly molecular. However, the molecular densities used as thresholds in page 5 seem too low. 
+Are the authors using a minimum H2 fraction to define MCC? If the authors are claiming they are studying molecular cloud complexes, they should use gas with high molecular fraction. Otherwise they are focusing on gas clumps and I would recommend to substitute 'MCC' for 'gas clumps', throughout the whole paper. 
+
+# In this work, the definition is based on the H2 density. The gas patches reaches a maximum H2 fraction of f_H2 = rho_H2/rho_H_total = 2 * n_H / (2 * n_H2 + n_H + n_H- + n_H+) ~ 30%. Note that as detailed in Pallottini+17, MNRAS, 471, 4128, we do not reach f_H2 = 100% since we do not resolve the internal structure of the molecular clouds. 
+# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular gas clumps'.
+
+Introduction:
+please include a short introduction to similar works using zoom-in simulations of galaxy formation at these high redshifts (Ma+, Ceverino+, Katz+, ...). Here you can place Althaea in the context of similar works.
+# We adopted the referee's suggestion and expanded the introduction section.
+
+
+Page 2, second c., eq 2:
+In this description, there are no streaming flows or shear flows within the cloud. This caveat should be explained. Some of the clouds the authors find contain the whole galactic disk, which may be rotationally supported.
+# Indeed, this is why the velocity dispersion in Sec 4.2 (see Equation 15) is split into 3 terms, where one of them comes from the bulk motion. This is further discussed in Sec 6.1 and Fig 6. We are not distinguishing streaming flow and shear flow, which is not the main focus of the paper. 
+
+
+Section 3:
+A few suggestions that could improve section 3: 
+
+Please include the redshift where this halo was targeted. 
+# We have included that in the text.
+
+As H2 physics is crucial for the results of this paper, more information is needed here. For example, how are authors dealing with the effect of Lyman-Werner radiation on H2 destruction? And H2 formation on dust grains? Any assumption about the clumping factor? Are the authors using a H2 density threshold for star formation? 
+# We adopted the referee's suggestions and included that information in the text for clarity. We do not use the clumping factor in the chemistry solver (i.e., C_rho=1).
+
+Page 4, first c., third p.
+At the end of the section, the authors give some global properties of Althaea. Please compare the stellar-to-halo mass ratio with results from abundance matching at similar redshifts (Behroozi et al. 2019 for example) and discuss posible disagreements.
+# We have updated the M_DM = 3.5 x 10^11 and M*~2.6 x10^10 in the text be more precise (i.e., resulting M_*/M_DM ~ 0.07). Depending on the considered work, the halo to stellar mass ratio from abundance matching can vary wildly when one is far from M_h~10^12 msun (see e.g. Behroozi+13 ApJ 770:57, +15, ApJ 799:32). The ratio of Althaea is higher than e.g.,Katz+17, Ceverino+17, which could be a result of different feedback implementation.
+
+Page 5, first c., first p.:
+In this paragraph, the authors discuss the MCC mass. How is the stellar mass within each MCC computed?
+# The stellar mass within each MCC is the enclosed mass. This is clarified in the text (after Eqn 6, when M* is first introduced).
+
+Page 5, second c., eq 17 and 18:
+please define <v>. Is it a vector? Eq 16 is valid for a scalar field.
+# We applied Eqn 16 to each component. We have expanded the text to clarify Eqn 17.
+
+is the thermal sound speed computed as c propto /<n> or as c propto < Pth/n>?
+# It is computed as c_s^2 = <x>, where <> is defined by Eqn 16 and x is defined as (P_th * k_B / n), i.e., the latter.
+
+Page 7, eq 21:
+M_gas is the total gas or the molecular gas mass?
+# This is the total gas mass enclosed in the 'molecular gas clump'. We clarified this in the text.
+
+Page 7, first c., second p.:
+The authors claim that the velocity dispersion in the molecular disk is dominated by bulk rotational motions, as shown in fig 6. However, this is not shown. The authors should compute v_rot if they want to make that claim. They should make a distinction between rotational, resolved turbulence and non-resolved turbulence motions (NT). 
+# We tune down the sentence in the text, adding a reference to kinematical analysis of this galaxy.
+
+Page 7, second c., forth p.:
+The authors claim that the virial parameter is comparable to some of the MW molecular clouds. Looking at that figure, it seems that the average alpha_vir is higher than typical values for MW.
+# We agree with the referee that it's within the range found in MW, but is higher than the *typical* MW value. We clarified that in the text. 
+
+Page 9, first c., first p.:
+In this paragraph, the author support their choice of different density threshold, as a way to mimic different molecular gas tracers with different critical densities. However, the densities used in this work are much lower than the typical critical densities of different gas tracers. The author should comment on that.
+# This is again related to the fact that the molecular structures are identified based on n_H2 (cf. gas density since we do not resolve the internal structure of the molecular clouds). The highest density of these MCC is 10^3 cc, which is comparable to the density threshold for low-J CO lines (see Vallini+18). We added footnote 15 to clarify this.
+
+Page 11, first c., second p.:
+In this paragraph the authors comment of the pressure of MCC. However, they compute a non-thermal pressure. They need to make a distinction between thermal pressure (given by the temperature and density of the gas) and the non-thermal support given by turbulence motions. Please check in the discussion (page 13).
+# We clarified this in the text by explicitly mentioning this is the total pressure (the thermal component is negligible compared to the non-thermal term).
+
+At the end of the same paragraph, the authors list several mechanisms for the formation of these structures. Please include disk instability as well.
+# bu
+
+Figure 10.
+Please correct this figure caption.
+# ?????
