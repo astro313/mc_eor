@@ -5,9 +5,8 @@ A Major concern: MCC versus clumps
 
 In the current form, this article focuses on the properties of molecular cloud complexes (MCC) at high-z galaxies. By definition, these are regions that are predominantly molecular. However, the molecular densities used as thresholds in page 5 seem too low. 
 Are the authors using a minimum H2 fraction to define MCC? If the authors are claiming they are studying molecular cloud complexes, they should use gas with high molecular fraction. Otherwise they are focusing on gas clumps and I would recommend to substitute 'MCC' for 'gas clumps', throughout the whole paper. 
-
 # In this work, the definition is based on the H2 density. The gas patches reaches a maximum H2 fraction of f_H2 = rho_H2/rho_H_total = 2 * n_H / (2 * n_H2 + n_H + n_H- + n_H+) ~ 30%. Note that as detailed in Pallottini+17, MNRAS, 471, 4128, we do not reach f_H2 = 100% since we do not resolve the internal structure of the molecular clouds. 
-# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular gas clumps'. (TO BE UPDATED)
+# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular gas clumps'. (TO BE UPDATED....)
 
 Introduction:
 please include a short introduction to similar works using zoom-in simulations of galaxy formation at these high redshifts (Ma+, Ceverino+, Katz+, ...). Here you can place Althaea in the context of similar works.
@@ -23,14 +22,14 @@ Section 3:
 A few suggestions that could improve section 3: 
 
 Please include the redshift where this halo was targeted. 
-# We have included that in the text.
+# We included that in the text.
 
 As H2 physics is crucial for the results of this paper, more information is needed here. For example, how are authors dealing with the effect of Lyman-Werner radiation on H2 destruction? And H2 formation on dust grains? Any assumption about the clumping factor? Are the authors using a H2 density threshold for star formation? 
 # We adopted the referee's suggestions and included that information in the text for clarity. We do not use the clumping factor in the chemistry solver (i.e., C_rho=1).
 
 Page 4, first c., third p.
 At the end of the section, the authors give some global properties of Althaea. Please compare the stellar-to-halo mass ratio with results from abundance matching at similar redshifts (Behroozi et al. 2019 for example) and discuss posible disagreements.
-# We have updated the M_DM = 3.5 x 10^11 and M*~2.6 x10^10 in the text be more precise (i.e., resulting M_*/M_DM ~ 0.07). Depending on the considered work, the halo to stellar mass ratio from abundance matching can vary wildly when one is far from M_h~10^12 msun (see e.g. Behroozi+13 ApJ 770:57, +15, ApJ 799:32). The ratio of Althaea is higher than e.g.,Katz+17, Ceverino+17, which could be a result of different feedback implementation.
+# We updated the M_DM = 3.5 x 10^11 and M*~2.6 x10^10 in the text be more precise (i.e., resulting M_*/M_DM ~ 0.07). Depending on the considered work, the halo to stellar mass ratio from abundance matching can have variation when the halo mass is away from M_h~10^12 msun (see e.g., Behroozi+13, +15, Moster+13, +18). The ratio of Althaea is higher than e.g., Katz+17, Ceverino+17 which could be a result of different feedback implementation.
 
 Page 5, first c., first p.:
 In this paragraph, the authors discuss the MCC mass. How is the stellar mass within each MCC computed?
@@ -64,8 +63,8 @@ In this paragraph the authors comment of the pressure of MCC. However, they comp
 # We clarified this in the text by explicitly mentioning this is the total pressure (the thermal component is negligible compared to the non-thermal term).
 
 At the end of the same paragraph, the authors list several mechanisms for the formation of these structures. Please include disk instability as well.
-# In this paragraph, we focus on the high pressure and turbulent nature of the MCCs. The formation of MCCs resulting from fragmentation is discussed in the context of the Toomre-Q paramter in Sec 6.2.2.
+#  We clarified in the text that we are focusing on the high pressure and turbulent nature of the MCCs in this paragraph, and that disk instability is disucssed in Sec 6.2.2.
 
 Figure 10.
 Please correct this figure caption.
-# ?????
+# We updated the caption.
