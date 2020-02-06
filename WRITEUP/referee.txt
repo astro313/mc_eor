@@ -15,7 +15,7 @@ please include a short introduction to similar works using zoom-in simulations o
 
 Page 2, second c., eq 2:
 In this description, there are no streaming flows or shear flows within the cloud. This caveat should be explained. Some of the clouds the authors find contain the whole galactic disk, which may be rotationally supported.
-# Indeed, this is why the velocity dispersion in Sec 4.2 (see Equation 15) is split into 3 terms, where one of them comes from the bulk motion. This is further discussed in Sec 6.1 and Fig 6. We are not distinguishing streaming flow and shear flow, which is not the main focus of the paper. 
+# We have improved the description of the factor {\cal T} in Equ. 2 to make clear that it does indeed include both kinetic and thermal energy, as is explicitly described in the original reference. We examine this in more detail in our decomposition of the velocity dispersion in Sec 4.2 (see Equation 15), where it is split into 3 terms, one of which comes from the bulk motion. This is further discussed in Sec 6.1 and Fig 6. We agree that rotational velocity plays an important role in our larger clumps.
 
 
 Section 3:
