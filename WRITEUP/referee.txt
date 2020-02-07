@@ -6,7 +6,7 @@ A Major concern: MCC versus clumps
 In the current form, this article focuses on the properties of molecular cloud complexes (MCC) at high-z galaxies. By definition, these are regions that are predominantly molecular. However, the molecular densities used as thresholds in page 5 seem too low. 
 Are the authors using a minimum H2 fraction to define MCC? If the authors are claiming they are studying molecular cloud complexes, they should use gas with high molecular fraction. Otherwise they are focusing on gas clumps and I would recommend to substitute 'MCC' for 'gas clumps', throughout the whole paper. 
 # In this work, the definition is based on the H2 density. The gas patches reaches a maximum H2 fraction of f_H2 = rho_H2/rho_H_total = 2 * n_H / (2 * n_H2 + n_H + n_H- + n_H+) ~ 30%. Note that as detailed in Pallottini+17, MNRAS, 471, 4128, we do not reach f_H2 = 100% since we do not resolve the internal structure of the molecular clouds. 
-# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular gas clumps'. (TO BE UPDATED....)
+# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular-forming gas clumps'. 
 
 Introduction:
 please include a short introduction to similar works using zoom-in simulations of galaxy formation at these high redshifts (Ma+, Ceverino+, Katz+, ...). Here you can place Althaea in the context of similar works.
@@ -63,7 +63,7 @@ In this paragraph the authors comment of the pressure of MCC. However, they comp
 # We clarified this in the text by explicitly mentioning this is the total pressure (the thermal component is negligible compared to the non-thermal term).
 
 At the end of the same paragraph, the authors list several mechanisms for the formation of these structures. Please include disk instability as well.
-#  We clarified in the text that we are focusing on the high pressure and turbulent nature of the MCCs in this paragraph, and that disk instability is disucssed in Sec 6.2.2.
+#  We clarified in the text that we are focusing on the high pressure and turbulent nature of the MGCs in this paragraph, and that disk instability is disucssed in Sec 6.2.2.
 
 Figure 10.
 Please correct this figure caption.
