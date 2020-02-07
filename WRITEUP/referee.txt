@@ -25,7 +25,7 @@ Please include the redshift where this halo was targeted.
 # We included that in the text.
 
 As H2 physics is crucial for the results of this paper, more information is needed here. For example, how are authors dealing with the effect of Lyman-Werner radiation on H2 destruction? And H2 formation on dust grains? Any assumption about the clumping factor? Are the authors using a H2 density threshold for star formation? 
-# We adopted the referee's suggestions and included that information in the text for clarity. We do not use the clumping factor in the chemistry solver (i.e., C_rho=1).
+# We adopted the referee's suggestions and included that information in the text for clarity. We do not use a clumping factor in the chemistry solver (i.e., C_rho=1).
 
 Page 4, first c., third p.
 At the end of the section, the authors give some global properties of Althaea. Please compare the stellar-to-halo mass ratio with results from abundance matching at similar redshifts (Behroozi et al. 2019 for example) and discuss posible disagreements.
@@ -40,15 +40,15 @@ please define <v>. Is it a vector? Eq 16 is valid for a scalar field.
 # We applied Eqn 16 to each component. We have expanded the text to clarify Eqn 17.
 
 is the thermal sound speed computed as c propto /<n> or as c propto < Pth/n>?
-# It is computed as c_s^2 = <x>, where <> is defined by Eqn 16 and x is defined as (P_th * k_B / n), i.e., the latter.
+# It is computed as c_s^2 = <x>, where <> is defined by Eqn 16 and x is defined as (P_th * k_B / n), i.e., the latter.  This is given in Eqn. 18
 
 Page 7, eq 21:
 M_gas is the total gas or the molecular gas mass?
-# This is the total gas mass enclosed in the 'molecular gas clump'. We clarified this in the text.
+# This is the total gas mass enclosed in the 'molecule-forming gas clump'. We clarified this in the text.
 
 Page 7, first c., second p.:
 The authors claim that the velocity dispersion in the molecular disk is dominated by bulk rotational motions, as shown in fig 6. However, this is not shown. The authors should compute v_rot if they want to make that claim. They should make a distinction between rotational, resolved turbulence and non-resolved turbulence motions (NT). 
-# We tune down the sentence in the text, adding a reference to kinematical analysis of this galaxy.
+# We toned down the claim in the text, adding a footnote with a reference to kinematical analysis of this galaxy.
 
 Page 7, second c., forth p.:
 The authors claim that the virial parameter is comparable to some of the MW molecular clouds. Looking at that figure, it seems that the average alpha_vir is higher than typical values for MW.
@@ -56,7 +56,7 @@ The authors claim that the virial parameter is comparable to some of the MW mole
 
 Page 9, first c., first p.:
 In this paragraph, the author support their choice of different density threshold, as a way to mimic different molecular gas tracers with different critical densities. However, the densities used in this work are much lower than the typical critical densities of different gas tracers. The author should comment on that.
-# This is again related to the fact that the molecular structures are identified based on n_H2 (cf. gas density since we do not resolve the internal structure of the molecular clouds). The highest density of these MCC is 10^3 cc, which is comparable to the density threshold for low-J CO lines (see Vallini+18). We added footnote 15 to clarify this.
+# We note that we only drew an analogy with the procedure of using different tracers to access different density thresholds.  (Because we used n_H2 thresholds in mostly atomic gas, the highest total density of these MGCs is 10^3 cm^-3, which is in fact comparable to the density threshold for low-J CO lines (see Vallini+18). We added footnote 15 to mention this.)
 
 Page 11, first c., second p.:
 In this paragraph the authors comment of the pressure of MCC. However, they compute a non-thermal pressure. They need to make a distinction between thermal pressure (given by the temperature and density of the gas) and the non-thermal support given by turbulence motions. Please check in the discussion (page 13).
