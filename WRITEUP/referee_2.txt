@@ -1,0 +1,42 @@
+We thank the referee for providing additional comments to improve the clarity of this manuscript. Our response are indicated below, after "Authors' second response."
+
+# ==========================================================================
+
+FIRST ISSUE: A Major concern: MCC versus clumps. 
+
+REFEREE: 
+In the current form, this article focuses on the properties of molecular cloud complexes (MCC) at high-z galaxies. By definition, these are regions that are predominantly molecular. However, the molecular densities used as thresholds in page 5 seem too low. Are the authors using a minimum H2 fraction to define MCC? If the authors are claiming they are studying molecular cloud complexes, they should use gas with high molecular fraction. Otherwise they are focusing on gas clumps and I would recommend to substitute 'MCC' for 'gas clumps', throughout the whole paper. 
+
+AUTHORS: 
+# In this work, the definition is based on the H2 density. The gas patches reaches a maximum H2 fraction of f_H2 = rho_H2/rho_H_total = 2 * n_H / (2 * n_H2 + n_H + n_H- + n_H+) ~ 30%. Note that as detailed in Pallottini+17, MNRAS, 471, 4128, we do not reach f_H2 = 100% since we do not resolve the internal structure of the molecular clouds. 
+# Since we are using molecular hydrogen as the selection criterion, we prefer to keep 'molecular' in the naming. Based on the referee's suggestion, we replaced MCCs with 'molecular-forming gas clumps'. 
+
+REFEREE: 
+The authors have not answered the question: Are they using a *minimum* H2 gas fraction (M_H2/Mgas within a clump) to define Molecular-forming Gas Clumps? If that minimum is below 1%, do the authors still claim that they follow molecular-forming gas? If the authors want to keep 'molecular' in the naming, they need to show that the H2 gas fraction (as defined above) in their clumps is above a significant level (above 10% for example). 
+
+Authors' second response: 
+# Following the referee's comment, we added the text below to Sec. 5.3 to clarify this point.
+
+# As seen in Sec 4.1, the cuts are based on the H2 number density, and ranges from n_H2~0.1-30 cm^3. We do not explicitly use a minimum H2 fraction to select the structures. Among the various cuts, two physical regimes are identified, corresponding to materials in the disk/interarm material and gas clumps/clouds (Fig. 5). The former with n_gas < 100 cm^3 and n_H2 < 5 cm^3, whereas the latter with n_gas ~ 100 cm^3 and n_H2 ~ 10 cm^3 (see also Fig. 5 of Pallottini+17b for details\footnote{In particular, with their analysis of the Minkowski function of the molecular density field (see Fig. 6 therein}). Considering that f_H2 = rho_H2 / rho_H_total = rho_H2/(µ * rho_gas) = m_H2 n_H2 / m_p µ n_gas ~ 2 n_H2/(0.7 n_gas), for the disk/interarm, f_H2 ~ 14% and for the MCCs, f_H2 ~ 28%. Note that for the lowest value of the H2 cuts, the fraction might be lower; however, removing regions selected with such cuts yields no qualitative change to the physical interpretation resulting from the analysis.
+
+
+
+SECOND ISSUE: Page 4, first c., third p.  
+
+REFEREE: 
+At the end of the section, the authors give some global properties of Althaea. Please compare the stellar-to-halo mass ratio with results from abundance matching at similar redshifts (Behroozi et al. 2019 for example) and discuss posible disagreements. 
+
+AUTHORS: 
+# We updated the M_DM = 3.5 x 10^11 and M*~2.6 x10^10 in the text be more precise (i.e., resulting M_*/M_DM ~ 0.07). Depending on the considered work, the halo to stellar mass ratio from abundance matching can have variation when the halo mass is away from M_h~10^12 msun (see e.g., Behroozi+13, +15, Moster+13, +18). The ratio of Althaea is higher than e.g., Katz+17, Ceverino+17 which could be a result of different feedback implementation. 
+
+REFEREE: 
+This referee thanks the authors for including a comparison with other cosmological simulations. It is clear that different feedback implementations give different Ms/Mh ratios. This is why the comparison with abundance matching models, that do not assume a particular physical model, is so important. Please compare the reported value with the Ms/Mh ratio of a halo with M_DM=3 10^11 Msun at z=6 coming from different abundance matching models. The current statement: 'abundance matching of halos shows that this ratio varies as the halo mass becomes much larger or smaller than 10^12 Msun' is too vague. The authors need to make a more quantitative comparison even if there are some variations among different AM models. 
+
+Authors' second response: 
+# We have expanded the comparison as suggested by the referee. Considering that this is not the main presentation paper of the simulation, the text below has been inserted in footnote number 9.
+
+# \footnote{The stellar mass-to-halo mass ratio for Althaea at z=6 is about 0.07. This is a factor of about 3 higher than the typical value inferred by abundance matching models, that typically gives $\sim 0.02$. Note however that the ratio from abundance matching can vary; for instance, Behroozi+13b (main method) finds a ratio of 0.015-0.025 is for a halo mass between Mhalo~10^{10.5-12} Msun, whereas in the same paper the authors find 0.01-0.05 in the same mass range from direct abundance matching (see the Appendix therein). Additionally, from an earlier abundance matching study, Moster+13 find a ratio 0.005, i.e. within a factor 3 from Behroozi+13b.}
+
+
+
+
