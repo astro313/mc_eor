@@ -76,10 +76,10 @@ and the Next Generation Very Large Array.
 The growth of galaxies and their subsequent evolution are governed by the baryon cycle---galaxies accrete gas from the intergalactic medium (IGM) either directly from the cosmic web, or through mergers with other galaxies. This gas fuels \SF and feeds central supermassive black holes. Subsequent feedback replenishes and enriches the circumgalactic medium by expelling some
 part of this material.
 %
-Existing studies indicate that early galaxies are more gas-rich with molecular fractions higher than those of present-day galaxies \citep[e.g.,][]{vandevoort11b, Decarli16a, Decarli17a}. Massive gas inflows from the IGM trigger gravitational instabilities that lead to the formation of 
-dense gas clumps in which molecules form quickly (hereafter molecular-forming gas clumps\footnote{Note that by clumps, 
-we refer to kiloparsec-scale gas concentrations in galaxies, rather than molecular gas concentrations small than molecular clouds 
-and containing cores.}; 
+Existing studies indicate that early galaxies are more gas-rich with molecular fractions higher than those of present-day galaxies \citep[e.g.,][]{vandevoort11b, Decarli16a, Decarli17a}. Massive gas inflows from the IGM trigger gravitational instabilities that lead to the formation of
+dense gas clumps in which molecules form quickly (hereafter molecular-forming gas clumps\footnote{Note that by clumps,
+we refer to kiloparsec-scale gas concentrations in galaxies, rather than molecular gas concentrations small than molecular clouds
+and containing cores.};
 MGCs) that are typically more massive ($M_{\rm gas}\simeq 10^9$\,\Msun) and extended ($\simeq$ sub-kpc) than those observed in nearby galaxies (e.g., \citealt{Gabor13a, Hopkins14a, Inoue16a}). Some theoretical works argue that the migration of such giant massive clumps through disks is largely responsible for the buildup of the bulges of massive galaxies at redshift \z$\sim$\,0 \citep[e.g.,][]{Ceverino10a}.
 
 Early galaxies have higher star formation rates \citep[SFR; ][]{Behroozi13b, Sparre15a, Maiolino15a, Dunlop17a} and smaller sizes \citep[e.g.,][]{Bouwens11a, Ono13a} compared to the local population \citep[see also a review by][]{Stark16a}.
@@ -87,7 +87,7 @@ Early galaxies have higher star formation rates \citep[SFR; ][]{Behroozi13b, Spa
 As a consequence, we expect them to be significantly more ionized, and have intense and hard interstellar radiation fields (ISRF). Since their metallicity and dust content are also expected to be lower in these early evolutionary stages, shielding of UV photons---responsible for the photoheating of the gas---  is strongly reduced. Such differences in turn affect the regulation of the thermal and chemical state of the multi-phase interstellar medium (ISM).
 
 Studying ISM properties of early galaxies is essential for understanding how \SF proceeds under more extreme conditions.
-Even in the local Universe, where detailed \obs can be made, variations in molecular cloud properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of 
+Even in the local Universe, where detailed \obs can be made, variations in molecular cloud properties have been observed between different galaxy populations (see e.g., \citealt{Hughes10a, Hughes13b}).  Given that \highz galaxies statistically represent the early evolutionary stages of present-day galaxies, it is thus reasonable to pose the question: {\it what are the physical properties of
 MGCs in early galaxies, and how do they differ from those found in local \galpop?}
 %
 
@@ -104,7 +104,7 @@ the ionizing photons \citep[see e.g.,][]{Ceverino17a, Katz17a, Ma18a, Trebitsch1
 Compared to the zoom-in galaxies presented in these works,
 the simulation used here focuses on a Lyman-break galaxy \citep{Pallottini17a} from the \ncode{serra} simulation suite
 (see \citealt{Pallottini19a} for a comparison between these zoom-in simulations).
-Most notably, we include a non-equilibrium thermo-chemical network to follow the formation of H$_2$, which is 
+Most notably, we include a non-equilibrium thermo-chemical network to follow the formation of H$_2$, which is
 crucial to examining the properties of MGCs.
 
 %
@@ -244,7 +244,7 @@ The simulations used in this work are described by \citet{Pallottini17a, Pallott
 \ncode{Serra}\footnote{Greenhouse in Italian.} is a suite of cosmological zoom-in simulations performed using Eulerian hydrodynamics and adaptive mesh refinement (AMR) techniques to achieve high spatial resolution in regions of interest (e.g., regions of high density).
 %
 In particular, it uses a modified version of \ncode{ramses} \citep{Teyssier02a} as the AMR backend. The simulation used here covers a comoving box of 20\,Mpc $h$\pmOne in size. The simulation zooms in on a target halo of mass $M_{\rm DM}\simeq10^{11} \Msun$
-at {\bf $z$\eq6}. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter mass resolution of $\simeq 6\times 10^4 \Msun$, equivalent at initial density to a baryonic mass resolution of $1.2 \times 10^4 \Msun$. This region is spatially refined with a quasi-Lagrangian criterion based on a mass threshold, so that a cell is refined if its total (dark+baryonic) mass exceeds the mass resolution by a factor of eight. The finest refined cell allowed in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$), i.e., sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
+at $z$\eq6. The Lagrangian region of the halo (2.1\,Mpc $h$\pmOne) has a dark matter mass resolution of $\simeq 6\times 10^4 \Msun$, equivalent at initial density to a baryonic mass resolution of $1.2 \times 10^4 \Msun$. This region is spatially refined with a quasi-Lagrangian criterion based on a mass threshold, so that a cell is refined if its total (dark+baryonic) mass exceeds the mass resolution by a factor of eight. The finest refined cell allowed in the zoom in region has size $l_{\rm cell}\simeq$\,30\,pc (at $z = 6$), i.e., sizes are comparable to the sizes of local giant molecular clouds \citep[e.g.,][]{Sanders85a, Federrath13a, Goodman14a},
 
 The models include a non-equilibrium chemical network (\ncode{Krome}) following e$^{-}$, H$^+$, H$^-$, He, He$^+$, He$^{++}$, H$_2$,
 and H$_2^+$ \citep{Grassi14a,Bovino16a}. Of particular importance here is that the abundances are calculated using an on-the-fly non-equilibrium
@@ -265,18 +265,18 @@ The remaining energy is injected into the ISM in both thermal and non-thermal fo
 Radiation pressure on dust and gas is also included. Photoionization from local sources is neglected in this simulation \citep[see][for its effect]{Pallottini19a, Decataldo19a}.
 
 The simulation zooms in on a galaxy named after the flower \flower, whose properties are given in \citet{Pallottini17a} and are briefly summarized in the following. \flower is a Lyman-break galaxy that at $z\simeq 6$ is hosted by a dark matter halo of mass
-{\bf $M_{\rm DM}\simeq$\eq3.5\,$\times$\,10$^{11}$\,\Msun} at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of {\bf $M_\star\simeq$\,2.6\E{10}\,\Msun}, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne.
+$M_{\rm DM}\simeq$\eq3.5\,$\times$\,10$^{11}$\,\Msun at the center of a cosmic web knot, and accretes mass from the IGM mainly via three filaments of length $\simeq$\,100\,kpc. \flower has a stellar mass of $M_\star\simeq$\,2.6\E{10}\,\Msun, a metallicity of $Z\simeq$\,0.5\,$Z_{\odot}$, a molecular gas mass of $M_{\rm H2}\simeq$\,5\E{7}\,\Msun, and a SFR of 30\,--\,80\,\Msun\,yr\pmOne.
 %
 The specific SFR of \flower is ${\rm sSFR} \equiv {\rm SFR}/M_{\star} \simeq$~4--40 ~Gyr\pmOne, compatible with the sSFR vs.\ $M_{\star}$ relation observed at high redshift \citep{Jiang16a}. The effective stellar radius of \flower is $\simeq$\,0.5\,kpc and the dark matter virial radius is $r_{\rm 200}\simeq$\,15\,kpc.
 The stellar-to-halo mass ratio of \flower is $M_\star/M_{\rm DM}\,\simeq\,$0.07.
-Abundance matching of halos shows that this ratio varies as the halo mass becomes much larger or smaller than from $M_h$\ssim10$^{12}$\,\Msun 
-(see \citealt{Moster13a, Behroozi13b, Behroozi15a, Moster18a})\footnote{{\bf The stellar mass-to-halo mass ratio for Althaea at $z$\eq6 is about 0.07. 
-This is a factor of about 3 higher than the typical value inferred by abundance matching models, that typically gives $\sim0.02$. 
-Note however that the ratio from abundance matching can vary; for instance, \citet{Behroozi13b} (main method) finds a ratio of 0.015\,--\,0.025 
-is for a halo mass between $M_{\rm halo}$\ssim10$^{10.5}$--$10^{12}$\,\Msun, whereas in the same paper the authors find 
-0.01--0.05 in the same mass range from direct abundance matching 
-(see the Appendix therein). 
-Additionally, from an earlier abundance matching study, \citet{Moster13a} find a ratio 0.005, i.e., within a factor 3 from \citet{Behroozi13b}.}.} 
+Abundance matching of halos shows that this ratio varies as the halo mass becomes much larger or smaller than from $M_h$\ssim10$^{12}$\,\Msun
+(see \citealt{Moster13a, Behroozi13b, Behroozi15a, Moster18a})\footnote{{\bf The stellar mass-to-halo mass ratio for Althaea at $z$\eq6 is about 0.07.
+This is a factor of about three higher than the typical value inferred by abundance matching models, which typically give values of $\sim0.02$.
+Note however that the ratio from abundance matching can vary; for instance, \citet{Behroozi13b} (main method) finds a ratio of 0.015\,--\,0.025
+for a halo mass between $M_{\rm halo}$\ssim10$^{10.5}$--$10^{12}$\,\Msun, whereas in the same paper the authors find
+0.01--0.05 in the same mass range from direct abundance matching
+(see the Appendix therein).
+As another example, from an earlier abundance matching study, \citet{Moster13a} find a ratio 0.005, also differing by a factor three from \citet{Behroozi13b}, though in opposite direction}.}
 The ratio of \flower is higher than e.g., \citet{Katz17a}  and \citet{Ceverino17a} which could be a result of different feedback implementation.
 
 
@@ -501,7 +501,7 @@ During the accreting phase, MGCs in \flower\ are characterized by large velocity
 While the virial parameter defined as Equation~\ref{eqn:alpha} is typically used in observational studies, as they are designed to probe structures that are composed of mainly molecular gas only, we calculate the virial parameter of MGCs including the influence from the stellar component (i.e., $\alpha_{\rm vir, tot}$ via Equation~\ref{eqn:alpha_tot}) given the high stellar-to-gas mass ratios of some molecular structures identified (see \Fig{stellarRatio16}).
 %
 The biggest MGC identified at low $n_{\rm cut}$ and with the highest stellar-to-gas mass ratio ($\gtrsim$\,1; \Fig{stellarRatio16}) corresponds to the central main disk of \flower (see top panels of \Fig{MGC} and \Sec{distribution}). The large amount of stellar mass already assembled in \flower explains the low {\em total} virial parameter seen in the middle left panel of \Fig{larsons_single}, where the stellar gravitational potential influences the overall stability. On the other hand, the MGCs in this phase are mostly stable\footnote{We check that the gas-only virial parameter of MGCs is comparable to the {\em total} virial parameter.}, with virial parameter  within the range observed in the molecular structures
-of the Milky Way but higher than its average value, though the MGCs are more massive. 
+of the Milky Way but higher than its average value, though the MGCs are more massive.
 The higher than typical MW value is linked to the higher turbulence of these systems.
 
 % PVE
@@ -530,16 +530,16 @@ That is, MGCs in the starburst phase are more susceptible to collapse, as expect
 
 \subsection{Adopted Density Threshold Dependence}\label{sec:ncut}
 
-{\bf As seen in \Sec{dist}, the cuts used to identify the molecular structures are based on the H$_2$ number density, which ranges from 
-n$_{\rm H2}$\ssim0.1\,--\,30\,\cc. We do not explicitly use a minimum H$_2$ fraction to select the structures. 
-Among the various cuts, two physical regimes are identified, corresponding to materials in the disk/interarm material and MGCs (see Fig. 5). 
-The former with n$_{\rm gas}<100$\,\cc and n$_{\rm H2} < 5$\,\cc, whereas the latter with 
-n$_{\rm gas}$\ssim$100$\,\cc and n$_{\rm H2} \gtrsim10$\,\cc (see also Fig. 5 of \citet{Pallottini17b} 
-for details\footnote{In particular, with their analysis of the Minkowski function of the molecular density field (see Fig. 6 therein)}). 
+{\bf As seen in \Sec{dist}, the cuts used to identify the molecular structures are based on the H$_2$ number density, which ranges from
+n$_{\rm H2}$\ssim0.1\,--\,30\,\cc. We do not explicitly use a minimum H$_2$ fraction to select the structures.
+Among the various cuts, two physical regimes are identified, corresponding to materials in the disk/interarm material and MGCs (see Fig. 5).
+The former have n$_{\rm gas}<100$\,\cc and n$_{\rm H2} < 5$\,\cc, whereas the latter have
+n$_{\rm gas}$\ssim$100$\,\cc and n$_{\rm H2} \gtrsim10$\,\cc (see also Figs. 5 and 6 of \citet{Pallottini17b}
+for details\footnote{In particular, their analysis of the Minkowski function of the molecular density field (see Fig. 6 therein)}).
 Considering that $f_{\rm H2}$\eq$\rho_{\rm H2} / \rho_{\rm H,total}$\eq$\rho_{\rm H2}/(\mu \rho_{\rm gas})$\eq
-$m_{\rm H2} n_{\rm H2} / m_p~\mu~n_{\rm gas}$\ssim2 $n_{\rm H2}/(0.7~n_{\rm gas})$, 
-for the disk/interarm, $f_{\rm H2}$\ssim14\% and for the MCCs, $f_{\rm H2}$\ssim28\%. 
-Note that for the lowest value of the H2 cuts, this fraction might be lower; however, 
+$m_{\rm H2} n_{\rm H2} / (m_p\,\mu\,n_{\rm gas})$\ssim2 $n_{\rm H2}/(0.7~n_{\rm gas})$,
+for the disk/interarm region $f_{\rm H2}$\ssim14\%, while for the MGCs $f_{\rm H2}$\ssim28\%.
+Note that for the lowest value of the H$_2$ cuts, these fractions might be lower; however,
 removing regions selected with such cuts yields no qualitative change to the physical interpretation resulting from the analysis.}
 
 We investigate possible variations in the dynamics of the molecular structures of \flower by adopting different values of $n_{\rm cut}$ to test the robustness of our results against the choice of density threshold.
@@ -668,7 +668,8 @@ the sub-grid models adopted, serve as a useful tool for examining and making pre
 % \acknowledgements
 
 \section*{Acknowledgements}
-We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data, and Caitlin Casey for useful discussions.
+We thank Jens Kauffmann, Thushara Pillai, and Mark Swinbank for sharing their data, Caitlin Casey for useful discussions, and the referee for providing constructive
+comments on the manuscript.
 %
 TKDL gratefully acknowledges support by the NSF through award SOSPA4-009 from the NRAO and support from the Simons Foundation.
 %
